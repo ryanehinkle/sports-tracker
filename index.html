@@ -181,15 +181,23 @@
           <button id="clearFiltersButton" class="clear-filters" type="button">Clear</button>
         </div>
 
-        <div class="odds-meta">
-          <span class="fanduel-pill">FanDuel</span>
-          <span id="oddsCount">— props</span>
+        <div class="odds-right-actions">
+          <button id="parlayBuilderButton" class="parlay-builder-button" type="button" aria-expanded="false" aria-controls="parlayPanel">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h8M5 12h5M5 17h8M18 6v12M15 9l3-3 3 3"/></svg>
+            <span>Parlay Builder</span>
+            <span id="parlayBuilderCount" class="parlay-builder-count" hidden>0</span>
+          </button>
+          <div class="odds-meta">
+            <span class="fanduel-pill">FanDuel</span>
+            <span id="oddsCount">— props</span>
+          </div>
         </div>
       </section>
 
-      <section class="odds-card">
-        <div class="odds-table-scroll">
-          <table class="odds-table">
+      <div id="oddsWorkspace" class="odds-workspace">
+        <section class="odds-card">
+          <div class="odds-table-scroll">
+            <table class="odds-table">
             <thead>
               <tr>
                 <th class="prop-col" data-odds-key="player">Proposition <span class="odds-sort-indicator"></span></th>
@@ -205,9 +213,57 @@
             <tbody id="oddsBody">
               <tr><td colspan="8" class="loading-cell"><div class="spinner"></div>Loading FanDuel props…</td></tr>
             </tbody>
-          </table>
-        </div>
-      </section>
+            </table>
+          </div>
+        </section>
+
+        <aside id="parlayPanel" class="parlay-panel" aria-hidden="true">
+          <div class="parlay-panel-inner">
+            <div class="parlay-header">
+              <div>
+                <div class="parlay-kicker">MY PICKS</div>
+                <h2>Parlay Builder</h2>
+              </div>
+              <button id="parlayCloseButton" class="parlay-icon-button" type="button" aria-label="Close parlay builder">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
+            </div>
+
+            <div class="parlay-book-row">
+              <span class="parlay-fd-mark">FD</span>
+              <div>
+                <strong>FanDuel</strong>
+                <span id="parlayLegCount">0 legs</span>
+              </div>
+              <strong id="parlayCombinedOdds" class="parlay-combined-odds">—</strong>
+            </div>
+
+            <div id="parlayLegs" class="parlay-legs">
+              <div class="parlay-empty">
+                <div class="parlay-empty-icon">+</div>
+                <strong>Build your parlay</strong>
+                <span>Use the + buttons beside player props to add legs.</span>
+              </div>
+            </div>
+
+            <div class="parlay-footer">
+              <div class="parlay-math-row">
+                <span>Combined odds</span>
+                <strong id="parlayFooterOdds">—</strong>
+              </div>
+              <div class="parlay-math-row">
+                <span>Implied probability</span>
+                <strong id="parlayImpliedProbability">—</strong>
+              </div>
+              <button id="parlayClearButton" class="parlay-clear-button" type="button" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M8 10v8M12 10v8M16 10v8M6 7l1 14h10l1-14"/></svg>
+                Clear All
+              </button>
+              <p class="parlay-note">Combined odds use standard parlay math from the displayed FanDuel prices. Same-game parlay pricing can differ because sportsbooks apply correlation adjustments.</p>
+            </div>
+          </div>
+        </aside>
+      </div>
     </section>
 
     <footer id="pageFooter">
