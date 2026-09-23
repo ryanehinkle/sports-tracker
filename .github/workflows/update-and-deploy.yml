@@ -48,9 +48,23 @@ jobs:
             echo "No player/team stat changes."
             exit 0
           fi
+
+          cp data/nfl-stats.json /tmp/nfl-stats.json
+          cp data/nfl-team-stats.json /tmp/nfl-team-stats.json
+
+          git fetch origin main
+          git reset --hard origin/main
+
+          cp /tmp/nfl-stats.json data/nfl-stats.json
+          cp /tmp/nfl-team-stats.json data/nfl-team-stats.json
+
+          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json; then
+            echo "Remote already has these stat updates."
+            exit 0
+          fi
+
           git config user.name "sports-tracker-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/nfl-stats.json data/nfl-team-stats.json
           git commit -m "Update NFL player and team stats"
-          git pull --rebase origin main
           git push
