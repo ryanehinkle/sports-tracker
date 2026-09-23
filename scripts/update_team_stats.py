@@ -325,7 +325,7 @@ def current_week_events(season, current_week):
         )
         for item in payload.get("items") or []:
             ref = str(item.get("$ref") or "")
-            match = re.search(r"/events/(\\d+)", ref)
+            match = re.search(r"/events/(\d+)", ref)
             if not match:
                 continue
             eid = match.group(1)
