@@ -7,6 +7,12 @@ on:
         description: "How many hours ahead to refresh"
         required: false
         default: "168"
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/update_odds.py"
+      - ".github/workflows/update-odds.yml"
+      - "requirements.txt"
   schedule:
     # Refresh games that are getting close every four hours.
     - cron: "17 */4 * * *"
