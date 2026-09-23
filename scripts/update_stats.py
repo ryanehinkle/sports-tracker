@@ -1,18 +1,23 @@
 import json
-import os
+import re
 import sys
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 import requests
 
 BASE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete"
-SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
+GAMELOG = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/{athlete_id}/gamelog"
 OUT = Path("data/nfl-stats.json")
-CT = ZoneInfo("America/Chicago")
 TIMEOUT = 30
-UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/153.0 Safari/537.36", "Accept": "application/json,text/plain,*/*", "Referer": "https://www.espn.com/"}
+UA = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/153.0 Safari/537.36",
+    "Accept": "application/json,text/plain,*/*",
+    "Origin": "https://www.espn.com",
+    "Referer": "https://www.espn.com/",
+}
 
 FEEDS = {
     "rushing": {
@@ -32,26 +37,47 @@ FEEDS = {
     },
 }
 
+GAME_STAT_ALIASES = {
+    "receptions": ("receptions", "receivingreceptions"),
+    "receivingYards": ("receivingyards",),
+    "receivingTouchdowns": ("receivingtouchdowns",),
+    "rushingYards": ("rushingyards",),
+    "rushingTouchdowns": ("rushingtouchdowns",),
+    "passingYards": ("passingyards",),
+    "passingTouchdowns": ("passingtouchdowns",),
+}
+
 
 def get_json(url, params=None):
-    r = requests.get(url, params=params, headers=UA, timeout=TIMEOUT)
-    r.raise_for_status()
-    return r.json()
+    last_error = None
+    for attempt in range(3):
+        try:
+            r = requests.get(url, params=params, headers=UA, timeout=TIMEOUT)
+            r.raise_for_status()
+            return r.json()
+        except (requests.RequestException, ValueError) as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(1.5 * (attempt + 1))
+    raise last_error
 
 
 def current_season():
-    # NFL seasons begin in the second half of the calendar year.
     now = datetime.now(timezone.utc)
     return now.year if now.month >= 7 else now.year - 1
 
 
 def number(value):
     try:
-        if value in (None, "", "--"):
+        if value in (None, "", "--", "-"):
             return 0
         return int(round(float(str(value).replace(",", ""))))
     except (TypeError, ValueError):
         return 0
+
+
+def normalize_name(value):
+    return re.sub(r"[^a-z0-9]", "", str(value or "").lower())
 
 
 def pick_stat_category(entry, wanted):
@@ -61,7 +87,6 @@ def pick_stat_category(entry, wanted):
         text = " ".join(str(cat.get(k, "")) for k in ("name", "displayName", "shortDisplayName")).lower()
         if wanted in text:
             return cat
-    # ESPN's leaderboard historically puts the selected stat table toward the end.
     candidates = [c for c in categories if c.get("totals")]
     return max(candidates, key=lambda c: len(c.get("totals", [])), default={})
 
@@ -69,46 +94,33 @@ def pick_stat_category(entry, wanted):
 def stat_map(category, fallback):
     totals = category.get("totals") or []
     result = {}
-
-    # Some ESPN responses expose field names beside totals.
     names = category.get("names") or category.get("statNames") or []
-    if names:
-        for i, name in enumerate(names):
-            if i < len(totals):
-                result[str(name)] = number(totals[i])
-
-    # Other responses expose fully structured stats.
+    for i, name in enumerate(names):
+        if i < len(totals):
+            result[str(name)] = number(totals[i])
     for stat in category.get("stats") or []:
         if stat.get("name"):
             result[stat["name"]] = number(stat.get("value", stat.get("displayValue")))
-
-    # Stable fallback to ESPN's standard table ordering.
     for key, idx in fallback.items():
         if key not in result and idx < len(totals):
             result[key] = number(totals[idx])
-
     return result
 
 
 def athlete_info(entry):
     a = entry.get("athlete") or {}
     aid = str(a.get("id") or "")
-    team = (
-        a.get("teamShortName")
-        or a.get("teamAbbreviation")
-        or (a.get("team") or {}).get("abbreviation")
-        or ""
-    )
+    team = a.get("teamShortName") or a.get("teamAbbreviation") or ""
+    if not team and isinstance(a.get("team"), dict):
+        team = a["team"].get("abbreviation") or ""
     position = a.get("position") or {}
     if isinstance(position, dict):
         position = position.get("abbreviation") or position.get("name") or ""
-
     headshot = a.get("headshot")
     if isinstance(headshot, dict):
         headshot = headshot.get("href")
     if not headshot and aid:
         headshot = f"https://a.espncdn.com/i/headshots/nfl/players/full/{aid}.png"
-
     return {
         "id": aid,
         "name": a.get("displayName") or a.get("fullName") or "Unknown Player",
@@ -138,25 +150,20 @@ def fetch_feed(season, feed_name, cfg):
         rows = data.get("athletes") or []
         if not rows:
             break
-
         for entry in rows:
             info = athlete_info(entry)
             if not info["id"]:
                 continue
             category = pick_stat_category(entry, feed_name)
             players[info["id"]] = {**info, **stat_map(category, cfg["fallback"])}
-
         page += 1
         page_count = (
             data.get("pageCount")
             or data.get("pagination", {}).get("pageCount")
             or data.get("count", 0) // 100 + 1
         )
-        if len(rows) < 100 or page > max(int(page_count or 1), 1):
+        if len(rows) < 100 or page > max(int(page_count or 1), 1) or page > 20:
             break
-        if page > 20:
-            break
-
     return players
 
 
@@ -199,14 +206,11 @@ def merge_players(season):
                     p[k] = number(row[k])
 
     for p in merged.values():
-        # This dashboard treats "all-purpose" as rushing + receiving yards
-        # (yards from scrimmage), matching the requested offensive columns.
         p["allPurposeYards"] = p["rushingYards"] + p["receivingYards"]
         p["touchdowns"] = p.get("rushingTouchdowns", 0) + p.get("receivingTouchdowns", 0)
         p.pop("rushingTouchdowns", None)
         p.pop("receivingTouchdowns", None)
 
-    # Keep players with at least one tracked offensive stat.
     rows = [
         p for p in merged.values()
         if any(p[k] for k in ("allPurposeYards", "receptions", "passingYards", "passingTouchdowns", "touchdowns"))
@@ -215,24 +219,182 @@ def merge_players(season):
     return rows
 
 
+def score_for_event(meta):
+    result = str(meta.get("gameResult") or "").strip().upper()
+    result = result[:1] if result else ""
+    score = str(meta.get("score") or "").strip()
+    score = re.sub(r"^[WLT]\s*", "", score, flags=re.IGNORECASE)
+    if score:
+        return result, score
+
+    home = str(meta.get("homeTeamScore") or "").strip()
+    away = str(meta.get("awayTeamScore") or "").strip()
+    if not home or not away:
+        return result, ""
+
+    is_away = str(meta.get("atVs") or "").strip() == "@"
+    player_score = away if is_away else home
+    opponent_score = home if is_away else away
+    if result == "L":
+        return result, f"{opponent_score}-{player_score}"
+    return result, f"{player_score}-{opponent_score}"
+
+
+def get_game_stat(stat_values, aliases):
+    normalized = {normalize_name(k): number(v) for k, v in stat_values.items()}
+    for alias in aliases:
+        if alias in normalized:
+            return normalized[alias]
+    return 0
+
+
+def parse_game_log(athlete_id, season):
+    data = get_json(GAMELOG.format(athlete_id=athlete_id), {"season": season})
+    names = [str(x) for x in (data.get("names") or [])]
+    events = data.get("events") or {}
+    rows = {}
+
+    for season_type in data.get("seasonTypes") or []:
+        type_name = str(season_type.get("displayName") or season_type.get("name") or "")
+        if "regular" not in type_name.lower():
+            continue
+        for category in season_type.get("categories") or []:
+            if category.get("type") != "event":
+                continue
+            for ev in category.get("events") or []:
+                event_id = str(ev.get("eventId") or "")
+                meta = events.get(event_id) or {}
+                week = number(meta.get("week"))
+                if week <= 0:
+                    continue
+
+                raw_stats = ev.get("stats") or []
+                stat_values = {
+                    names[i]: raw_stats[i]
+                    for i in range(min(len(names), len(raw_stats)))
+                }
+                tracked = {
+                    key: get_game_stat(stat_values, aliases)
+                    for key, aliases in GAME_STAT_ALIASES.items()
+                }
+                result, score = score_for_event(meta)
+                opponent = meta.get("opponent") or {}
+                opponent_abbr = str(opponent.get("abbreviation") or "").upper()
+                rows[week] = {
+                    "week": week,
+                    "played": True,
+                    "isAway": str(meta.get("atVs") or "").strip() == "@",
+                    "opponent": {
+                        "id": str(opponent.get("id") or ""),
+                        "name": opponent.get("displayName") or opponent.get("shortDisplayName") or opponent_abbr,
+                        "abbreviation": opponent_abbr,
+                        "logo": (
+                            f"https://a.espncdn.com/i/teamlogos/nfl/500/{opponent_abbr.lower()}.png"
+                            if opponent_abbr else ""
+                        ),
+                    },
+                    "result": result,
+                    "score": score,
+                    "touchdowns": tracked["rushingTouchdowns"] + tracked["receivingTouchdowns"],
+                    "allPurposeYards": tracked["rushingYards"] + tracked["receivingYards"],
+                    "receivingYards": tracked["receivingYards"],
+                    "rushingYards": tracked["rushingYards"],
+                    "receptions": tracked["receptions"],
+                    "passingTouchdowns": tracked["passingTouchdowns"],
+                    "passingYards": tracked["passingYards"],
+                }
+
+    return [rows[w] for w in sorted(rows)]
+
+
+def aggregate_view(players):
+    return [{k: v for k, v in p.items() if k != "gameLog"} for p in players]
+
+
+def attach_game_logs(players, season, previous_payload):
+    previous_by_id = {
+        str(p.get("id")): p
+        for p in (previous_payload.get("players") or [])
+    } if previous_payload else {}
+
+    logs_by_id = {}
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        futures = {pool.submit(parse_game_log, p["id"], season): p for p in players}
+        for future in as_completed(futures):
+            p = futures[future]
+            try:
+                logs = future.result()
+                logs_by_id[p["id"]] = logs
+                print(f"gamelog: {p['name']} ({len(logs)} games)")
+            except Exception as exc:
+                previous = previous_by_id.get(p["id"], {})
+                logs_by_id[p["id"]] = previous.get("gameLog") or []
+                print(f"WARNING: gamelog failed for {p['name']}: {exc}", file=sys.stderr)
+
+    current_week = max(
+        (g.get("week", 0) for logs in logs_by_id.values() for g in logs),
+        default=number(previous_payload.get("currentWeek")) if previous_payload else 0,
+    )
+
+    for p in players:
+        existing = {
+            number(g.get("week")): g
+            for g in logs_by_id.get(p["id"], [])
+            if number(g.get("week")) > 0
+        }
+        p["gameLog"] = [
+            existing.get(week) or {
+                "week": week,
+                "played": False,
+                "isAway": False,
+                "opponent": None,
+                "result": "",
+                "score": "",
+                "touchdowns": None,
+                "allPurposeYards": None,
+                "receivingYards": None,
+                "rushingYards": None,
+                "receptions": None,
+                "passingTouchdowns": None,
+                "passingYards": None,
+            }
+            for week in range(1, current_week + 1)
+        ]
+    return current_week
+
+
+def load_previous():
+    if not OUT.exists():
+        return {}
+    try:
+        return json.loads(OUT.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
 def main():
     season = current_season()
     players = merge_players(season)
     if len(players) < 25:
         raise RuntimeError(f"Only {len(players)} players parsed; refusing to overwrite good data.")
 
-    if OUT.exists():
-        try:
-            previous = json.loads(OUT.read_text(encoding="utf-8"))
-            if previous.get("season") == season and previous.get("players") == players:
-                print("No player stat changes; leaving data file untouched.")
-                return
-        except (json.JSONDecodeError, OSError):
-            pass
+    previous = load_previous()
+    previous_players = previous.get("players") or []
+    aggregates_unchanged = (
+        previous.get("season") == season
+        and aggregate_view(previous_players) == aggregate_view(players)
+    )
+    logs_complete = bool(previous_players) and all("gameLog" in p for p in previous_players)
 
+    if aggregates_unchanged and logs_complete:
+        print("No player stat changes; leaving data file untouched.")
+        return
+
+    current_week = attach_game_logs(players, season, previous)
     payload = {
         "season": season,
         "seasonType": "Regular Season",
+        "currentWeek": current_week,
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "source": "ESPN",
         "definition": {"allPurposeYards": "rushing + receiving yards"},
@@ -240,7 +402,7 @@ def main():
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    print(f"Wrote {len(players)} players to {OUT}")
+    print(f"Wrote {len(players)} players with game logs through Week {current_week}")
 
 
 if __name__ == "__main__":

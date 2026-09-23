@@ -59,9 +59,48 @@
 
     <footer>
       <span>Data sourced from ESPN.</span>
-      <span>Click any column heading to sort.</span>
+      <span>Click a player for their game log • Click a column heading to sort.</span>
     </footer>
   </main>
+
+  <dialog id="playerModal" class="player-modal" aria-labelledby="modalPlayerName">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div class="modal-player">
+          <div class="modal-headshot-wrap">
+            <img id="modalHeadshot" class="modal-headshot" src="" alt="" />
+          </div>
+          <div>
+            <div class="modal-kicker" id="modalKicker">REGULAR SEASON • GAME LOG</div>
+            <h2 id="modalPlayerName">Player</h2>
+            <div class="modal-player-meta" id="modalPlayerMeta"></div>
+          </div>
+        </div>
+        <button id="modalClose" class="modal-close" type="button" aria-label="Close game log">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-table-scroll">
+        <table class="gamelog-table">
+          <thead>
+            <tr>
+              <th class="week-col">Week</th>
+              <th class="opponent-col">Opponent</th>
+              <th>TD</th>
+              <th>All-Purpose Yds</th>
+              <th>Rec Yds</th>
+              <th>Rush Yds</th>
+              <th>Rec</th>
+              <th>Pass TD</th>
+              <th>Pass Yds</th>
+            </tr>
+          </thead>
+          <tbody id="gameLogBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </dialog>
 
   <script src="app.js"></script>
 </body>
