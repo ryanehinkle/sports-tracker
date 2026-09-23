@@ -221,6 +221,15 @@ def main():
     if len(players) < 25:
         raise RuntimeError(f"Only {len(players)} players parsed; refusing to overwrite good data.")
 
+    if OUT.exists():
+        try:
+            previous = json.loads(OUT.read_text(encoding="utf-8"))
+            if previous.get("season") == season and previous.get("players") == players:
+                print("No player stat changes; leaving data file untouched.")
+                return
+        except (json.JSONDecodeError, OSError):
+            pass
+
     payload = {
         "season": season,
         "seasonType": "Regular Season",
