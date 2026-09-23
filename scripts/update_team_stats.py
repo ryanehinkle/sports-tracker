@@ -9,10 +9,9 @@ from pathlib import Path
 
 import requests
 
-TEAM_LIST = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams"
 CORE_STATS = "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{season}/types/2/teams/{team_id}/statistics"
-SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
-SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary"
+WEEK_EVENTS = "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{season}/types/2/weeks/{week}/events"
+CDN_GAME = "https://cdn.espn.com/core/nfl/game"
 PLAYER_STATS = Path("data/nfl-stats.json")
 OUT = Path("data/nfl-team-stats.json")
 SCHEMA_VERSION = 1
@@ -174,29 +173,52 @@ def stat_lookup(stats, *names):
 
 
 def team_list():
-    payload = get_json(TEAM_LIST, {"limit": 50})
-    teams = []
-    sports = payload.get("sports") or []
-    leagues = sports[0].get("leagues") if sports else []
-    entries = leagues[0].get("teams") if leagues else []
-    for wrapper in entries or []:
-        team = wrapper.get("team") or wrapper
-        tid = str(team.get("id") or "")
-        if not tid:
-            continue
-        logos = team.get("logos") or []
-        logo = logos[0].get("href") if logos else ""
-        teams.append({
+    rows = [
+        ("22", "Arizona Cardinals", "Cardinals", "ARI"),
+        ("1", "Atlanta Falcons", "Falcons", "ATL"),
+        ("33", "Baltimore Ravens", "Ravens", "BAL"),
+        ("2", "Buffalo Bills", "Bills", "BUF"),
+        ("29", "Carolina Panthers", "Panthers", "CAR"),
+        ("3", "Chicago Bears", "Bears", "CHI"),
+        ("4", "Cincinnati Bengals", "Bengals", "CIN"),
+        ("5", "Cleveland Browns", "Browns", "CLE"),
+        ("6", "Dallas Cowboys", "Cowboys", "DAL"),
+        ("7", "Denver Broncos", "Broncos", "DEN"),
+        ("8", "Detroit Lions", "Lions", "DET"),
+        ("9", "Green Bay Packers", "Packers", "GB"),
+        ("34", "Houston Texans", "Texans", "HOU"),
+        ("11", "Indianapolis Colts", "Colts", "IND"),
+        ("30", "Jacksonville Jaguars", "Jaguars", "JAX"),
+        ("12", "Kansas City Chiefs", "Chiefs", "KC"),
+        ("13", "Las Vegas Raiders", "Raiders", "LV"),
+        ("24", "Los Angeles Chargers", "Chargers", "LAC"),
+        ("14", "Los Angeles Rams", "Rams", "LAR"),
+        ("15", "Miami Dolphins", "Dolphins", "MIA"),
+        ("16", "Minnesota Vikings", "Vikings", "MIN"),
+        ("17", "New England Patriots", "Patriots", "NE"),
+        ("18", "New Orleans Saints", "Saints", "NO"),
+        ("19", "New York Giants", "Giants", "NYG"),
+        ("20", "New York Jets", "Jets", "NYJ"),
+        ("21", "Philadelphia Eagles", "Eagles", "PHI"),
+        ("23", "Pittsburgh Steelers", "Steelers", "PIT"),
+        ("25", "San Francisco 49ers", "49ers", "SF"),
+        ("26", "Seattle Seahawks", "Seahawks", "SEA"),
+        ("27", "Tampa Bay Buccaneers", "Buccaneers", "TB"),
+        ("10", "Tennessee Titans", "Titans", "TEN"),
+        ("28", "Washington Commanders", "Commanders", "WSH"),
+    ]
+    return [
+        {
             "id": tid,
-            "name": team.get("displayName") or team.get("name") or tid,
-            "shortName": team.get("shortDisplayName") or team.get("name") or "",
-            "abbreviation": team.get("abbreviation") or "",
-            "logo": logo or "",
-            "color": team.get("color") or "",
-            "alternateColor": team.get("alternateColor") or "",
-        })
-    return teams
-
+            "name": name,
+            "shortName": short,
+            "abbreviation": abbr,
+            "logo": f"https://a.espncdn.com/i/teamlogos/nfl/500/{abbr.lower()}.png",
+            "color": "",
+            "alternateColor": "",
+        }
+        for tid, name, short, abbr in rows
+    ]
 
 def classify_raw(category, name, label):
     cat = normalize(category)
@@ -298,18 +320,17 @@ def current_week_events(season, current_week):
     events = {}
     for week in range(1, max(1, current_week) + 1):
         payload = get_json(
-            SCOREBOARD,
-            {"season": season, "seasontype": 2, "week": week, "limit": 100},
+            WEEK_EVENTS.format(season=season, week=week),
+            {"limit": 100},
         )
-        for event in payload.get("events") or []:
-            status = ((event.get("status") or {}).get("type") or {})
-            if not status.get("completed"):
+        for item in payload.get("items") or []:
+            ref = str(item.get("$ref") or "")
+            match = re.search(r"/events/(\\d+)", ref)
+            if not match:
                 continue
-            eid = str(event.get("id") or "")
-            if eid:
-                events[eid] = event
+            eid = match.group(1)
+            events[eid] = {"week": {"number": week}}
     return events
-
 
 def previous_game_logs(previous, season):
     if previous.get("schemaVersion") != SCHEMA_VERSION or previous.get("season") != season:
@@ -696,21 +717,26 @@ def main():
     if missing_events:
         with ThreadPoolExecutor(max_workers=8) as pool:
             futures = {
-                pool.submit(get_json, SUMMARY, {"event": eid}): (eid, event)
+                pool.submit(get_json, CDN_GAME, {"xhr": 1, "gameId": eid}): (eid, event)
                 for eid, event in missing_events
             }
             for future in as_completed(futures):
                 eid, event = futures[future]
                 try:
-                    summary = future.result()
+                    package = future.result().get("gamepackageJSON") or {}
+                    competition = (((package.get("header") or {}).get("competitions") or [{}])[0])
+                    completed = (((competition.get("status") or {}).get("type") or {}).get("completed"))
+                    if not completed:
+                        print(f"game package: {eid} not complete yet")
+                        continue
                     week = int(((event.get("week") or {}).get("number") or 0))
-                    parsed = parse_summary(eid, summary, week)
+                    parsed = parse_summary(eid, package, week)
                     for game in parsed:
                         tid = game.pop("teamId")
                         logs_by_team.setdefault(tid, []).append(game)
-                    print(f"game summary: {eid} ({len(parsed)} team rows)")
+                    print(f"game package: {eid} ({len(parsed)} team rows)")
                 except Exception as exc:
-                    print(f"WARNING: summary failed for {eid}: {exc}", file=sys.stderr)
+                    print(f"WARNING: game package failed for {eid}: {exc}", file=sys.stderr)
 
     output_teams = []
     for team in teams:
