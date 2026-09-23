@@ -193,13 +193,10 @@ def numeric_line(value):
         return None
 
 
-def infer_line(market_name, runner):
-    for key in ("handicap", "line", "points"):
-        line = numeric_line(runner.get(key))
-        if line is not None and abs(line) < 10000:
-            return line
 
+def infer_line(market_name, runner):
     text = f"{market_name} {runner.get('runnerName') or ''}"
+
     match = re.search(r"(?<!\d)(\d+(?:\.\d+)?)\+", text)
     if match:
         return float(match.group(1)) - 0.5
@@ -208,8 +205,18 @@ def infer_line(market_name, runner):
     if match:
         return float(match.group(1))
 
-    return None
+    for key in ("handicap", "line", "points"):
+        line = numeric_line(runner.get(key))
+        if line is not None and abs(line) < 10000 and line != 0:
+            return line
 
+    lowered = text.lower()
+    if "any time touchdown" in lowered or "anytime touchdown" in lowered:
+        return 0.5
+    if "first touchdown scorer" in lowered or "last touchdown scorer" in lowered:
+        return 0.5
+
+    return None
 
 def find_profile(texts, by_norm, profiles):
     joined = " | ".join(str(x or "") for x in texts)
@@ -228,6 +235,7 @@ def find_profile(texts, by_norm, profiles):
     return None
 
 
+
 def clean_market_label(market_name, player_name):
     label = str(market_name or "").strip()
     if player_name:
@@ -235,12 +243,19 @@ def clean_market_label(market_name, player_name):
     label = re.sub(r"\b(over\s*/?\s*under|over under)\b", "", label, flags=re.I)
     label = re.sub(r"\bto record\s+\d+(?:\.\d+)?\+?\b", "", label, flags=re.I)
     label = re.sub(r"\bto have\s+\d+(?:\.\d+)?\+?\b", "", label, flags=re.I)
+    label = re.sub(r"^alt\s+", "", label, flags=re.I)
+    label = re.sub(r"\byds\b", "Yards", label, flags=re.I)
+    label = re.sub(r"\brec\s+yards\b", "Receiving Yards", label, flags=re.I)
+    label = re.sub(r"\brush\s+yards\b", "Rushing Yards", label, flags=re.I)
+    label = re.sub(r"\bpass\s+yards\b", "Passing Yards", label, flags=re.I)
+    label = re.sub(r"\bpass\s+tds\b", "Passing TDs", label, flags=re.I)
     label = re.sub(r"\s{2,}", " ", label).strip(" -:")
     return label or str(market_name or "Player Prop")
 
 
 def selection_from_runner(runner_name, market_name):
     text = str(runner_name or "").strip()
+    combined = f"{runner_name or ''} {market_name or ''}"
     lower = text.lower()
     if re.search(r"\bover\b", lower):
         return "Over"
@@ -249,11 +264,9 @@ def selection_from_runner(runner_name, market_name):
     if lower in {"yes", "no"}:
         return lower.title()
 
-    market_lower = str(market_name or "").lower()
-    if "+" in market_lower or "anytime" in market_lower or "to score" in market_lower:
+    if re.search(r"\d+(?:\.\d+)?\+", combined):
         return "Over"
     return "Yes"
-
 
 def proposition_text(label, selection, line, market_name):
     if selection in {"Over", "Under"} and line is not None:
@@ -328,11 +341,12 @@ def parse_event_props(event, pages, by_norm, profiles):
                 line = infer_line(market_name, runner)
                 label = clean_market_label(market_name, player_name)
 
+                combined_text = f"{market_name} {runner_name}"
                 alternate = bool(
                     "ALT" in market_type.upper()
+                    or "alt" in market_name.lower()
                     or "alternate" in market_name.lower()
-                    or "+" in market_name
-                    or (line is not None and selection in {"Over", "Yes"} and "over/under" not in market_name.lower())
+                    or re.search(r"\d+(?:\.\d+)?\+", combined_text)
                 )
 
                 proposition = proposition_text(label, selection, line, market_name)
