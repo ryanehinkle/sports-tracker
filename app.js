@@ -732,7 +732,7 @@ function renderGameFilters(){
   gameFilterLabel.textContent=state.selectedGames.size?state.selectedGames.size+" Game"+(state.selectedGames.size===1?"":"s"):"Games";
 }
 function renderMarketFilters(){
-  const markets=[...new Set(state.odds.map(generalizedMarketLabel).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const markets=[...new Set(state.odds.map(row=>row._marketLabel||generalizedMarketLabel(row)).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   marketFilterOptions.innerHTML=markets.map(market=>{
     const checked=state.selectedMarkets.has(market);
     return '<button type="button" class="filter-option '+(checked?"selected":"")+'" data-market="'+esc(market)+'">'+
@@ -1368,6 +1368,8 @@ function openTeamStatChart(team,stat){
   teamStatModal.showModal();
 }
 async function loadTeamStats(){
+  if(state.teamStatsRaw||state.teamStatsLoading) return;
+  state.teamStatsLoading=true;
   try{
     const res=await fetch("data/nfl-team-stats.json?v="+Date.now(),{cache:"no-store"});
     if(!res.ok) throw new Error("HTTP "+res.status);
@@ -1386,10 +1388,14 @@ async function loadTeamStats(){
     console.error(err);
     teamStatsBody.innerHTML='<tr><td colspan="2" class="empty-cell">Team stats are being generated. Run the “Update NFL Stats” GitHub Action once if this persists.</td></tr>';
     teamRecordCount.textContent="— teams";
+  }finally{
+    state.teamStatsLoading=false;
   }
 }
 
 async function loadStats(){
+  if(state.players.length||state.statsLoading) return;
+  state.statsLoading=true;
   try{
     const res=await fetch("data/nfl-stats.json?v="+Date.now(),{cache:"no-store"});
     if(!res.ok) throw new Error("HTTP "+res.status);
@@ -1405,10 +1411,14 @@ async function loadStats(){
   }catch(err){
     console.error(err);
     body.innerHTML='<tr><td colspan="8" class="empty-cell">Stats have not been generated yet. Run the “Update NFL Stats” GitHub Action once.</td></tr>';
+  }finally{
+    state.statsLoading=false;
   }
 }
 
 async function loadOdds(){
+  if(state.oddsRaw||state.oddsLoading) return;
+  state.oddsLoading=true;
   try{
     const res=await fetch("data/nfl-odds.json?v="+Date.now(),{cache:"no-store"});
     if(!res.ok) throw new Error("HTTP "+res.status);
@@ -1456,6 +1466,8 @@ async function loadOdds(){
     console.error(err);
     oddsBody.innerHTML='<tr><td colspan="8" class="odds-empty">Odds data is not available yet.</td></tr>';
     oddsCount.textContent="— props";
+  }finally{
+    state.oddsLoading=false;
   }
 }
 
@@ -1482,7 +1494,12 @@ body.addEventListener("keydown",e=>{
   if(player) openPlayer(player);
 });
 
-oddsSearch.addEventListener("input",e=>{state.oddsQuery=e.target.value;renderOdds()});
+let oddsSearchFrame=0;
+oddsSearch.addEventListener("input",e=>{
+  state.oddsQuery=e.target.value;
+  cancelAnimationFrame(oddsSearchFrame);
+  oddsSearchFrame=requestAnimationFrame(renderOdds);
+});
 document.querySelectorAll(".odds-table th[data-odds-key]").forEach(th=>th.addEventListener("click",()=>{
   const key=th.dataset.oddsKey;
   if(state.oddsSortKey===key) state.oddsSortDir=state.oddsSortDir==="asc"?"desc":"asc";
@@ -1748,12 +1765,25 @@ teamStatModal.addEventListener("close",()=>{
   state.teamModalStat=null;
 });
 
-statsTabButton.addEventListener("click",()=>setView("stats"));
-teamStatsTabButton.addEventListener("click",()=>setView("team-stats"));
-oddsTabButton.addEventListener("click",()=>setView("odds"));
+statsTabButton.addEventListener("click",()=>{
+  setView("stats");
+  loadStats();
+});
+teamStatsTabButton.addEventListener("click",()=>{
+  setView("team-stats");
+  loadTeamStats();
+});
+oddsTabButton.addEventListener("click",()=>{
+  setView("odds");
+  loadStats();
+  loadOdds();
+});
 window.addEventListener("hashchange",()=>{
   const view=location.hash==="#odds"?"odds":location.hash==="#teams"?"team-stats":"stats";
   setView(view,false);
+  if(view==="odds"){loadStats();loadOdds()}
+  else if(view==="team-stats") loadTeamStats();
+  else loadStats();
 });
 
 modalClose.addEventListener("click",closeModal);
@@ -1776,5 +1806,15 @@ hitRateModal.addEventListener("close",()=>{
 
 loadSavedParlay();
 renderParlay();
-setView(location.hash==="#odds"?"odds":location.hash==="#teams"?"team-stats":"stats",false);
-Promise.all([loadStats(),loadTeamStats(),loadOdds()]);
+const initialView=location.hash==="#odds"?"odds":location.hash==="#teams"?"team-stats":"stats";
+setView(initialView,false);
+
+if(initialView==="odds"){
+  loadStats();
+  loadOdds();
+}else if(initialView==="team-stats"){
+  loadTeamStats();
+}else{
+  loadStats();
+}
+

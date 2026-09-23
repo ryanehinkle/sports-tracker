@@ -919,3 +919,80 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
   .parlay-panel-inner{max-height:calc(100vh - 79px);border-radius:15px}
   .parlay-add-button{width:29px;height:29px;flex-basis:29px;border-radius:8px}
 }
+
+
+/* Parlay rail: reserve the right-side space so opening the builder never moves the odds table */
+.odds-workspace,
+.odds-workspace.parlay-open{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 350px;
+  gap:14px;
+  align-items:start;
+}
+.parlay-panel{
+  position:relative;
+  right:auto;
+  top:auto;
+  width:350px;
+  max-width:100%;
+  min-width:0;
+  overflow:hidden;
+  will-change:transform,opacity;
+}
+.parlay-panel-inner{
+  width:350px;
+  max-width:100%;
+  position:sticky;
+  top:14px;
+}
+.parlay-add-button{display:none}
+.odds-workspace.parlay-mode .parlay-add-button{display:grid}
+.odds-load-more{
+  padding:16px!important;
+  text-align:center!important;
+  color:#647185!important;
+  font-size:.68rem!important;
+  font-weight:700!important;
+  letter-spacing:.01em
+}
+
+/* Keep large data views cheap to paint */
+.odds-card,.table-card{contain:layout paint}
+.odds-table-scroll{overscroll-behavior:contain}
+.odds-headshot,.odds-team-badge,.parlay-leg-headshot{content-visibility:auto}
+
+@media(max-width:1180px){
+  .odds-workspace,
+  .odds-workspace.parlay-open{
+    grid-template-columns:minmax(0,1fr) 320px;
+    gap:12px;
+  }
+  .parlay-panel,.parlay-panel-inner{width:320px}
+}
+@media(max-width:980px){
+  .odds-workspace,
+  .odds-workspace.parlay-open{
+    display:block;
+  }
+  .parlay-panel{
+    position:fixed;
+    z-index:1150;
+    right:10px;
+    top:92px;
+    width:min(370px,calc(100vw - 20px));
+    max-height:calc(100vh - 104px);
+    overflow:visible;
+    transform:translateX(calc(100% + 24px));
+  }
+  .parlay-panel.open{transform:translateX(0)}
+  .parlay-panel-inner{
+    width:100%;
+    max-height:calc(100vh - 104px);
+    min-height:0;
+    position:relative;
+    top:0
+  }
+}
+
+
+.parlay-builder-count[hidden]{display:none!important}
