@@ -244,7 +244,7 @@ def fetch_event_odds(api_key, event, player_lookup):
     for prop in props:
         key = (
             normalize_name(prop["player"]),
-            prop["marketKey"],
+            prop["marketKey"].removesuffix("_alternate"),
             str(prop["selection"]),
             str(prop["line"]),
             str(prop["odds"]),
