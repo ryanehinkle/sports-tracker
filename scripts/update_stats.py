@@ -95,7 +95,9 @@ def number(value):
 
 
 def normalize_name(value):
-    return re.sub(r"[^a-z0-9]", "", str(value or "").lower())
+    text = str(value or "").lower()
+    text = re.sub(r"\b(jr|sr|ii|iii|iv)\.?\b", "", text)
+    return re.sub(r"[^a-z0-9]", "", text)
 
 
 def pick_stat_category(entry, wanted):

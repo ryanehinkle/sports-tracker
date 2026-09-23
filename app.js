@@ -602,7 +602,7 @@ async function loadOdds(){
         const profile=findPlayer(cleanedPlayer);
         flattened.push({
           ...prop,
-          player:profile?.name||cleanedPlayer,
+          player:cleanedPlayer,
           team:prop.team||profile?.team||"",
           position:prop.position||profile?.position||"",
           headshot:prop.headshot||profile?.headshot||"",
