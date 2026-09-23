@@ -470,8 +470,17 @@ def parse_game_log(athlete_id, season):
                 )
                 tracked["kickingPoints"] = tracked["fieldGoalsMade"] * 3 + tracked["extraPointsMade"]
 
+                game_date = (
+                    meta.get("gameDate")
+                    or meta.get("date")
+                    or meta.get("startDate")
+                    or meta.get("startTime")
+                    or ""
+                )
+
                 rows[week] = {
                     "week": week,
+                    "date": game_date,
                     "played": True,
                     "isAway": str(meta.get("atVs") or "").strip() == "@",
                     "opponent": {
@@ -494,6 +503,7 @@ def parse_game_log(athlete_id, season):
 def blank_week(week):
     return {
         "week": week,
+        "date": "",
         "played": False,
         "isAway": False,
         "opponent": None,
@@ -535,14 +545,22 @@ def attach_game_logs(players, season, previous_payload, refresh_current=True):
             previous = previous_by_id.get(p["id"], {})
             previous_by_season = previous.get("gameLogsBySeason") or {}
 
-            if refresh_current:
+            current_existing = previous_by_season.get(str(season)) or previous.get("gameLog") or []
+            current_has_dates = current_existing and all(
+                (not g.get("played")) or g.get("date")
+                for g in current_existing
+            )
+            if refresh_current or not current_has_dates:
                 futures[pool.submit(parse_game_log, p["id"], season)] = (p, season)
             else:
-                current_existing = previous_by_season.get(str(season)) or previous.get("gameLog") or []
                 raw_logs[(p["id"], season)] = [g for g in current_existing if g.get("played")]
 
-            prior_existing = previous_by_season.get(str(prior_season))
-            if prior_existing:
+            prior_existing = previous_by_season.get(str(prior_season)) or []
+            prior_has_dates = prior_existing and all(
+                (not g.get("played")) or g.get("date")
+                for g in prior_existing
+            )
+            if prior_has_dates:
                 raw_logs[(p["id"], prior_season)] = [g for g in prior_existing if g.get("played")]
             else:
                 futures[pool.submit(parse_game_log, p["id"], prior_season)] = (p, prior_season)
@@ -612,6 +630,14 @@ def main():
     history_complete = bool(previous_players) and all(
         str(season) in (p.get("gameLogsBySeason") or {})
         and str(season - 1) in (p.get("gameLogsBySeason") or {})
+        and all(
+            (not g.get("played")) or g.get("date")
+            for g in (p.get("gameLogsBySeason") or {}).get(str(season), [])
+        )
+        and all(
+            (not g.get("played")) or g.get("date")
+            for g in (p.get("gameLogsBySeason") or {}).get(str(season - 1), [])
+        )
         for p in previous_players
     )
 

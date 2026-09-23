@@ -212,6 +212,38 @@
     </div>
   </dialog>
 
+  <dialog id="hitRateModal" class="hit-rate-modal" aria-labelledby="hitRateTitle">
+    <div class="hit-rate-panel">
+      <div class="hit-rate-header">
+        <div>
+          <div class="hit-rate-eyebrow">PROP HIT RATE</div>
+          <h2 id="hitRateTitle">Player Prop</h2>
+          <div id="hitRateSubtitle" class="hit-rate-subtitle"></div>
+        </div>
+        <button id="hitRateClose" class="modal-close" type="button" aria-label="Close hit-rate chart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="hit-rate-summary">
+        <div class="hit-rate-primary">
+          <span id="hitRateSplitLabel" class="hit-rate-split-label">Last 10</span>
+          <div><strong id="hitRateSelectedPct">—</strong><span id="hitRateSelectedRecord"></span></div>
+        </div>
+        <div id="hitRateBreakdown" class="hit-rate-breakdown"></div>
+      </div>
+
+      <div class="hit-rate-stats">
+        <span>Average: <strong id="hitRateAverage">—</strong></span>
+        <span>Median: <strong id="hitRateMedian">—</strong></span>
+      </div>
+
+      <div class="hit-rate-chart-scroll">
+        <div id="hitRateChart" class="hit-rate-chart"></div>
+      </div>
+    </div>
+  </dialog>
+
   <script src="app.js"></script>
 </body>
 </html>

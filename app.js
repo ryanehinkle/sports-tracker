@@ -20,7 +20,8 @@ const state={
   oddsSortDir:"asc",
   oddsUpdatedAt:null,
   activeView:"stats",
-  modalPlayer:null
+  modalPlayer:null,
+  hitRateRows:new Map()
 };
 
 const body=document.getElementById("statsBody");
@@ -71,6 +72,18 @@ const modalPlayerMeta=document.getElementById("modalPlayerMeta");
 const modalKicker=document.getElementById("modalKicker");
 const modalSeasonSelect=document.getElementById("modalSeasonSelect");
 const gameLogBody=document.getElementById("gameLogBody");
+
+const hitRateModal=document.getElementById("hitRateModal");
+const hitRateClose=document.getElementById("hitRateClose");
+const hitRateTitle=document.getElementById("hitRateTitle");
+const hitRateSubtitle=document.getElementById("hitRateSubtitle");
+const hitRateSplitLabel=document.getElementById("hitRateSplitLabel");
+const hitRateSelectedPct=document.getElementById("hitRateSelectedPct");
+const hitRateSelectedRecord=document.getElementById("hitRateSelectedRecord");
+const hitRateBreakdown=document.getElementById("hitRateBreakdown");
+const hitRateAverage=document.getElementById("hitRateAverage");
+const hitRateMedian=document.getElementById("hitRateMedian");
+const hitRateChart=document.getElementById("hitRateChart");
 
 const fmt=new Intl.NumberFormat("en-US");
 const ODDS_SLIDER_MIN=-5000;
@@ -467,10 +480,162 @@ function computeHitRates(row){
     previous:rateForGames(row,logsForSeason(player,previousYear).filter(g=>g.played))
   };
 }
-function hitCell(rate){
+function hitCell(rate,rowKey,split){
   if(!rate) return '<td class="hit-cell hit-na">-</td>';
   const cls=rate.pct>=70?"hit-good":rate.pct>=50?"hit-mid":"hit-low";
-  return '<td class="hit-cell '+cls+'" title="'+rate.hits+' of '+rate.total+' games">'+rate.pct+'%</td>';
+  return '<td class="hit-cell hit-rate-trigger '+cls+'" data-hit-key="'+esc(rowKey)+'" data-hit-split="'+esc(split)+'" tabindex="0" role="button" title="View '+rate.hits+' of '+rate.total+' games">'+rate.pct+'%</td>';
+}
+
+function splitLabel(split){
+  return {l5:"Last 5",l10:"Last 10",h2h:"Head-to-Head",current:String(state.season||2026),previous:String((state.season||2026)-1)}[split]||split;
+}
+function splitGamesForRow(row,split){
+  const player=findPlayer(row.player);
+  if(!player) return [];
+
+  const currentYear=Number(state.season||2026);
+  const previousYear=currentYear-1;
+  const all=playerPlayedLogs(player);
+  let games=[];
+
+  let newestFirst=false;
+  if(split==="l5"){games=all.slice(0,5);newestFirst=true}
+  else if(split==="l10"){games=all.slice(0,10);newestFirst=true}
+  else if(split==="h2h"){
+    const opponent=opponentForRow(row,player);
+    games=opponent?all.filter(g=>String(g.opponent?.abbreviation||"").toUpperCase()===opponent):[];
+    newestFirst=true;
+  }else if(split==="current"){
+    games=logsForSeason(player,currentYear).filter(g=>g.played).map(g=>({...g,_season:currentYear}));
+  }else if(split==="previous"){
+    games=logsForSeason(player,previousYear).filter(g=>g.played).map(g=>({...g,_season:previousYear}));
+  }
+
+  const applicable=games.filter(game=>propHit(row,game)!==null);
+  return newestFirst?applicable.reverse():applicable;
+}
+function lineForRow(row){
+  const spec=metricSpec(row);
+  if(spec?.comparison==="gte"&&Number.isFinite(Number(spec.threshold))) return Number(spec.threshold);
+  const line=Number(row.line);
+  return Number.isFinite(line)?line:null;
+}
+function median(values){
+  if(!values.length) return null;
+  const sorted=[...values].sort((a,b)=>a-b);
+  const mid=Math.floor(sorted.length/2);
+  return sorted.length%2?sorted[mid]:(sorted[mid-1]+sorted[mid])/2;
+}
+function chartDateLabel(game){
+  const raw=game?.date;
+  if(raw){
+    const date=new Date(raw);
+    if(!Number.isNaN(date.getTime())){
+      return new Intl.DateTimeFormat("en-US",{month:"numeric",day:"numeric"}).format(date);
+    }
+  }
+  return "W"+String(game?.week??"—");
+}
+function chartOpponentLabel(game){
+  const abbr=game?.opponent?.abbreviation||"";
+  if(!abbr) return "";
+  return (game.isAway?"@ ":"vs ")+abbr;
+}
+function metricBreakdown(game,spec){
+  if(!spec) return [];
+  if(spec.metric==="passRushYards"){
+    return [
+      ["PASS YDS",safe(game.passingYards)],
+      ["RUSH YDS",safe(game.rushingYards)]
+    ];
+  }
+  if(spec.metric==="allPurposeYards"){
+    return [
+      ["RUSH YDS",safe(game.rushingYards)],
+      ["REC YDS",safe(game.receivingYards)]
+    ];
+  }
+  if(spec.metric==="passRushRecYards"){
+    return [
+      ["PASS YDS",safe(game.passingYards)],
+      ["RUSH YDS",safe(game.rushingYards)],
+      ["REC YDS",safe(game.receivingYards)]
+    ];
+  }
+  return [];
+}
+function pctMarkup(rate,key,selected){
+  const value=rate?rate.pct+"%":"-";
+  const cls=!rate?"hit-na-text":rate.pct>=70?"hit-good-text":rate.pct>=50?"hit-mid-text":"hit-low-text";
+  return '<div class="hit-summary-item '+(selected?"selected":"")+'"><span>'+esc(key)+'</span><strong class="'+cls+'">'+value+'</strong></div>';
+}
+function renderHitRateChart(row,split){
+  const player=findPlayer(row.player);
+  const games=splitGamesForRow(row,split);
+  const rates=computeHitRates(row);
+  const selectedRate={l5:rates.l5,l10:rates.l10,h2h:rates.h2h,current:rates.current,previous:rates.previous}[split]||null;
+  const spec=metricSpec(row);
+  const line=lineForRow(row);
+  const values=games.map(game=>metricValue(game,spec)).filter(v=>v!==null);
+  const average=values.length?values.reduce((sum,v)=>sum+v,0)/values.length:null;
+  const med=median(values);
+
+  hitRateTitle.textContent=cleanDisplayPlayerName(row.player)+" - "+generalizedMarketLabel(row);
+  hitRateSubtitle.textContent=cleanDisplayProposition(row)+" • "+row.matchup;
+  hitRateSplitLabel.textContent=splitLabel(split);
+  hitRateSelectedPct.textContent=selectedRate?selectedRate.pct+"%":"—";
+  hitRateSelectedPct.className=!selectedRate?"":selectedRate.pct>=70?"hit-good-text":selectedRate.pct>=50?"hit-mid-text":"hit-low-text";
+  hitRateSelectedRecord.textContent=selectedRate?" "+selectedRate.hits+" of "+selectedRate.total:"";
+  hitRateAverage.textContent=average===null?"—":(Math.round(average*10)/10).toLocaleString();
+  hitRateMedian.textContent=med===null?"—":(Math.round(med*10)/10).toLocaleString();
+
+  const currentYear=String(state.season||2026);
+  const previousYear=String((state.season||2026)-1);
+  hitRateBreakdown.innerHTML=[
+    pctMarkup(rates.l5,"L5",split==="l5"),
+    pctMarkup(rates.l10,"L10",split==="l10"),
+    pctMarkup(rates.h2h,"H2H",split==="h2h"),
+    pctMarkup(rates.current,currentYear,split==="current"),
+    pctMarkup(rates.previous,previousYear,split==="previous")
+  ].join("");
+
+  if(!games.length||!spec){
+    hitRateChart.innerHTML='<div class="hit-chart-empty">No applicable game-by-game data is available for this prop.</div>';
+    return;
+  }
+
+  const maxValue=Math.max(...values,0);
+  const minValue=Math.min(...values,0);
+  const positiveLine=line===null?0:Math.max(line,0);
+  const chartMax=Math.max(1,maxValue,positiveLine)*1.16;
+  const chartMin=Math.min(0,minValue);
+  const chartSpan=Math.max(1,chartMax-chartMin);
+  const linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100));
+  const plotWidth=Math.max(680,games.length*92);
+
+  const bars=games.map(game=>{
+    const value=metricValue(game,spec);
+    const hit=propHit(row,game);
+    const height=Math.max(2,((value-chartMin)/chartSpan)*100);
+    const breakdown=metricBreakdown(game,spec).filter(([,v])=>v!==0);
+    const detail=breakdown.length
+      ? '<div class="hit-bar-detail">'+breakdown.map(([label,v])=>'<span><b>'+fmt.format(v)+'</b> '+label+'</span>').join("")+'</div>'
+      : "";
+    return '<div class="hit-bar-column" style="--bar-height:'+height+'%">'+
+      '<div class="hit-bar-value '+(hit?"hit":"miss")+'">'+fmt.format(value)+'</div>'+
+      '<div class="hit-bar-track">'+
+        '<div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%">'+detail+'</div>'+
+      '</div>'+
+      '<div class="hit-bar-label"><span>'+esc(chartDateLabel(game))+'</span><span>'+esc(chartOpponentLabel(game))+'</span></div>'+
+    '</div>';
+  }).join("");
+
+  const threshold=linePct===null?"":'<div class="hit-threshold" style="bottom:'+linePct+'%"><span>'+esc(formatLine(line))+'</span></div>';
+  hitRateChart.innerHTML='<div class="hit-chart-plot" style="width:'+plotWidth+'px">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
+}
+function openHitRateChart(row,split){
+  renderHitRateChart(row,split);
+  hitRateModal.showModal();
 }
 
 function renderGameFilters(){
@@ -565,6 +730,7 @@ function oddsRowPassesFilters(row){
 }
 
 function renderOdds(){
+  state.hitRateRows.clear();
   let rows=state.odds.filter(oddsRowPassesFilters).map(row=>({...row,_rates:computeHitRates(row)}));
 
   const hitKeyMap={hitL5:"l5",hitL10:"l10",hitH2H:"h2h",hit2026:"current",hit2025:"previous"};
@@ -600,7 +766,9 @@ function renderOdds(){
     return;
   }
 
-  oddsBody.innerHTML=rows.map(row=>{
+  oddsBody.innerHTML=rows.map((row,index)=>{
+    const hitRowKey="hr-"+index;
+    state.hitRateRows.set(hitRowKey,row);
     const profile=findPlayer(row.player);
     const displayPlayer=cleanDisplayPlayerName(row.player||profile?.name);
     const team=row.team||profile?.team||"";
@@ -622,11 +790,11 @@ function renderOdds(){
       '<td class="prop-cell odds-player-trigger" data-player-name="'+playerAttr+'" tabindex="0" role="button" aria-label="Open '+playerAttr+' game log">'+content+'</td>'+
       '<td class="odds-line">'+esc(formatLine(row.line))+'</td>'+
       '<td class="odds-price"><span class="fd-mini">FD</span>'+esc(formatAmerican(row.odds))+'</td>'+
-      hitCell(row._rates.l5)+
-      hitCell(row._rates.l10)+
-      hitCell(row._rates.h2h)+
-      hitCell(row._rates.current)+
-      hitCell(row._rates.previous)+
+      hitCell(row._rates.l5,hitRowKey,"l5")+
+      hitCell(row._rates.l10,hitRowKey,"l10")+
+      hitCell(row._rates.h2h,hitRowKey,"h2h")+
+      hitCell(row._rates.current,hitRowKey,"current")+
+      hitCell(row._rates.previous,hitRowKey,"previous")+
     '</tr>';
   }).join("");
 }
@@ -731,6 +899,23 @@ document.querySelectorAll(".odds-table th[data-odds-key]").forEach(th=>th.addEve
   }
   renderOdds();
 }));
+
+oddsBody.addEventListener("click",e=>{
+  const cell=e.target.closest(".hit-rate-trigger");
+  if(!cell) return;
+  e.stopPropagation();
+  const row=state.hitRateRows.get(cell.dataset.hitKey);
+  if(row) openHitRateChart(row,cell.dataset.hitSplit);
+});
+oddsBody.addEventListener("keydown",e=>{
+  if(!["Enter"," "].includes(e.key)) return;
+  const cell=e.target.closest(".hit-rate-trigger");
+  if(!cell) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const row=state.hitRateRows.get(cell.dataset.hitKey);
+  if(row) openHitRateChart(row,cell.dataset.hitSplit);
+});
 
 oddsBody.addEventListener("click",e=>{
   const trigger=e.target.closest(".odds-player-trigger");
@@ -878,6 +1063,8 @@ window.addEventListener("hashchange",()=>setView(location.hash==="#odds"?"odds":
 modalClose.addEventListener("click",closeModal);
 modal.addEventListener("click",e=>{if(e.target===modal) closeModal()});
 modalSeasonSelect.addEventListener("change",renderModalSeason);
+hitRateClose.addEventListener("click",()=>hitRateModal.close());
+hitRateModal.addEventListener("click",e=>{if(e.target===hitRateModal) hitRateModal.close()});
 
 setView(location.hash==="#odds"?"odds":"stats",false);
 Promise.all([loadStats(),loadOdds()]);
