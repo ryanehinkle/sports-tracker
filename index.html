@@ -46,14 +46,14 @@
           <table>
             <thead>
               <tr>
-                <th class="player-col" data-key="name" data-type="text">Player <span class="sort-indicator"></span></th>
-                <th data-key="touchdowns" data-type="number">TD <span class="sort-indicator"></span></th>
-                <th data-key="allPurposeYards" data-type="number">All-Purpose Yds <span class="sort-indicator"></span></th>
-                <th data-key="receivingYards" data-type="number">Rec Yds <span class="sort-indicator"></span></th>
-                <th data-key="rushingYards" data-type="number">Rush Yds <span class="sort-indicator"></span></th>
-                <th data-key="receptions" data-type="number">Rec <span class="sort-indicator"></span></th>
-                <th data-key="passingTouchdowns" data-type="number">Pass TD <span class="sort-indicator"></span></th>
-                <th data-key="passingYards" data-type="number">Pass Yds <span class="sort-indicator"></span></th>
+                <th class="player-col" data-key="name">Player <span class="sort-indicator"></span></th>
+                <th data-key="touchdowns">TD <span class="sort-indicator"></span></th>
+                <th data-key="allPurposeYards">All-Purpose Yds <span class="sort-indicator"></span></th>
+                <th data-key="receivingYards">Rec Yds <span class="sort-indicator"></span></th>
+                <th data-key="rushingYards">Rush Yds <span class="sort-indicator"></span></th>
+                <th data-key="receptions">Rec <span class="sort-indicator"></span></th>
+                <th data-key="passingTouchdowns">Pass TD <span class="sort-indicator"></span></th>
+                <th data-key="passingYards">Pass Yds <span class="sort-indicator"></span></th>
               </tr>
             </thead>
             <tbody id="statsBody">
@@ -71,13 +71,21 @@
           <input id="oddsSearchInput" type="search" placeholder="Search player, team, or prop…" autocomplete="off" />
         </label>
 
-        <select id="gameFilter" class="filter-select" aria-label="Filter by game">
-          <option value="">All games</option>
-        </select>
-
-        <select id="marketFilter" class="filter-select" aria-label="Filter by prop market">
-          <option value="">All player props</option>
-        </select>
+        <div class="filter-strip">
+          <button id="gameFilterButton" class="filter-button" type="button">
+            <span class="filter-icon">◫</span><span id="gameFilterLabel">Games</span><span class="filter-caret">⌄</span>
+          </button>
+          <button id="marketFilterButton" class="filter-button" type="button">
+            <span class="filter-icon">✦</span><span id="marketFilterLabel">Propositions</span><span class="filter-caret">⌄</span>
+          </button>
+          <button id="positionFilterButton" class="filter-button" type="button">
+            <span class="filter-icon">↕</span><span id="positionFilterLabel">Over / Under</span><span class="filter-caret">⌄</span>
+          </button>
+          <button id="oddsRangeButton" class="filter-button" type="button">
+            <span class="filter-icon">⊗</span><span id="oddsRangeLabel">Odds</span><span class="filter-caret">⌄</span>
+          </button>
+          <button id="clearFiltersButton" class="clear-filters" type="button">Clear</button>
+        </div>
 
         <div class="odds-meta">
           <span class="fanduel-pill">FanDuel</span>
@@ -93,10 +101,15 @@
                 <th class="prop-col" data-odds-key="player">Proposition <span class="odds-sort-indicator"></span></th>
                 <th data-odds-key="line">Line <span class="odds-sort-indicator"></span></th>
                 <th data-odds-key="odds">Odds <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hitL5">L5 <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hitL10">L10 <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hitH2H">H2H <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hit2026">2026 <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hit2025">2025 <span class="odds-sort-indicator"></span></th>
               </tr>
             </thead>
             <tbody id="oddsBody">
-              <tr><td colspan="3" class="loading-cell"><div class="spinner"></div>Loading FanDuel props…</td></tr>
+              <tr><td colspan="8" class="loading-cell"><div class="spinner"></div>Loading FanDuel props…</td></tr>
             </tbody>
           </table>
         </div>
@@ -122,9 +135,12 @@
             <div class="modal-player-meta" id="modalPlayerMeta"></div>
           </div>
         </div>
-        <button id="modalClose" class="modal-close" type="button" aria-label="Close game log">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
+        <div class="modal-actions">
+          <select id="modalSeasonSelect" class="season-select" aria-label="Game log season"></select>
+          <button id="modalClose" class="modal-close" type="button" aria-label="Close game log">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
       </div>
 
       <div class="modal-table-scroll">
@@ -144,6 +160,58 @@
           </thead>
           <tbody id="gameLogBody"></tbody>
         </table>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="gameFilterDialog" class="filter-dialog">
+    <div class="filter-dialog-panel">
+      <div class="filter-dialog-title">Games</div>
+      <button class="filter-all-row" type="button" data-clear-filter="games"><span>All Games</span><span class="selection-mark" id="allGamesMark">✓</span></button>
+      <div id="gameFilterOptions" class="filter-options"></div>
+      <button class="filter-dialog-close" type="button" data-close-filter>Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="marketFilterDialog" class="filter-dialog">
+    <div class="filter-dialog-panel">
+      <div class="filter-dialog-title">Propositions</div>
+      <button class="filter-all-row" type="button" data-clear-filter="markets"><span>All Propositions</span><span class="selection-mark" id="allMarketsMark">✓</span></button>
+      <div id="marketFilterOptions" class="filter-options"></div>
+      <button class="filter-dialog-close" type="button" data-close-filter>Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="positionFilterDialog" class="filter-dialog compact-filter-dialog">
+    <div class="filter-dialog-panel">
+      <div class="filter-dialog-title">Over / Under</div>
+      <div id="positionFilterOptions" class="position-options">
+        <button type="button" class="position-option active" data-position=""><span>Any Position</span><span class="selection-mark">✓</span></button>
+        <button type="button" class="position-option" data-position="Over"><span>Over</span><span class="selection-mark"></span></button>
+        <button type="button" class="position-option" data-position="Under"><span>Under</span><span class="selection-mark"></span></button>
+      </div>
+      <button class="filter-dialog-close" type="button" data-close-filter>Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="oddsRangeDialog" class="filter-dialog odds-range-dialog">
+    <div class="filter-dialog-panel">
+      <div class="filter-dialog-title">Odds</div>
+      <div class="odds-range-tabs"><span class="active">Odds</span><span>Implied Probability</span></div>
+      <div class="odds-range-inputs">
+        <label><span>From</span><input id="oddsMinInput" type="number" inputmode="numeric"></label>
+        <span class="range-separator">–</span>
+        <label><span>To</span><input id="oddsMaxInput" type="number" inputmode="numeric"></label>
+      </div>
+      <div class="dual-range">
+        <div class="dual-range-track"></div>
+        <div id="dualRangeFill" class="dual-range-fill"></div>
+        <input id="oddsMinRange" type="range">
+        <input id="oddsMaxRange" type="range">
+      </div>
+      <div class="range-actions">
+        <button id="resetOddsRange" class="range-reset" type="button">Reset</button>
+        <button id="applyOddsRange" class="range-done" type="button">Done</button>
       </div>
     </div>
   </dialog>

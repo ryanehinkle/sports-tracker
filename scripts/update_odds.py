@@ -218,6 +218,7 @@ def infer_line(market_name, runner):
 
     return None
 
+
 def find_profile(texts, by_norm, profiles):
     joined = " | ".join(str(x or "") for x in texts)
     joined_lower = joined.lower()
@@ -235,15 +236,39 @@ def find_profile(texts, by_norm, profiles):
     return None
 
 
+def clean_player_candidate(value):
+    text = str(value or "").strip()
+    text = re.sub(r"\s+-\s+Alt\b.*$", "", text, flags=re.I)
+    text = re.sub(r"\s+\d+(?:\.\d+)?\+\s*(?:Yards?|Yds?|Receptions?|TDs?|Touchdowns?)?\s*$", "", text, flags=re.I)
+    text = re.sub(r"\s+(?:Over|Under)\s+\d+(?:\.\d+)?\s*.*$", "", text, flags=re.I)
+    text = re.sub(r"\s{2,}", " ", text).strip(" -:")
+    return text
+
+
+def resolve_player_name(market_name, runner_name, profile):
+    if profile:
+        return profile["name"]
+
+    market = str(market_name or "")
+    if " - " in market:
+        left = clean_player_candidate(market.split(" - ", 1)[0])
+        if 1 < len(left.split()) <= 5 and not left.lower().startswith(("player ", "team ")):
+            return left
+
+    candidate = clean_player_candidate(runner_name)
+    if candidate.lower() not in GENERIC_SELECTIONS and 1 < len(candidate.split()) <= 5:
+        return candidate
+
+    return ""
+
 
 def clean_market_label(market_name, player_name):
     label = str(market_name or "").strip()
     if player_name:
         label = re.sub(re.escape(player_name), "", label, flags=re.I).strip(" -:")
-    label = re.sub(r"\b(over\s*/?\s*under|over under)\b", "", label, flags=re.I)
-    label = re.sub(r"\bto record\s+\d+(?:\.\d+)?\+?\b", "", label, flags=re.I)
-    label = re.sub(r"\bto have\s+\d+(?:\.\d+)?\+?\b", "", label, flags=re.I)
+
     label = re.sub(r"^alt\s+", "", label, flags=re.I)
+    label = re.sub(r"\s+-\s+alt\s+", " ", label, flags=re.I)
     label = re.sub(r"\byds\b", "Yards", label, flags=re.I)
     label = re.sub(r"\brec\s+yards\b", "Receiving Yards", label, flags=re.I)
     label = re.sub(r"\brush\s+yards\b", "Rushing Yards", label, flags=re.I)
@@ -251,7 +276,6 @@ def clean_market_label(market_name, player_name):
     label = re.sub(r"\bpass\s+tds\b", "Passing TDs", label, flags=re.I)
     label = re.sub(r"\s{2,}", " ", label).strip(" -:")
     return label or str(market_name or "Player Prop")
-
 
 def selection_from_runner(runner_name, market_name):
     text = str(runner_name or "").strip()
@@ -268,16 +292,31 @@ def selection_from_runner(runner_name, market_name):
         return "Over"
     return "Yes"
 
+
 def proposition_text(label, selection, line, market_name):
+    lowered = str(label or "").lower()
+    milestone = bool(
+        re.search(r"\d+(?:\.\d+)?\+", label or "")
+        or "player to record" in lowered
+        or "first touchdown scorer" in lowered
+        or "last touchdown scorer" in lowered
+        or "any time touchdown scorer" in lowered
+        or "anytime touchdown scorer" in lowered
+        or "quarter td scorer" in lowered
+    )
+
+    if milestone:
+        return label
+
     if selection in {"Over", "Under"} and line is not None:
         pretty_line = str(int(line)) if float(line).is_integer() else str(line)
         return f"{selection} {pretty_line} {label}".strip()
+
     if selection in {"Yes", "No"}:
-        return f"{label} — {selection}"
+        return label if selection == "Yes" else f"{label} — No"
 
     market = str(market_name or "").strip()
-    return market or label
-
+    return label or market or "Player Prop"
 
 def is_player_market(market, player_profiles):
     runners = market.get("runners") or []
@@ -329,13 +368,11 @@ def parse_event_props(event, pages, by_norm, profiles):
                     profiles,
                 )
 
-                if profile:
-                    player_name = profile["name"]
-                elif runner.get("isPlayerSelection") and runner_name.lower() not in GENERIC_SELECTIONS:
-                    player_name = runner_name
-                    profile = by_norm.get(normalize_name(player_name), {})
-                else:
+                player_name = resolve_player_name(market_name, runner_name, profile)
+                if not player_name:
                     continue
+                if not profile:
+                    profile = by_norm.get(normalize_name(player_name), {})
 
                 selection = selection_from_runner(runner_name, market_name)
                 line = infer_line(market_name, runner)

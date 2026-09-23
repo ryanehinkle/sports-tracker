@@ -41,10 +41,25 @@ GAME_STAT_ALIASES = {
     "receptions": ("receptions", "receivingreceptions"),
     "receivingYards": ("receivingyards",),
     "receivingTouchdowns": ("receivingtouchdowns",),
+    "receivingLongest": ("longreception", "longestreception", "receivinglongest", "longreceiving"),
+    "receivingTargets": ("receivingtargets", "targets"),
+    "rushingAttempts": ("rushingattempts", "carries", "rushattempts"),
     "rushingYards": ("rushingyards",),
     "rushingTouchdowns": ("rushingtouchdowns",),
+    "rushingLongest": ("longrushing", "longestrush", "rushinglongest"),
+    "passingAttempts": ("passingattempts", "attempts"),
+    "passingCompletions": ("passingcompletions", "completions"),
     "passingYards": ("passingyards",),
     "passingTouchdowns": ("passingtouchdowns",),
+    "passingInterceptions": ("interceptions", "passinginterceptions"),
+    "passingLongest": ("longpassing", "longestcompletion", "passinglongest", "longpass"),
+    "soloTackles": ("solotackles",),
+    "totalTackles": ("totaltackles", "tackles"),
+    "assistedTackles": ("assistedtackles", "assists"),
+    "sacks": ("sacks",),
+    "defensiveInterceptions": ("defensiveinterceptions", "interceptionsmade"),
+    "fieldGoalsMade": ("fieldgoalsmade", "fgmade"),
+    "extraPointsMade": ("extrapointsmade", "xpmade", "patmade"),
 }
 
 
@@ -280,6 +295,15 @@ def parse_game_log(athlete_id, season):
                 result, score = score_for_event(meta)
                 opponent = meta.get("opponent") or {}
                 opponent_abbr = str(opponent.get("abbreviation") or "").upper()
+
+                tracked["touchdowns"] = tracked["rushingTouchdowns"] + tracked["receivingTouchdowns"]
+                tracked["allPurposeYards"] = tracked["rushingYards"] + tracked["receivingYards"]
+                tracked["passRushYards"] = tracked["passingYards"] + tracked["rushingYards"]
+                tracked["passRushRecYards"] = (
+                    tracked["passingYards"] + tracked["rushingYards"] + tracked["receivingYards"]
+                )
+                tracked["kickingPoints"] = tracked["fieldGoalsMade"] * 3 + tracked["extraPointsMade"]
+
                 rows[week] = {
                     "week": week,
                     "played": True,
@@ -295,71 +319,103 @@ def parse_game_log(athlete_id, season):
                     },
                     "result": result,
                     "score": score,
-                    "touchdowns": tracked["rushingTouchdowns"] + tracked["receivingTouchdowns"],
-                    "allPurposeYards": tracked["rushingYards"] + tracked["receivingYards"],
-                    "receivingYards": tracked["receivingYards"],
-                    "rushingYards": tracked["rushingYards"],
-                    "receptions": tracked["receptions"],
-                    "passingTouchdowns": tracked["passingTouchdowns"],
-                    "passingYards": tracked["passingYards"],
+                    **tracked,
                 }
 
     return [rows[w] for w in sorted(rows)]
 
 
+def blank_week(week):
+    return {
+        "week": week,
+        "played": False,
+        "isAway": False,
+        "opponent": None,
+        "result": "",
+        "score": "",
+    }
+
+
+def fill_weeks(logs, max_week):
+    if not logs or max_week <= 0:
+        return []
+    existing = {
+        number(g.get("week")): g
+        for g in logs
+        if number(g.get("week")) > 0
+    }
+    return [existing.get(week) or blank_week(week) for week in range(1, max_week + 1)]
+
+
 def aggregate_view(players):
-    return [{k: v for k, v in p.items() if k != "gameLog"} for p in players]
+    return [
+        {k: v for k, v in p.items() if k not in {"gameLog", "gameLogsBySeason"}}
+        for p in players
+    ]
 
 
-def attach_game_logs(players, season, previous_payload):
+def attach_game_logs(players, season, previous_payload, refresh_current=True):
+    prior_season = season - 1
     previous_by_id = {
         str(p.get("id")): p
         for p in (previous_payload.get("players") or [])
     } if previous_payload else {}
 
-    logs_by_id = {}
-    with ThreadPoolExecutor(max_workers=8) as pool:
-        futures = {pool.submit(parse_game_log, p["id"], season): p for p in players}
+    raw_logs = {}
+    futures = {}
+
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        for p in players:
+            previous = previous_by_id.get(p["id"], {})
+            previous_by_season = previous.get("gameLogsBySeason") or {}
+
+            if refresh_current:
+                futures[pool.submit(parse_game_log, p["id"], season)] = (p, season)
+            else:
+                current_existing = previous_by_season.get(str(season)) or previous.get("gameLog") or []
+                raw_logs[(p["id"], season)] = [g for g in current_existing if g.get("played")]
+
+            prior_existing = previous_by_season.get(str(prior_season))
+            if prior_existing:
+                raw_logs[(p["id"], prior_season)] = [g for g in prior_existing if g.get("played")]
+            else:
+                futures[pool.submit(parse_game_log, p["id"], prior_season)] = (p, prior_season)
+
         for future in as_completed(futures):
-            p = futures[future]
+            p, target_season = futures[future]
             try:
                 logs = future.result()
-                logs_by_id[p["id"]] = logs
-                print(f"gamelog: {p['name']} ({len(logs)} games)")
+                raw_logs[(p["id"], target_season)] = logs
+                print(f"gamelog {target_season}: {p['name']} ({len(logs)} games)")
             except Exception as exc:
                 previous = previous_by_id.get(p["id"], {})
-                logs_by_id[p["id"]] = previous.get("gameLog") or []
-                print(f"WARNING: gamelog failed for {p['name']}: {exc}", file=sys.stderr)
+                previous_by_season = previous.get("gameLogsBySeason") or {}
+                fallback = previous_by_season.get(str(target_season)) or (
+                    previous.get("gameLog") if target_season == season else []
+                )
+                raw_logs[(p["id"], target_season)] = [g for g in fallback if g.get("played")]
+                print(
+                    f"WARNING: gamelog {target_season} failed for {p['name']}: {exc}",
+                    file=sys.stderr,
+                )
 
     current_week = max(
-        (g.get("week", 0) for logs in logs_by_id.values() for g in logs),
+        (g.get("week", 0) for p in players for g in raw_logs.get((p["id"], season), [])),
         default=number(previous_payload.get("currentWeek")) if previous_payload else 0,
     )
 
     for p in players:
-        existing = {
-            number(g.get("week")): g
-            for g in logs_by_id.get(p["id"], [])
-            if number(g.get("week")) > 0
+        current_raw = raw_logs.get((p["id"], season), [])
+        prior_raw = raw_logs.get((p["id"], prior_season), [])
+        current_filled = fill_weeks(current_raw, current_week)
+        prior_filled = fill_weeks(prior_raw, 18 if prior_raw else 0)
+
+        p["gameLog"] = current_filled
+        p["gameLogsBySeason"] = {
+            str(season): current_filled,
+            str(prior_season): prior_filled,
         }
-        p["gameLog"] = [
-            existing.get(week) or {
-                "week": week,
-                "played": False,
-                "isAway": False,
-                "opponent": None,
-                "result": "",
-                "score": "",
-                "touchdowns": None,
-                "allPurposeYards": None,
-                "receivingYards": None,
-                "rushingYards": None,
-                "receptions": None,
-                "passingTouchdowns": None,
-                "passingYards": None,
-            }
-            for week in range(1, current_week + 1)
-        ]
+
     return current_week
 
 
@@ -384,17 +440,28 @@ def main():
         previous.get("season") == season
         and aggregate_view(previous_players) == aggregate_view(players)
     )
-    logs_complete = bool(previous_players) and all("gameLog" in p for p in previous_players)
+    history_complete = bool(previous_players) and all(
+        str(season) in (p.get("gameLogsBySeason") or {})
+        and str(season - 1) in (p.get("gameLogsBySeason") or {})
+        for p in previous_players
+    )
 
-    if aggregates_unchanged and logs_complete:
-        print("No player stat changes; leaving data file untouched.")
+    if aggregates_unchanged and history_complete:
+        print("No player stat changes; historical game logs already present.")
         return
 
-    current_week = attach_game_logs(players, season, previous)
+    current_week = attach_game_logs(
+        players,
+        season,
+        previous,
+        refresh_current=not aggregates_unchanged,
+    )
+
     payload = {
         "season": season,
         "seasonType": "Regular Season",
         "currentWeek": current_week,
+        "availableSeasons": [season, season - 1],
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "source": "ESPN",
         "definition": {"allPurposeYards": "rushing + receiving yards"},
@@ -402,7 +469,7 @@ def main():
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    print(f"Wrote {len(players)} players with game logs through Week {current_week}")
+    print(f"Wrote {len(players)} players with {season} and {season - 1} game logs")
 
 
 if __name__ == "__main__":
