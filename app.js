@@ -51,7 +51,6 @@ const search=document.getElementById("searchInput");
 const count=document.getElementById("recordCount");
 const seasonLabel=document.getElementById("seasonLabel");
 const updatedLabel=document.getElementById("updatedLabel");
-const pageSubtitle=document.getElementById("pageSubtitle");
 const pageFooter=document.getElementById("pageFooter");
 const statsView=document.getElementById("statsView");
 const teamStatsView=document.getElementById("teamStatsView");
@@ -305,17 +304,14 @@ function setView(view,updateHash=true){
   oddsTabButton.setAttribute("aria-selected",String(isOdds));
 
   if(isOdds){
-    pageSubtitle.textContent="Current FanDuel NFL player props with historical hit rates from ESPN game logs.";
     seasonLabel.textContent="FanDuel Player Props";
     updatedLabel.textContent=formatUpdated(state.oddsUpdatedAt);
     pageFooter.innerHTML="<span>Odds read directly from FanDuel’s public sportsbook web feed.</span><span>Hit rates use ESPN regular-season game logs • “—” means the split is not applicable or unavailable.</span>";
   }else if(isTeams){
-    pageSubtitle.textContent="League-wide team offense, defense, special teams, situational football and every ESPN team-stat category in one sortable board.";
     seasonLabel.textContent=(state.teamStatsRaw?.season||state.season||"Current")+" Team Stats";
     updatedLabel.textContent=formatUpdated(state.teamStatsUpdatedAt);
     pageFooter.innerHTML="<span>Team stats sourced from ESPN season statistics and game box scores.</span><span>Click any numeric stat to open its game trend and league comparison chart.</span>";
   }else{
-    pageSubtitle.textContent="Current regular-season offensive production, refreshed automatically after NFL game days.";
     seasonLabel.textContent=(state.season||"Current")+" Regular Season";
     updatedLabel.textContent=formatUpdated(state.statsUpdatedAt);
     pageFooter.innerHTML="<span>Player stats sourced from ESPN.</span><span>Click a player for their game log • Click a column heading to sort.</span>";
