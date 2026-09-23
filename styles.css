@@ -304,3 +304,25 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
   .game-filter-popover{width:min(370px,calc(100vw - 16px))}
   .filter-popover .filter-options{max-height:270px}
 }
+
+
+/* Make the entire proposition/player area clickable, like the Player Stats rows */
+.prop-cell.odds-player-trigger{
+  cursor:pointer;
+  transition:background .14s,box-shadow .14s
+}
+.prop-cell.odds-player-trigger:hover{
+  background:#1d2531
+}
+.prop-cell.odds-player-trigger:hover .prop-player-name{
+  color:var(--accent-2)
+}
+.prop-cell.odds-player-trigger:hover .odds-headshot{
+  transform:scale(1.035);
+  filter:brightness(1.08)
+}
+.prop-cell.odds-player-trigger:focus-visible{
+  outline:2px solid var(--accent-2);
+  outline-offset:-2px;
+  background:#1d2531
+}
