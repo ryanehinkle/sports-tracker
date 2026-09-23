@@ -554,8 +554,10 @@ def attach_game_logs(players, season, previous_payload, refresh_current=True):
             except Exception as exc:
                 previous = previous_by_id.get(p["id"], {})
                 previous_by_season = previous.get("gameLogsBySeason") or {}
-                fallback = previous_by_season.get(str(target_season)) or (
-                    previous.get("gameLog") if target_season == season else []
+                fallback = (
+                    previous_by_season.get(str(target_season))
+                    or (previous.get("gameLog") if target_season == season else [])
+                    or []
                 )
                 raw_logs[(p["id"], target_season)] = [g for g in fallback if g.get("played")]
                 print(
