@@ -1,6 +1,7 @@
 {
   "bookmaker": "FanDuel",
+  "source": "FanDuel public sportsbook web feed",
   "updatedAt": null,
-  "setupRequired": true,
+  "freeFeed": true,
   "events": []
 }
