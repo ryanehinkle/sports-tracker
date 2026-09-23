@@ -23,7 +23,7 @@ FEEDS = {
     "receiving": {
         "category": "offense:receiving",
         "sort": "receiving.receivingYards:desc",
-        "fallback": {"receptions": 0, "receivingYards": 1, "receivingTouchdowns": 4},
+        "fallback": {"receptions": 0, "receivingYards": 2, "receivingTouchdowns": 4},
     },
     "passing": {
         "category": "offense:passing",
