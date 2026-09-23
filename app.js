@@ -612,17 +612,20 @@ function renderHitRateChart(row,split){
   const chartSpan=Math.max(1,chartMax-chartMin);
   const linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100));
   const plotWidth=Math.max(680,games.length*92);
+  const stageHeight=286;
+  const thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
 
   const bars=games.map(game=>{
     const value=metricValue(game,spec);
     const hit=propHit(row,game);
     const height=Math.max(2,((value-chartMin)/chartSpan)*100);
+    const valueBottom=48+(height/100)*stageHeight;
     const breakdown=metricBreakdown(game,spec).filter(([,v])=>v!==0);
     const detail=breakdown.length
       ? '<div class="hit-bar-detail">'+breakdown.map(([label,v])=>'<span><b>'+fmt.format(v)+'</b> '+label+'</span>').join("")+'</div>'
       : "";
-    return '<div class="hit-bar-column" style="--bar-height:'+height+'%">'+
-      '<div class="hit-bar-value '+(hit?"hit":"miss")+'">'+fmt.format(value)+'</div>'+
+    return '<div class="hit-bar-column">'+
+      '<div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div>'+
       '<div class="hit-bar-track">'+
         '<div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%">'+detail+'</div>'+
       '</div>'+
@@ -630,7 +633,7 @@ function renderHitRateChart(row,split){
     '</div>';
   }).join("");
 
-  const threshold=linePct===null?"":'<div class="hit-threshold" style="bottom:'+linePct+'%"><span>'+esc(formatLine(line))+'</span></div>';
+  const threshold=thresholdBottom===null?"":'<div class="hit-threshold" style="bottom:'+thresholdBottom+'px"><span>'+esc(formatLine(line))+'</span></div>';
   hitRateChart.innerHTML='<div class="hit-chart-plot" style="width:'+plotWidth+'px">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
 }
 function openHitRateChart(row,split){
