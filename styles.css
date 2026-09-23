@@ -996,3 +996,72 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 
 
 .parlay-builder-count[hidden]{display:none!important}
+
+
+/* Final desktop parlay placement:
+   the odds table always keeps 100% of its normal width.
+   The slip lives in the unused gutter to the right and never participates in layout. */
+@media(min-width:981px){
+  .odds-workspace,
+  .odds-workspace.parlay-open{
+    display:block;
+    position:relative;
+    width:100%;
+    overflow:visible;
+  }
+
+  .odds-workspace .odds-card{
+    width:100%;
+    min-width:0;
+  }
+
+  .parlay-panel{
+    position:absolute;
+    z-index:30;
+    left:calc(100% + 14px);
+    right:auto;
+    top:0;
+    width:350px;
+    max-width:none;
+    min-width:350px;
+    overflow:visible;
+    opacity:0;
+    transform:translateX(24px);
+    pointer-events:none;
+  }
+
+  .parlay-panel.open{
+    opacity:1;
+    transform:translateX(0);
+    pointer-events:auto;
+  }
+
+  .parlay-panel-inner{
+    width:350px;
+    max-width:none;
+    position:sticky;
+    top:14px;
+  }
+}
+
+/* On screens without a real right gutter, keep the table full-width and float
+   the slip above the page instead of ever squeezing the odds table. */
+@media(min-width:981px) and (max-width:2220px){
+  .parlay-panel{
+    position:fixed;
+    left:auto;
+    right:18px;
+    top:210px;
+    width:350px;
+    min-width:350px;
+    max-height:calc(100vh - 230px);
+    transform:translateX(calc(100% + 28px));
+  }
+  .parlay-panel.open{transform:translateX(0)}
+  .parlay-panel-inner{
+    width:350px;
+    max-height:calc(100vh - 230px);
+    position:relative;
+    top:0;
+  }
+}
