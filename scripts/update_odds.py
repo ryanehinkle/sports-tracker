@@ -6,14 +6,14 @@ import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-import requests
+from curl_cffi import requests
 
-SPORT = "americanfootball_nfl"
-API_ROOT = "https://api.the-odds-api.com/v4"
+LOBBY_URL = "https://sbapi.nj.sportsbook.fanduel.com/api/content-managed-page"
+EVENT_URL = "https://sbapi.nj.sportsbook.fanduel.com/api/event-page"
+PUBLIC_WEB_KEY = "FhMFpcPWXMeyZxOx"
 OUT = Path("data/nfl-odds.json")
 STATS = Path("data/nfl-stats.json")
-BOOKMAKER = "fanduel"
-TIMEOUT = 30
+TIMEOUT = 25
 
 TEAM_ABBR = {
     "Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF",
@@ -26,71 +26,50 @@ TEAM_ABBR = {
     "Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH",
 }
 
-MARKET_LABELS = {
-    "assists":"Assists",
-    "defensive_interceptions":"Defensive Interceptions",
-    "field_goals":"Field Goals",
-    "kicking_points":"Kicking Points",
-    "pass_attempts":"Pass Attempts",
-    "pass_completions":"Pass Completions",
-    "pass_interceptions":"Interceptions Thrown",
-    "pass_longest_completion":"Longest Completion",
-    "pass_rush_yds":"Pass + Rush Yards",
-    "pass_rush_reception_tds":"Pass + Rush + Rec TDs",
-    "pass_rush_reception_yds":"Pass + Rush + Rec Yards",
-    "pass_tds":"Passing TDs",
-    "pass_yds":"Passing Yards",
-    "pass_yds_q1":"1Q Passing Yards",
-    "pats":"PATs",
-    "receptions":"Receptions",
-    "reception_longest":"Longest Reception",
-    "reception_tds":"Receiving TDs",
-    "reception_yds":"Receiving Yards",
-    "rush_attempts":"Rush Attempts",
-    "rush_longest":"Longest Rush",
-    "rush_reception_tds":"Rush + Rec TDs",
-    "rush_reception_yds":"Rush + Rec Yards",
-    "rush_tds":"Rushing TDs",
-    "rush_yds":"Rushing Yards",
-    "sacks":"Sacks",
-    "solo_tackles":"Solo Tackles",
-    "tackles_assists":"Tackles + Assists",
-    "tds_over":"Touchdowns",
-    "tds":"Touchdowns",
-    "1st_td":"First Touchdown",
-    "anytime_td":"Anytime Touchdown",
-    "last_td":"Last Touchdown",
+CORE_PROP_TABS = {
+    "popular",
+    "passing-props",
+    "receiving-props",
+    "rushing-props",
+    "defensive-props",
+    "kicking-props",
+    "touchdown-scorers",
+    "touchdowns",
+    "player-props",
 }
 
-UA = {
-    "User-Agent": "sports-tracker/1.0",
-    "Accept": "application/json",
+GENERIC_SELECTIONS = {
+    "over","under","yes","no","home","away","draw",
 }
 
-usage = {"used": None, "remaining": None, "last": None}
 
-
-def request_json(path, params):
-    url = f"{API_ROOT}{path}"
-    response = requests.get(url, params=params, headers=UA, timeout=TIMEOUT)
-    response.raise_for_status()
-    for header, key in (
-        ("x-requests-used", "used"),
-        ("x-requests-remaining", "remaining"),
-        ("x-requests-last", "last"),
-    ):
-        if response.headers.get(header) is not None:
-            try:
-                usage[key] = int(response.headers[header])
-            except ValueError:
-                usage[key] = response.headers[header]
-    return response.json()
+def fetch_json(url, params):
+    last_error = None
+    for attempt in range(3):
+        try:
+            response = requests.get(
+                url,
+                params=params,
+                headers={"Accept": "application/json"},
+                impersonate="chrome120",
+                timeout=TIMEOUT,
+            )
+            response.raise_for_status()
+            return response.json()
+        except Exception as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(1.25 * (attempt + 1))
+    raise last_error
 
 
 def iso_dt(value):
     if not value:
         return None
-    return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    try:
+        return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError:
+        return None
 
 
 def normalize_name(value):
@@ -101,20 +80,28 @@ def normalize_name(value):
 
 def load_stats_players():
     if not STATS.exists():
-        return {}
+        return {}, []
     try:
         payload = json.loads(STATS.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
-        return {}
-    result = {}
+        return {}, []
+
+    by_norm = {}
+    profiles = []
     for player in payload.get("players") or []:
-        result[normalize_name(player.get("name"))] = {
+        profile = {
             "name": player.get("name") or "",
             "team": player.get("team") or "",
             "position": player.get("position") or "",
             "headshot": player.get("headshot") or "",
         }
-    return result
+        norm = normalize_name(profile["name"])
+        if norm:
+            by_norm[norm] = profile
+            profiles.append(profile)
+
+    profiles.sort(key=lambda p: len(p["name"]), reverse=True)
+    return by_norm, profiles
 
 
 def load_previous():
@@ -126,168 +113,292 @@ def load_previous():
         return {}
 
 
-def market_label(key):
-    clean = key.removeprefix("player_").removesuffix("_alternate")
-    if clean in MARKET_LABELS:
-        return MARKET_LABELS[clean]
-    return " ".join(piece.upper() if piece in {"td", "tds", "pat", "pats", "q1"} else piece.title() for piece in clean.split("_"))
+def fetch_lobby():
+    return fetch_json(
+        LOBBY_URL,
+        {"page": "CUSTOM", "customPageId": "nfl", "_ak": PUBLIC_WEB_KEY},
+    )
 
 
-def display_point(value):
-    if value is None:
-        return ""
+def fetch_event_page(event_id, tab):
+    return fetch_json(
+        EVENT_URL,
+        {"eventId": event_id, "tab": tab, "_ak": PUBLIC_WEB_KEY},
+    )
+
+
+def parse_teams(event):
+    name = str(event.get("name") or "")
+    if " @ " not in name:
+        return None
+    away, home = name.split(" @ ", 1)
+    away = away.strip().split(" (")[0].strip()
+    home = home.strip().split(" (")[0].strip()
+    return away, home
+
+
+def discover_tabs(payload):
+    found = set()
+
+    def walk(value, key_hint=""):
+        if isinstance(value, dict):
+            for key, item in value.items():
+                lower_key = str(key).lower()
+                if isinstance(item, str):
+                    text = item.strip().lower()
+                    for match in re.findall(r"[?&]tab=([a-z0-9-]+)", text):
+                        found.add(match)
+                    if (
+                        ("tab" in lower_key or lower_key in {"slug", "id"})
+                        and re.fullmatch(r"[a-z0-9][a-z0-9-]{1,50}", text)
+                    ):
+                        found.add(text)
+                walk(item, lower_key)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item, key_hint)
+
+    walk(payload)
+
+    useful = {
+        tab for tab in found
+        if (
+            tab == "popular"
+            or "prop" in tab
+            or "touchdown" in tab
+            or tab in {"passing", "receiving", "rushing", "defense", "kicking"}
+        )
+    }
+    return useful | CORE_PROP_TABS
+
+
+def american_odds(runner):
+    raw = (
+        (runner.get("winRunnerOdds") or {})
+        .get("americanDisplayOdds", {})
+        .get("americanOdds")
+    )
+    if raw is None:
+        return None
     try:
-        number = float(value)
-        return str(int(number)) if number.is_integer() else str(number)
+        return int(str(raw).replace("−", "-").replace("+", ""))
     except (TypeError, ValueError):
-        return str(value)
-
-
-def proposition_text(market_key, outcome):
-    label = market_label(market_key)
-    selection = str(outcome.get("name") or "")
-    point = display_point(outcome.get("point"))
-
-    if selection in {"Over", "Under"}:
-        return f"{selection} {point} {label}".strip()
-    if selection in {"Yes", "No"}:
-        return f"{label} — {selection}"
-    return label
-
-
-def player_from_outcome(outcome):
-    description = str(outcome.get("description") or "").strip()
-    if description:
-        return description
-    name = str(outcome.get("name") or "").strip()
-    if name not in {"Over", "Under", "Yes", "No"}:
-        return name
-    return ""
-
-
-def fetch_events(api_key):
-    return request_json(
-        f"/sports/{SPORT}/events",
-        {"apiKey": api_key, "dateFormat": "iso"},
-    )
-
-
-def fetch_event_market_keys(api_key, event_id):
-    payload = request_json(
-        f"/sports/{SPORT}/events/{event_id}/markets",
-        {"apiKey": api_key, "bookmakers": BOOKMAKER, "dateFormat": "iso"},
-    )
-    for bookmaker in payload.get("bookmakers") or []:
-        if bookmaker.get("key") == BOOKMAKER:
-            return sorted({
-                market.get("key")
-                for market in bookmaker.get("markets") or []
-                if str(market.get("key") or "").startswith("player_")
-            })
-    return []
-
-
-def fetch_event_odds(api_key, event, player_lookup):
-    market_keys = fetch_event_market_keys(api_key, event["id"])
-    if not market_keys:
         return None
 
-    payload = request_json(
-        f"/sports/{SPORT}/events/{event['id']}/odds",
-        {
-            "apiKey": api_key,
-            "bookmakers": BOOKMAKER,
-            "markets": ",".join(market_keys),
-            "oddsFormat": "american",
-            "dateFormat": "iso",
-            "includeLinks": "true",
-        },
-    )
 
-    props = []
-    bookmaker_link = ""
-    last_update = None
+def numeric_line(value):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
 
-    for bookmaker in payload.get("bookmakers") or []:
-        if bookmaker.get("key") != BOOKMAKER:
-            continue
-        bookmaker_link = bookmaker.get("link") or ""
-        last_update = bookmaker.get("last_update")
-        for market in bookmaker.get("markets") or []:
-            market_key = str(market.get("key") or "")
-            is_alt = market_key.endswith("_alternate")
-            market_link = market.get("link") or bookmaker_link
-            for outcome in market.get("outcomes") or []:
-                player_name = player_from_outcome(outcome)
-                if not player_name:
+
+def infer_line(market_name, runner):
+    for key in ("handicap", "line", "points"):
+        line = numeric_line(runner.get(key))
+        if line is not None and abs(line) < 10000:
+            return line
+
+    text = f"{market_name} {runner.get('runnerName') or ''}"
+    match = re.search(r"(?<!\d)(\d+(?:\.\d+)?)\+", text)
+    if match:
+        return float(match.group(1)) - 0.5
+
+    match = re.search(r"\b(?:over|under)\s+(\d+(?:\.\d+)?)", text, re.I)
+    if match:
+        return float(match.group(1))
+
+    return None
+
+
+def find_profile(texts, by_norm, profiles):
+    joined = " | ".join(str(x or "") for x in texts)
+    joined_lower = joined.lower()
+    joined_norm = normalize_name(joined)
+
+    for profile in profiles:
+        name = profile["name"]
+        if name and name.lower() in joined_lower:
+            return profile
+
+    for norm, profile in by_norm.items():
+        if len(norm) >= 6 and norm in joined_norm:
+            return profile
+
+    return None
+
+
+def clean_market_label(market_name, player_name):
+    label = str(market_name or "").strip()
+    if player_name:
+        label = re.sub(re.escape(player_name), "", label, flags=re.I).strip(" -:")
+    label = re.sub(r"\b(over\s*/?\s*under|over under)\b", "", label, flags=re.I)
+    label = re.sub(r"\bto record\s+\d+(?:\.\d+)?\+?\b", "", label, flags=re.I)
+    label = re.sub(r"\bto have\s+\d+(?:\.\d+)?\+?\b", "", label, flags=re.I)
+    label = re.sub(r"\s{2,}", " ", label).strip(" -:")
+    return label or str(market_name or "Player Prop")
+
+
+def selection_from_runner(runner_name, market_name):
+    text = str(runner_name or "").strip()
+    lower = text.lower()
+    if re.search(r"\bover\b", lower):
+        return "Over"
+    if re.search(r"\bunder\b", lower):
+        return "Under"
+    if lower in {"yes", "no"}:
+        return lower.title()
+
+    market_lower = str(market_name or "").lower()
+    if "+" in market_lower or "anytime" in market_lower or "to score" in market_lower:
+        return "Over"
+    return "Yes"
+
+
+def proposition_text(label, selection, line, market_name):
+    if selection in {"Over", "Under"} and line is not None:
+        pretty_line = str(int(line)) if float(line).is_integer() else str(line)
+        return f"{selection} {pretty_line} {label}".strip()
+    if selection in {"Yes", "No"}:
+        return f"{label} — {selection}"
+
+    market = str(market_name or "").strip()
+    return market or label
+
+
+def is_player_market(market, player_profiles):
+    runners = market.get("runners") or []
+    if any(r.get("isPlayerSelection") for r in runners):
+        return True
+
+    market_name = str(market.get("marketName") or "")
+    if find_profile([market_name], {}, player_profiles):
+        return True
+
+    market_type = str(market.get("marketType") or market.get("marketTypeId") or "").upper()
+    return "PLAYER" in market_type
+
+
+def parse_event_props(event, pages, by_norm, profiles):
+    teams = parse_teams(event)
+    if not teams:
+        return None
+
+    away_team, home_team = teams
+    event_id = str(event.get("eventId") or event.get("id") or "")
+    prop_map = {}
+
+    for tab, page in pages.items():
+        markets = (page.get("attachments") or {}).get("markets") or {}
+        for market_id, market in markets.items():
+            if not is_player_market(market, profiles):
+                continue
+
+            market_name = str(market.get("marketName") or "Player Prop").strip()
+            market_type = str(market.get("marketType") or market.get("marketTypeId") or "")
+            market_status = str(market.get("marketStatus") or market.get("status") or "").upper()
+            if market_status and market_status not in {"OPEN", "ACTIVE"}:
+                continue
+
+            for runner in market.get("runners") or []:
+                runner_status = str(runner.get("runnerStatus") or runner.get("status") or "").upper()
+                if runner_status and runner_status not in {"ACTIVE", "OPEN"}:
                     continue
 
-                profile = player_lookup.get(normalize_name(player_name), {})
-                props.append({
+                odds = american_odds(runner)
+                if odds is None:
+                    continue
+
+                runner_name = str(runner.get("runnerName") or "").strip()
+                profile = find_profile(
+                    [market_name, runner_name, runner.get("name"), runner.get("selectionName")],
+                    by_norm,
+                    profiles,
+                )
+
+                if profile:
+                    player_name = profile["name"]
+                elif runner.get("isPlayerSelection") and runner_name.lower() not in GENERIC_SELECTIONS:
+                    player_name = runner_name
+                    profile = by_norm.get(normalize_name(player_name), {})
+                else:
+                    continue
+
+                selection = selection_from_runner(runner_name, market_name)
+                line = infer_line(market_name, runner)
+                label = clean_market_label(market_name, player_name)
+
+                alternate = bool(
+                    "ALT" in market_type.upper()
+                    or "alternate" in market_name.lower()
+                    or "+" in market_name
+                    or (line is not None and selection in {"Over", "Yes"} and "over/under" not in market_name.lower())
+                )
+
+                proposition = proposition_text(label, selection, line, market_name)
+
+                key = (
+                    normalize_name(player_name),
+                    label.lower(),
+                    selection,
+                    str(line),
+                )
+
+                prop_map[key] = {
                     "player": player_name,
                     "team": profile.get("team") or "",
                     "position": profile.get("position") or "",
                     "headshot": profile.get("headshot") or "",
-                    "marketKey": market_key,
-                    "market": market_label(market_key),
-                    "alternate": is_alt,
-                    "selection": outcome.get("name") or "",
-                    "line": outcome.get("point"),
-                    "odds": outcome.get("price"),
-                    "proposition": proposition_text(market_key, outcome),
-                    "lastUpdate": market.get("last_update") or last_update,
-                    "link": outcome.get("link") or market_link or "",
-                })
+                    "marketKey": market_type or market_name,
+                    "market": label,
+                    "alternate": alternate,
+                    "selection": selection,
+                    "line": line,
+                    "odds": odds,
+                    "proposition": proposition,
+                    "lastUpdate": datetime.now(timezone.utc).isoformat(),
+                    "link": "",
+                    "sourceTab": tab,
+                    "marketId": str(market.get("marketId") or market_id),
+                    "selectionId": str(runner.get("selectionId") or ""),
+                }
 
-    seen = set()
-    unique = []
-    for prop in props:
-        key = (
-            normalize_name(prop["player"]),
-            prop["marketKey"].removesuffix("_alternate"),
-            str(prop["selection"]),
-            str(prop["line"]),
-            str(prop["odds"]),
-        )
-        if key in seen:
-            continue
-        seen.add(key)
-        unique.append(prop)
+    props = list(prop_map.values())
+    props.sort(key=lambda p: (p["player"], p["market"], p["line"] if p["line"] is not None else -9999, p["selection"]))
 
-    if not unique:
+    if not props:
         return None
 
     return {
-        "id": event["id"],
-        "commenceTime": event.get("commence_time"),
-        "homeTeam": event.get("home_team"),
-        "awayTeam": event.get("away_team"),
-        "homeAbbr": TEAM_ABBR.get(event.get("home_team"), ""),
-        "awayAbbr": TEAM_ABBR.get(event.get("away_team"), ""),
+        "id": event_id,
+        "commenceTime": event.get("openDate"),
+        "homeTeam": home_team,
+        "awayTeam": away_team,
+        "homeAbbr": TEAM_ABBR.get(home_team, ""),
+        "awayAbbr": TEAM_ABBR.get(away_team, ""),
         "bookmaker": "FanDuel",
-        "lastUpdate": last_update,
-        "props": unique,
+        "lastUpdate": datetime.now(timezone.utc).isoformat(),
+        "props": props,
     }
 
 
 def compact_for_compare(payload):
-    copy = dict(payload)
+    copy = json.loads(json.dumps(payload))
     copy.pop("updatedAt", None)
-    copy.pop("usage", None)
+    for event in copy.get("events") or []:
+        event.pop("lastUpdate", None)
+        for prop in event.get("props") or []:
+            prop.pop("lastUpdate", None)
     return copy
 
 
 def main():
-    api_key = os.getenv("ODDS_API_KEY", "").strip()
-    if not api_key:
-        raise RuntimeError("ODDS_API_KEY is not configured.")
-
     lookahead_hours = int(os.getenv("ODDS_LOOKAHEAD_HOURS", "36"))
     now = datetime.now(timezone.utc)
     cutoff = now + timedelta(hours=lookahead_hours)
     earliest = now - timedelta(hours=6)
 
-    player_lookup = load_stats_players()
+    by_norm, profiles = load_stats_players()
     previous = load_previous()
     previous_events = {
         str(event.get("id")): event
@@ -295,30 +406,57 @@ def main():
         if event.get("id")
     }
 
-    all_events = fetch_events(api_key)
+    lobby = fetch_lobby()
+    raw_events = (lobby.get("attachments") or {}).get("events") or {}
     selected = []
-    for event in all_events:
-        commence = iso_dt(event.get("commence_time"))
+
+    for event_id, event in raw_events.items():
+        event = dict(event)
+        event["eventId"] = str(event.get("eventId") or event_id)
+        if not parse_teams(event):
+            continue
+        commence = iso_dt(event.get("openDate"))
         if commence and earliest <= commence <= cutoff:
             selected.append(event)
 
-    print(f"Found {len(selected)} NFL event(s) within {lookahead_hours} hours.")
+    selected.sort(key=lambda e: e.get("openDate") or "")
+    print(f"Found {len(selected)} FanDuel NFL event(s) within {lookahead_hours} hours.")
 
     refreshed_ids = set()
     refreshed_events = []
+
     for index, event in enumerate(selected, start=1):
-        print(f"[{index}/{len(selected)}] {event.get('away_team')} @ {event.get('home_team')}")
+        event_id = str(event["eventId"])
+        teams = parse_teams(event)
+        print(f"[{index}/{len(selected)}] {teams[0]} @ {teams[1]}")
+
         try:
-            parsed = fetch_event_odds(api_key, event, player_lookup)
-            refreshed_ids.add(str(event["id"]))
+            popular = fetch_event_page(event_id, "popular")
+            tabs = discover_tabs(popular)
+            pages = {"popular": popular}
+
+            for tab in sorted(tabs - {"popular"}):
+                try:
+                    page = fetch_event_page(event_id, tab)
+                    markets = (page.get("attachments") or {}).get("markets") or {}
+                    if markets:
+                        pages[tab] = page
+                except Exception:
+                    continue
+                time.sleep(0.08)
+
+            parsed = parse_event_props(event, pages, by_norm, profiles)
+            refreshed_ids.add(event_id)
+
             if parsed:
                 refreshed_events.append(parsed)
-                print(f"  {len(parsed['props'])} FanDuel player prop outcomes")
+                print(f"  {len(pages)} tab(s), {len(parsed['props'])} player-prop outcomes")
             else:
-                print("  no FanDuel player props currently available")
-        except requests.RequestException as exc:
-            print(f"  WARNING: request failed: {exc}", file=sys.stderr)
-        time.sleep(0.25)
+                print(f"  {len(pages)} tab(s), no player props currently available")
+        except Exception as exc:
+            print(f"  WARNING: FanDuel fetch failed: {exc}", file=sys.stderr)
+
+        time.sleep(0.15)
 
     preserved = []
     for event_id, event in previous_events.items():
@@ -333,9 +471,10 @@ def main():
 
     payload = {
         "bookmaker": "FanDuel",
+        "source": "FanDuel public sportsbook web feed",
         "updatedAt": now.isoformat(),
         "lookaheadHours": lookahead_hours,
-        "usage": usage,
+        "freeFeed": True,
         "events": combined,
     }
 
@@ -346,7 +485,7 @@ def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     total_props = sum(len(event.get("props") or []) for event in combined)
-    print(f"Wrote {len(combined)} event(s), {total_props} prop outcomes.")
+    print(f"Wrote {len(combined)} event(s), {total_props} FanDuel prop outcomes.")
 
 
 if __name__ == "__main__":
