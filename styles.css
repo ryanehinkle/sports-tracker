@@ -15,6 +15,7 @@ color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"
 .eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.18em;color:var(--accent);margin-bottom:10px}
 h1{font-size:clamp(2.2rem,4vw,4rem);line-height:.96;margin:0;letter-spacing:-.055em}
 .subtitle{color:var(--muted);font-size:.98rem;max-width:720px;margin:14px 0 0;line-height:1.65}
+#pageSubtitle{display:none}
 .hero-meta{text-align:right;display:grid;justify-items:end;gap:8px}
 .status-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(102,217,168,.09);border:1px solid rgba(102,217,168,.2);color:#c8f6e3;border-radius:999px;padding:8px 12px;font-size:.78rem;font-weight:700}
 .status-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(102,217,168,.09)}
