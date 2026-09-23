@@ -10,7 +10,10 @@ import requests
 
 BASE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete"
 GAMELOG = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/{athlete_id}/gamelog"
+SEARCH = "https://site.web.api.espn.com/apis/common/v3/search"
+ATHLETE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/{athlete_id}"
 OUT = Path("data/nfl-stats.json")
+ODDS = Path("data/nfl-odds.json")
 TIMEOUT = 30
 UA = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/153.0 Safari/537.36",
@@ -234,6 +237,167 @@ def merge_players(season):
     return rows
 
 
+
+def odds_player_names():
+    if not ODDS.exists():
+        return []
+    try:
+        payload = json.loads(ODDS.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return []
+
+    names = set()
+    for event in payload.get("events") or []:
+        for prop in event.get("props") or []:
+            name = str(prop.get("player") or "").strip()
+            if not name or "defense" in name.lower():
+                continue
+            names.add(name)
+    return sorted(names)
+
+
+def profile_from_athlete(athlete, fallback_name=""):
+    aid = str(athlete.get("id") or "")
+    if not aid:
+        return None
+
+    team = athlete.get("team") or {}
+    if isinstance(team, dict):
+        team = (
+            team.get("abbreviation")
+            or team.get("shortDisplayName")
+            or team.get("name")
+            or ""
+        )
+    elif not isinstance(team, str):
+        team = ""
+
+    position = athlete.get("position") or {}
+    if isinstance(position, dict):
+        position = position.get("abbreviation") or position.get("name") or ""
+    elif not isinstance(position, str):
+        position = ""
+
+    headshot = athlete.get("headshot")
+    if isinstance(headshot, dict):
+        headshot = headshot.get("href")
+    if not headshot and aid:
+        headshot = f"https://a.espncdn.com/i/headshots/nfl/players/full/{aid}.png"
+
+    return {
+        "id": aid,
+        "name": athlete.get("displayName") or athlete.get("fullName") or fallback_name,
+        "team": team,
+        "position": position,
+        "headshot": headshot or "",
+        "touchdowns": 0,
+        "allPurposeYards": 0,
+        "receivingYards": 0,
+        "rushingYards": 0,
+        "receptions": 0,
+        "passingTouchdowns": 0,
+        "passingYards": 0,
+        "oddsOnly": True,
+    }
+
+
+def resolve_espn_player(name):
+    data = get_json(
+        SEARCH,
+        {
+            "region": "us",
+            "lang": "en",
+            "query": name,
+            "limit": 10,
+            "mode": "prefix",
+            "type": "player",
+            "sport": "football",
+        },
+    )
+    target = normalize_name(name)
+    candidates = data.get("items") or []
+
+    exact = None
+    for item in candidates:
+        if normalize_name(item.get("displayName")) == target:
+            exact = item
+            break
+    if exact is None:
+        return None
+
+    aid = str(exact.get("id") or "")
+    if not aid:
+        return None
+
+    try:
+        detail = get_json(ATHLETE.format(athlete_id=aid))
+        athlete = detail.get("athlete") or {}
+        profile = profile_from_athlete(athlete, name)
+        if profile:
+            return profile
+    except Exception:
+        pass
+
+    return {
+        "id": aid,
+        "name": exact.get("displayName") or name,
+        "team": "",
+        "position": "",
+        "headshot": f"https://a.espncdn.com/i/headshots/nfl/players/full/{aid}.png",
+        "touchdowns": 0,
+        "allPurposeYards": 0,
+        "receivingYards": 0,
+        "rushingYards": 0,
+        "receptions": 0,
+        "passingTouchdowns": 0,
+        "passingYards": 0,
+        "oddsOnly": True,
+    }
+
+
+def add_odds_only_players(players):
+    wanted = odds_player_names()
+    if not wanted:
+        return players
+
+    existing_names = {normalize_name(p.get("name")) for p in players}
+    existing_ids = {str(p.get("id")) for p in players}
+    missing = [name for name in wanted if normalize_name(name) not in existing_names]
+    if not missing:
+        return players
+
+    print(f"Resolving {len(missing)} prop players missing from the season leaderboard...")
+    resolved = []
+
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        futures = {pool.submit(resolve_espn_player, name): name for name in missing}
+        for future in as_completed(futures):
+            name = futures[future]
+            try:
+                profile = future.result()
+            except Exception as exc:
+                profile = None
+                print(f"WARNING: player search failed for {name}: {exc}", file=sys.stderr)
+            if profile and profile["id"] not in existing_ids:
+                resolved.append(profile)
+                existing_ids.add(profile["id"])
+                existing_names.add(normalize_name(profile["name"]))
+                print(f"odds profile: {name} -> {profile['name']} ({profile['id']})")
+
+    if resolved:
+        players.extend(resolved)
+        players.sort(
+            key=lambda p: (
+                p.get("oddsOnly", False),
+                -(p.get("allPurposeYards", 0) or 0),
+                -(p.get("passingYards", 0) or 0),
+                p.get("name", ""),
+            )
+        )
+    print(f"Added {len(resolved)} odds-only player profiles.")
+    return players
+
+
 def score_for_event(meta):
     result = str(meta.get("gameResult") or "").strip().upper()
     result = result[:1] if result else ""
@@ -431,6 +595,7 @@ def load_previous():
 def main():
     season = current_season()
     players = merge_players(season)
+    players = add_odds_only_players(players)
     if len(players) < 25:
         raise RuntimeError(f"Only {len(players)} players parsed; refusing to overwrite good data.")
 

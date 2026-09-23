@@ -187,7 +187,7 @@ function setView(view,updateHash=true){
 
 function render(){
   const q=state.query.trim().toLowerCase();
-  let rows=state.players.filter(p=>!q||[p.name,p.team,p.position].some(v=>String(v||"").toLowerCase().includes(q)));
+  let rows=state.players.filter(p=>!p.oddsOnly&&(!q||[p.name,p.team,p.position].some(v=>String(v||"").toLowerCase().includes(q))));
   rows.sort((a,b)=>{
     let av=a[state.sortKey],bv=b[state.sortKey],result;
     if(state.sortKey==="name") result=String(av).localeCompare(String(bv));
