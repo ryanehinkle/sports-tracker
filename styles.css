@@ -427,3 +427,75 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
   .hit-rate-stats{padding:11px 16px 13px}
   .hit-rate-chart-scroll{padding:16px 10px}
 }
+
+
+/* Switchable hit-rate chart tabs + chart draw animation */
+.hit-summary-item{
+  appearance:none;
+  -webkit-appearance:none;
+  width:100%;
+  text-align:left;
+  background:transparent;
+  color:inherit;
+  font:inherit;
+  cursor:pointer;
+  transition:background .16s,border-color .16s,transform .16s
+}
+.hit-summary-item:not(:disabled):hover{
+  background:#171e28;
+  border-color:#354256;
+  transform:translateY(-1px)
+}
+.hit-summary-item:focus-visible{
+  outline:2px solid var(--accent-2);
+  outline-offset:2px
+}
+.hit-summary-item:disabled{
+  cursor:default;
+  opacity:.58
+}
+.hit-summary-item.selected{
+  background:#1c2430;
+  border-color:#3a4a60
+}
+
+.hit-bar{
+  transform-origin:center bottom;
+  animation:hitBarRise .58s cubic-bezier(.2,.75,.25,1) both;
+  animation-delay:var(--bar-delay,0ms)
+}
+.hit-bar-value{
+  animation:hitValueReveal .34s ease both;
+  animation-delay:.28s
+}
+.hit-threshold{
+  transform-origin:left center;
+  animation:hitThresholdDraw .48s ease-out both
+}
+.hit-threshold span{
+  animation:hitThresholdLabel .3s ease .22s both
+}
+@keyframes hitBarRise{
+  from{transform:scaleY(0);opacity:.25}
+  to{transform:scaleY(1);opacity:1}
+}
+@keyframes hitValueReveal{
+  from{opacity:0;transform:translate(-50%,7px)}
+  to{opacity:1;transform:translate(-50%,0)}
+}
+@keyframes hitThresholdDraw{
+  from{transform:scaleX(0);opacity:.35}
+  to{transform:scaleX(1);opacity:1}
+}
+@keyframes hitThresholdLabel{
+  from{opacity:0;transform:translateY(-50%) scale(.92)}
+  to{opacity:1;transform:translateY(-50%) scale(1)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hit-bar,.hit-bar-value,.hit-threshold,.hit-threshold span{
+    animation:none!important;
+    transition:none!important
+  }
+  .hit-summary-item{transition:none}
+}
