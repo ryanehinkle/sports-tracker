@@ -80,11 +80,11 @@ def normalize_name(value):
 
 def load_stats_players():
     if not STATS.exists():
-        return {}, []
+        return {}, [], {}
     try:
         payload = json.loads(STATS.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
-        return {}, []
+        return {}, [], {}
 
     by_norm = {}
     profiles = []
@@ -94,6 +94,8 @@ def load_stats_players():
             "team": player.get("team") or "",
             "position": player.get("position") or "",
             "headshot": player.get("headshot") or "",
+            "gameLogsBySeason": player.get("gameLogsBySeason") or {},
+            "gameLog": player.get("gameLog") or [],
         }
         norm = normalize_name(profile["name"])
         if norm:
@@ -101,7 +103,7 @@ def load_stats_players():
             profiles.append(profile)
 
     profiles.sort(key=lambda p: len(p["name"]), reverse=True)
-    return by_norm, profiles
+    return by_norm, profiles, payload
 
 
 def load_previous():
@@ -433,6 +435,247 @@ def parse_event_props(event, pages, by_norm, profiles):
     }
 
 
+
+def _safe_number(value):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _metric_spec(prop):
+    market = str(prop.get("market") or "").lower()
+    proposition = str(prop.get("proposition") or "").lower()
+    text = re.sub(r"\s+", " ", f"{market} {proposition}")
+
+    if re.search(r"first touchdown scorer|last touchdown scorer|quarter td scorer|\b1q\b|\b1h\b", text):
+        return None
+
+    match = re.search(r"(?:player\s+)?to record a (\d+(?:\.\d+)?)\+ yard reception", text)
+    if match:
+        return {"metric": "receivingLongest", "threshold": float(match.group(1)), "comparison": "gte"}
+
+    match = re.search(r"(?:score\s+)?(\d+(?:\.\d+)?)\+ touchdowns?", text)
+    if match:
+        return {"metric": "touchdowns", "threshold": float(match.group(1)), "comparison": "gte"}
+
+    if "any time touchdown scorer" in text or "anytime touchdown scorer" in text:
+        return {"metric": "touchdowns", "threshold": 1.0, "comparison": "gte"}
+    if re.search(r"pass\s*\+\s*rush\s*\+\s*rec.*yards|pass.*rush.*reception.*yards", text):
+        return {"metric": "passRushRecYards"}
+    if re.search(r"pass\s*\+\s*rush.*yards", text):
+        return {"metric": "passRushYards"}
+    if re.search(r"rush\s*\+\s*rec.*yards|rush.*reception.*yards", text):
+        return {"metric": "allPurposeYards"}
+    if "passing yards" in text:
+        return {"metric": "passingYards"}
+    if "receiving yards" in text:
+        return {"metric": "receivingYards"}
+    if "rushing yards" in text:
+        return {"metric": "rushingYards"}
+    if "receptions" in text and "longest" not in text:
+        return {"metric": "receptions"}
+    if "passing tds" in text or "passing touchdowns" in text:
+        return {"metric": "passingTouchdowns"}
+    if "receiving tds" in text or "receiving touchdowns" in text:
+        return {"metric": "receivingTouchdowns"}
+    if "rushing tds" in text or "rushing touchdowns" in text:
+        return {"metric": "rushingTouchdowns"}
+    if "rushing attempts" in text or "rush attempts" in text:
+        return {"metric": "rushingAttempts"}
+    if "pass attempts" in text:
+        return {"metric": "passingAttempts"}
+    if "pass completions" in text or "passing completions" in text:
+        return {"metric": "passingCompletions"}
+    if "interceptions thrown" in text or "pass interceptions" in text:
+        return {"metric": "passingInterceptions"}
+    if "longest completion" in text or "longest pass" in text:
+        return {"metric": "passingLongest"}
+    if "longest reception" in text:
+        return {"metric": "receivingLongest"}
+    if "longest rush" in text:
+        return {"metric": "rushingLongest"}
+    if "solo tackles" in text:
+        return {"metric": "soloTackles"}
+    if "tackles + assists" in text:
+        return {"metric": "totalTackles"}
+    if re.search(r"\bsacks\b", text):
+        return {"metric": "sacks"}
+    if "defensive interceptions" in text:
+        return {"metric": "defensiveInterceptions"}
+    if "field goals" in text:
+        return {"metric": "fieldGoalsMade"}
+    if "kicking points" in text:
+        return {"metric": "kickingPoints"}
+    if market.strip() in {"touchdown", "touchdowns"} or " total touchdowns" in text:
+        return {"metric": "touchdowns"}
+    return None
+
+
+def _metric_value(game, spec):
+    if not game or not spec:
+        return None
+    metric = spec.get("metric")
+    if metric == "passRushYards":
+        return _safe_number(game.get("passingYards")) + _safe_number(game.get("rushingYards"))
+    if metric == "passRushRecYards":
+        return (
+            _safe_number(game.get("passingYards"))
+            + _safe_number(game.get("rushingYards"))
+            + _safe_number(game.get("receivingYards"))
+        )
+    value = game.get(metric)
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _prop_hit(prop, game):
+    spec = _metric_spec(prop)
+    if not spec:
+        return None
+    value = _metric_value(game, spec)
+    if value is None:
+        return None
+
+    if spec.get("comparison") == "gte":
+        return value >= float(spec["threshold"])
+
+    line = prop.get("line")
+    try:
+        line = float(line)
+    except (TypeError, ValueError):
+        return None
+
+    selection = str(prop.get("selection") or "")
+    if selection == "Under":
+        return value < line
+    if selection == "Over":
+        return value > line
+    if selection == "Yes":
+        return value > line
+    if selection == "No":
+        return value <= line
+    return None
+
+
+def _rate_for_games(prop, games):
+    hits = 0
+    total = 0
+    for game in games:
+        result = _prop_hit(prop, game)
+        if result is None:
+            continue
+        total += 1
+        if result:
+            hits += 1
+    if not total:
+        return None
+    return {
+        "pct": round(hits / total * 100),
+        "hits": hits,
+        "total": total,
+    }
+
+
+def _season_logs(profile, season, current_season):
+    by_season = profile.get("gameLogsBySeason") or {}
+    logs = by_season.get(str(season))
+    if isinstance(logs, list):
+        return [game for game in logs if game.get("played")]
+    if season == current_season:
+        return [game for game in (profile.get("gameLog") or []) if game.get("played")]
+    return []
+
+
+def _all_logs_newest_first(profile, current_season):
+    by_season = profile.get("gameLogsBySeason") or {}
+    years = sorted(
+        [int(year) for year in by_season.keys() if str(year).isdigit()],
+        reverse=True,
+    )
+    if not years and profile.get("gameLog"):
+        years = [current_season]
+
+    result = []
+    for year in years:
+        logs = _season_logs(profile, year, current_season)
+        logs = sorted(logs, key=lambda game: int(game.get("week") or 0), reverse=True)
+        for game in logs:
+            copy = dict(game)
+            copy["_season"] = year
+            result.append(copy)
+    return result
+
+
+def _opponent_for_prop(event, prop, profile):
+    team = str(prop.get("team") or profile.get("team") or "").upper()
+    home = str(event.get("homeAbbr") or "").upper()
+    away = str(event.get("awayAbbr") or "").upper()
+    if team and team == home:
+        return away
+    if team and team == away:
+        return home
+    return ""
+
+
+def _hit_rates_for_prop(event, prop, profile, current_season):
+    if not profile:
+        return {"l5": None, "l10": None, "h2h": None, "current": None, "previous": None}
+
+    all_logs = _all_logs_newest_first(profile, current_season)
+    opponent = _opponent_for_prop(event, prop, profile)
+    h2h = [
+        game for game in all_logs
+        if str((game.get("opponent") or {}).get("abbreviation") or "").upper() == opponent
+    ] if opponent else []
+
+    current_logs = _season_logs(profile, current_season, current_season)
+    previous_logs = _season_logs(profile, current_season - 1, current_season)
+
+    return {
+        "l5": _rate_for_games(prop, all_logs[:5]),
+        "l10": _rate_for_games(prop, all_logs[:10]),
+        "h2h": _rate_for_games(prop, h2h),
+        "current": _rate_for_games(prop, current_logs),
+        "previous": _rate_for_games(prop, previous_logs),
+    }
+
+
+def enrich_hit_rates(payload, by_norm, stats_payload):
+    current_season = int(stats_payload.get("season") or datetime.now(timezone.utc).year)
+    enriched = 0
+    for event in payload.get("events") or []:
+        for prop in event.get("props") or []:
+            profile = by_norm.get(normalize_name(prop.get("player")))
+            prop["hitRates"] = _hit_rates_for_prop(event, prop, profile, current_season)
+            enriched += 1
+    return enriched
+
+
+def history_only():
+    previous = load_previous()
+    if not previous:
+        print("No odds file exists yet; skipping history enrichment.")
+        return
+
+    by_norm, _, stats_payload = load_stats_players()
+    if not by_norm:
+        print("No player stats available; skipping history enrichment.")
+        return
+
+    original = json.loads(json.dumps(previous))
+    enriched = enrich_hit_rates(previous, by_norm, stats_payload)
+
+    if compact_for_compare(original) == compact_for_compare(previous):
+        print(f"Historical hit rates already current for {enriched} prop outcomes.")
+        return
+
+    OUT.write_text(json.dumps(previous, indent=2) + "\n", encoding="utf-8")
+    print(f"Updated historical hit rates for {enriched} prop outcomes.")
+
+
 def compact_for_compare(payload):
     copy = json.loads(json.dumps(payload))
     copy.pop("updatedAt", None)
@@ -449,7 +692,7 @@ def main():
     cutoff = now + timedelta(hours=lookahead_hours)
     earliest = now - timedelta(hours=6)
 
-    by_norm, profiles = load_stats_players()
+    by_norm, profiles, stats_payload = load_stats_players()
     previous = load_previous()
     previous_events = {
         str(event.get("id")): event
@@ -529,6 +772,9 @@ def main():
         "events": combined,
     }
 
+    enriched = enrich_hit_rates(payload, by_norm, stats_payload)
+    print(f"Enriched {enriched} prop outcomes with historical hit rates.")
+
     if previous and compact_for_compare(previous) == compact_for_compare(payload):
         print("No odds changes; leaving data file untouched.")
         return
@@ -541,7 +787,10 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        if "--history-only" in sys.argv:
+            history_only()
+        else:
+            main()
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         sys.exit(1)

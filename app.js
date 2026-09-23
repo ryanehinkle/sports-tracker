@@ -38,7 +38,12 @@ const state={
   hitRateActiveSplit:null,
   parlayOpen:false,
   parlayLegs:[],
-  parlayRows:new Map()
+  parlayRows:new Map(),
+  hitRateCache:new Map(),
+  oddsSortedRows:[],
+  oddsRenderedCount:0,
+  oddsRenderBatch:140,
+  oddsRenderVersion:0
 };
 
 const body=document.getElementById("statsBody");
@@ -64,6 +69,7 @@ const teamLeaderStrip=document.getElementById("teamLeaderStrip");
 const teamStatsHead=document.getElementById("teamStatsHead");
 const teamStatsBody=document.getElementById("teamStatsBody");
 const oddsBody=document.getElementById("oddsBody");
+const oddsTableScroll=document.querySelector("#oddsView .odds-table-scroll");
 const oddsSearch=document.getElementById("oddsSearchInput");
 const oddsCount=document.getElementById("oddsCount");
 const oddsWorkspace=document.getElementById("oddsWorkspace");
@@ -792,6 +798,7 @@ function updateFilterButtons(){
 
 
 function parlayKeyFor(row){
+  if(row?._parlayKey) return row._parlayKey;
   return [
     row.eventId||"",
     cleanDisplayPlayerName(row.player||""),
@@ -800,6 +807,16 @@ function parlayKeyFor(row){
     row.line??"",
     row.proposition||""
   ].join("¦");
+}
+function getHitRates(row){
+  if(row?.hitRates) return row.hitRates;
+  const key=parlayKeyFor(row);
+  if(state.hitRateCache.has(key)) return state.hitRateCache.get(key);
+  const player=findPlayer(row.player);
+  if(!player) return {l5:null,l10:null,h2h:null,current:null,previous:null};
+  const rates=computeHitRates(row);
+  state.hitRateCache.set(key,rates);
+  return rates;
 }
 function parlaySnapshot(row){
   return {
@@ -875,23 +892,33 @@ function toggleParlayLeg(row){
   else state.parlayLegs.push(parlaySnapshot(row));
   saveParlay();
   renderParlay();
-  renderOdds();
+  syncVisibleParlayStates();
 }
 function removeParlayLeg(key){
   state.parlayLegs=state.parlayLegs.filter(leg=>leg.key!==key);
   saveParlay();
   renderParlay();
-  renderOdds();
+  syncVisibleParlayStates();
+}
+function syncVisibleParlayStates(){
+  document.querySelectorAll(".parlay-add-button[data-parlay-key]").forEach(button=>{
+    const selected=parlayHas(button.dataset.parlayKey);
+    button.classList.toggle("selected",selected);
+    button.textContent=selected?"✓":"+";
+    button.setAttribute("aria-pressed",String(selected));
+    const row=button.closest(".odds-row");
+    if(row) row.classList.toggle("parlay-selected",selected);
+  });
 }
 function setParlayOpen(open){
   state.parlayOpen=Boolean(open);
-  oddsWorkspace.classList.toggle("parlay-open",state.parlayOpen);
+  oddsWorkspace.classList.toggle("parlay-mode",state.parlayOpen);
   parlayPanel.classList.toggle("open",state.parlayOpen);
   parlayPanel.setAttribute("aria-hidden",String(!state.parlayOpen));
   parlayBuilderButton.classList.toggle("active",state.parlayOpen);
   parlayBuilderButton.setAttribute("aria-expanded",String(state.parlayOpen));
   renderParlay();
-  renderOdds();
+  syncVisibleParlayStates();
 }
 function renderParlay(){
   const count=state.parlayLegs.length;
@@ -958,7 +985,7 @@ function renderParlay(){
 
 function oddsRowPassesFilters(row){
   if(state.selectedGames.size&&!state.selectedGames.has(row.eventId)) return false;
-  if(state.selectedMarkets.size&&!state.selectedMarkets.has(generalizedMarketLabel(row))) return false;
+  if(state.selectedMarkets.size&&!state.selectedMarkets.has(row._marketLabel||generalizedMarketLabel(row))) return false;
   if(state.oddsPosition&&row.selection!==state.oddsPosition) return false;
   const odds=Number(row.odds);
   const minOdds=state.oddsMin??ODDS_SLIDER_MIN;
@@ -967,36 +994,114 @@ function oddsRowPassesFilters(row){
   if(Number.isFinite(odds)&&odds>maxOdds) return false;
 
   const q=state.oddsQuery.trim().toLowerCase();
-  if(q&&![row.player,row.team,row.position,row.market,row.proposition,row.matchup,row.selection]
-    .some(value=>String(value||"").toLowerCase().includes(q))) return false;
+  if(q&&!(row._searchText||"").includes(q)) return false;
   return true;
 }
 
+
+function hitSortPct(row,key){
+  return getHitRates(row)?.[key]?.pct??null;
+}
+function oddsRowHtml(row,index){
+  const hitRowKey=parlayKeyFor(row);
+  state.hitRateRows.set(hitRowKey,row);
+  state.parlayRows.set(hitRowKey,row);
+
+  const profile=findPlayer(row.player);
+  const displayPlayer=row._displayPlayer||cleanDisplayPlayerName(row.player||profile?.name);
+  const team=row.team||profile?.team||"";
+  const headshot=row.headshot||profile?.headshot||fallbackHeadshot(displayPlayer);
+  const logo=teamLogo(team);
+  const alt=row.alternate?'<span class="alt-badge">ALT</span>':'';
+  const proposition=row._displayProposition||cleanDisplayProposition({...row,player:displayPlayer});
+  const playerAttr=esc(displayPlayer);
+  const selectedInParlay=parlayHas(hitRowKey);
+  const rates=getHitRates(row);
+
+  const addButton=
+    '<button type="button" class="parlay-add-button '+(selectedInParlay?"selected":"")+'" data-parlay-key="'+esc(hitRowKey)+'" aria-pressed="'+String(selectedInParlay)+'" aria-label="'+(selectedInParlay?"Remove":"Add")+' '+playerAttr+' '+esc(proposition)+' '+(selectedInParlay?"from":"to")+' parlay">'+(selectedInParlay?"✓":"+")+'</button>';
+
+  const content=
+    '<div class="prop-player-visual">'+
+      addButton+
+      '<div class="odds-headshot-wrap"><img class="odds-headshot" src="'+esc(headshot)+'" alt="" loading="lazy" decoding="async" onerror="this.src=\''+fallbackHeadshot(displayPlayer)+'\'"><img class="odds-team-badge" src="'+esc(logo)+'" alt="" loading="lazy" decoding="async" onerror="this.src=\''+fallbackTeamLogo(team)+'\'"></div>'+
+      '<div class="prop-copy">'+
+        '<div class="prop-player-line"><span class="prop-player-name">'+esc(displayPlayer)+'</span><span class="prop-divider">•</span><span class="prop-matchup">'+esc(row.matchup)+'</span></div>'+
+        '<div class="prop-name">'+esc(proposition)+' '+alt+'</div>'+
+      '</div>'+
+    '</div>';
+
+  return '<tr class="odds-row '+(selectedInParlay?"parlay-selected":"")+'">'+
+    '<td class="prop-cell odds-player-trigger" data-player-name="'+playerAttr+'" tabindex="0" role="button" aria-label="Open '+playerAttr+' game log">'+content+'</td>'+
+    '<td class="odds-line">'+esc(formatLine(row.line))+'</td>'+
+    '<td class="odds-price"><span class="fd-mini">FD</span>'+esc(formatAmerican(row.odds))+'</td>'+
+    hitCell(rates.l5,hitRowKey,"l5")+
+    hitCell(rates.l10,hitRowKey,"l10")+
+    hitCell(rates.h2h,hitRowKey,"h2h")+
+    hitCell(rates.current,hitRowKey,"current")+
+    hitCell(rates.previous,hitRowKey,"previous")+
+  '</tr>';
+}
+function appendOddsRows(){
+  const start=state.oddsRenderedCount;
+  if(start>=state.oddsSortedRows.length) return;
+  const end=Math.min(start+state.oddsRenderBatch,state.oddsSortedRows.length);
+  const html=state.oddsSortedRows.slice(start,end).map((row,i)=>oddsRowHtml(row,start+i)).join("");
+  const sentinel=document.getElementById("oddsLoadMoreRow");
+  if(sentinel) sentinel.insertAdjacentHTML("beforebegin",html);
+  else oddsBody.insertAdjacentHTML("beforeend",html);
+  state.oddsRenderedCount=end;
+
+  const remaining=state.oddsSortedRows.length-end;
+  const currentSentinel=document.getElementById("oddsLoadMoreRow");
+  if(currentSentinel){
+    if(remaining>0){
+      currentSentinel.innerHTML='<td colspan="8" class="odds-load-more">Scroll to load '+fmt.format(remaining)+' more props…</td>';
+    }else{
+      currentSentinel.remove();
+    }
+  }
+  syncVisibleParlayStates();
+}
 function renderOdds(){
+  const version=++state.oddsRenderVersion;
   state.hitRateRows.clear();
   state.parlayRows.clear();
-  let rows=state.odds.filter(oddsRowPassesFilters).map(row=>({...row,_rates:computeHitRates(row)}));
 
+  let rows=state.odds.filter(oddsRowPassesFilters);
   const hitKeyMap={hitL5:"l5",hitL10:"l10",hitH2H:"h2h",hit2026:"current",hit2025:"previous"};
-  rows.sort((a,b)=>{
-    let result=0;
-    if(state.oddsSortKey==="line") result=(Number(a.line)||0)-(Number(b.line)||0);
-    else if(state.oddsSortKey==="odds") result=(Number(a.odds)||0)-(Number(b.odds)||0);
-    else if(hitKeyMap[state.oddsSortKey]){
-      const key=hitKeyMap[state.oddsSortKey];
-      const av=a._rates[key]?.pct;
-      const bv=b._rates[key]?.pct;
+
+  if(hitKeyMap[state.oddsSortKey]){
+    // Precomputed pull-time hit rates make this cheap. Fallback rates are memoized once.
+    const key=hitKeyMap[state.oddsSortKey];
+    rows.forEach(row=>getHitRates(row));
+    rows.sort((a,b)=>{
+      const av=hitSortPct(a,key);
+      const bv=hitSortPct(b,key);
+      let result=0;
       if(av==null&&bv==null) result=0;
       else if(av==null) result=-1;
       else if(bv==null) result=1;
       else result=av-bv;
-    }else{
-      result=String(a.player).localeCompare(String(b.player))||
-        String(a.market).localeCompare(String(b.market))||
-        (Number(a.line)||0)-(Number(b.line)||0);
-    }
-    return state.oddsSortDir==="asc"?result:-result;
-  });
+      return state.oddsSortDir==="asc"?result:-result;
+    });
+  }else{
+    rows.sort((a,b)=>{
+      let result=0;
+      if(state.oddsSortKey==="line") result=(Number(a.line)||0)-(Number(b.line)||0);
+      else if(state.oddsSortKey==="odds") result=(Number(a.odds)||0)-(Number(b.odds)||0);
+      else{
+        result=String(a.player).localeCompare(String(b.player))||
+          String(a.market).localeCompare(String(b.market))||
+          (Number(a.line)||0)-(Number(b.line)||0);
+      }
+      return state.oddsSortDir==="asc"?result:-result;
+    });
+  }
+
+  if(version!==state.oddsRenderVersion) return;
+  state.oddsSortedRows=rows;
+  state.oddsRenderedCount=0;
 
   oddsCount.textContent=fmt.format(rows.length)+" prop"+(rows.length===1?"":"s");
   document.querySelectorAll(".odds-table th[data-odds-key]").forEach(th=>{
@@ -1010,44 +1115,8 @@ function renderOdds(){
     return;
   }
 
-  oddsBody.innerHTML=rows.map((row,index)=>{
-    const hitRowKey="hr-"+index;
-    state.hitRateRows.set(hitRowKey,row);
-    const profile=findPlayer(row.player);
-    const displayPlayer=cleanDisplayPlayerName(row.player||profile?.name);
-    const team=row.team||profile?.team||"";
-    const headshot=row.headshot||profile?.headshot||fallbackHeadshot(displayPlayer);
-    const logo=teamLogo(team);
-    const alt=row.alternate?'<span class="alt-badge">ALT</span>':'';
-    const proposition=cleanDisplayProposition({...row,player:displayPlayer});
-    const playerAttr=esc(displayPlayer);
-    const parlayKey=parlayKeyFor(row);
-    state.parlayRows.set(parlayKey,row);
-    const selectedInParlay=parlayHas(parlayKey);
-    const addButton=state.parlayOpen
-      ? '<button type="button" class="parlay-add-button '+(selectedInParlay?"selected":"")+'" data-parlay-key="'+esc(parlayKey)+'" aria-label="'+(selectedInParlay?"Remove":"Add")+' '+playerAttr+' '+esc(proposition)+' '+(selectedInParlay?"from":"to")+' parlay">'+(selectedInParlay?"✓":"+")+'</button>'
-      : "";
-    const content=
-      '<div class="prop-player-visual">'+
-        addButton+
-        '<div class="odds-headshot-wrap"><img class="odds-headshot" src="'+esc(headshot)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackHeadshot(displayPlayer)+'\'"><img class="odds-team-badge" src="'+esc(logo)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackTeamLogo(team)+'\'"></div>'+
-        '<div class="prop-copy">'+
-          '<div class="prop-player-line"><span class="prop-player-name">'+esc(displayPlayer)+'</span><span class="prop-divider">•</span><span class="prop-matchup">'+esc(row.matchup)+'</span></div>'+
-          '<div class="prop-name">'+esc(proposition)+' '+alt+'</div>'+
-        '</div>'+
-      '</div>';
-
-    return '<tr class="odds-row '+(selectedInParlay?"parlay-selected":"")+'">'+
-      '<td class="prop-cell odds-player-trigger" data-player-name="'+playerAttr+'" tabindex="0" role="button" aria-label="Open '+playerAttr+' game log">'+content+'</td>'+
-      '<td class="odds-line">'+esc(formatLine(row.line))+'</td>'+
-      '<td class="odds-price"><span class="fd-mini">FD</span>'+esc(formatAmerican(row.odds))+'</td>'+
-      hitCell(row._rates.l5,hitRowKey,"l5")+
-      hitCell(row._rates.l10,hitRowKey,"l10")+
-      hitCell(row._rates.h2h,hitRowKey,"h2h")+
-      hitCell(row._rates.current,hitRowKey,"current")+
-      hitCell(row._rates.previous,hitRowKey,"previous")+
-    '</tr>';
-  }).join("");
+  oddsBody.innerHTML='<tr id="oddsLoadMoreRow"><td colspan="8" class="odds-load-more">Loading props…</td></tr>';
+  appendOddsRows();
 }
 
 
@@ -1371,7 +1440,7 @@ async function loadTeamStats(){
   if(state.teamStatsRaw||state.teamStatsLoading) return;
   state.teamStatsLoading=true;
   try{
-    const res=await fetch("data/nfl-team-stats.json?v="+Date.now(),{cache:"no-store"});
+    const res=await fetch("data/nfl-team-stats.json",{cache:"default"});
     if(!res.ok) throw new Error("HTTP "+res.status);
     const data=await res.json();
     state.teamStatsRaw=data;
@@ -1397,11 +1466,12 @@ async function loadStats(){
   if(state.players.length||state.statsLoading) return;
   state.statsLoading=true;
   try{
-    const res=await fetch("data/nfl-stats.json?v="+Date.now(),{cache:"no-store"});
+    const res=await fetch("data/nfl-stats.json",{cache:"default"});
     if(!res.ok) throw new Error("HTTP "+res.status);
     const data=await res.json();
     state.players=Array.isArray(data.players)?data.players:[];
     state.playerIndex=new Map(state.players.map(p=>[normalizeName(p.name),p]));
+    state.hitRateCache.clear();
     state.season=data.season||null;
     state.statsUpdatedAt=data.updatedAt||null;
     render();
@@ -1420,7 +1490,7 @@ async function loadOdds(){
   if(state.oddsRaw||state.oddsLoading) return;
   state.oddsLoading=true;
   try{
-    const res=await fetch("data/nfl-odds.json?v="+Date.now(),{cache:"no-store"});
+    const res=await fetch("data/nfl-odds.json",{cache:"default"});
     if(!res.ok) throw new Error("HTTP "+res.status);
     const data=await res.json();
     state.oddsRaw=data;
@@ -1434,7 +1504,7 @@ async function loadOdds(){
       for(const prop of event.props||[]){
         const cleanedPlayer=cleanDisplayPlayerName(prop.player);
         const profile=findPlayer(cleanedPlayer);
-        flattened.push({
+        const row={
           ...prop,
           player:cleanedPlayer,
           team:prop.team||profile?.team||"",
@@ -1447,11 +1517,28 @@ async function loadOdds(){
           homeAbbr:event.homeAbbr||"",
           awayAbbr:event.awayAbbr||"",
           matchup
-        });
+        };
+        row._displayPlayer=cleanedPlayer;
+        row._marketLabel=generalizedMarketLabel(row);
+        row._displayProposition=cleanDisplayProposition(row);
+        row._parlayKey=[
+          row.eventId||"",
+          cleanedPlayer,
+          row.market||"",
+          row.selection||"",
+          row.line??"",
+          row.proposition||""
+        ].join("¦");
+        row._searchText=[
+          row.player,row.team,row.position,row.market,row._marketLabel,row.proposition,
+          row._displayProposition,row.matchup,row.selection
+        ].map(value=>String(value||"").toLowerCase()).join(" ");
+        flattened.push(row);
       }
     }
 
     state.odds=flattened;
+    state.hitRateCache.clear();
     reconcileParlay();
     renderParlay();
     const numericOdds=flattened.map(r=>Number(r.odds)).filter(Number.isFinite);
@@ -1568,12 +1655,23 @@ parlayClearButton.addEventListener("click",()=>{
   state.parlayLegs=[];
   saveParlay();
   renderParlay();
-  renderOdds();
+  syncVisibleParlayStates();
 });
 parlayLegs.addEventListener("click",e=>{
   const button=e.target.closest("[data-parlay-remove]");
   if(button) removeParlayLeg(button.dataset.parlayRemove);
 });
+
+let oddsScrollTicking=false;
+oddsTableScroll.addEventListener("scroll",()=>{
+  if(oddsScrollTicking) return;
+  oddsScrollTicking=true;
+  requestAnimationFrame(()=>{
+    oddsScrollTicking=false;
+    const distance=oddsTableScroll.scrollHeight-oddsTableScroll.scrollTop-oddsTableScroll.clientHeight;
+    if(distance<700) appendOddsRows();
+  });
+},{passive:true});
 
 const filterPairs=[
   [gameFilterDialog,gameFilterButton],
