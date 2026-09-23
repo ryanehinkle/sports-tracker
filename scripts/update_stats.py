@@ -12,7 +12,7 @@ SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scorebo
 OUT = Path("data/nfl-stats.json")
 CT = ZoneInfo("America/Chicago")
 TIMEOUT = 30
-UA = {"User-Agent": "sports-tracker/1.0"}
+UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/153.0 Safari/537.36", "Accept": "application/json,text/plain,*/*", "Referer": "https://www.espn.com/"}
 
 FEEDS = {
     "rushing": {
@@ -40,8 +40,9 @@ def get_json(url, params=None):
 
 
 def current_season():
-    data = get_json(SCOREBOARD)
-    return int(data.get("season", {}).get("year") or data["leagues"][0]["season"]["year"])
+    # NFL seasons begin in the second half of the calendar year.
+    now = datetime.now(timezone.utc)
+    return now.year if now.month >= 7 else now.year - 1
 
 
 def number(value):
