@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#151922" />
-  <title>NFL Player Stats Tracker</title>
+  <title>NFL Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,9 +17,9 @@
   <main class="shell">
     <header class="hero">
       <div>
-        <div class="eyebrow">NFL • PLAYER TRACKER</div>
-        <h1>Player Stats</h1>
-        <p class="subtitle">Current regular-season offensive production, refreshed automatically after NFL game days.</p>
+        <div class="eyebrow">NFL • TRACKER</div>
+        <h1>NFL Tracker</h1>
+        <p class="subtitle" id="pageSubtitle">Current regular-season offensive production, refreshed automatically after NFL game days.</p>
       </div>
       <div class="hero-meta">
         <div class="status-pill"><span class="status-dot"></span><span id="seasonLabel">Loading season…</span></div>
@@ -27,38 +27,84 @@
       </div>
     </header>
 
-    <section class="toolbar">
-      <label class="search-wrap" for="searchInput">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
-        <input id="searchInput" type="search" placeholder="Search players, teams, positions…" autocomplete="off" />
-      </label>
-      <div class="record-count" id="recordCount">— players</div>
+    <nav class="main-tabs" aria-label="NFL tracker sections">
+      <button id="statsTabButton" class="main-tab active" type="button" data-view="stats">Player Stats</button>
+      <button id="oddsTabButton" class="main-tab" type="button" data-view="odds">Odds</button>
+    </nav>
+
+    <section id="statsView" class="tab-view active">
+      <section class="toolbar">
+        <label class="search-wrap" for="searchInput">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="searchInput" type="search" placeholder="Search players, teams, positions…" autocomplete="off" />
+        </label>
+        <div class="record-count" id="recordCount">— players</div>
+      </section>
+
+      <section class="table-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th class="player-col" data-key="name" data-type="text">Player <span class="sort-indicator"></span></th>
+                <th data-key="touchdowns" data-type="number">TD <span class="sort-indicator"></span></th>
+                <th data-key="allPurposeYards" data-type="number">All-Purpose Yds <span class="sort-indicator"></span></th>
+                <th data-key="receivingYards" data-type="number">Rec Yds <span class="sort-indicator"></span></th>
+                <th data-key="rushingYards" data-type="number">Rush Yds <span class="sort-indicator"></span></th>
+                <th data-key="receptions" data-type="number">Rec <span class="sort-indicator"></span></th>
+                <th data-key="passingTouchdowns" data-type="number">Pass TD <span class="sort-indicator"></span></th>
+                <th data-key="passingYards" data-type="number">Pass Yds <span class="sort-indicator"></span></th>
+              </tr>
+            </thead>
+            <tbody id="statsBody">
+              <tr><td colspan="8" class="loading-cell"><div class="spinner"></div>Loading NFL stats…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
-    <section class="table-card">
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th class="player-col" data-key="name" data-type="text">Player <span class="sort-indicator"></span></th>
-              <th data-key="touchdowns" data-type="number">TD <span class="sort-indicator"></span></th>
-              <th data-key="allPurposeYards" data-type="number">All-Purpose Yds <span class="sort-indicator"></span></th>
-              <th data-key="receivingYards" data-type="number">Rec Yds <span class="sort-indicator"></span></th>
-              <th data-key="rushingYards" data-type="number">Rush Yds <span class="sort-indicator"></span></th>
-              <th data-key="receptions" data-type="number">Rec <span class="sort-indicator"></span></th>
-              <th data-key="passingTouchdowns" data-type="number">Pass TD <span class="sort-indicator"></span></th>
-              <th data-key="passingYards" data-type="number">Pass Yds <span class="sort-indicator"></span></th>
-            </tr>
-          </thead>
-          <tbody id="statsBody">
-            <tr><td colspan="8" class="loading-cell"><div class="spinner"></div>Loading NFL stats…</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <section id="oddsView" class="tab-view">
+      <section class="odds-toolbar">
+        <label class="search-wrap odds-search" for="oddsSearchInput">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="oddsSearchInput" type="search" placeholder="Search player, team, or prop…" autocomplete="off" />
+        </label>
+
+        <select id="gameFilter" class="filter-select" aria-label="Filter by game">
+          <option value="">All games</option>
+        </select>
+
+        <select id="marketFilter" class="filter-select" aria-label="Filter by prop market">
+          <option value="">All player props</option>
+        </select>
+
+        <div class="odds-meta">
+          <span class="fanduel-pill">FanDuel</span>
+          <span id="oddsCount">— props</span>
+        </div>
+      </section>
+
+      <section class="odds-card">
+        <div class="odds-table-scroll">
+          <table class="odds-table">
+            <thead>
+              <tr>
+                <th class="prop-col" data-odds-key="player">Proposition <span class="odds-sort-indicator"></span></th>
+                <th data-odds-key="line">Line <span class="odds-sort-indicator"></span></th>
+                <th data-odds-key="odds">Odds <span class="odds-sort-indicator"></span></th>
+              </tr>
+            </thead>
+            <tbody id="oddsBody">
+              <tr><td colspan="3" class="loading-cell"><div class="spinner"></div>Loading FanDuel props…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
-    <footer>
-      <span>Data sourced from ESPN.</span>
+    <footer id="pageFooter">
+      <span>Player stats sourced from ESPN.</span>
       <span>Click a player for their game log • Click a column heading to sort.</span>
     </footer>
   </main>

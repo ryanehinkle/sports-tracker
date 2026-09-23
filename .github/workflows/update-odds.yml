@@ -1,0 +1,86 @@
+name: Update NFL Odds
+
+on:
+  workflow_dispatch:
+    inputs:
+      lookahead_hours:
+        description: "How many hours ahead to refresh"
+        required: false
+        default: "168"
+  schedule:
+    # Refresh near-term games every 4 hours.
+    - cron: "17 */4 * * *"
+    # Broader weekly refresh so newly posted future props also get picked up.
+    - cron: "41 15 * * 3,5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nfl-odds-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check API key
+        id: api_key
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        shell: bash
+        run: |
+          if [ -n "$ODDS_API_KEY" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "ODDS_API_KEY is not configured; skipping odds refresh."
+          fi
+
+      - name: Set up Python
+        if: steps.api_key.outputs.present == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        if: steps.api_key.outputs.present == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Determine refresh window
+        if: steps.api_key.outputs.present == 'true'
+        id: window
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "hours=${{ inputs.lookahead_hours }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "41 15 * * 3,5" ]; then
+            echo "hours=168" >> "$GITHUB_OUTPUT"
+          else
+            echo "hours=36" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pull FanDuel NFL player props
+        if: steps.api_key.outputs.present == 'true'
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          ODDS_LOOKAHEAD_HOURS: ${{ steps.window.outputs.hours }}
+        run: python scripts/update_odds.py
+
+      - name: Commit refreshed odds
+        if: steps.api_key.outputs.present == 'true'
+        shell: bash
+        run: |
+          if git diff --quiet -- data/nfl-odds.json; then
+            echo "No odds changes."
+            exit 0
+          fi
+          git config user.name "sports-tracker-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/nfl-odds.json
+          git commit -m "Update FanDuel NFL player props"
+          git push

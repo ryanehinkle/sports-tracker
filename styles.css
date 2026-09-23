@@ -11,27 +11,41 @@ color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"
 .ambient{position:fixed;width:320px;height:320px;filter:blur(120px);opacity:.13;pointer-events:none;border-radius:50%}
 .ambient-one{background:#59c59c;right:4%;top:15%}.ambient-two{background:#589ee8;left:-8%;bottom:8%}
 .shell{width:min(1500px,calc(100% - 40px));margin:0 auto;padding:48px 0 28px;position:relative;z-index:1}
-.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:28px}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:22px}
 .eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.18em;color:var(--accent);margin-bottom:10px}
 h1{font-size:clamp(2.2rem,4vw,4rem);line-height:.96;margin:0;letter-spacing:-.055em}
-.subtitle{color:var(--muted);font-size:.98rem;max-width:680px;margin:14px 0 0;line-height:1.65}
+.subtitle{color:var(--muted);font-size:.98rem;max-width:720px;margin:14px 0 0;line-height:1.65}
 .hero-meta{text-align:right;display:grid;justify-items:end;gap:8px}
 .status-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(102,217,168,.09);border:1px solid rgba(102,217,168,.2);color:#c8f6e3;border-radius:999px;padding:8px 12px;font-size:.78rem;font-weight:700}
 .status-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(102,217,168,.09)}
 .updated{color:var(--muted);font-size:.76rem}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:14px}
+
+.main-tabs{display:inline-flex;gap:5px;padding:5px;background:#151a23;border:1px solid var(--line);border-radius:14px;margin:0 0 18px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.main-tab{border:0;background:transparent;color:#7f8b9f;padding:10px 18px;border-radius:10px;font:700 .82rem Inter,system-ui;cursor:pointer;transition:.15s}
+.main-tab:hover{color:#dce4ee}
+.main-tab.active{color:#f7fafc;background:#242c39;box-shadow:inset 0 0 0 1px #334052,0 6px 16px rgba(0,0,0,.18)}
+.tab-view{display:none}.tab-view.active{display:block}
+
+.toolbar,.odds-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
 .search-wrap{height:44px;min-width:min(430px,100%);display:flex;align-items:center;gap:10px;background:rgba(23,28,38,.88);border:1px solid var(--line);border-radius:12px;padding:0 14px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
 .search-wrap:focus-within{border-color:#486f75;box-shadow:0 0 0 3px rgba(102,217,168,.08)}
 .search-wrap svg{width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
 .search-wrap input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font:inherit}
-.search-wrap input::placeholder{color:#738095}.record-count{color:var(--muted);font-size:.8rem;font-weight:600}
-.table-card{background:rgba(23,28,38,.92);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);backdrop-filter:blur(12px)}
-.table-scroll{overflow:auto;max-height:calc(100vh - 245px)}
+.search-wrap input::placeholder{color:#738095}
+.record-count{color:var(--muted);font-size:.8rem;font-weight:600}
+.filter-select{height:44px;min-width:175px;border:1px solid var(--line);border-radius:12px;background:#171c26;color:#b9c2ce;padding:0 36px 0 13px;font:600 .78rem Inter,system-ui;outline:none}
+.filter-select:focus{border-color:#486f75;box-shadow:0 0 0 3px rgba(102,217,168,.08)}
+.odds-search{flex:1;max-width:480px}
+.odds-meta{margin-left:auto;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.77rem;font-weight:650;white-space:nowrap}
+.fanduel-pill{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;background:rgba(107,183,255,.1);border:1px solid rgba(107,183,255,.2);color:#bfe0ff;font-weight:800;letter-spacing:.02em}
+
+.table-card,.odds-card{background:rgba(23,28,38,.92);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);backdrop-filter:blur(12px)}
+.table-scroll{overflow:auto;max-height:calc(100vh - 280px)}
 table{width:100%;border-collapse:separate;border-spacing:0;min-width:1040px}
 thead{position:sticky;top:0;z-index:4}
 th{background:#1a202b;color:#8f9caf;font-size:.71rem;text-transform:uppercase;letter-spacing:.055em;font-weight:800;text-align:right;padding:15px 16px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap;transition:color .15s}
 th:hover{color:#dbe4ee}th.player-col{text-align:left;min-width:270px;left:0;z-index:5}
-.sort-indicator{display:inline-block;width:10px;margin-left:4px;color:var(--accent)}
+.sort-indicator,.odds-sort-indicator{display:inline-block;width:10px;margin-left:4px;color:var(--accent)}
 tbody tr{transition:background .14s}
 tbody tr:hover{background:#1b222e}
 td{padding:12px 16px;border-bottom:1px solid rgba(42,51,66,.72);text-align:right;font-size:.88rem;font-variant-numeric:tabular-nums;color:#d7dee8}
@@ -54,6 +68,34 @@ tbody tr:hover .player-cell,.player-row:focus-visible .player-cell{background:#1
 .spinner{width:18px;height:18px;border:2px solid #344052;border-top-color:var(--accent);border-radius:50%;display:inline-block;vertical-align:middle;margin-right:9px;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;padding:14px 4px 0}
+
+/* Odds tab */
+.odds-table-scroll{overflow:auto;max-height:calc(100vh - 290px)}
+.odds-table{min-width:760px}
+.odds-table .prop-col{text-align:left;width:70%}
+.odds-table th:nth-child(2),.odds-table th:nth-child(3){width:15%;min-width:110px}
+.odds-table td{padding:13px 18px}
+.prop-cell{text-align:left!important}
+.prop-player-visual{display:flex;align-items:center;gap:14px;min-width:0}
+.odds-headshot-wrap{width:58px;height:58px;flex:0 0 58px;position:relative;border-radius:50%;background:#12161e}
+.odds-headshot{width:58px;height:58px;display:block;object-fit:cover;object-position:top center;border-radius:50%;background:#222a36}
+.odds-team-badge{position:absolute;right:-3px;bottom:-3px;width:28px;height:28px;padding:3px;object-fit:contain;border-radius:50%;background:#202733;border:2px solid #171c26}
+.prop-copy{min-width:0}
+.prop-player-line{display:flex;align-items:center;gap:8px;min-width:0;margin-bottom:5px}
+.prop-player-name{font-size:.93rem;font-weight:800;color:#f2f4f7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prop-divider{color:#4f5a69;font-size:.72rem}
+.prop-matchup{color:#7f8793;font-size:.82rem;font-weight:550;white-space:nowrap}
+.prop-name{font-size:.91rem;font-weight:750;color:#eef1f5;line-height:1.3}
+.alt-badge{display:inline-flex;vertical-align:1px;margin-left:6px;padding:2px 5px;border:1px solid rgba(107,183,255,.22);background:rgba(107,183,255,.08);border-radius:5px;color:#85c8ff;font-size:.55rem;letter-spacing:.06em}
+.odds-line,.odds-price{font-size:.93rem!important;font-weight:800!important;color:#9ca4af!important;white-space:nowrap}
+.odds-price{color:#c7cdd5!important}
+.fd-mini{display:inline-grid;place-items:center;margin-right:8px;width:24px;height:20px;border-radius:6px;background:#232b38;color:#91c7ff;font-size:.57rem;font-weight:900;letter-spacing:-.02em}
+.odds-row.clickable{cursor:pointer}
+.odds-row.clickable:hover{background:#1d2430}
+.odds-row.clickable:focus-visible{outline:2px solid var(--accent-2);outline-offset:-2px}
+.odds-empty{text-align:center!important;color:var(--muted);padding:70px 24px!important;line-height:1.7}
+.odds-empty-title{font-size:1rem;font-weight:800;color:#dfe5ed;margin-bottom:6px}
+.odds-empty code{background:#202733;border:1px solid #303a49;border-radius:6px;padding:2px 6px;color:#c6e7ff}
 
 /* Game log modal */
 .player-modal{width:min(1280px,calc(100% - 28px));max-width:none;max-height:min(82vh,900px);padding:0;border:1px solid #313b4b;border-radius:20px;background:#151a23;color:var(--text);box-shadow:0 30px 90px rgba(0,0,0,.58);overflow:hidden}
@@ -84,18 +126,25 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 .venue-marker.home{width:auto}
 .opponent-name{font-size:.82rem;font-weight:750;color:#e9edf3}
 .game-result{font-size:.72rem;font-weight:800;margin-left:2px}
-.game-result.win{color:var(--win)}
-.game-result.loss{color:var(--loss)}
-.game-result.tie{color:#d5b86a}
-.no-game{color:#596578}
-.no-game-row td{color:#5f6b7d}
-.no-game-row .week-cell{color:#8995a7}
+.game-result.win{color:var(--win)}.game-result.loss{color:var(--loss)}.game-result.tie{color:#d5b86a}
+.no-game{color:#596578}.no-game-row td{color:#5f6b7d}.no-game-row .week-cell{color:#8995a7}
 .modal-empty{text-align:center!important;color:var(--muted);padding:54px!important}
 
+@media(max-width:900px){
+  .odds-toolbar{align-items:stretch;flex-wrap:wrap}
+  .odds-search{max-width:none;flex:1 1 100%}
+  .filter-select{flex:1 1 180px}
+  .odds-meta{margin-left:0;flex:1 1 100%;justify-content:flex-end}
+}
 @media(max-width:760px){
-  .shell{width:min(100% - 20px,1500px);padding-top:26px}.hero{align-items:flex-start;flex-direction:column;gap:18px}.hero-meta{text-align:left;justify-items:start}
+  .shell{width:min(100% - 20px,1500px);padding-top:26px}
+  .hero{align-items:flex-start;flex-direction:column;gap:18px}.hero-meta{text-align:left;justify-items:start}
+  .main-tabs{width:100%}.main-tab{flex:1}
   .toolbar{align-items:stretch;flex-direction:column}.search-wrap{min-width:0}.record-count{padding-left:2px}.table-scroll{max-height:none}
   footer{gap:8px;flex-direction:column}.player-cell{min-width:240px}th.player-col{min-width:240px}
+  .odds-card{border-radius:14px}.odds-table-scroll{max-height:none}.odds-table{min-width:660px}
+  .odds-table td{padding:12px 13px}.odds-headshot-wrap,.odds-headshot{width:50px;height:50px}.odds-headshot-wrap{flex-basis:50px}.odds-team-badge{width:25px;height:25px}
+  .prop-player-name{font-size:.86rem}.prop-matchup{font-size:.75rem}.prop-name{font-size:.85rem}
   .player-modal{width:calc(100% - 14px);max-height:88vh;border-radius:16px}.modal-panel{max-height:88vh}
   .modal-header{padding:16px}.modal-headshot-wrap{width:54px;height:54px;flex-basis:54px}.modal-kicker{font-size:.58rem}.modal-player-meta{font-size:.72rem}
 }
