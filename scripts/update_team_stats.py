@@ -47,8 +47,8 @@ CURATED = {
         ("derived.yardsPerGame", "Y/G", "Yards / Game", "totalYards"),
         ("derived.firstDowns", "1ST", "First Downs", "firstDowns"),
         ("derived.firstDownsPerGame", "1ST/G", "First Downs / Game", "firstDowns"),
-        ("derived.passingYards", "PASS", "Passing Yards", "passingYards"),
-        ("derived.passingYardsPerGame", "P Y/G", "Passing Yards / Game", "passingYards"),
+        ("derived.passingYards", "PASS", "Passing Yards", "netPassingYards"),
+        ("derived.passingYardsPerGame", "P Y/G", "Passing Yards / Game", "netPassingYards"),
         ("derived.rushingYards", "RUSH", "Rushing Yards", "rushingYards"),
         ("derived.rushingYardsPerGame", "R Y/G", "Rushing Yards / Game", "rushingYards"),
     ],
@@ -454,7 +454,7 @@ def parse_summary(event_id, summary, week):
 
         for source, dest in (
             ("totalYards", "derived.totalYardsAllowed"),
-            ("passingYards", "derived.passingYardsAllowed"),
+            ("netPassingYards", "derived.passingYardsAllowed"),
             ("rushingYards", "derived.rushingYardsAllowed"),
             ("firstDowns", "derived.firstDownsAllowed"),
             ("thirdDownPct", "derived.thirdDownPctAllowed"),
@@ -561,7 +561,7 @@ def derived_stats(logs):
         stat_lookup(game.get("stats") or {}, "totalYards") or 0 for game in logs
     )
     values["derived.passingYards"] = sum(
-        stat_lookup(game.get("stats") or {}, "passingYards") or 0 for game in logs
+        stat_lookup(game.get("stats") or {}, "netPassingYards", "passingYards") or 0 for game in logs
     )
     values["derived.rushingYards"] = sum(
         stat_lookup(game.get("stats") or {}, "rushingYards") or 0 for game in logs
