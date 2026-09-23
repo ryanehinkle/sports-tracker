@@ -72,18 +72,66 @@
         </label>
 
         <div class="filter-strip">
-          <button id="gameFilterButton" class="filter-button" type="button">
-            <span class="filter-icon">◫</span><span id="gameFilterLabel">Games</span><span class="filter-caret">⌄</span>
-          </button>
-          <button id="marketFilterButton" class="filter-button" type="button">
-            <span class="filter-icon">✦</span><span id="marketFilterLabel">Propositions</span><span class="filter-caret">⌄</span>
-          </button>
-          <button id="positionFilterButton" class="filter-button" type="button">
-            <span class="filter-icon">↕</span><span id="positionFilterLabel">Over / Under</span><span class="filter-caret">⌄</span>
-          </button>
-          <button id="oddsRangeButton" class="filter-button" type="button">
-            <span class="filter-icon">⊗</span><span id="oddsRangeLabel">Odds</span><span class="filter-caret">⌄</span>
-          </button>
+          <div class="filter-control">
+            <button id="gameFilterButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">◫</span><span id="gameFilterLabel">Games</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="gameFilterDialog" class="filter-popover game-filter-popover" hidden>
+              <div class="filter-popover-title">Games</div>
+              <button class="filter-all-row" type="button" data-clear-filter="games"><span>All Games</span><span class="selection-mark" id="allGamesMark">✓</span></button>
+              <div id="gameFilterOptions" class="filter-options"></div>
+            </div>
+          </div>
+
+          <div class="filter-control">
+            <button id="marketFilterButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">✦</span><span id="marketFilterLabel">Propositions</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="marketFilterDialog" class="filter-popover market-filter-popover" hidden>
+              <div class="filter-popover-title">Propositions</div>
+              <button class="filter-all-row" type="button" data-clear-filter="markets"><span>All Propositions</span><span class="selection-mark" id="allMarketsMark">✓</span></button>
+              <div id="marketFilterOptions" class="filter-options"></div>
+            </div>
+          </div>
+
+          <div class="filter-control">
+            <button id="positionFilterButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">↕</span><span id="positionFilterLabel">Over / Under</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="positionFilterDialog" class="filter-popover position-filter-popover" hidden>
+              <div class="filter-popover-title">Over / Under</div>
+              <div id="positionFilterOptions" class="position-options">
+                <button type="button" class="position-option active" data-position=""><span>Any Position</span><span class="selection-mark">✓</span></button>
+                <button type="button" class="position-option" data-position="Over"><span>Over</span><span class="selection-mark"></span></button>
+                <button type="button" class="position-option" data-position="Under"><span>Under</span><span class="selection-mark"></span></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-control">
+            <button id="oddsRangeButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">⊗</span><span id="oddsRangeLabel">Odds</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="oddsRangeDialog" class="filter-popover odds-range-popover" hidden>
+              <div class="filter-popover-title">Odds</div>
+              <div class="odds-range-inputs">
+                <label><span>From</span><input id="oddsMinInput" type="number" inputmode="numeric"></label>
+                <span class="range-separator">–</span>
+                <label><span>To</span><input id="oddsMaxInput" type="number" inputmode="numeric"></label>
+              </div>
+              <div class="dual-range">
+                <div class="dual-range-track"></div>
+                <div id="dualRangeFill" class="dual-range-fill"></div>
+                <input id="oddsMinRange" type="range" min="-5000" max="5000" step="1">
+                <input id="oddsMaxRange" type="range" min="-5000" max="5000" step="1">
+              </div>
+              <div class="range-actions">
+                <button id="resetOddsRange" class="range-reset" type="button">Reset</button>
+                <button id="applyOddsRange" class="range-done" type="button">Done</button>
+              </div>
+            </div>
+          </div>
+
           <button id="clearFiltersButton" class="clear-filters" type="button">Clear</button>
         </div>
 
@@ -160,58 +208,6 @@
           </thead>
           <tbody id="gameLogBody"></tbody>
         </table>
-      </div>
-    </div>
-  </dialog>
-
-  <dialog id="gameFilterDialog" class="filter-dialog">
-    <div class="filter-dialog-panel">
-      <div class="filter-dialog-title">Games</div>
-      <button class="filter-all-row" type="button" data-clear-filter="games"><span>All Games</span><span class="selection-mark" id="allGamesMark">✓</span></button>
-      <div id="gameFilterOptions" class="filter-options"></div>
-      <button class="filter-dialog-close" type="button" data-close-filter>Close</button>
-    </div>
-  </dialog>
-
-  <dialog id="marketFilterDialog" class="filter-dialog">
-    <div class="filter-dialog-panel">
-      <div class="filter-dialog-title">Propositions</div>
-      <button class="filter-all-row" type="button" data-clear-filter="markets"><span>All Propositions</span><span class="selection-mark" id="allMarketsMark">✓</span></button>
-      <div id="marketFilterOptions" class="filter-options"></div>
-      <button class="filter-dialog-close" type="button" data-close-filter>Close</button>
-    </div>
-  </dialog>
-
-  <dialog id="positionFilterDialog" class="filter-dialog compact-filter-dialog">
-    <div class="filter-dialog-panel">
-      <div class="filter-dialog-title">Over / Under</div>
-      <div id="positionFilterOptions" class="position-options">
-        <button type="button" class="position-option active" data-position=""><span>Any Position</span><span class="selection-mark">✓</span></button>
-        <button type="button" class="position-option" data-position="Over"><span>Over</span><span class="selection-mark"></span></button>
-        <button type="button" class="position-option" data-position="Under"><span>Under</span><span class="selection-mark"></span></button>
-      </div>
-      <button class="filter-dialog-close" type="button" data-close-filter>Close</button>
-    </div>
-  </dialog>
-
-  <dialog id="oddsRangeDialog" class="filter-dialog odds-range-dialog">
-    <div class="filter-dialog-panel">
-      <div class="filter-dialog-title">Odds</div>
-      <div class="odds-range-tabs"><span class="active">Odds</span><span>Implied Probability</span></div>
-      <div class="odds-range-inputs">
-        <label><span>From</span><input id="oddsMinInput" type="number" inputmode="numeric"></label>
-        <span class="range-separator">–</span>
-        <label><span>To</span><input id="oddsMaxInput" type="number" inputmode="numeric"></label>
-      </div>
-      <div class="dual-range">
-        <div class="dual-range-track"></div>
-        <div id="dualRangeFill" class="dual-range-fill"></div>
-        <input id="oddsMinRange" type="range">
-        <input id="oddsMaxRange" type="range">
-      </div>
-      <div class="range-actions">
-        <button id="resetOddsRange" class="range-reset" type="button">Reset</button>
-        <button id="applyOddsRange" class="range-done" type="button">Done</button>
       </div>
     </div>
   </dialog>

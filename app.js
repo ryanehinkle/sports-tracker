@@ -73,6 +73,8 @@ const modalSeasonSelect=document.getElementById("modalSeasonSelect");
 const gameLogBody=document.getElementById("gameLogBody");
 
 const fmt=new Intl.NumberFormat("en-US");
+const ODDS_SLIDER_MIN=-5000;
+const ODDS_SLIDER_MAX=5000;
 
 function safe(v){return Number.isFinite(Number(v))?Number(v):0}
 function esc(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
@@ -158,6 +160,60 @@ function cleanDisplayProposition(row){
   prop=prop.replace(/\bYds\b/gi,"Yards");
   prop=prop.replace(/\s{2,}/g," ").trim().replace(/^[-:]+|[-:]+$/g,"").trim();
   return prop||String(row.market||"Player Prop");
+}
+
+function generalizedMarketLabel(row){
+  const player=cleanDisplayPlayerName(row.player);
+  let label=String(row.market||row.proposition||"Player Prop").trim();
+
+  if(player){
+    label=label.replace(new RegExp(escapeRegex(player),"ig")," ");
+  }
+
+  label=label
+    .replace(/\bAlt\b/gi," ")
+    .replace(/\s+-\s+/g," ")
+    .replace(/\s{2,}/g," ")
+    .trim();
+
+  const lower=label.toLowerCase();
+  const period=lower.includes("1h")?"1H ":lower.includes("1q")?"1Q ":"";
+
+  if(/player to record a \d+(?:\.\d+)?\+ yard reception/i.test(label)){
+    const match=label.match(/player to record a \d+(?:\.\d+)?\+ yard reception/i);
+    return match?match[0].replace(/^player/i,"Player"):"Reception Milestone";
+  }
+  if(/any ?time touchdown scorer/.test(lower)) return "Any Time Touchdown Scorer";
+  if(/first touchdown scorer/.test(lower)) return "First Touchdown Scorer";
+  if(/last touchdown scorer/.test(lower)) return "Last Touchdown Scorer";
+  if(/4th quarter td scorer/.test(lower)) return "Anytime 4th Quarter TD Scorer";
+  if(/rush\s*\+\s*rec.*yards|rush.*reception.*yards/.test(lower)) return period+"Rush + Rec Yards";
+  if(/pass\s*\+\s*rush.*yards/.test(lower)) return period+"Pass + Rush Yards";
+  if(/receiving yards/.test(lower)) return period+"Receiving Yards";
+  if(/rushing yards/.test(lower)) return period+"Rushing Yards";
+  if(/passing yards/.test(lower)) return period+"Passing Yards";
+  if(/total receptions|\breceptions\b/.test(lower)) return period+"Receptions";
+  if(/rushing attempts|rush attempts/.test(lower)) return period+"Rushing Attempts";
+  if(/passing attempts|pass attempts/.test(lower)) return period+"Passing Attempts";
+  if(/pass completions|passing completions/.test(lower)) return period+"Passing Completions";
+  if(/passing tds|passing touchdowns/.test(lower)) return period+"Passing TDs";
+  if(/rushing tds|rushing touchdowns/.test(lower)) return period+"Rushing TDs";
+  if(/receiving tds|receiving touchdowns/.test(lower)) return period+"Receiving TDs";
+  if(/longest reception/.test(lower)) return period+"Longest Reception";
+  if(/longest rush/.test(lower)) return period+"Longest Rush";
+  if(/longest completion|longest pass/.test(lower)) return period+"Longest Completion";
+  if(/tackles.*assists/.test(lower)) return "Tackles + Assists";
+  if(/solo tackles/.test(lower)) return "Solo Tackles";
+  if(/defensive interceptions/.test(lower)) return "Defensive Interceptions";
+  if(/\bsacks\b/.test(lower)) return "Sacks";
+  if(/field goals/.test(lower)) return "Field Goals";
+  if(/kicking points/.test(lower)) return "Kicking Points";
+
+  label=label
+    .replace(/^\d+(?:\.\d+)?\+\s*(?:Yards?|Yds?)?\s*/i,"")
+    .replace(/^[-:]+|[-:]+$/g,"")
+    .trim();
+  return label||"Player Prop";
 }
 
 function setView(view,updateHash=true){
@@ -434,7 +490,7 @@ function renderGameFilters(){
   gameFilterLabel.textContent=state.selectedGames.size?state.selectedGames.size+" Game"+(state.selectedGames.size===1?"":"s"):"Games";
 }
 function renderMarketFilters(){
-  const markets=[...new Set(state.odds.map(row=>row.market).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const markets=[...new Set(state.odds.map(generalizedMarketLabel).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   marketFilterOptions.innerHTML=markets.map(market=>{
     const checked=state.selectedMarkets.has(market);
     return '<button type="button" class="filter-option '+(checked?"selected":"")+'" data-market="'+esc(market)+'">'+
@@ -452,29 +508,35 @@ function renderPositionFilter(){
   });
   positionFilterLabel.textContent=state.oddsPosition||"Over / Under";
 }
-function syncOddsRangeControls(){
-  const min=state.availableOddsMin??-1000;
-  const max=state.availableOddsMax??1000;
-  const selectedMin=state.oddsMin??min;
-  const selectedMax=state.oddsMax??max;
-
-  for(const input of [oddsMinRange,oddsMaxRange]){
-    input.min=String(min);
-    input.max=String(max);
-    input.step="1";
-  }
-  oddsMinRange.value=String(selectedMin);
-  oddsMaxRange.value=String(selectedMax);
-  oddsMinInput.value=String(selectedMin);
-  oddsMaxInput.value=String(selectedMax);
-
-  const span=Math.max(max-min,1);
-  const left=((selectedMin-min)/span)*100;
-  const right=((selectedMax-min)/span)*100;
+function clampToSlider(value){
+  return Math.max(ODDS_SLIDER_MIN,Math.min(ODDS_SLIDER_MAX,value));
+}
+function paintOddsRange(){
+  const min=Number(oddsMinRange.value);
+  const max=Number(oddsMaxRange.value);
+  const span=ODDS_SLIDER_MAX-ODDS_SLIDER_MIN;
+  const left=((min-ODDS_SLIDER_MIN)/span)*100;
+  const right=((max-ODDS_SLIDER_MIN)/span)*100;
   dualRangeFill.style.left=left+"%";
   dualRangeFill.style.width=Math.max(0,right-left)+"%";
+}
+function syncOddsRangeControls(){
+  const selectedMin=state.oddsMin??ODDS_SLIDER_MIN;
+  const selectedMax=state.oddsMax??ODDS_SLIDER_MAX;
 
-  const changed=selectedMin!==min||selectedMax!==max;
+  for(const input of [oddsMinRange,oddsMaxRange]){
+    input.min=String(ODDS_SLIDER_MIN);
+    input.max=String(ODDS_SLIDER_MAX);
+    input.step="1";
+  }
+
+  oddsMinInput.value=String(selectedMin);
+  oddsMaxInput.value=String(selectedMax);
+  oddsMinRange.value=String(clampToSlider(selectedMin));
+  oddsMaxRange.value=String(clampToSlider(selectedMax));
+  paintOddsRange();
+
+  const changed=state.oddsMin!==null||state.oddsMax!==null;
   oddsRangeLabel.textContent=changed?formatAmerican(selectedMin)+" to "+formatAmerican(selectedMax):"Odds";
 }
 function updateFilterButtons(){
@@ -488,11 +550,13 @@ function updateFilterButtons(){
 
 function oddsRowPassesFilters(row){
   if(state.selectedGames.size&&!state.selectedGames.has(row.eventId)) return false;
-  if(state.selectedMarkets.size&&!state.selectedMarkets.has(row.market)) return false;
+  if(state.selectedMarkets.size&&!state.selectedMarkets.has(generalizedMarketLabel(row))) return false;
   if(state.oddsPosition&&row.selection!==state.oddsPosition) return false;
   const odds=Number(row.odds);
-  if(state.oddsMin!==null&&Number.isFinite(odds)&&odds<state.oddsMin) return false;
-  if(state.oddsMax!==null&&Number.isFinite(odds)&&odds>state.oddsMax) return false;
+  const minOdds=state.oddsMin??ODDS_SLIDER_MIN;
+  const maxOdds=state.oddsMax??ODDS_SLIDER_MAX;
+  if(Number.isFinite(odds)&&odds<minOdds) return false;
+  if(Number.isFinite(odds)&&odds>maxOdds) return false;
 
   const q=state.oddsQuery.trim().toLowerCase();
   if(q&&![row.player,row.team,row.position,row.market,row.proposition,row.matchup,row.selection]
@@ -538,17 +602,18 @@ function renderOdds(){
 
   oddsBody.innerHTML=rows.map(row=>{
     const profile=findPlayer(row.player);
-    const displayPlayer=cleanDisplayPlayerName(profile?.name||row.player);
+    const displayPlayer=cleanDisplayPlayerName(row.player||profile?.name);
     const team=row.team||profile?.team||"";
     const headshot=row.headshot||profile?.headshot||fallbackHeadshot(displayPlayer);
     const logo=teamLogo(team);
     const alt=row.alternate?'<span class="alt-badge">ALT</span>':'';
     const proposition=cleanDisplayProposition({...row,player:displayPlayer});
+    const playerAttr=esc(displayPlayer);
     const content=
       '<div class="prop-player-visual">'+
-        '<div class="odds-headshot-wrap"><img class="odds-headshot" src="'+esc(headshot)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackHeadshot(displayPlayer)+'\'"><img class="odds-team-badge" src="'+esc(logo)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackTeamLogo(team)+'\'"></div>'+
+        '<div class="odds-headshot-wrap odds-player-trigger" data-player-name="'+playerAttr+'" tabindex="0" role="button" aria-label="Open '+playerAttr+' game log"><img class="odds-headshot" src="'+esc(headshot)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackHeadshot(displayPlayer)+'\'"><img class="odds-team-badge" src="'+esc(logo)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackTeamLogo(team)+'\'"></div>'+
         '<div class="prop-copy">'+
-          '<div class="prop-player-line"><span class="prop-player-name">'+esc(displayPlayer)+'</span><span class="prop-divider">•</span><span class="prop-matchup">'+esc(row.matchup)+'</span></div>'+
+          '<div class="prop-player-line"><span class="prop-player-name odds-player-trigger" data-player-name="'+playerAttr+'" tabindex="0" role="button" aria-label="Open '+playerAttr+' game log">'+esc(displayPlayer)+'</span><span class="prop-divider">•</span><span class="prop-matchup">'+esc(row.matchup)+'</span></div>'+
           '<div class="prop-name">'+esc(proposition)+' '+alt+'</div>'+
         '</div>'+
       '</div>';
@@ -667,10 +732,60 @@ document.querySelectorAll(".odds-table th[data-odds-key]").forEach(th=>th.addEve
   renderOdds();
 }));
 
-gameFilterButton.addEventListener("click",()=>{renderGameFilters();gameFilterDialog.showModal()});
-marketFilterButton.addEventListener("click",()=>{renderMarketFilters();marketFilterDialog.showModal()});
-positionFilterButton.addEventListener("click",()=>{renderPositionFilter();positionFilterDialog.showModal()});
-oddsRangeButton.addEventListener("click",()=>{syncOddsRangeControls();oddsRangeDialog.showModal()});
+oddsBody.addEventListener("click",e=>{
+  const trigger=e.target.closest(".odds-player-trigger");
+  if(!trigger) return;
+  const player=findPlayer(trigger.dataset.playerName);
+  if(player) openPlayer(player);
+});
+oddsBody.addEventListener("keydown",e=>{
+  if(!["Enter"," "].includes(e.key)) return;
+  const trigger=e.target.closest(".odds-player-trigger");
+  if(!trigger) return;
+  e.preventDefault();
+  const player=findPlayer(trigger.dataset.playerName);
+  if(player) openPlayer(player);
+});
+
+const filterPairs=[
+  [gameFilterDialog,gameFilterButton],
+  [marketFilterDialog,marketFilterButton],
+  [positionFilterDialog,positionFilterButton],
+  [oddsRangeDialog,oddsRangeButton]
+];
+function closeFilterPopovers(except=null){
+  for(const [popover,button] of filterPairs){
+    if(popover===except) continue;
+    popover.hidden=true;
+    button.setAttribute("aria-expanded","false");
+    button.classList.remove("open");
+  }
+}
+function positionFilterPopover(popover,button){
+  popover.hidden=false;
+  const rect=button.getBoundingClientRect();
+  const width=popover.offsetWidth;
+  const height=popover.offsetHeight;
+  let left=Math.max(10,Math.min(rect.left,window.innerWidth-width-10));
+  let top=rect.bottom+8;
+  if(top+height>window.innerHeight-10&&rect.top-height-8>=10) top=rect.top-height-8;
+  popover.style.left=left+"px";
+  popover.style.top=Math.max(10,top)+"px";
+}
+function toggleFilterPopover(popover,button,renderFn){
+  const opening=popover.hidden;
+  closeFilterPopovers();
+  if(!opening) return;
+  renderFn();
+  positionFilterPopover(popover,button);
+  button.setAttribute("aria-expanded","true");
+  button.classList.add("open");
+}
+
+gameFilterButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(gameFilterDialog,gameFilterButton,renderGameFilters)});
+marketFilterButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(marketFilterDialog,marketFilterButton,renderMarketFilters)});
+positionFilterButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(positionFilterDialog,positionFilterButton,renderPositionFilter)});
+oddsRangeButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(oddsRangeDialog,oddsRangeButton,syncOddsRangeControls)});
 
 gameFilterOptions.addEventListener("click",e=>{
   const btn=e.target.closest("[data-game-id]");
@@ -699,38 +814,44 @@ document.querySelectorAll(".position-option").forEach(btn=>btn.addEventListener(
   updateFilterButtons();
   renderOdds();
 }));
-document.querySelectorAll("[data-close-filter]").forEach(btn=>btn.addEventListener("click",()=>{
-  const dialog=btn.closest("dialog");
-  if(dialog) dialog.close();
-}));
-
-function clampRanges(changed){
+function clampSliderPair(changed){
   let min=Number(oddsMinRange.value);
   let max=Number(oddsMaxRange.value);
   if(changed==="min"&&min>max){min=max;oddsMinRange.value=String(min)}
   if(changed==="max"&&max<min){max=min;oddsMaxRange.value=String(max)}
   oddsMinInput.value=String(min);
   oddsMaxInput.value=String(max);
-  const lo=Number(oddsMinRange.min),hi=Number(oddsMinRange.max),span=Math.max(hi-lo,1);
-  dualRangeFill.style.left=((min-lo)/span*100)+"%";
-  dualRangeFill.style.width=((max-min)/span*100)+"%";
+  paintOddsRange();
 }
-oddsMinRange.addEventListener("input",()=>clampRanges("min"));
-oddsMaxRange.addEventListener("input",()=>clampRanges("max"));
-oddsMinInput.addEventListener("input",()=>{oddsMinRange.value=oddsMinInput.value;clampRanges("min")});
-oddsMaxInput.addEventListener("input",()=>{oddsMaxRange.value=oddsMaxInput.value;clampRanges("max")});
+function syncSliderFromTypedInput(input,range){
+  const value=Number(input.value);
+  if(Number.isFinite(value)) range.value=String(clampToSlider(value));
+  paintOddsRange();
+}
+oddsMinRange.addEventListener("input",()=>clampSliderPair("min"));
+oddsMaxRange.addEventListener("input",()=>clampSliderPair("max"));
+oddsMinInput.addEventListener("input",()=>syncSliderFromTypedInput(oddsMinInput,oddsMinRange));
+oddsMaxInput.addEventListener("input",()=>syncSliderFromTypedInput(oddsMaxInput,oddsMaxRange));
 resetOddsRange.addEventListener("click",()=>{
-  state.oddsMin=null;state.oddsMax=null;
+  state.oddsMin=null;
+  state.oddsMax=null;
   syncOddsRangeControls();
+  renderOdds();
 });
 applyOddsRange.addEventListener("click",()=>{
-  const min=Number(oddsMinInput.value),max=Number(oddsMaxInput.value);
-  const fullMin=state.availableOddsMin,fullMax=state.availableOddsMax;
-  state.oddsMin=Number.isFinite(min)&&min!==fullMin?Math.min(min,max):null;
-  state.oddsMax=Number.isFinite(max)&&max!==fullMax?Math.max(min,max):null;
+  let min=Number(oddsMinInput.value);
+  let max=Number(oddsMaxInput.value);
+  if(!Number.isFinite(min)) min=ODDS_SLIDER_MIN;
+  if(!Number.isFinite(max)) max=ODDS_SLIDER_MAX;
+  if(min>max) [min,max]=[max,min];
+
+  oddsMinInput.value=String(min);
+  oddsMaxInput.value=String(max);
+  state.oddsMin=min===ODDS_SLIDER_MIN?null:min;
+  state.oddsMax=max===ODDS_SLIDER_MAX?null:max;
   updateFilterButtons();
   renderOdds();
-  oddsRangeDialog.close();
+  closeFilterPopovers();
 });
 clearFiltersButton.addEventListener("click",()=>{
   state.selectedGames.clear();
@@ -742,9 +863,13 @@ clearFiltersButton.addEventListener("click",()=>{
   renderOdds();
 });
 
-for(const dialog of [gameFilterDialog,marketFilterDialog,positionFilterDialog,oddsRangeDialog]){
-  dialog.addEventListener("click",e=>{if(e.target===dialog) dialog.close()});
-}
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".filter-control")) closeFilterPopovers();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") closeFilterPopovers();
+});
+window.addEventListener("resize",()=>closeFilterPopovers());
 
 statsTabButton.addEventListener("click",()=>setView("stats"));
 oddsTabButton.addEventListener("click",()=>setView("odds"));

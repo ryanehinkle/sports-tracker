@@ -247,3 +247,60 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
   .filter-dialog-panel{max-height:88vh}
   .modal-actions{gap:7px}.season-select{height:36px}
 }
+
+
+/* Compact anchored filter dropdowns */
+.filter-control{position:relative;flex:0 0 auto}
+.filter-button.open{background:#222a36;border-color:#46556a;color:#fff}
+.filter-popover[hidden]{display:none!important}
+.filter-popover{
+  position:fixed;z-index:1200;width:min(380px,calc(100vw - 20px));max-height:min(430px,calc(100vh - 24px));
+  overflow:hidden;border:1px solid #313a49;border-radius:14px;background:#121720;color:var(--text);
+  box-shadow:0 18px 52px rgba(0,0,0,.5)
+}
+.game-filter-popover{width:min(400px,calc(100vw - 20px))}
+.market-filter-popover{width:min(360px,calc(100vw - 20px))}
+.position-filter-popover{width:min(320px,calc(100vw - 20px))}
+.odds-range-popover{width:min(390px,calc(100vw - 20px))}
+.filter-popover-title{font-size:.88rem;font-weight:800;padding:14px 15px 9px}
+.filter-popover .filter-all-row{
+  min-height:50px;margin:0 9px 5px;width:calc(100% - 18px);padding:0 12px;border-radius:10px;font-size:.8rem
+}
+.filter-popover .filter-options{max-height:310px;padding:0 9px 8px}
+.filter-popover .filter-option{min-height:48px;padding:7px 8px;font-size:.78rem}
+.filter-popover .selection-mark,.filter-popover .option-checkbox{
+  width:28px;height:28px;flex:0 0 28px;border-radius:8px;font-size:.72rem
+}
+.filter-popover .game-option{min-height:64px}
+.filter-popover .game-option-logos{width:58px}
+.filter-popover .game-option-logos img{width:31px;height:31px}
+.filter-popover .game-option-logos img+img{margin-left:-9px}
+.filter-popover .game-option-time{font-size:.66rem}
+.filter-popover .game-option-name{font-size:.79rem}
+.filter-popover .position-options{padding:2px 9px 8px}
+.filter-popover .position-option{min-height:52px;padding:0 8px;font-size:.8rem}
+.filter-popover .odds-range-inputs{margin:0 12px 12px;border-radius:11px}
+.filter-popover .odds-range-inputs label{padding:9px 11px}
+.filter-popover .odds-range-inputs label span{font-size:.64rem}
+.filter-popover .odds-range-inputs input{font-size:.86rem}
+.filter-popover .dual-range{height:42px;margin:0 16px 8px}
+.filter-popover .dual-range-track,.filter-popover .dual-range-fill{top:20px;height:5px}
+.filter-popover .dual-range input[type=range]{top:8px}
+.filter-popover .dual-range input[type=range]::-webkit-slider-thumb{width:23px;height:23px}
+.filter-popover .dual-range input[type=range]::-moz-range-thumb{width:23px;height:23px}
+.filter-popover .range-actions{grid-template-columns:52px 1fr;gap:8px;padding:0 12px 12px}
+.filter-popover .range-reset,.filter-popover .range-done{height:43px;border-radius:10px;font-size:.78rem}
+
+.odds-player-trigger{cursor:pointer}
+.odds-headshot-wrap.odds-player-trigger{outline:none;border-radius:50%}
+.odds-headshot-wrap.odds-player-trigger:hover .odds-headshot{transform:scale(1.035);filter:brightness(1.08)}
+.odds-headshot{transition:transform .15s,filter .15s}
+.prop-player-name.odds-player-trigger{outline:none;border-radius:5px}
+.prop-player-name.odds-player-trigger:hover{color:var(--accent-2);text-decoration:underline;text-underline-offset:3px}
+.odds-player-trigger:focus-visible{box-shadow:0 0 0 2px var(--accent-2)}
+
+@media(max-width:760px){
+  .filter-popover{width:min(350px,calc(100vw - 16px));max-height:min(390px,calc(100vh - 16px))}
+  .game-filter-popover{width:min(370px,calc(100vw - 16px))}
+  .filter-popover .filter-options{max-height:270px}
+}
