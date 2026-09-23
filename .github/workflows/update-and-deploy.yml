@@ -9,6 +9,7 @@ on:
     branches: ["main"]
     paths-ignore:
       - "data/nfl-stats.json"
+      - "data/nfl-team-stats.json"
       - "data/nfl-odds.json"
 
 permissions:
@@ -34,18 +35,22 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Pull current ESPN stats
+      - name: Pull current ESPN player stats
         run: python scripts/update_stats.py
+
+      - name: Pull current ESPN team stats
+        run: python scripts/update_team_stats.py
 
       - name: Commit refreshed stats
         shell: bash
         run: |
-          if git diff --quiet -- data/nfl-stats.json; then
-            echo "No stat changes."
+          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json; then
+            echo "No player/team stat changes."
             exit 0
           fi
           git config user.name "sports-tracker-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/nfl-stats.json
-          git commit -m "Update NFL player stats"
+          git add data/nfl-stats.json data/nfl-team-stats.json
+          git commit -m "Update NFL player and team stats"
+          git pull --rebase origin main
           git push

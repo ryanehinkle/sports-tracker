@@ -29,6 +29,7 @@
 
     <nav class="main-tabs" aria-label="NFL tracker sections">
       <button id="statsTabButton" class="main-tab active" type="button" data-view="stats">Player Stats</button>
+      <button id="teamStatsTabButton" class="main-tab" type="button" data-view="team-stats">Team Stats</button>
       <button id="oddsTabButton" class="main-tab" type="button" data-view="odds">Odds</button>
     </nav>
 
@@ -58,6 +59,51 @@
             </thead>
             <tbody id="statsBody">
               <tr><td colspan="8" class="loading-cell"><div class="spinner"></div>Loading NFL stats…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="teamStatsView" class="tab-view">
+      <section class="team-stats-toolbar">
+        <label class="search-wrap team-search" for="teamSearchInput">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="teamSearchInput" type="search" placeholder="Search NFL teams…" autocomplete="off" />
+        </label>
+        <div class="record-count" id="teamRecordCount">— teams</div>
+      </section>
+
+      <section class="team-view-bar">
+        <div id="teamViewButtons" class="team-view-buttons" aria-label="Team stat categories">
+          <button type="button" class="team-view-button active" data-team-view="overview">Overview</button>
+          <button type="button" class="team-view-button" data-team-view="offense">Offense</button>
+          <button type="button" class="team-view-button" data-team-view="defense">Defense</button>
+          <button type="button" class="team-view-button" data-team-view="specialTeams">Special Teams</button>
+          <button type="button" class="team-view-button" data-team-view="situational">Situational</button>
+          <button type="button" class="team-view-button" data-team-view="turnovers">Turnovers & Discipline</button>
+          <button type="button" class="team-view-button" data-team-view="scoring">Scoring</button>
+          <button type="button" class="team-view-button" data-team-view="all">All ESPN Stats</button>
+        </div>
+        <div class="team-view-tools">
+          <label class="team-stat-search-wrap">
+            <span>Filter columns</span>
+            <input id="teamStatSearchInput" type="search" placeholder="e.g. sacks, punt, red zone…" autocomplete="off" />
+          </label>
+          <span id="teamColumnCount" class="team-column-count">— stats</span>
+        </div>
+      </section>
+
+      <section class="team-leader-strip" id="teamLeaderStrip" aria-label="League leaders"></section>
+
+      <section class="table-card team-table-card">
+        <div class="team-table-scroll">
+          <table id="teamStatsTable" class="team-stats-table">
+            <thead id="teamStatsHead">
+              <tr><th class="team-col">Team</th><th>Loading…</th></tr>
+            </thead>
+            <tbody id="teamStatsBody">
+              <tr><td colspan="2" class="loading-cell"><div class="spinner"></div>Loading NFL team stats…</td></tr>
             </tbody>
           </table>
         </div>
@@ -169,6 +215,35 @@
       <span>Click a player for their game log • Click a column heading to sort.</span>
     </footer>
   </main>
+
+  <dialog id="teamStatModal" class="team-stat-modal" aria-labelledby="teamStatModalTitle">
+    <div class="team-stat-modal-panel">
+      <div class="team-stat-modal-header">
+        <div class="team-stat-modal-identity">
+          <img id="teamStatModalLogo" class="team-stat-modal-logo" src="" alt="" />
+          <div>
+            <div id="teamStatModalEyebrow" class="modal-kicker">TEAM STAT • REGULAR SEASON</div>
+            <h2 id="teamStatModalTitle">Team Stat</h2>
+            <div id="teamStatModalMeta" class="modal-player-meta"></div>
+          </div>
+        </div>
+        <button id="teamStatModalClose" class="modal-close" type="button" aria-label="Close team stat chart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div id="teamStatSummaryCards" class="team-stat-summary-cards"></div>
+
+      <div class="team-chart-tabs">
+        <button id="teamTrendTab" type="button" class="team-chart-tab active">Game Trend</button>
+        <button id="teamLeagueTab" type="button" class="team-chart-tab">League Compare</button>
+      </div>
+
+      <div class="team-chart-scroll">
+        <div id="teamStatChart" class="team-stat-chart"></div>
+      </div>
+    </div>
+  </dialog>
 
   <dialog id="playerModal" class="player-modal" aria-labelledby="modalPlayerName">
     <div class="modal-panel">

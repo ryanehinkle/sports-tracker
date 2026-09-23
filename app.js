@@ -6,6 +6,18 @@ const state={
   sortDir:"desc",
   season:null,
   statsUpdatedAt:null,
+  teamStatsRaw:null,
+  teamStats:[],
+  teamViews:[],
+  teamView:"overview",
+  teamQuery:"",
+  teamStatQuery:"",
+  teamSortKey:"derived.pointsPerGame",
+  teamSortDir:"desc",
+  teamStatsUpdatedAt:null,
+  teamModalTeam:null,
+  teamModalStat:null,
+  teamChartMode:"trend",
   odds:[],
   oddsRaw:null,
   oddsQuery:"",
@@ -34,9 +46,20 @@ const updatedLabel=document.getElementById("updatedLabel");
 const pageSubtitle=document.getElementById("pageSubtitle");
 const pageFooter=document.getElementById("pageFooter");
 const statsView=document.getElementById("statsView");
+const teamStatsView=document.getElementById("teamStatsView");
 const oddsView=document.getElementById("oddsView");
 const statsTabButton=document.getElementById("statsTabButton");
+const teamStatsTabButton=document.getElementById("teamStatsTabButton");
 const oddsTabButton=document.getElementById("oddsTabButton");
+
+const teamSearch=document.getElementById("teamSearchInput");
+const teamRecordCount=document.getElementById("teamRecordCount");
+const teamViewButtons=document.getElementById("teamViewButtons");
+const teamStatSearchInput=document.getElementById("teamStatSearchInput");
+const teamColumnCount=document.getElementById("teamColumnCount");
+const teamLeaderStrip=document.getElementById("teamLeaderStrip");
+const teamStatsHead=document.getElementById("teamStatsHead");
+const teamStatsBody=document.getElementById("teamStatsBody");
 const oddsBody=document.getElementById("oddsBody");
 const oddsSearch=document.getElementById("oddsSearchInput");
 const oddsCount=document.getElementById("oddsCount");
@@ -86,6 +109,17 @@ const hitRateBreakdown=document.getElementById("hitRateBreakdown");
 const hitRateAverage=document.getElementById("hitRateAverage");
 const hitRateMedian=document.getElementById("hitRateMedian");
 const hitRateChart=document.getElementById("hitRateChart");
+
+const teamStatModal=document.getElementById("teamStatModal");
+const teamStatModalClose=document.getElementById("teamStatModalClose");
+const teamStatModalLogo=document.getElementById("teamStatModalLogo");
+const teamStatModalEyebrow=document.getElementById("teamStatModalEyebrow");
+const teamStatModalTitle=document.getElementById("teamStatModalTitle");
+const teamStatModalMeta=document.getElementById("teamStatModalMeta");
+const teamStatSummaryCards=document.getElementById("teamStatSummaryCards");
+const teamTrendTab=document.getElementById("teamTrendTab");
+const teamLeagueTab=document.getElementById("teamLeagueTab");
+const teamStatChart=document.getElementById("teamStatChart");
 
 const fmt=new Intl.NumberFormat("en-US");
 const ODDS_SLIDER_MIN=-5000;
@@ -232,13 +266,21 @@ function generalizedMarketLabel(row){
 }
 
 function setView(view,updateHash=true){
-  state.activeView=view==="odds"?"odds":"stats";
+  state.activeView=view==="odds"?"odds":view==="team-stats"?"team-stats":"stats";
   const isOdds=state.activeView==="odds";
-  statsView.classList.toggle("active",!isOdds);
+  const isTeams=state.activeView==="team-stats";
+  const isPlayers=!isOdds&&!isTeams;
+
+  statsView.classList.toggle("active",isPlayers);
+  teamStatsView.classList.toggle("active",isTeams);
   oddsView.classList.toggle("active",isOdds);
-  statsTabButton.classList.toggle("active",!isOdds);
+
+  statsTabButton.classList.toggle("active",isPlayers);
+  teamStatsTabButton.classList.toggle("active",isTeams);
   oddsTabButton.classList.toggle("active",isOdds);
-  statsTabButton.setAttribute("aria-selected",String(!isOdds));
+
+  statsTabButton.setAttribute("aria-selected",String(isPlayers));
+  teamStatsTabButton.setAttribute("aria-selected",String(isTeams));
   oddsTabButton.setAttribute("aria-selected",String(isOdds));
 
   if(isOdds){
@@ -246,6 +288,11 @@ function setView(view,updateHash=true){
     seasonLabel.textContent="FanDuel Player Props";
     updatedLabel.textContent=formatUpdated(state.oddsUpdatedAt);
     pageFooter.innerHTML="<span>Odds read directly from FanDuel’s public sportsbook web feed.</span><span>Hit rates use ESPN regular-season game logs • “—” means the split is not applicable or unavailable.</span>";
+  }else if(isTeams){
+    pageSubtitle.textContent="League-wide team offense, defense, special teams, situational football and every ESPN team-stat category in one sortable board.";
+    seasonLabel.textContent=(state.teamStatsRaw?.season||state.season||"Current")+" Team Stats";
+    updatedLabel.textContent=formatUpdated(state.teamStatsUpdatedAt);
+    pageFooter.innerHTML="<span>Team stats sourced from ESPN season statistics and game box scores.</span><span>Click any numeric stat to open its game trend and league comparison chart.</span>";
   }else{
     pageSubtitle.textContent="Current regular-season offensive production, refreshed automatically after NFL game days.";
     seasonLabel.textContent=(state.season||"Current")+" Regular Season";
@@ -253,7 +300,10 @@ function setView(view,updateHash=true){
     pageFooter.innerHTML="<span>Player stats sourced from ESPN.</span><span>Click a player for their game log • Click a column heading to sort.</span>";
   }
 
-  if(updateHash) history.replaceState(null,"",isOdds?"#odds":"#stats");
+  if(updateHash){
+    const hash=isOdds?"#odds":isTeams?"#teams":"#stats";
+    history.replaceState(null,"",hash);
+  }
 }
 
 function render(){
@@ -811,6 +861,345 @@ function renderOdds(){
   }).join("");
 }
 
+
+function teamViewDefinition(){
+  return state.teamViews.find(view=>view.key===state.teamView)||state.teamViews[0]||{key:"overview",label:"Overview",stats:[]};
+}
+function visibleTeamStats(){
+  const q=state.teamStatQuery.trim().toLowerCase();
+  const rows=teamViewDefinition().stats||[];
+  if(!q) return rows;
+  return rows.filter(stat=>[
+    stat.label,stat.short,stat.rawCategoryLabel,stat.sourceName
+  ].some(value=>String(value||"").toLowerCase().includes(q)));
+}
+function teamStatNumber(team,stat){
+  const value=team?.stats?.[stat.key];
+  return Number.isFinite(Number(value))?Number(value):null;
+}
+function formatSeconds(value){
+  const n=Math.max(0,Math.round(Number(value)||0));
+  const minutes=Math.floor(n/60);
+  const seconds=n%60;
+  return minutes+":"+String(seconds).padStart(2,"0");
+}
+function formatTeamNumber(value,format){
+  if(value===null||value===undefined||!Number.isFinite(Number(value))) return "—";
+  const n=Number(value);
+  if(format==="time") return formatSeconds(n);
+  if(format==="percent") return (Math.round(n*10)/10).toLocaleString()+"%";
+  if(format==="decimal") return (Math.round(n*10)/10).toLocaleString();
+  return Number.isInteger(n)?fmt.format(n):(Math.round(n*100)/100).toLocaleString();
+}
+function teamStatDisplay(team,stat){
+  if(!stat.derived&&team?.displays?.[stat.key]){
+    return String(team.displays[stat.key]);
+  }
+  return formatTeamNumber(teamStatNumber(team,stat),stat.format);
+}
+function teamRank(team,stat){
+  const rows=state.teamStats
+    .map(t=>({team:t,value:teamStatNumber(t,stat)}))
+    .filter(item=>item.value!==null)
+    .sort((a,b)=>{
+      const result=a.value-b.value;
+      return stat.higherBetter===false?result:-result;
+    });
+  const index=rows.findIndex(item=>String(item.team.id)===String(team.id));
+  return index>=0?index+1:null;
+}
+function leagueAverage(stat){
+  const values=state.teamStats.map(team=>teamStatNumber(team,stat)).filter(v=>v!==null);
+  return values.length?values.reduce((a,b)=>a+b,0)/values.length:null;
+}
+function teamStatSortDefault(viewKey,stats){
+  const preferred={
+    overview:["derived.pointsPerGame","derived.pointDifferential"],
+    offense:["derived.totalYards","derived.pointsPerGame"],
+    defense:["derived.yardsAllowedPerGame","derived.pointsAllowedPerGame"],
+    situational:["derived.thirdDownPct","derived.redZonePct"],
+    turnovers:["derived.turnoverDifferential","derived.takeaways"]
+  }[viewKey]||[];
+  return preferred.find(key=>stats.some(stat=>stat.key===key))||stats[0]?.key||"name";
+}
+function syncTeamViewButtons(){
+  const available=new Set(state.teamViews.map(view=>view.key));
+  teamViewButtons.querySelectorAll("[data-team-view]").forEach(button=>{
+    button.hidden=!available.has(button.dataset.teamView);
+    button.classList.toggle("active",button.dataset.teamView===state.teamView);
+  });
+}
+function renderTeamLeaders(stats){
+  const candidates=stats
+    .filter(stat=>state.teamStats.some(team=>teamStatNumber(team,stat)!==null))
+    .slice(0,4);
+  if(!candidates.length){
+    teamLeaderStrip.innerHTML="";
+    return;
+  }
+  teamLeaderStrip.innerHTML=candidates.map(stat=>{
+    const ranked=state.teamStats
+      .map(team=>({team,value:teamStatNumber(team,stat)}))
+      .filter(item=>item.value!==null)
+      .sort((a,b)=>{
+        const result=a.value-b.value;
+        return stat.higherBetter===false?result:-result;
+      });
+    const leader=ranked[0];
+    if(!leader) return "";
+    return '<button type="button" class="team-leader-card" data-team-id="'+esc(leader.team.id)+'" data-team-stat="'+esc(stat.key)+'">'+
+      '<span class="team-leader-label">'+esc(stat.label)+'</span>'+
+      '<span class="team-leader-main"><img src="'+esc(leader.team.logo||teamLogo(leader.team.abbreviation))+'" alt=""><strong>'+esc(leader.team.abbreviation)+'</strong><b>'+esc(formatTeamNumber(leader.value,stat.format))+'</b></span>'+
+      '<span class="team-leader-caption">League leader</span>'+
+    '</button>';
+  }).join("");
+}
+function renderTeamStats(){
+  const view=teamViewDefinition();
+  const stats=visibleTeamStats();
+  syncTeamViewButtons();
+
+  if(!stats.some(stat=>stat.key===state.teamSortKey)){
+    state.teamSortKey=teamStatSortDefault(state.teamView,stats);
+    const selected=stats.find(stat=>stat.key===state.teamSortKey);
+    state.teamSortDir=selected?.higherBetter===false?"asc":"desc";
+  }
+
+  const q=state.teamQuery.trim().toLowerCase();
+  let teams=state.teamStats.filter(team=>!q||[
+    team.name,team.shortName,team.abbreviation
+  ].some(value=>String(value||"").toLowerCase().includes(q)));
+
+  teams.sort((a,b)=>{
+    if(state.teamSortKey==="name"){
+      const result=String(a.name).localeCompare(String(b.name));
+      return state.teamSortDir==="asc"?result:-result;
+    }
+    const av=teamStatNumber(a,{key:state.teamSortKey});
+    const bv=teamStatNumber(b,{key:state.teamSortKey});
+    if(av===null&&bv===null) return String(a.name).localeCompare(String(b.name));
+    if(av===null) return 1;
+    if(bv===null) return -1;
+    const result=av-bv;
+    return state.teamSortDir==="asc"?result:-result;
+  });
+
+  teamRecordCount.textContent=fmt.format(teams.length)+" team"+(teams.length===1?"":"s");
+  teamColumnCount.textContent=fmt.format(stats.length)+" stat"+(stats.length===1?"":"s");
+
+  teamStatsHead.innerHTML='<tr>'+
+    '<th class="team-col" data-team-sort="name">Team <span class="team-sort-indicator">'+(state.teamSortKey==="name"?(state.teamSortDir==="asc"?"▲":"▼"):"")+'</span></th>'+
+    stats.map(stat=>
+      '<th data-team-sort="'+esc(stat.key)+'" title="'+esc(stat.label)+'">'+
+        '<span class="team-th-label">'+esc(stat.short||stat.label)+'</span>'+
+        '<span class="team-sort-indicator">'+(state.teamSortKey===stat.key?(state.teamSortDir==="asc"?"▲":"▼"):"")+'</span>'+
+      '</th>'
+    ).join("")+
+  '</tr>';
+
+  if(!teams.length){
+    teamStatsBody.innerHTML='<tr><td colspan="'+(stats.length+1)+'" class="empty-cell">No teams match that search.</td></tr>';
+    renderTeamLeaders(stats);
+    return;
+  }
+
+  teamStatsBody.innerHTML=teams.map(team=>{
+    const teamCell='<td class="team-cell">'+
+      '<img class="team-table-logo" src="'+esc(team.logo||teamLogo(team.abbreviation))+'" alt="" loading="lazy">'+
+      '<div><div class="team-table-name">'+esc(team.name)+'</div><div class="team-table-meta">'+esc(team.abbreviation)+' • '+esc(team.record||"—")+'</div></div>'+
+    '</td>';
+
+    const statCells=stats.map(stat=>{
+      const value=teamStatNumber(team,stat);
+      if(value===null){
+        return '<td class="team-stat-cell team-stat-na">—</td>';
+      }
+      const rank=teamRank(team,stat);
+      return '<td class="team-stat-cell team-stat-trigger" data-team-id="'+esc(team.id)+'" data-team-stat="'+esc(stat.key)+'" tabindex="0" role="button" aria-label="Open '+esc(team.name)+' '+esc(stat.label)+' chart">'+
+        '<span class="team-stat-value">'+esc(teamStatDisplay(team,stat))+'</span>'+
+        (rank?'<span class="team-stat-rank">#'+rank+'</span>':"")+
+      '</td>';
+    }).join("");
+
+    return '<tr>'+teamCell+statCells+'</tr>';
+  }).join("");
+
+  renderTeamLeaders(stats);
+}
+function findTeamStat(key){
+  for(const view of state.teamViews){
+    const stat=(view.stats||[]).find(item=>item.key===key);
+    if(stat) return stat;
+  }
+  return null;
+}
+function teamGameValue(game,stat){
+  const stats=game?.stats||{};
+  const keys=[stat.chartKey,stat.sourceName,stat.key].filter(Boolean);
+  for(const key of keys){
+    if(Number.isFinite(Number(stats[key]))) return Number(stats[key]);
+  }
+  const normalizedEntries=Object.entries(stats).map(([key,value])=>[normalizeName(key),value]);
+  for(const key of keys){
+    const target=normalizeName(key);
+    const found=normalizedEntries.find(([name,value])=>name===target&&Number.isFinite(Number(value)));
+    if(found) return Number(found[1]);
+  }
+  return null;
+}
+function teamGameLabel(game){
+  const raw=game?.date;
+  let first="W"+String(game?.week||"—");
+  if(raw){
+    const date=new Date(raw);
+    if(!Number.isNaN(date.getTime())){
+      first=new Intl.DateTimeFormat("en-US",{month:"numeric",day:"numeric"}).format(date);
+    }
+  }
+  const opp=game?.opponent?.abbreviation||"";
+  return {date:first,opponent:(game.isAway?"@ ":"vs ")+opp};
+}
+function renderTeamSummary(team,stat){
+  const value=teamStatNumber(team,stat);
+  const rank=teamRank(team,stat);
+  const avgValue=leagueAverage(stat);
+  const games=(team.gameLog||[]).map(game=>teamGameValue(game,stat)).filter(v=>v!==null);
+  const gameAvg=games.length?games.reduce((a,b)=>a+b,0)/games.length:null;
+  const high=games.length?Math.max(...games):null;
+  const low=games.length?Math.min(...games):null;
+
+  const cards=[
+    ["Season",teamStatDisplay(team,stat)],
+    ["NFL Rank",rank?"#"+rank:"—"],
+    ["League Avg",formatTeamNumber(avgValue,stat.format)],
+    ["Game Avg",formatTeamNumber(gameAvg,stat.format)],
+    ["Game High",formatTeamNumber(high,stat.format)],
+    ["Game Low",formatTeamNumber(low,stat.format)]
+  ];
+  teamStatSummaryCards.innerHTML=cards.map(([label,value])=>
+    '<div class="team-summary-card"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong></div>'
+  ).join("");
+}
+function renderTeamTrendChart(team,stat){
+  const points=(team.gameLog||[])
+    .map(game=>({game,value:teamGameValue(game,stat)}))
+    .filter(point=>point.value!==null);
+
+  if(!points.length){
+    teamStatChart.innerHTML='<div class="team-chart-empty">Game-by-game data is not available for this ESPN stat. Use League Compare to see all 32 teams.</div>';
+    return false;
+  }
+
+  const values=points.map(point=>point.value);
+  const max=Math.max(...values,0);
+  const min=Math.min(...values,0);
+  const span=Math.max(1,max-min);
+  const floor=Math.min(0,min);
+  const ceiling=Math.max(1,max)*1.12;
+  const chartSpan=Math.max(1,ceiling-floor);
+  const width=Math.max(700,points.length*96);
+  const seasonAvg=values.reduce((a,b)=>a+b,0)/values.length;
+  const avgPct=Math.max(0,Math.min(100,((seasonAvg-floor)/chartSpan)*100));
+  const stageHeight=286;
+  const avgBottom=48+(avgPct/100)*stageHeight;
+
+  const bars=points.map((point,index)=>{
+    const height=Math.max(2,((point.value-floor)/chartSpan)*100);
+    const valueBottom=48+(height/100)*stageHeight;
+    const label=teamGameLabel(point.game);
+    const cls=point.game.result==="W"?"win":point.game.result==="L"?"loss":"tie";
+    return '<div class="team-trend-column">'+
+      '<div class="team-trend-value" style="bottom:'+valueBottom+'px">'+esc(formatTeamNumber(point.value,stat.format))+'</div>'+
+      '<div class="team-trend-track"><div class="team-trend-bar '+cls+'" style="height:'+height+'%;--team-bar-delay:'+(index*45)+'ms"></div></div>'+
+      '<div class="team-trend-label"><span>'+esc(label.date)+'</span><span>'+esc(label.opponent)+'</span></div>'+
+    '</div>';
+  }).join("");
+
+  teamStatChart.innerHTML='<div class="team-trend-plot" style="width:'+width+'px">'+
+    '<div class="team-trend-average" style="bottom:'+avgBottom+'px"><span>AVG '+esc(formatTeamNumber(seasonAvg,stat.format))+'</span></div>'+
+    '<div class="team-trend-bars">'+bars+'</div>'+
+  '</div>';
+  return true;
+}
+function renderTeamLeagueChart(team,stat){
+  const rows=state.teamStats
+    .map(item=>({team:item,value:teamStatNumber(item,stat)}))
+    .filter(item=>item.value!==null)
+    .sort((a,b)=>{
+      const result=a.value-b.value;
+      return stat.higherBetter===false?result:-result;
+    });
+
+  if(!rows.length){
+    teamStatChart.innerHTML='<div class="team-chart-empty">League comparison data is not available for this stat.</div>';
+    return;
+  }
+
+  const max=Math.max(...rows.map(row=>Math.abs(row.value)),1);
+  teamStatChart.innerHTML='<div class="team-league-chart">'+rows.map((row,index)=>{
+    const pct=Math.max(2,Math.abs(row.value)/max*100);
+    const selected=String(row.team.id)===String(team.id);
+    return '<div class="team-league-row '+(selected?"selected":"")+'">'+
+      '<span class="team-league-rank">#'+(index+1)+'</span>'+
+      '<img src="'+esc(row.team.logo||teamLogo(row.team.abbreviation))+'" alt="">'+
+      '<span class="team-league-abbr">'+esc(row.team.abbreviation)+'</span>'+
+      '<div class="team-league-bar-track"><span style="width:'+pct+'%;--league-delay:'+(index*18)+'ms"></span></div>'+
+      '<strong>'+esc(formatTeamNumber(row.value,stat.format))+'</strong>'+
+    '</div>';
+  }).join("")+'</div>';
+}
+function renderTeamStatModalChart(){
+  const team=state.teamModalTeam;
+  const stat=state.teamModalStat;
+  if(!team||!stat) return;
+
+  const hasTrend=(team.gameLog||[]).some(game=>teamGameValue(game,stat)!==null);
+  teamTrendTab.disabled=!hasTrend;
+  if(state.teamChartMode==="trend"&&!hasTrend) state.teamChartMode="league";
+
+  teamTrendTab.classList.toggle("active",state.teamChartMode==="trend");
+  teamLeagueTab.classList.toggle("active",state.teamChartMode==="league");
+
+  if(state.teamChartMode==="trend") renderTeamTrendChart(team,stat);
+  else renderTeamLeagueChart(team,stat);
+}
+function openTeamStatChart(team,stat){
+  state.teamModalTeam=team;
+  state.teamModalStat=stat;
+  const hasTrend=(team.gameLog||[]).some(game=>teamGameValue(game,stat)!==null);
+  state.teamChartMode=hasTrend?"trend":"league";
+
+  teamStatModalLogo.src=team.logo||teamLogo(team.abbreviation);
+  teamStatModalLogo.onerror=()=>{teamStatModalLogo.src=fallbackTeamLogo(team.abbreviation)};
+  teamStatModalEyebrow.textContent=(state.teamStatsRaw?.season||state.season||"CURRENT")+" REGULAR SEASON • TEAM STAT";
+  teamStatModalTitle.textContent=team.name+" — "+stat.label;
+  teamStatModalMeta.textContent=team.abbreviation+" • "+(team.record||"—")+" • "+teamViewDefinition().label;
+  renderTeamSummary(team,stat);
+  renderTeamStatModalChart();
+  teamStatModal.showModal();
+}
+async function loadTeamStats(){
+  try{
+    const res=await fetch("data/nfl-team-stats.json?v="+Date.now(),{cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const data=await res.json();
+    state.teamStatsRaw=data;
+    state.teamStats=Array.isArray(data.teams)?data.teams:[];
+    state.teamViews=Array.isArray(data.views)?data.views:[];
+    state.teamStatsUpdatedAt=data.updatedAt||null;
+
+    if(!state.teamViews.some(view=>view.key===state.teamView)){
+      state.teamView=state.teamViews[0]?.key||"overview";
+    }
+    renderTeamStats();
+    if(state.activeView==="team-stats") setView("team-stats",false);
+  }catch(err){
+    console.error(err);
+    teamStatsBody.innerHTML='<tr><td colspan="2" class="empty-cell">Team stats are being generated. Run the “Update NFL Stats” GitHub Action once if this persists.</td></tr>';
+    teamRecordCount.textContent="— teams";
+  }
+}
+
 async function loadStats(){
   try{
     const res=await fetch("data/nfl-stats.json?v="+Date.now(),{cache:"no-store"});
@@ -823,6 +1212,7 @@ async function loadStats(){
     render();
     if(state.odds.length) renderOdds();
     if(state.activeView==="stats") setView("stats",false);
+    if(state.activeView==="team-stats"&&!state.teamStatsRaw) setView("team-stats",false);
   }catch(err){
     console.error(err);
     body.innerHTML='<tr><td colspan="8" class="empty-cell">Stats have not been generated yet. Run the “Update NFL Stats” GitHub Action once.</td></tr>';
@@ -1068,9 +1458,79 @@ document.addEventListener("keydown",e=>{
 });
 window.addEventListener("resize",()=>closeFilterPopovers());
 
+teamSearch.addEventListener("input",e=>{state.teamQuery=e.target.value;renderTeamStats()});
+teamStatSearchInput.addEventListener("input",e=>{state.teamStatQuery=e.target.value;renderTeamStats()});
+teamViewButtons.addEventListener("click",e=>{
+  const button=e.target.closest("[data-team-view]");
+  if(!button||button.hidden) return;
+  state.teamView=button.dataset.teamView;
+  state.teamStatQuery="";
+  teamStatSearchInput.value="";
+  const stats=teamViewDefinition().stats||[];
+  state.teamSortKey=teamStatSortDefault(state.teamView,stats);
+  const selected=stats.find(stat=>stat.key===state.teamSortKey);
+  state.teamSortDir=selected?.higherBetter===false?"asc":"desc";
+  renderTeamStats();
+});
+teamStatsHead.addEventListener("click",e=>{
+  const th=e.target.closest("[data-team-sort]");
+  if(!th) return;
+  const key=th.dataset.teamSort;
+  if(state.teamSortKey===key) state.teamSortDir=state.teamSortDir==="asc"?"desc":"asc";
+  else{
+    state.teamSortKey=key;
+    const stat=findTeamStat(key);
+    state.teamSortDir=key==="name"?"asc":stat?.higherBetter===false?"asc":"desc";
+  }
+  renderTeamStats();
+});
+function openTeamCell(cell){
+  const team=state.teamStats.find(item=>String(item.id)===cell.dataset.teamId);
+  const stat=findTeamStat(cell.dataset.teamStat);
+  if(team&&stat) openTeamStatChart(team,stat);
+}
+teamStatsBody.addEventListener("click",e=>{
+  const cell=e.target.closest(".team-stat-trigger");
+  if(cell) openTeamCell(cell);
+});
+teamStatsBody.addEventListener("keydown",e=>{
+  if(!["Enter"," "].includes(e.key)) return;
+  const cell=e.target.closest(".team-stat-trigger");
+  if(!cell) return;
+  e.preventDefault();
+  openTeamCell(cell);
+});
+teamLeaderStrip.addEventListener("click",e=>{
+  const card=e.target.closest("[data-team-id][data-team-stat]");
+  if(!card) return;
+  const team=state.teamStats.find(item=>String(item.id)===card.dataset.teamId);
+  const stat=findTeamStat(card.dataset.teamStat);
+  if(team&&stat) openTeamStatChart(team,stat);
+});
+
+teamTrendTab.addEventListener("click",()=>{
+  if(teamTrendTab.disabled) return;
+  state.teamChartMode="trend";
+  renderTeamStatModalChart();
+});
+teamLeagueTab.addEventListener("click",()=>{
+  state.teamChartMode="league";
+  renderTeamStatModalChart();
+});
+teamStatModalClose.addEventListener("click",()=>teamStatModal.close());
+teamStatModal.addEventListener("click",e=>{if(e.target===teamStatModal) teamStatModal.close()});
+teamStatModal.addEventListener("close",()=>{
+  state.teamModalTeam=null;
+  state.teamModalStat=null;
+});
+
 statsTabButton.addEventListener("click",()=>setView("stats"));
+teamStatsTabButton.addEventListener("click",()=>setView("team-stats"));
 oddsTabButton.addEventListener("click",()=>setView("odds"));
-window.addEventListener("hashchange",()=>setView(location.hash==="#odds"?"odds":"stats",false));
+window.addEventListener("hashchange",()=>{
+  const view=location.hash==="#odds"?"odds":location.hash==="#teams"?"team-stats":"stats";
+  setView(view,false);
+});
 
 modalClose.addEventListener("click",closeModal);
 modal.addEventListener("click",e=>{if(e.target===modal) closeModal()});
@@ -1090,5 +1550,5 @@ hitRateModal.addEventListener("close",()=>{
   state.hitRateActiveSplit=null;
 });
 
-setView(location.hash==="#odds"?"odds":"stats",false);
-Promise.all([loadStats(),loadOdds()]);
+setView(location.hash==="#odds"?"odds":location.hash==="#teams"?"team-stats":"stats",false);
+Promise.all([loadStats(),loadTeamStats(),loadOdds()]);
