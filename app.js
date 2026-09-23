@@ -21,7 +21,9 @@ const state={
   oddsUpdatedAt:null,
   activeView:"stats",
   modalPlayer:null,
-  hitRateRows:new Map()
+  hitRateRows:new Map(),
+  hitRateActiveRow:null,
+  hitRateActiveSplit:null
 };
 
 const body=document.getElementById("statsBody");
@@ -564,12 +566,17 @@ function metricBreakdown(game,spec){
   }
   return [];
 }
-function pctMarkup(rate,key,selected){
+function pctMarkup(rate,key,split,selected){
   const value=rate?rate.pct+"%":"-";
   const cls=!rate?"hit-na-text":rate.pct>=70?"hit-good-text":rate.pct>=50?"hit-mid-text":"hit-low-text";
-  return '<div class="hit-summary-item '+(selected?"selected":"")+'"><span>'+esc(key)+'</span><strong class="'+cls+'">'+value+'</strong></div>';
+  const disabled=rate?"":" disabled aria-disabled=\"true\"";
+  return '<button type="button" class="hit-summary-item '+(selected?"selected":"")+'" data-chart-split="'+esc(split)+'"'+disabled+'>'+
+    '<span>'+esc(key)+'</span><strong class="'+cls+'">'+value+'</strong>'+
+  '</button>';
 }
 function renderHitRateChart(row,split){
+  state.hitRateActiveRow=row;
+  state.hitRateActiveSplit=split;
   const player=findPlayer(row.player);
   const games=splitGamesForRow(row,split);
   const rates=computeHitRates(row);
@@ -592,11 +599,11 @@ function renderHitRateChart(row,split){
   const currentYear=String(state.season||2026);
   const previousYear=String((state.season||2026)-1);
   hitRateBreakdown.innerHTML=[
-    pctMarkup(rates.l5,"L5",split==="l5"),
-    pctMarkup(rates.l10,"L10",split==="l10"),
-    pctMarkup(rates.h2h,"H2H",split==="h2h"),
-    pctMarkup(rates.current,currentYear,split==="current"),
-    pctMarkup(rates.previous,previousYear,split==="previous")
+    pctMarkup(rates.l5,"L5","l5",split==="l5"),
+    pctMarkup(rates.l10,"L10","l10",split==="l10"),
+    pctMarkup(rates.h2h,"H2H","h2h",split==="h2h"),
+    pctMarkup(rates.current,currentYear,"current",split==="current"),
+    pctMarkup(rates.previous,previousYear,"previous",split==="previous")
   ].join("");
 
   if(!games.length||!spec){
@@ -615,7 +622,7 @@ function renderHitRateChart(row,split){
   const stageHeight=286;
   const thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
 
-  const bars=games.map(game=>{
+  const bars=games.map((game,index)=>{
     const value=metricValue(game,spec);
     const hit=propHit(row,game);
     const height=Math.max(2,((value-chartMin)/chartSpan)*100);
@@ -627,7 +634,7 @@ function renderHitRateChart(row,split){
     return '<div class="hit-bar-column">'+
       '<div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div>'+
       '<div class="hit-bar-track">'+
-        '<div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%">'+detail+'</div>'+
+        '<div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div>'+
       '</div>'+
       '<div class="hit-bar-label"><span>'+esc(chartDateLabel(game))+'</span><span>'+esc(chartOpponentLabel(game))+'</span></div>'+
     '</div>';
@@ -637,6 +644,8 @@ function renderHitRateChart(row,split){
   hitRateChart.innerHTML='<div class="hit-chart-plot" style="width:'+plotWidth+'px">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
 }
 function openHitRateChart(row,split){
+  state.hitRateActiveRow=row;
+  state.hitRateActiveSplit=split;
   renderHitRateChart(row,split);
   hitRateModal.showModal();
 }
@@ -1066,8 +1075,20 @@ window.addEventListener("hashchange",()=>setView(location.hash==="#odds"?"odds":
 modalClose.addEventListener("click",closeModal);
 modal.addEventListener("click",e=>{if(e.target===modal) closeModal()});
 modalSeasonSelect.addEventListener("change",renderModalSeason);
+hitRateBreakdown.addEventListener("click",e=>{
+  const button=e.target.closest("[data-chart-split]");
+  if(!button||button.disabled||!state.hitRateActiveRow) return;
+  const split=button.dataset.chartSplit;
+  if(split===state.hitRateActiveSplit) return;
+  state.hitRateActiveSplit=split;
+  renderHitRateChart(state.hitRateActiveRow,split);
+});
 hitRateClose.addEventListener("click",()=>hitRateModal.close());
 hitRateModal.addEventListener("click",e=>{if(e.target===hitRateModal) hitRateModal.close()});
+hitRateModal.addEventListener("close",()=>{
+  state.hitRateActiveRow=null;
+  state.hitRateActiveSplit=null;
+});
 
 setView(location.hash==="#odds"?"odds":"stats",false);
 Promise.all([loadStats(),loadOdds()]);
