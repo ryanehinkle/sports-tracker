@@ -14,7 +14,7 @@ WEEK_EVENTS = "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/s
 CDN_GAME = "https://cdn.espn.com/core/nfl/game"
 PLAYER_STATS = Path("data/nfl-stats.json")
 OUT = Path("data/nfl-team-stats.json")
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 TIMEOUT = 30
 
 UA = {
