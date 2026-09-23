@@ -23,7 +23,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: nfl-odds-update
+  group: nfl-data-update
   cancel-in-progress: false
 
 jobs:
@@ -32,6 +32,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Sync latest main
+        shell: bash
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
 
       - name: Set up Python
         uses: actions/setup-python@v5
