@@ -91,7 +91,7 @@ function setView(view,updateHash=true){
     pageSubtitle.textContent="All currently captured FanDuel NFL player props, including alternate lines.";
     seasonLabel.textContent="FanDuel Player Props";
     updatedLabel.textContent=formatUpdated(state.oddsUpdatedAt);
-    pageFooter.innerHTML="<span>Odds sourced from FanDuel via The Odds API.</span><span>Odds can move at any time • Alternate lines are included when FanDuel offers them.</span>";
+    pageFooter.innerHTML="<span>Odds read directly from FanDuel’s public sportsbook web feed.</span><span>Odds can move at any time • Alternate lines are included when FanDuel offers them.</span>";
   }else{
     pageSubtitle.textContent="Current regular-season offensive production, refreshed automatically after NFL game days.";
     seasonLabel.textContent=(state.season||"Current")+" Regular Season";
@@ -214,12 +214,6 @@ function rebuildOddsFilters(){
 }
 
 function renderOdds(){
-  if(state.oddsRaw&&state.oddsRaw.setupRequired){
-    oddsBody.innerHTML='<tr><td colspan="3" class="odds-empty"><div class="odds-empty-title">FanDuel feed is ready to connect</div><div>Add the repository secret <code>ODDS_API_KEY</code>, then run the “Update NFL Odds” workflow once.</div></td></tr>';
-    oddsCount.textContent="Setup required";
-    return;
-  }
-
   const q=state.oddsQuery.trim().toLowerCase();
   let rows=state.odds.filter(row=>{
     if(state.oddsGame&&row.eventId!==state.oddsGame) return false;
