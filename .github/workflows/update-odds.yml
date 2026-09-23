@@ -8,7 +8,7 @@ on:
         required: false
         default: "168"
   schedule:
-    # Refresh near-term games every 4 hours.
+    # Refresh games that are getting close every four hours.
     - cron: "17 */4 * * *"
     # Broader weekly refresh so newly posted future props also get picked up.
     - cron: "41 15 * * 3,5"
@@ -27,32 +27,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check API key
-        id: api_key
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-        shell: bash
-        run: |
-          if [ -n "$ODDS_API_KEY" ]; then
-            echo "present=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "ODDS_API_KEY is not configured; skipping odds refresh."
-          fi
-
       - name: Set up Python
-        if: steps.api_key.outputs.present == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
 
       - name: Install dependencies
-        if: steps.api_key.outputs.present == 'true'
         run: pip install -r requirements.txt
 
       - name: Determine refresh window
-        if: steps.api_key.outputs.present == 'true'
         id: window
         shell: bash
         run: |
@@ -65,14 +49,11 @@ jobs:
           fi
 
       - name: Pull FanDuel NFL player props
-        if: steps.api_key.outputs.present == 'true'
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           ODDS_LOOKAHEAD_HOURS: ${{ steps.window.outputs.hours }}
         run: python scripts/update_odds.py
 
       - name: Commit refreshed odds
-        if: steps.api_key.outputs.present == 'true'
         shell: bash
         run: |
           if git diff --quiet -- data/nfl-odds.json; then
