@@ -611,15 +611,15 @@ function renderOdds(){
     const playerAttr=esc(displayPlayer);
     const content=
       '<div class="prop-player-visual">'+
-        '<div class="odds-headshot-wrap odds-player-trigger" data-player-name="'+playerAttr+'" tabindex="0" role="button" aria-label="Open '+playerAttr+' game log"><img class="odds-headshot" src="'+esc(headshot)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackHeadshot(displayPlayer)+'\'"><img class="odds-team-badge" src="'+esc(logo)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackTeamLogo(team)+'\'"></div>'+
+        '<div class="odds-headshot-wrap"><img class="odds-headshot" src="'+esc(headshot)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackHeadshot(displayPlayer)+'\'"><img class="odds-team-badge" src="'+esc(logo)+'" alt="" loading="lazy" onerror="this.src=\''+fallbackTeamLogo(team)+'\'"></div>'+
         '<div class="prop-copy">'+
-          '<div class="prop-player-line"><span class="prop-player-name odds-player-trigger" data-player-name="'+playerAttr+'" tabindex="0" role="button" aria-label="Open '+playerAttr+' game log">'+esc(displayPlayer)+'</span><span class="prop-divider">•</span><span class="prop-matchup">'+esc(row.matchup)+'</span></div>'+
+          '<div class="prop-player-line"><span class="prop-player-name">'+esc(displayPlayer)+'</span><span class="prop-divider">•</span><span class="prop-matchup">'+esc(row.matchup)+'</span></div>'+
           '<div class="prop-name">'+esc(proposition)+' '+alt+'</div>'+
         '</div>'+
       '</div>';
 
     return '<tr class="odds-row">'+
-      '<td class="prop-cell">'+content+'</td>'+
+      '<td class="prop-cell odds-player-trigger" data-player-name="'+playerAttr+'" tabindex="0" role="button" aria-label="Open '+playerAttr+' game log">'+content+'</td>'+
       '<td class="odds-line">'+esc(formatLine(row.line))+'</td>'+
       '<td class="odds-price"><span class="fd-mini">FD</span>'+esc(formatAmerican(row.odds))+'</td>'+
       hitCell(row._rates.l5)+
