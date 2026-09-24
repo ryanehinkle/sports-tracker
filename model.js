@@ -1149,6 +1149,12 @@ function openModelHitRateChart(row){
 }
 function bind(){
   bindModelFilters();
+  $("modelPresetButton").addEventListener("click",e=>{e.stopPropagation();togglePresetPopover()});
+  $("modelPresetPopover").addEventListener("click",e=>{
+    const option=e.target.closest("[data-preset]");if(!option)return;
+    applyPreset(option.dataset.preset);closePresetPopover();
+  });
+  document.addEventListener("click",e=>{if(!e.target.closest("#modelPresetPopover")&&!e.target.closest("#modelPresetButton"))closePresetPopover()});
   document.addEventListener("click",e=>{const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
   document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;e.preventDefault();const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
   $("hitRateClose").addEventListener("click",()=>$("hitRateModal").close());
@@ -1169,7 +1175,7 @@ function bind(){
   },{passive:true});
   document.querySelectorAll(".model-controls input").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
   $("weightControls").addEventListener("click",e=>{const b=e.target.closest("[data-weight]");if(!b)return;const k=b.dataset.weight,levels=[0,8,14,22,30,40],cur=state.weights[k],next=levels[(levels.indexOf(cur)+1)%levels.length];state.weights[k]=next;b.querySelector("strong").textContent=next;b.classList.toggle("active",next>0);schedule()});
-  $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();$("playerFilter").value="";renderModelFilters();for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
+  $("resetModel").addEventListener("click",()=>{$("modelPresetButton").querySelector("span").textContent="Presets";for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();$("playerFilter").value="";renderModelFilters();for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
 }
 async function init(){
   buildControls();bind();syncLabels();
