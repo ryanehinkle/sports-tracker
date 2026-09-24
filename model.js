@@ -415,7 +415,7 @@ function flattenOdds(raw){
 }
 
 function pricePairKey(row){
-  return[String(row.eventId||""),norm(row.player||""),String(row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase(),String(row.line??"")].join("|");
+  return[String(row.eventId||""),norm(row.player||row.team||row.scope||""),String(row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase(),String(row.line??"")].join("|");
 }
 function buildPricePairs(){
   state.pricePairs=new Map();
@@ -656,7 +656,7 @@ function analyze(row,cfg){
   };
 }
 function generateSlips(candidates,cfg){
-  const top=candidates.slice(0,40);
+  const top=candidates.slice(0,80);
   const minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax);
   const minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
   const recommendations=[];
@@ -665,13 +665,13 @@ function generateSlips(candidates,cfg){
     const row=x.row||{};
     return[
       String(row.eventId||""),
-      norm(row.player||""),
+      norm(row.player||row.team||row.scope||""),
       String(x.market||row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase()
     ].join("|");
   }
   function compatible(combo,next){
     if(combo.some(x=>propFamilyKey(x)===propFamilyKey(next)))return false;
-    if(cfg.uniquePlayers&&combo.some(x=>norm(x.row.player)===norm(next.row.player)))return false;
+    const nextPlayer=norm(next.row.player);if(cfg.uniquePlayers&&nextPlayer&&combo.some(x=>norm(x.row.player)===nextPlayer))return false;
     if(cfg.avoidSameGame&&combo.some(x=>x.row.eventId&&x.row.eventId===next.row.eventId))return false;
     const values=combo.map(x=>Number(x.row.odds)).concat(Number(next.row.odds)).filter(Number.isFinite);
     if(values.length>1&&Math.max(...values)-Math.min(...values)>cfg.oddsSpread)return false;
@@ -705,7 +705,7 @@ function generateSlips(candidates,cfg){
 
   // Bounded beam search prevents large leg ranges from creating combinatorial UI lag.
   let beam=[{legs:[],start:0}];
-  const beamWidth=420;
+  const beamWidth=900;
   for(let size=1;size<=maxLegs;size++){
     const nextBeam=[];
     for(const node of beam){
