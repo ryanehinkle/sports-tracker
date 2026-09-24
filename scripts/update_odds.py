@@ -448,7 +448,9 @@ def _metric_spec(prop):
     proposition = str(prop.get("proposition") or "").lower()
     text = re.sub(r"\s+", " ", f"{market} {proposition}")
 
-    if re.search(r"first touchdown scorer|last touchdown scorer|quarter td scorer|\b1q\b|\b1h\b", text):
+    # ESPN game logs are full-game totals. Period/drive markets must never be
+    # compared with full-game stats; they require play-by-play/drive-level data.
+    if re.search(r"first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b", text):
         return None
 
     match = re.search(r"(?:player\s+)?to record a (\d+(?:\.\d+)?)\+ yard reception", text)
@@ -465,7 +467,7 @@ def _metric_spec(prop):
         return {"metric": "passRushRecYards"}
     if re.search(r"pass\s*\+\s*rush.*yards", text):
         return {"metric": "passRushYards"}
-    if re.search(r"rush\s*\+\s*rec.*yards|rush.*reception.*yards", text):
+    if re.search(r"rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards", text):
         return {"metric": "allPurposeYards"}
     if "passing yards" in text:
         return {"metric": "passingYards"}
@@ -524,6 +526,10 @@ def _metric_value(game, spec):
             + _safe_number(game.get("rushingYards"))
             + _safe_number(game.get("receivingYards"))
         )
+    if metric == "allPurposeYards":
+        return _safe_number(game.get("rushingYards")) + _safe_number(game.get("receivingYards"))
+    if metric == "touchdowns":
+        return _safe_number(game.get("rushingTouchdowns")) + _safe_number(game.get("receivingTouchdowns"))
     value = game.get(metric)
     try:
         return float(value)
@@ -621,7 +627,7 @@ def _opponent_for_prop(event, prop, profile):
 
 
 def _hit_rates_for_prop(event, prop, profile, current_season):
-    if not profile:
+    if not profile or not _metric_spec(prop):
         return {"l5": None, "l10": None, "h2h": None, "current": None, "previous": None}
 
     all_logs = _all_logs_newest_first(profile, current_season)
