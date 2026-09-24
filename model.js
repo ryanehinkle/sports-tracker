@@ -158,7 +158,7 @@ function teamDefensePercentile(opp,spec){
   const peers=state.teams.map(t=>Number(t&&t.stats&&t.stats[key])).filter(Number.isFinite);
   return percentile(value,peers);
 }
-function escapeRegex(value){return String(value||"").replace(/[.*+?^$()|[\]{}\\]/g,"\\function flattenOdds(raw){")}
+function escapeRegex(value){return String(value||"").replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
 function cleanDisplayPlayerName(value){
   let text=String(value||"").trim();
   text=text.replace(/\s+-\s+Alt\b.*$/i,"");
