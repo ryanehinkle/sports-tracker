@@ -105,7 +105,7 @@ function buildDvp(){
 }
 function metricSpec(row){
   const text=(String(row.market||"")+" "+String(row.proposition||"")).toLowerCase();
-  if(/first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b/.test(text))return null;
+  if(/first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b|\bmost\s+(?:rushing|receiving|passing)\s+yards\b/.test(text))return null;
   let m=text.match(/(\d+(?:\.\d+)?)\+ yard reception/);if(m)return{metric:"receivingLongest",threshold:Number(m[1]),comparison:"gte"};
   if(/any.?time touchdown|score.*touchdown/.test(text))return{metric:"touchdowns",threshold:1,comparison:"gte"};
   if(/pass.*rush.*rec.*yards/.test(text))return{metric:"passRushRecYards"};
@@ -123,6 +123,7 @@ function metricSpec(row){
   if(/completions/.test(text))return{metric:"passingCompletions"};
   if(/longest reception/.test(text))return{metric:"receivingLongest"};
   if(/longest rush/.test(text))return{metric:"rushingLongest"};
+  if(/(?:player\s+)?to record a sack|\brecord a sack\b/.test(text))return{metric:"sacks",threshold:1,comparison:"gte"};
   return null;
 }
 function metricValue(g,m){
@@ -133,7 +134,7 @@ function metricValue(g,m){
   return num(g[m]);
 }
 function isHit(g,row,spec){
-  const threshold=Number.isFinite(Number(spec.threshold))?Number(spec.threshold):Number(row.line);if(!Number.isFinite(threshold))return null;
+  const hasSpecThreshold=Number.isFinite(Number(spec.threshold)),hasLine=row.line!==null&&row.line!==undefined&&row.line!=="";const threshold=hasSpecThreshold?Number(spec.threshold):(hasLine?Number(row.line):NaN);if(!Number.isFinite(threshold))return null;
   const value=metricValue(g,spec.metric);
   if(spec.comparison==="gte")return value>=threshold;
   return String(row.selection||"Over")==="Under"?value<threshold:value>threshold;
