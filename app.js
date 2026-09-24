@@ -40,6 +40,7 @@ const state={
   parlayLegs:[],
   parlayRows:new Map(),
   hitRateCache:new Map(),
+  opponentRankCache:new Map(),
   oddsSortedRows:[],
   oddsRenderedCount:0,
   oddsRenderBatch:140,
@@ -673,6 +674,63 @@ function pctMarkup(rate,key,split,selected){
     '<span>'+esc(key)+'</span><strong class="'+cls+'">'+value+'</strong>'+
   '</button>';
 }
+function defenseRankMapFor(season,week,position,spec){
+  if(!spec||!position) return new Map();
+  const key=[season,week,position,spec.metric].join("|");
+  if(state.opponentRankCache.has(key)) return state.opponentRankCache.get(key);
+
+  const totals=new Map();
+  for(const p of state.players){
+    if(String(p.position||"").toUpperCase()!==String(position).toUpperCase()) continue;
+    for(const game of logsForSeason(p,season)){
+      if(!game||!game.played||safe(game.week)>=week) continue;
+      const defense=String(game.opponent?.abbreviation||"").toUpperCase();
+      const value=metricValue(game,spec);
+      if(!defense||value===null) continue;
+      if(!totals.has(defense)) totals.set(defense,new Map());
+      const byWeek=totals.get(defense);
+      const gameWeek=safe(game.week);
+      byWeek.set(gameWeek,(byWeek.get(gameWeek)||0)+value);
+    }
+  }
+
+  const rows=[];
+  for(const [team,byWeek] of totals){
+    const values=[...byWeek.values()];
+    if(values.length<2) continue;
+    rows.push({team,value:values.reduce((s,v)=>s+v,0)/values.length,games:values.length});
+  }
+  rows.sort((a,b)=>a.value-b.value);
+  const result=new Map();
+  rows.forEach((item,index)=>result.set(item.team,{rank:index+1,total:rows.length,value:item.value,games:item.games}));
+  state.opponentRankCache.set(key,result);
+  return result;
+}
+function opponentRankForGame(player,game,spec){
+  if(!player||!game||!spec)return null;
+  const season=Number(game._season||state.season),week=Math.max(1,safe(game.week));
+  const opponent=String(game.opponent?.abbreviation||"").toUpperCase();
+  if(!opponent)return null;
+  let info=defenseRankMapFor(season,week,String(player.position||"").toUpperCase(),spec).get(opponent)||null;
+  if(!info&&season>2020){
+    info=defenseRankMapFor(season-1,99,String(player.position||"").toUpperCase(),spec).get(opponent)||null;
+    if(info) info={...info,priorSeason:true};
+  }
+  return info;
+}
+function hitBarTooltip(game,row,value,rankInfo){
+  const opp=game?.opponent||{},abbr=opp.abbreviation||opp.name||"OPP";
+  const logo=opp.logo||fallbackTeamLogo(abbr);
+  const rank=rankInfo?"#"+rankInfo.rank:"—";
+  const allowed=rankInfo?(Math.round(rankInfo.value*10)/10).toLocaleString():"—";
+  const season=game?._season||state.season||"";
+  return '<div class="hit-bar-tooltip">'+
+    '<div class="hit-tooltip-date">'+esc(chartDateLabel(game))+' • '+esc(season)+'</div>'+
+    '<div class="hit-tooltip-matchup"><img src="'+esc(logo)+'" alt=""><span>'+esc(game?.isAway?"@ ":"vs ")+esc(abbr)+'</span><b>'+esc(game?.score||"")+'</b></div>'+
+    '<div class="hit-tooltip-stat"><span>'+esc(generalizedMarketLabel(row))+'</span><strong>'+fmt.format(value)+'</strong></div>'+
+    '<div class="hit-tooltip-rank"><span>Opp Rank</span><strong>'+rank+'</strong><small>'+allowed+' allowed / game'+(rankInfo?.priorSeason?" • prior season":"")+'</small></div>'+
+  '</div>';
+}
 function renderHitRateChart(row,split){
   state.hitRateActiveRow=row;
   state.hitRateActiveSplit=split;
@@ -730,12 +788,15 @@ function renderHitRateChart(row,split){
     const detail=breakdown.length
       ? '<div class="hit-bar-detail">'+breakdown.map(([label,v])=>'<span><b>'+fmt.format(v)+'</b> '+label+'</span>').join("")+'</div>'
       : "";
-    return '<div class="hit-bar-column">'+
+    const rankInfo=opponentRankForGame(player,game,spec);
+    const rankBadge=rankInfo?'<span class="hit-opp-rank">Opp #'+rankInfo.rank+'</span>':"";
+    return '<div class="hit-bar-column" tabindex="0">'+
       '<div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div>'+
       '<div class="hit-bar-track">'+
         '<div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div>'+
       '</div>'+
-      '<div class="hit-bar-label"><span>'+esc(chartDateLabel(game))+'</span><span>'+esc(chartOpponentLabel(game))+'</span></div>'+
+      '<div class="hit-bar-label"><span>'+esc(chartDateLabel(game))+'</span><span>'+esc(chartOpponentLabel(game))+'</span>'+rankBadge+'</div>'+
+      hitBarTooltip(game,row,value,rankInfo)+
     '</div>';
   }).join("");
 
@@ -1502,6 +1563,7 @@ async function loadStats(){
     rebuildUsageShares();
     state.playerIndex=new Map(state.players.map(p=>[normalizeName(p.name),p]));
     state.hitRateCache.clear();
+    state.opponentRankCache.clear();
     state.season=data.season||null;
     state.statsUpdatedAt=data.updatedAt||null;
     render();
