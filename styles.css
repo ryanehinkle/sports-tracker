@@ -1105,3 +1105,212 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 @media(max-width:760px){
   .hit-bar-tooltip{width:205px;padding:9px 10px}
 }
+
+
+/* =========================================================
+   APPEARANCE THEMES
+   Shared across Player Stats, Team Stats, Odds and Model.
+   ========================================================= */
+:root{
+  --surface:#171c26;--surface-2:#1d2430;--surface-3:#151a23;--surface-4:#202733;
+  --accent-rgb:102,217,168;--accent2-rgb:107,183,255;--body-glow-a:rgba(107,183,255,.14);--body-glow-b:rgba(102,217,168,.10);
+  --control:#171c26;--control-hover:#1d2430;--header-surface:#1a202b;--sticky-surface:#171c26;
+}
+html[data-theme="night"]{
+  --bg:#11151d;--panel:#171c26;--panel-2:#1d2430;--surface:#171c26;--surface-2:#1d2430;--surface-3:#151a23;--surface-4:#202733;
+  --line:#2a3342;--text:#f4f7fb;--muted:#98a4b6;--accent:#66d9a8;--accent-2:#6bb7ff;--win:#67dda9;--loss:#ff7b86;
+  --accent-rgb:102,217,168;--accent2-rgb:107,183,255;--body-glow-a:rgba(107,183,255,.14);--body-glow-b:rgba(102,217,168,.10);
+  --control:#171c26;--control-hover:#1d2430;--header-surface:#1a202b;--sticky-surface:#171c26;
+}
+html[data-theme="buzzer"]{
+  --bg:#050505;--panel:#0b0b0d;--panel-2:#141416;--surface:#0b0b0d;--surface-2:#141416;--surface-3:#080809;--surface-4:#1a1a1d;
+  --line:#29292e;--text:#f6f6f7;--muted:#8f8f98;--accent:#ef3f43;--accent-2:#ff5c61;--win:#50d090;--loss:#ef3f43;
+  --accent-rgb:239,63,67;--accent2-rgb:255,92,97;--body-glow-a:rgba(239,63,67,.10);--body-glow-b:rgba(239,63,67,.05);
+  --control:#0d0d0f;--control-hover:#171719;--header-surface:#111113;--sticky-surface:#0b0b0d;
+}
+html[data-theme="glacier"]{
+  --bg:#07131c;--panel:#0d1a25;--panel-2:#132532;--surface:#0d1a25;--surface-2:#132532;--surface-3:#0a1721;--surface-4:#172b39;
+  --line:#244252;--text:#effaff;--muted:#88a7b8;--accent:#53d6ff;--accent-2:#8be9fd;--win:#5ee0bd;--loss:#ff7d91;
+  --accent-rgb:83,214,255;--accent2-rgb:139,233,253;--body-glow-a:rgba(83,214,255,.14);--body-glow-b:rgba(139,233,253,.08);
+  --control:#0d1a25;--control-hover:#132532;--header-surface:#10212d;--sticky-surface:#0d1a25;
+}
+html[data-theme="royal"]{
+  --bg:#100b18;--panel:#181022;--panel-2:#24182f;--surface:#181022;--surface-2:#24182f;--surface-3:#140d1e;--surface-4:#2b1d39;
+  --line:#3a2949;--text:#faf6ff;--muted:#aa97ba;--accent:#a978ff;--accent-2:#e77dff;--win:#70e5b5;--loss:#ff79a1;
+  --accent-rgb:169,120,255;--accent2-rgb:231,125,255;--body-glow-a:rgba(169,120,255,.14);--body-glow-b:rgba(231,125,255,.08);
+  --control:#181022;--control-hover:#24182f;--header-surface:#20152b;--sticky-surface:#181022;
+}
+html[data-theme="stadium"]{
+  --bg:#07120d;--panel:#0c1a13;--panel-2:#13271c;--surface:#0c1a13;--surface-2:#13271c;--surface-3:#09160f;--surface-4:#193022;
+  --line:#284534;--text:#f3fbf5;--muted:#8da795;--accent:#7ee787;--accent-2:#b6f36b;--win:#7ee787;--loss:#ff817f;
+  --accent-rgb:126,231,135;--accent2-rgb:182,243,107;--body-glow-a:rgba(126,231,135,.11);--body-glow-b:rgba(182,243,107,.07);
+  --control:#0c1a13;--control-hover:#13271c;--header-surface:#102219;--sticky-surface:#0c1a13;
+}
+html[data-theme="gold"]{
+  --bg:#0b0a07;--panel:#13110c;--panel-2:#201b11;--surface:#13110c;--surface-2:#201b11;--surface-3:#0f0d09;--surface-4:#282116;
+  --line:#3c3320;--text:#fffaf0;--muted:#aa9d83;--accent:#f4bd50;--accent-2:#ffe19a;--win:#79d99f;--loss:#ff7a70;
+  --accent-rgb:244,189,80;--accent2-rgb:255,225,154;--body-glow-a:rgba(244,189,80,.12);--body-glow-b:rgba(255,225,154,.06);
+  --control:#13110c;--control-hover:#201b11;--header-surface:#19150e;--sticky-surface:#13110c;
+}
+
+html[data-theme] body{
+  background:
+    radial-gradient(circle at 15% -10%,var(--body-glow-a),transparent 34%),
+    radial-gradient(circle at 90% 15%,var(--body-glow-b),transparent 30%),var(--bg);
+}
+html[data-theme] .ambient-one{background:var(--accent)}
+html[data-theme] .ambient-two{background:var(--accent-2)}
+html[data-theme] .status-pill{
+  background:rgba(var(--accent-rgb),.09);border-color:rgba(var(--accent-rgb),.22);color:color-mix(in srgb,var(--accent) 44%,white)
+}
+html[data-theme] .status-dot{background:var(--accent);box-shadow:0 0 0 5px rgba(var(--accent-rgb),.09)}
+html[data-theme] .main-tabs{background:var(--surface-3);border-color:var(--line)}
+html[data-theme] .main-tab{color:color-mix(in srgb,var(--muted) 82%,transparent)}
+html[data-theme] .main-tab:hover{color:var(--text)}
+html[data-theme] .main-tab.active{color:var(--text);background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--line),0 6px 16px rgba(0,0,0,.18)}
+html[data-theme] .search-wrap,
+html[data-theme] .filter-select,
+html[data-theme] .filter-button,
+html[data-theme] .field select,
+html[data-theme] .field input,
+html[data-theme] .season-select{background:var(--control);border-color:var(--line);color:var(--text)}
+html[data-theme] .filter-button:hover,
+html[data-theme] .filter-button:focus-visible,
+html[data-theme] .filter-button.open{background:var(--control-hover);border-color:color-mix(in srgb,var(--line) 55%,var(--accent))}
+html[data-theme] .search-wrap:focus-within,
+html[data-theme] .filter-select:focus,
+html[data-theme] .field select:focus,
+html[data-theme] .field input:focus{border-color:color-mix(in srgb,var(--accent) 55%,var(--line));box-shadow:0 0 0 3px rgba(var(--accent-rgb),.09)}
+html[data-theme] .table-card,
+html[data-theme] .odds-card,
+html[data-theme] .model-card,
+html[data-theme] .summary-card{background:color-mix(in srgb,var(--surface) 94%,transparent);border-color:var(--line)}
+html[data-theme] th{background:var(--header-surface);border-color:var(--line)}
+html[data-theme] tbody tr:hover,
+html[data-theme] .odds-row.clickable:hover{background:var(--surface-2)}
+html[data-theme] td{border-color:color-mix(in srgb,var(--line) 72%,transparent);color:color-mix(in srgb,var(--text) 88%,var(--muted))}
+html[data-theme] .player-cell{background:var(--sticky-surface)}
+html[data-theme] tbody tr:hover .player-cell,
+html[data-theme] .player-row:focus-visible .player-cell{background:var(--surface-2)}
+html[data-theme] .player-name,
+html[data-theme] .prop-player-name,
+html[data-theme] .prop-name,
+html[data-theme] .odds-empty-title{color:var(--text)}
+html[data-theme] .all-purpose{color:color-mix(in srgb,var(--accent) 52%,white)}
+html[data-theme] .fanduel-pill{
+  background:rgba(var(--accent2-rgb),.10);border-color:rgba(var(--accent2-rgb),.20);color:color-mix(in srgb,var(--accent-2) 48%,white)
+}
+html[data-theme] .filter-popover,
+html[data-theme] .filter-dialog,
+html[data-theme] .player-modal,
+html[data-theme] .hit-rate-modal,
+html[data-theme] .team-stat-modal{background:var(--surface-3);border-color:var(--line)}
+html[data-theme] .filter-all-row,
+html[data-theme] .odds-range-inputs,
+html[data-theme] .analysis-copy p{background:var(--surface);border-color:var(--line)}
+html[data-theme] .filter-option,
+html[data-theme] .position-option{border-color:color-mix(in srgb,var(--line) 58%,transparent)}
+html[data-theme] .filter-option.selected{background:rgba(var(--accent-rgb),.055)}
+html[data-theme] .selection-mark{border-color:var(--line)}
+html[data-theme] .filter-option.selected .selection-mark,
+html[data-theme] .filter-all-row .selection-mark:not(:empty),
+html[data-theme] .position-option.active .selection-mark,
+html[data-theme] .range-done{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+html[data-theme] .dual-range-fill{background:var(--accent)}
+html[data-theme] .modal-header,
+html[data-theme] .hit-rate-header{background:linear-gradient(180deg,var(--surface-2),var(--surface));border-color:var(--line)}
+html[data-theme] .modal-close{background:var(--surface-4);border-color:var(--line);color:var(--muted)}
+html[data-theme] .modal-close:hover{background:var(--surface-2);color:var(--text)}
+html[data-theme] .hit-rate-eyebrow,
+html[data-theme] .modal-kicker{color:var(--accent)}
+html[data-theme] .hit-good{color:var(--accent)!important;background:rgba(var(--accent-rgb),.12)}
+html[data-theme] .hit-mid{background:rgba(var(--accent2-rgb),.08)}
+html[data-theme] .odds-row:hover .hit-good{background:rgba(var(--accent-rgb),.18)}
+html[data-theme] .parlay-builder-button.active,
+html[data-theme] .parlay-builder-button:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+html[data-theme] .parlay-builder-count{background:var(--accent);color:var(--bg)}
+
+/* Model surfaces use the same palette instead of a separate visual language. */
+html[data-theme] .model-controls{background:color-mix(in srgb,var(--surface-3) 96%,transparent);border-color:var(--line);scrollbar-color:color-mix(in srgb,var(--line) 70%,var(--muted)) transparent}
+html[data-theme] .model-control-header{background:color-mix(in srgb,var(--surface) 98%,transparent);border-color:var(--line)}
+html[data-theme] .control-section,
+html[data-theme] .control-disclosure{border-color:color-mix(in srgb,var(--line) 75%,transparent)}
+html[data-theme] .model-reset,
+html[data-theme] .weight-button{background:var(--surface);border-color:var(--line);color:var(--muted)}
+html[data-theme] .weight-button.active,
+html[data-theme] .score-pill{background:rgba(var(--accent-rgb),.10);border-color:rgba(var(--accent-rgb),.24);color:color-mix(in srgb,var(--accent) 80%,white)}
+html[data-theme] .range-row output,
+html[data-theme] .control-disclosure>summary>b,
+html[data-theme] .slip-top strong,
+html[data-theme] .metric-good,
+html[data-theme] .formula-box code{color:var(--accent)}
+html[data-theme] .range-row input[type=range],
+html[data-theme] .check-row input{accent-color:var(--accent)}
+html[data-theme] .model-card-header{background:var(--surface);border-color:var(--line)}
+html[data-theme] .slip-card{background:var(--surface-3);border-color:var(--line)}
+html[data-theme] .slip-top,
+html[data-theme] .slip-leg{border-color:color-mix(in srgb,var(--line) 72%,transparent)}
+html[data-theme] .slip-footer{background:var(--line);border-color:var(--line)}
+html[data-theme] .slip-footer div{background:var(--surface)}
+html[data-theme] .analysis-copy p,
+html[data-theme] .formula-box{background:var(--surface-3);border-color:var(--line)}
+html[data-theme] .bar-track{background:var(--surface-4)}
+html[data-theme] .bar-fill{background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 58%,var(--bg)),var(--accent))}
+html[data-theme] .score-chart .bar-fill{background:linear-gradient(90deg,color-mix(in srgb,var(--accent-2) 58%,var(--bg)),var(--accent-2))}
+html[data-theme] .field select.model-filter-select{background-color:var(--control);border-color:var(--line);color:var(--text)}
+html[data-theme] .field select.model-filter-select:hover{background-color:var(--control-hover);border-color:color-mix(in srgb,var(--line) 55%,var(--accent))}
+html[data-theme] .field select.model-filter-select:focus{border-color:color-mix(in srgb,var(--accent) 55%,var(--line));box-shadow:0 0 0 3px rgba(var(--accent-rgb),.09)}
+
+/* Buzzer: keep the reference's scoreboard feel especially crisp and flat. */
+html[data-theme="buzzer"] body{background:radial-gradient(circle at 88% 8%,rgba(239,63,67,.07),transparent 25%),#050505}
+html[data-theme="buzzer"] .ambient{opacity:.07}
+html[data-theme="buzzer"] .table-card,
+html[data-theme="buzzer"] .odds-card,
+html[data-theme="buzzer"] .model-card,
+html[data-theme="buzzer"] .summary-card{box-shadow:0 18px 48px rgba(0,0,0,.44)}
+html[data-theme="buzzer"] .eyebrow,
+html[data-theme="buzzer"] .model-kicker{color:#ef3f43}
+html[data-theme="buzzer"] .main-tab.active{box-shadow:inset 0 -2px 0 #ef3f43}
+html[data-theme="buzzer"] .hit-mid{color:#f0a9aa!important;background:rgba(239,63,67,.06)}
+html[data-theme="buzzer"] .fanduel-pill{background:rgba(239,63,67,.08);border-color:rgba(239,63,67,.18);color:#ff8d90}
+
+/* Settings gear + streamlined theme picker */
+.theme-settings{position:absolute;z-index:1500;top:16px;right:0}
+.theme-settings-button{
+  width:36px;height:36px;display:grid;place-items:center;border:1px solid transparent;border-radius:11px;
+  background:color-mix(in srgb,var(--surface) 72%,transparent);color:color-mix(in srgb,var(--muted) 78%,transparent);
+  cursor:pointer;backdrop-filter:blur(12px);transition:transform .16s,border-color .16s,color .16s,background .16s
+}
+.theme-settings-button:hover,.theme-settings-button[aria-expanded="true"]{
+  color:var(--text);background:var(--surface-2);border-color:var(--line);transform:rotate(12deg)
+}
+.theme-settings-button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.theme-settings-popover{
+  position:absolute;right:0;top:44px;width:min(360px,calc(100vw - 28px));padding:10px;
+  border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--surface-3) 97%,transparent);
+  color:var(--text);box-shadow:0 24px 70px rgba(0,0,0,.48);backdrop-filter:blur(18px)
+}
+.theme-settings-popover[hidden]{display:none!important}
+.theme-settings-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:7px 8px 11px}
+.theme-settings-head>div>span{display:block;color:var(--accent);font-size:.55rem;font-weight:900;letter-spacing:.14em;margin-bottom:4px}
+.theme-settings-head>div>strong{font-size:.96rem;letter-spacing:-.02em}
+#themeCurrentLabel{color:var(--muted);font-size:.62rem;font-weight:700}
+.theme-choice-grid{display:grid;gap:5px}
+.theme-choice{
+  width:100%;min-height:58px;display:grid;grid-template-columns:62px minmax(0,1fr) 24px;align-items:center;gap:10px;
+  padding:8px;border:1px solid transparent;border-radius:12px;background:transparent;color:inherit;text-align:left;cursor:pointer;transition:.14s
+}
+.theme-choice:hover{background:var(--surface);border-color:color-mix(in srgb,var(--line) 70%,transparent)}
+.theme-choice.active{background:rgba(var(--accent-rgb),.075);border-color:rgba(var(--accent-rgb),.24)}
+.theme-preview{height:38px;display:grid;grid-template-columns:1fr 12px 12px;gap:3px;padding:5px;border:1px solid var(--line);border-radius:9px;background:var(--surface-3)}
+.theme-preview i{display:block;border-radius:4px;background:var(--swatch)}
+.theme-choice-copy{min-width:0}
+.theme-choice-copy strong{display:block;font-size:.72rem;color:var(--text)}
+.theme-choice-copy small{display:block;margin-top:3px;font-size:.57rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.theme-check{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;color:transparent;font-size:.65rem;font-weight:900}
+.theme-choice.active .theme-check{background:var(--accent);color:var(--bg)}
+@media(max-width:760px){
+  .theme-settings{position:fixed;top:10px;right:10px}
+  .theme-settings-button{width:34px;height:34px;background:color-mix(in srgb,var(--surface-3) 90%,transparent);border-color:color-mix(in srgb,var(--line) 72%,transparent)}
+  .theme-settings-popover{position:fixed;top:52px;right:10px}
+}
