@@ -188,6 +188,30 @@ def american_odds(runner):
         return None
 
 
+def decimal_odds(runner):
+    odds = runner.get("winRunnerOdds") or {}
+
+    raw = (odds.get("trueOdds") or {}).get("decimalOdds")
+    if isinstance(raw, dict):
+        raw = raw.get("decimalOdds")
+
+    if raw is None:
+        raw = (odds.get("decimalDisplayOdds") or {}).get("decimalOdds")
+
+    try:
+        value = float(raw)
+        if value > 1:
+            return value
+    except (TypeError, ValueError):
+        pass
+
+    # Fallback for snapshots that only expose rounded American display odds.
+    american = american_odds(runner)
+    if american is None or american == 0:
+        return None
+    return 1 + american / 100 if american > 0 else 1 + 100 / abs(american)
+
+
 def numeric_line(value):
     try:
         return float(value)
@@ -360,6 +384,7 @@ def parse_event_props(event, pages, by_norm, profiles):
                     continue
 
                 odds = american_odds(runner)
+                decimal = decimal_odds(runner)
                 if odds is None:
                     continue
 
@@ -408,6 +433,7 @@ def parse_event_props(event, pages, by_norm, profiles):
                     "selection": selection,
                     "line": line,
                     "odds": odds,
+                    "decimalOdds": decimal,
                     "proposition": proposition,
                     "lastUpdate": datetime.now(timezone.utc).isoformat(),
                     "link": "",
