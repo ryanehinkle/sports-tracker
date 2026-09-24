@@ -397,9 +397,17 @@ function render(){
         '<div class="player-copy"><div class="player-name">'+esc(p.name)+'</div><div class="player-meta"><span>'+esc(p.position||"—")+'</span><span class="team-dot"></span><span>'+esc(p.team||"NFL")+'</span></div></div>'+
         '<span class="row-chevron" aria-hidden="true">›</span>'+
       '</td>'+
-      '<td class="stat-strong">'+fmt.format(safe(p.touchdowns))+'</td>'+
       '<td class="all-purpose">'+fmt.format(safe(p.allPurposeYards))+'</td>'+
+      '<td class="stat-strong">'+fmt.format(safe(p.touchdowns))+'</td>'+
+      '<td>'+fmt.format(safe(p.receivingYards))+'</td>'+
+      '<td>'+fmt.format(safe(p.rushingYards))+'</td>'+
+      '<td>'+fmt.format(safe(p.receptions))+'</td>'+
       '<td>'+fmt.format(safe(p.passRushYards??(safe(p.passingYards)+safe(p.rushingYards))))+'</td>'+
+      '<td>'+fmt.format(safe(p.passingYards))+'</td>'+
+      '<td>'+fmt.format(safe(p.passingTouchdowns))+'</td>'+
+      '<td>'+usagePct(p.targetShare)+'</td>'+
+      '<td>'+usagePct(p.carryShare)+'</td>'+
+      '<td>'+usagePct(p.opportunityShare)+'</td>'+
       '<td>'+kickerCell(p,"kickingPoints")+'</td>'+
       '<td>'+kickerCell(p,"kickingPointsPerGame","decimal")+'</td>'+
       '<td>'+kickerCell(p,"fieldGoalsMade")+'</td>'+
@@ -411,14 +419,6 @@ function render(){
       '<td>'+kickerCell(p,"extraPointPct","pct")+'</td>'+
       '<td>'+kickerCell(p,"extraPointsPerGame","decimal")+'</td>'+
       '<td>'+kickerCell(p,"longFieldGoal")+'</td>'+
-      '<td>'+fmt.format(safe(p.receivingYards))+'</td>'+
-      '<td>'+fmt.format(safe(p.rushingYards))+'</td>'+
-      '<td>'+fmt.format(safe(p.receptions))+'</td>'+
-      '<td>'+usagePct(p.targetShare)+'</td>'+
-      '<td>'+usagePct(p.carryShare)+'</td>'+
-      '<td>'+usagePct(p.opportunityShare)+'</td>'+
-      '<td>'+fmt.format(safe(p.passingTouchdowns))+'</td>'+
-      '<td>'+fmt.format(safe(p.passingYards))+'</td>'+
     '</tr>'
   ).join("");
 }
@@ -470,13 +470,13 @@ function renderModalSeason(){
   }else{
     gameLogHead.innerHTML='<tr>'+
       '<th class="week-col">Week</th><th class="opponent-col">Opponent</th>'+
-      '<th>TD</th><th>All-Purpose Yds</th><th>Pass + Rush Yds</th><th>Kicking Pts</th>'+
-      '<th>Rec Yds</th><th>Rush Yds</th><th>Rec</th><th>Pass TD</th><th>Pass Yds</th>'+
+      '<th>All-Purpose Yds</th><th>TD</th><th>Rec Yds</th><th>Rush Yds</th><th>Rec</th>'+
+      '<th>Pass + Rush Yds</th><th>Pass Yds</th><th>Pass TD</th>'+
     '</tr>';
   }
 
   if(!logs.length){
-    gameLogBody.innerHTML='<tr><td colspan="'+(kicker?10:11)+'" class="modal-empty">No regular-season game log is available for '+esc(season)+'.</td></tr>';
+    gameLogBody.innerHTML='<tr><td colspan="'+(kicker?10:10)+'" class="modal-empty">No regular-season game log is available for '+esc(season)+'.</td></tr>';
     return;
   }
 
@@ -497,15 +497,14 @@ function renderModalSeason(){
       '</tr>';
     }
     return base+
-      '<td class="stat-strong">'+gameStat(game,"touchdowns")+'</td>'+
       '<td class="all-purpose">'+gameStat(game,"allPurposeYards")+'</td>'+
-      '<td>'+gameStat(game,"passRushYards")+'</td>'+
-      '<td>'+gameStat(game,"kickingPoints")+'</td>'+
+      '<td class="stat-strong">'+gameStat(game,"touchdowns")+'</td>'+
       '<td>'+gameStat(game,"receivingYards")+'</td>'+
       '<td>'+gameStat(game,"rushingYards")+'</td>'+
       '<td>'+gameStat(game,"receptions")+'</td>'+
-      '<td>'+gameStat(game,"passingTouchdowns")+'</td>'+
+      '<td>'+gameStat(game,"passRushYards")+'</td>'+
       '<td>'+gameStat(game,"passingYards")+'</td>'+
+      '<td>'+gameStat(game,"passingTouchdowns")+'</td>'+
     '</tr>';
   }).join("");
 }
