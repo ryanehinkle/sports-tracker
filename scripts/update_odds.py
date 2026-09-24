@@ -13,6 +13,7 @@ EVENT_URL = "https://sbapi.nj.sportsbook.fanduel.com/api/event-page"
 PUBLIC_WEB_KEY = "FhMFpcPWXMeyZxOx"
 OUT = Path("data/nfl-odds.json")
 STATS = Path("data/nfl-stats.json")
+TEAM_STATS = Path("data/nfl-team-stats.json")
 TIMEOUT = 25
 
 TEAM_ABBR = {
@@ -44,6 +45,19 @@ CORE_PROP_TABS = {
     "touchdown-scorers",
     "touchdowns",
     "player-props",
+}
+
+TEAM_MARKET_TABS = {
+    "popular",
+    "game-lines",
+    "game-props",
+    "alternate-lines",
+    "alternate-spreads",
+    "alternate-totals",
+    "team-totals",
+    "team-props",
+    "spreads",
+    "totals",
 }
 
 GENERIC_SELECTIONS = {
@@ -114,6 +128,27 @@ def load_stats_players():
     return by_norm, profiles, payload
 
 
+def load_team_stats():
+    if not TEAM_STATS.exists():
+        return {}, {}, {}
+    try:
+        payload = json.loads(TEAM_STATS.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}, {}, {}
+
+    by_abbr = {}
+    by_name = {}
+    for team in payload.get("teams") or []:
+        abbr = str(team.get("abbreviation") or "").upper()
+        name = str(team.get("name") or "")
+        if abbr:
+            by_abbr[abbr] = team
+        if name:
+            by_name[normalize_name(name)] = team
+            by_name[normalize_name(team.get("shortName") or "")] = team
+    return by_abbr, by_name, payload
+
+
 def load_previous():
     if not OUT.exists():
         return {}
@@ -176,10 +211,15 @@ def discover_tabs(payload):
             tab == "popular"
             or "prop" in tab
             or "touchdown" in tab
+            or "spread" in tab
+            or "total" in tab
+            or "line" in tab
+            or "game" in tab
+            or "team" in tab
             or tab in {"passing", "receiving", "rushing", "defense", "kicking"}
         )
     }
-    return useful | CORE_PROP_TABS
+    return useful | CORE_PROP_TABS | TEAM_MARKET_TABS
 
 
 def american_odds(runner):
@@ -378,6 +418,136 @@ def is_player_market(market, player_profiles):
     return "PLAYER" in market_type
 
 
+def _team_from_text(text, away_team, home_team):
+    lowered = str(text or "").lower()
+    candidates = [
+        (away_team, TEAM_ABBR.get(away_team, "")),
+        (home_team, TEAM_ABBR.get(home_team, "")),
+    ]
+    for full_name, abbr in candidates:
+        nickname = full_name.split()[-1].lower()
+        if full_name.lower() in lowered or (abbr and re.search(rf"\b{re.escape(abbr.lower())}\b", lowered)):
+            return full_name, abbr
+        # Nicknames are safe enough for NFL event-local matching.
+        if len(nickname) >= 4 and re.search(rf"\b{re.escape(nickname)}\b", lowered):
+            return full_name, abbr
+    return "", ""
+
+
+def _full_game_team_market(market_name, market_type):
+    text = f"{market_name} {market_type}".lower()
+    if re.search(r"\b(?:1q|2q|3q|4q|1h|2h)\b|quarter|half|drive|race to|first to", text):
+        return None
+    if "team total" in text or "team points" in text:
+        return "teamTotal"
+    if "moneyline" in text or "money line" in text or "match winner" in text or "money_line" in text:
+        return "moneyline"
+    if "spread" in text or "handicap" in text:
+        return "spread"
+    if "total" in text or "over/under" in text or "over under" in text:
+        return "gameTotal"
+    return None
+
+
+def _signed_handicap(runner, fallback=None):
+    for key in ("handicap", "line", "points"):
+        raw = runner.get(key)
+        try:
+            value = float(raw)
+            if abs(value) < 1000:
+                return value
+        except (TypeError, ValueError):
+            pass
+    text = str(runner.get("runnerName") or "")
+    match = re.search(r"(?<!\d)([+-]\d+(?:\.\d+)?)\b", text)
+    if match:
+        return float(match.group(1))
+    return fallback
+
+
+def _team_prop_record(event, market, market_id, runner, tab, away_team, home_team):
+    market_name = str(market.get("marketName") or "Game Market").strip()
+    market_type = str(market.get("marketType") or market.get("marketTypeId") or "")
+    kind = _full_game_team_market(market_name, market_type)
+    if not kind:
+        return None
+
+    odds = american_odds(runner)
+    decimal = decimal_odds(runner)
+    if odds is None:
+        return None
+
+    runner_name = str(runner.get("runnerName") or runner.get("name") or runner.get("selectionName") or "").strip()
+    team_name, team_abbr = _team_from_text(f"{market_name} {runner_name}", away_team, home_team)
+    selection = selection_from_runner(runner_name, market_name)
+    alternate = bool("ALT" in market_type.upper() or "alt" in market_name.lower() or "alternate" in market_name.lower())
+
+    if kind == "moneyline":
+        if not team_abbr:
+            return None
+        selection = "Win"
+        line = None
+        label = "Moneyline"
+        proposition = f"{team_abbr} Moneyline"
+        scope = "team"
+    elif kind == "spread":
+        if not team_abbr:
+            return None
+        line = _signed_handicap(runner, infer_line(market_name, runner))
+        if line is None:
+            return None
+        selection = "Cover"
+        label = "Alt Spread" if alternate else "Spread"
+        pretty = f"{line:+g}"
+        proposition = f"{team_abbr} {pretty} {label}"
+        scope = "team"
+    elif kind == "teamTotal":
+        if not team_abbr:
+            return None
+        line = infer_line(market_name, runner)
+        if line is None:
+            return None
+        if selection not in {"Over", "Under"}:
+            selection = "Over" if "over" in runner_name.lower() else "Under" if "under" in runner_name.lower() else selection
+        label = "Alt Team Total" if alternate else "Team Total"
+        proposition = f"{selection} {line:g} {team_abbr} {label}"
+        scope = "team"
+    else:
+        line = infer_line(market_name, runner)
+        if line is None:
+            return None
+        if selection not in {"Over", "Under"}:
+            selection = "Over" if "over" in runner_name.lower() else "Under" if "under" in runner_name.lower() else selection
+        label = "Alt Game Total" if alternate else "Game Total"
+        proposition = f"{selection} {line:g} {label}"
+        scope = "game"
+        team_name = ""
+        team_abbr = ""
+
+    return {
+        "scope": scope,
+        "player": "",
+        "team": team_abbr,
+        "teamName": team_name,
+        "position": "TEAM" if scope == "team" else "GAME",
+        "headshot": "",
+        "marketKey": market_type or market_name,
+        "market": label,
+        "teamMarketType": kind,
+        "alternate": alternate,
+        "selection": selection,
+        "line": line,
+        "odds": odds,
+        "decimalOdds": decimal,
+        "proposition": proposition,
+        "lastUpdate": datetime.now(timezone.utc).isoformat(),
+        "link": "",
+        "sourceTab": tab,
+        "marketId": str(market.get("marketId") or market_id),
+        "selectionId": str(runner.get("selectionId") or ""),
+    }
+
+
 def parse_event_props(event, pages, by_norm, profiles):
     teams = parse_teams(event)
     if not teams:
@@ -390,18 +560,31 @@ def parse_event_props(event, pages, by_norm, profiles):
     for tab, page in pages.items():
         markets = (page.get("attachments") or {}).get("markets") or {}
         for market_id, market in markets.items():
-            if not is_player_market(market, profiles):
-                continue
-
             market_name = str(market.get("marketName") or "Player Prop").strip()
             market_type = str(market.get("marketType") or market.get("marketTypeId") or "")
             market_status = str(market.get("marketStatus") or market.get("status") or "").upper()
             if market_status and market_status not in {"OPEN", "ACTIVE"}:
                 continue
 
+            player_market = is_player_market(market, profiles)
+
             for runner in market.get("runners") or []:
                 runner_status = str(runner.get("runnerStatus") or runner.get("status") or "").upper()
                 if runner_status and runner_status not in {"ACTIVE", "OPEN"}:
+                    continue
+
+                if not player_market:
+                    team_prop = _team_prop_record(event, market, market_id, runner, tab, away_team, home_team)
+                    if not team_prop:
+                        continue
+                    key = (
+                        team_prop["scope"],
+                        team_prop.get("team") or "",
+                        team_prop["market"].lower(),
+                        team_prop["selection"],
+                        str(team_prop.get("line")),
+                    )
+                    prop_map[key] = team_prop
                     continue
 
                 odds = american_odds(runner)
@@ -437,6 +620,7 @@ def parse_event_props(event, pages, by_norm, profiles):
                 proposition = proposition_text(label, selection, line, market_name)
 
                 key = (
+                    "player",
                     normalize_name(player_name),
                     label.lower(),
                     selection,
@@ -444,6 +628,7 @@ def parse_event_props(event, pages, by_norm, profiles):
                 )
 
                 prop_map[key] = {
+                    "scope": "player",
                     "player": player_name,
                     "team": profile.get("team") or "",
                     "position": profile.get("position") or "",
@@ -464,7 +649,13 @@ def parse_event_props(event, pages, by_norm, profiles):
                 }
 
     props = list(prop_map.values())
-    props.sort(key=lambda p: (p["player"], p["market"], p["line"] if p["line"] is not None else -9999, p["selection"]))
+    props.sort(key=lambda p: (
+        p.get("scope") or "player",
+        p.get("player") or p.get("team") or "",
+        p["market"],
+        p["line"] if p["line"] is not None else -9999,
+        p["selection"],
+    ))
 
     if not props:
         return None
@@ -698,13 +889,102 @@ def _hit_rates_for_prop(event, prop, profile, current_season):
     }
 
 
-def enrich_hit_rates(payload, by_norm, stats_payload):
+def _team_logs(team, season, current_season):
+    if not team:
+        return []
+    by = team.get("gameLogsBySeason") or {}
+    rows = by.get(str(season))
+    if isinstance(rows, list):
+        return [dict(game, _season=season) for game in rows if game]
+    if season == current_season:
+        return [dict(game, _season=season) for game in (team.get("gameLog") or []) if game]
+    return []
+
+
+def _team_prop_outcome(prop, game):
+    if not game:
+        return None
+    kind = prop.get("teamMarketType")
+    selection = str(prop.get("selection") or "")
+    line = prop.get("line")
+    try:
+        line = float(line) if line is not None else None
+    except (TypeError, ValueError):
+        line = None
+
+    stats = game.get("stats") or {}
+    points_for = _safe_number(stats.get("derived.pointsFor"))
+    points_against = _safe_number(stats.get("derived.pointsAgainst"))
+    diff = points_for - points_against
+
+    if kind == "moneyline":
+        if diff == 0:
+            return None
+        return diff > 0
+    if kind == "spread" and line is not None:
+        margin = diff + line
+        if abs(margin) < 1e-9:
+            return None
+        return margin > 0
+    if kind == "teamTotal" and line is not None:
+        value = points_for
+    elif kind == "gameTotal" and line is not None:
+        value = points_for + points_against
+    else:
+        return None
+
+    if abs(value - line) < 1e-9:
+        return None
+    return value < line if selection == "Under" else value > line
+
+
+def _rate_for_team_games(prop, games):
+    outcomes = [_team_prop_outcome(prop, game) for game in games]
+    outcomes = [value for value in outcomes if value is not None]
+    if not outcomes:
+        return None
+    hits = sum(1 for value in outcomes if value)
+    return {"hits": hits, "total": len(outcomes), "pct": round(hits / len(outcomes) * 100, 1)}
+
+
+def _hit_rates_for_team_prop(event, prop, team_by_abbr, team_payload):
+    current_season = int(team_payload.get("season") or datetime.now(timezone.utc).year)
+    team_abbr = str(prop.get("team") or event.get("homeAbbr") or "").upper()
+    team = team_by_abbr.get(team_abbr)
+    if not team:
+        return {"l5": None, "l10": None, "h2h": None, "current": None, "previous": None}
+
+    current_logs = _team_logs(team, current_season, current_season)
+    previous_logs = _team_logs(team, current_season - 1, current_season)
+    all_logs = sorted(current_logs + previous_logs, key=lambda g: (int(g.get("_season") or 0), int(g.get("week") or 0)), reverse=True)
+
+    opponent = event.get("awayAbbr") if team_abbr == event.get("homeAbbr") else event.get("homeAbbr")
+    h2h = [
+        game for game in (current_logs + previous_logs)
+        if str((game.get("opponent") or {}).get("abbreviation") or "").upper() == str(opponent or "").upper()
+    ]
+
+    return {
+        "l5": _rate_for_team_games(prop, all_logs[:5]),
+        "l10": _rate_for_team_games(prop, all_logs[:10]),
+        "h2h": _rate_for_team_games(prop, h2h),
+        "current": _rate_for_team_games(prop, current_logs),
+        "previous": _rate_for_team_games(prop, previous_logs),
+    }
+
+
+def enrich_hit_rates(payload, by_norm, stats_payload, team_by_abbr=None, team_payload=None):
     current_season = int(stats_payload.get("season") or datetime.now(timezone.utc).year)
+    team_by_abbr = team_by_abbr or {}
+    team_payload = team_payload or {}
     enriched = 0
     for event in payload.get("events") or []:
         for prop in event.get("props") or []:
-            profile = by_norm.get(normalize_name(prop.get("player")))
-            prop["hitRates"] = _hit_rates_for_prop(event, prop, profile, current_season)
+            if prop.get("scope") in {"team", "game"}:
+                prop["hitRates"] = _hit_rates_for_team_prop(event, prop, team_by_abbr, team_payload)
+            else:
+                profile = by_norm.get(normalize_name(prop.get("player")))
+                prop["hitRates"] = _hit_rates_for_prop(event, prop, profile, current_season)
             enriched += 1
     return enriched
 
@@ -716,12 +996,13 @@ def history_only():
         return
 
     by_norm, _, stats_payload = load_stats_players()
-    if not by_norm:
-        print("No player stats available; skipping history enrichment.")
+    team_by_abbr, _, team_payload = load_team_stats()
+    if not by_norm and not team_by_abbr:
+        print("No player/team stats available; skipping history enrichment.")
         return
 
     original = json.loads(json.dumps(previous))
-    enriched = enrich_hit_rates(previous, by_norm, stats_payload)
+    enriched = enrich_hit_rates(previous, by_norm, stats_payload, team_by_abbr, team_payload)
 
     if compact_for_compare(original) == compact_for_compare(previous):
         print(f"Historical hit rates already current for {enriched} prop outcomes.")
@@ -748,6 +1029,7 @@ def main():
     earliest = now - timedelta(hours=6)
 
     by_norm, profiles, stats_payload = load_stats_players()
+    team_by_abbr, _, team_payload = load_team_stats()
     previous = load_previous()
     previous_events = {
         str(event.get("id")): event
@@ -799,9 +1081,11 @@ def main():
 
             if parsed:
                 refreshed_events.append(parsed)
-                print(f"  {len(pages)} tab(s), {len(parsed['props'])} player-prop outcomes")
+                player_count = sum(1 for prop in parsed["props"] if prop.get("scope") == "player")
+                team_count = len(parsed["props"]) - player_count
+                print(f"  {len(pages)} tab(s), {player_count} player + {team_count} team/game outcomes")
             else:
-                print(f"  {len(pages)} tab(s), no player props currently available")
+                print(f"  {len(pages)} tab(s), no supported full-game markets currently available")
         except Exception as exc:
             print(f"  WARNING: FanDuel fetch failed: {exc}", file=sys.stderr)
 
@@ -827,7 +1111,7 @@ def main():
         "events": combined,
     }
 
-    enriched = enrich_hit_rates(payload, by_norm, stats_payload)
+    enriched = enrich_hit_rates(payload, by_norm, stats_payload, team_by_abbr, team_payload)
     print(f"Enriched {enriched} prop outcomes with historical hit rates.")
 
     if previous and compact_for_compare(previous) == compact_for_compare(payload):
