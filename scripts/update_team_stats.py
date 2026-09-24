@@ -16,7 +16,7 @@ WEEK_EVENTS = "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/s
 CDN_GAME = "https://cdn.espn.com/core/nfl/game"
 PLAYER_STATS = Path("data/nfl-stats.json")
 OUT = Path("data/nfl-team-stats.json")
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 TIMEOUT = 30
 
 UA = {
@@ -385,20 +385,38 @@ def current_week_events(season, current_week):
             events[eid] = {"week": {"number": week}}
     return events
 
-def previous_game_logs(previous, season):
-    if previous.get("schemaVersion") != SCHEMA_VERSION or previous.get("season") != season:
-        return {}, set()
+def previous_game_logs(previous, seasons):
+    """Return cached team game logs keyed by season and completed event ids.
 
-    logs = {}
-    ids = set()
+    Schema v3 stores both the current and prior regular seasons. When migrating
+    from v2, preserve the existing current-season gameLog so the upgrade only
+    needs to backfill the prior season once.
+    """
+    logs = {int(season): {} for season in seasons}
+    ids = {int(season): set() for season in seasons}
+    previous_season = int(previous.get("season") or 0)
+
     for team in previous.get("teams") or []:
         tid = str(team.get("id") or "")
         if not tid:
             continue
-        logs[tid] = list(team.get("gameLog") or [])
-        for game in logs[tid]:
-            if game.get("eventId"):
-                ids.add(str(game["eventId"]))
+
+        if previous.get("schemaVersion") == SCHEMA_VERSION:
+            by_season = team.get("gameLogsBySeason") or {}
+            for season in seasons:
+                rows = list(by_season.get(str(season)) or [])
+                logs[int(season)][tid] = rows
+                for game in rows:
+                    if game.get("eventId"):
+                        ids[int(season)].add(str(game["eventId"]))
+        elif previous_season in seasons:
+            # v2 migration path: its gameLog is the current season only.
+            rows = list(team.get("gameLog") or [])
+            logs[previous_season][tid] = rows
+            for game in rows:
+                if game.get("eventId"):
+                    ids[previous_season].add(str(game["eventId"]))
+
     return logs, ids
 
 
@@ -759,25 +777,33 @@ def main():
                 core_by_team[team["id"]] = {}
                 displays_by_team[team["id"]] = {}
 
-    logs_by_team, cached_event_ids = previous_game_logs(previous, season)
-    for team in teams:
-        logs_by_team.setdefault(team["id"], [])
+    history_seasons = [season - 1, season]
+    logs_by_season, cached_event_ids = previous_game_logs(previous, history_seasons)
+    for history_season in history_seasons:
+        for team in teams:
+            logs_by_season[history_season].setdefault(team["id"], [])
 
-    events = current_week_events(season, current_week)
-    missing_events = [
-        (eid, event) for eid, event in events.items()
-        if eid not in cached_event_ids
-    ]
-    print(f"{len(events)} completed event(s); {len(missing_events)} new summary fetch(es)")
+    season_event_sets = {
+        season - 1: current_week_events(season - 1, 18),
+        season: current_week_events(season, current_week),
+    }
+    missing_events = []
+    for history_season, events in season_event_sets.items():
+        for eid, event in events.items():
+            if eid not in cached_event_ids[history_season]:
+                missing_events.append((history_season, eid, event))
+
+    total_events = sum(len(events) for events in season_event_sets.values())
+    print(f"{total_events} historical/current event(s); {len(missing_events)} new summary fetch(es)")
 
     if missing_events:
         with ThreadPoolExecutor(max_workers=8) as pool:
             futures = {
-                pool.submit(get_json, CDN_GAME, {"xhr": 1, "gameId": eid}): (eid, event)
-                for eid, event in missing_events
+                pool.submit(get_json, CDN_GAME, {"xhr": 1, "gameId": eid}): (history_season, eid, event)
+                for history_season, eid, event in missing_events
             }
             for future in as_completed(futures):
-                eid, event = futures[future]
+                history_season, eid, event = futures[future]
                 try:
                     package = future.result().get("gamepackageJSON") or {}
                     competition = (((package.get("header") or {}).get("competitions") or [{}])[0])
@@ -789,24 +815,27 @@ def main():
                     parsed = parse_summary(eid, package, week)
                     for game in parsed:
                         tid = game.pop("teamId")
-                        logs_by_team.setdefault(tid, []).append(game)
-                    print(f"game package: {eid} ({len(parsed)} team rows)")
+                        logs_by_season[history_season].setdefault(tid, []).append(game)
+                    print(f"game package: {history_season} {eid} ({len(parsed)} team rows)")
                 except Exception as exc:
-                    print(f"WARNING: game package failed for {eid}: {exc}", file=sys.stderr)
+                    print(f"WARNING: game package failed for {history_season} {eid}: {exc}", file=sys.stderr)
 
     output_teams = []
     for team in teams:
         tid = team["id"]
-        logs = logs_by_team.get(tid) or []
-        # Deduplicate by event and keep chronological order.
-        deduped = {}
-        for game in logs:
-            if game.get("eventId"):
-                deduped[str(game["eventId"])] = game
-        logs = sorted(
-            deduped.values(),
-            key=lambda game: (int(game.get("week") or 0), str(game.get("date") or ""))
-        )
+        game_logs_by_season = {}
+        for history_season in history_seasons:
+            rows = logs_by_season[history_season].get(tid) or []
+            deduped = {}
+            for game in rows:
+                if game.get("eventId"):
+                    deduped[str(game["eventId"])] = game
+            game_logs_by_season[str(history_season)] = sorted(
+                deduped.values(),
+                key=lambda game: (int(game.get("week") or 0), str(game.get("date") or ""))
+            )
+
+        logs = game_logs_by_season.get(str(season), [])
 
         values = dict(core_by_team.get(tid) or {})
         values.update(derived_stats(logs))
@@ -821,6 +850,7 @@ def main():
             "stats": values,
             "displays": displays_by_team.get(tid) or {},
             "gameLog": logs,
+            "gameLogsBySeason": game_logs_by_season,
         })
 
     output_teams.sort(key=lambda team: team["name"])
