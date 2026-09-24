@@ -116,6 +116,7 @@ const modalPlayerName=document.getElementById("modalPlayerName");
 const modalPlayerMeta=document.getElementById("modalPlayerMeta");
 const modalKicker=document.getElementById("modalKicker");
 const modalSeasonSelect=document.getElementById("modalSeasonSelect");
+const gameLogHead=document.getElementById("gameLogHead");
 const gameLogBody=document.getElementById("gameLogBody");
 
 const hitRateModal=document.getElementById("hitRateModal");
@@ -259,7 +260,7 @@ function generalizedMarketLabel(row){
   if(/last touchdown scorer/.test(lower)) return "Last Touchdown Scorer";
   if(/4th quarter td scorer/.test(lower)) return "Anytime 4th Quarter TD Scorer";
   if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(lower)) return period+"Rush + Rec Yards";
-  if(/pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards/.test(lower)) return period+"Passing + Rushing Yards";
+  if(/pass(?:ing)?\s*(?:\+|plus)\s*rush(?:ing)?.*yards/.test(lower)) return period+"Passing + Rushing Yards";
   if(/receiving yards/.test(lower)) return period+"Receiving Yards";
   if(/rushing yards/.test(lower)) return period+"Rushing Yards";
   if(/passing yards/.test(lower)) return period+"Passing Yards";
@@ -353,6 +354,23 @@ function rebuildUsageShares(){
 function usagePct(value){
   return Number.isFinite(Number(value))?(Math.round(Number(value)*10)/10).toFixed(1)+"%":"—";
 }
+function isKicker(player){return String(player?.position||"").toUpperCase()==="K"}
+function playerDecimal(value){
+  return Number.isFinite(Number(value))?(Math.round(Number(value)*100)/100).toLocaleString():"—";
+}
+function kickerCell(player,key,kind="number"){
+  if(!isKicker(player))return"—";
+  const value=player?.[key];
+  if(kind==="pct")return Number.isFinite(Number(value))?(Math.round(Number(value)*10)/10).toFixed(1)+"%":"—";
+  if(kind==="decimal")return playerDecimal(value);
+  return Number.isFinite(Number(value))?fmt.format(Number(value)):"—";
+}
+function gamePct(game,madeKey,attemptKey){
+  if(!game||!game.played)return"—";
+  const attempts=safe(game[attemptKey]);
+  if(!attempts)return"—";
+  return ((safe(game[madeKey])/attempts)*100).toFixed(1)+"%";
+}
 
 function render(){
   const q=state.query.trim().toLowerCase();
@@ -369,7 +387,7 @@ function render(){
     mark.textContent=th.dataset.key===state.sortKey?(state.sortDir==="asc"?"▲":"▼"):"";
   });
   if(!rows.length){
-    body.innerHTML='<tr><td colspan="13" class="empty-cell">No players match that search.</td></tr>';
+    body.innerHTML='<tr><td colspan="23" class="empty-cell">No players match that search.</td></tr>';
     return;
   }
   body.innerHTML=rows.map(p=>
@@ -382,7 +400,17 @@ function render(){
       '<td class="stat-strong">'+fmt.format(safe(p.touchdowns))+'</td>'+
       '<td class="all-purpose">'+fmt.format(safe(p.allPurposeYards))+'</td>'+
       '<td>'+fmt.format(safe(p.passRushYards??(safe(p.passingYards)+safe(p.rushingYards))))+'</td>'+
-      '<td>'+fmt.format(safe(p.kickingPoints))+'</td>'+
+      '<td>'+kickerCell(p,"kickingPoints")+'</td>'+
+      '<td>'+kickerCell(p,"kickingPointsPerGame","decimal")+'</td>'+
+      '<td>'+kickerCell(p,"fieldGoalsMade")+'</td>'+
+      '<td>'+kickerCell(p,"fieldGoalsAttempted")+'</td>'+
+      '<td>'+kickerCell(p,"fieldGoalPct","pct")+'</td>'+
+      '<td>'+kickerCell(p,"fieldGoalsPerGame","decimal")+'</td>'+
+      '<td>'+kickerCell(p,"extraPointsMade")+'</td>'+
+      '<td>'+kickerCell(p,"extraPointsAttempted")+'</td>'+
+      '<td>'+kickerCell(p,"extraPointPct","pct")+'</td>'+
+      '<td>'+kickerCell(p,"extraPointsPerGame","decimal")+'</td>'+
+      '<td>'+kickerCell(p,"longFieldGoal")+'</td>'+
       '<td>'+fmt.format(safe(p.receivingYards))+'</td>'+
       '<td>'+fmt.format(safe(p.rushingYards))+'</td>'+
       '<td>'+fmt.format(safe(p.receptions))+'</td>'+
@@ -430,17 +458,45 @@ function renderModalSeason(){
   if(!player) return;
   const season=Number(modalSeasonSelect.value||state.season);
   const logs=logsForSeason(player,season);
-  modalKicker.textContent=season+" REGULAR SEASON • GAME LOG";
+  const kicker=isKicker(player);
+  modalKicker.textContent=season+" REGULAR SEASON • "+(kicker?"KICKING LOG":"GAME LOG");
+
+  if(kicker){
+    gameLogHead.innerHTML='<tr>'+
+      '<th class="week-col">Week</th><th class="opponent-col">Opponent</th>'+
+      '<th>K Pts</th><th>FGM</th><th>FGA</th><th>FG%</th>'+
+      '<th>XPM</th><th>XPA</th><th>XP%</th><th>Long FG</th>'+
+    '</tr>';
+  }else{
+    gameLogHead.innerHTML='<tr>'+
+      '<th class="week-col">Week</th><th class="opponent-col">Opponent</th>'+
+      '<th>TD</th><th>All-Purpose Yds</th><th>Pass + Rush Yds</th><th>Kicking Pts</th>'+
+      '<th>Rec Yds</th><th>Rush Yds</th><th>Rec</th><th>Pass TD</th><th>Pass Yds</th>'+
+    '</tr>';
+  }
 
   if(!logs.length){
-    gameLogBody.innerHTML='<tr><td colspan="11" class="modal-empty">No regular-season game log is available for '+esc(season)+'.</td></tr>';
+    gameLogBody.innerHTML='<tr><td colspan="'+(kicker?10:11)+'" class="modal-empty">No regular-season game log is available for '+esc(season)+'.</td></tr>';
     return;
   }
 
-  gameLogBody.innerHTML=logs.map(game=>
-    '<tr class="'+(game.played?"":"no-game-row")+'">'+
+  gameLogBody.innerHTML=logs.map(game=>{
+    const base='<tr class="'+(game.played?"":"no-game-row")+'">'+
       '<td class="week-cell">Week '+esc(game.week)+'</td>'+
-      '<td class="opponent-cell">'+opponentHtml(game)+'</td>'+
+      '<td class="opponent-cell">'+opponentHtml(game)+'</td>';
+    if(kicker){
+      return base+
+        '<td class="stat-strong">'+gameStat(game,"kickingPoints")+'</td>'+
+        '<td>'+gameStat(game,"fieldGoalsMade")+'</td>'+
+        '<td>'+gameStat(game,"fieldGoalsAttempted")+'</td>'+
+        '<td>'+gamePct(game,"fieldGoalsMade","fieldGoalsAttempted")+'</td>'+
+        '<td>'+gameStat(game,"extraPointsMade")+'</td>'+
+        '<td>'+gameStat(game,"extraPointsAttempted")+'</td>'+
+        '<td>'+gamePct(game,"extraPointsMade","extraPointsAttempted")+'</td>'+
+        '<td>'+gameStat(game,"longFieldGoal")+'</td>'+
+      '</tr>';
+    }
+    return base+
       '<td class="stat-strong">'+gameStat(game,"touchdowns")+'</td>'+
       '<td class="all-purpose">'+gameStat(game,"allPurposeYards")+'</td>'+
       '<td>'+gameStat(game,"passRushYards")+'</td>'+
@@ -450,8 +506,8 @@ function renderModalSeason(){
       '<td>'+gameStat(game,"receptions")+'</td>'+
       '<td>'+gameStat(game,"passingTouchdowns")+'</td>'+
       '<td>'+gameStat(game,"passingYards")+'</td>'+
-    '</tr>'
-  ).join("");
+    '</tr>';
+  }).join("");
 }
 function openPlayer(player){
   state.modalPlayer=player;
@@ -504,7 +560,7 @@ function metricSpec(row){
 
   if(/any time touchdown scorer|anytime touchdown scorer/.test(text)) return {metric:"touchdowns",threshold:1,comparison:"gte"};
   if(/pass \+ rush \+ rec.*yards|pass.*rush.*reception.*yards/.test(text)) return {metric:"passRushRecYards"};
-  if(/pass(?:ing)? \+ rush(?:ing)?.*yards/.test(text)) return {metric:"passRushYards"};
+  if(/pass(?:ing)? (?:\\+|plus) rush(?:ing)?.*yards/.test(text)) return {metric:"passRushYards"};
   if(/rush(?:ing)? \+ receiv.*yards|rush.*receiv.*yards/.test(text)) return {metric:"allPurposeYards"};
   if(/passing yards/.test(text)) return {metric:"passingYards"};
   if(/receiving yards/.test(text)) return {metric:"receivingYards"};
@@ -1625,7 +1681,7 @@ async function loadStats(){
     if(state.activeView==="team-stats"&&!state.teamStatsRaw) setView("team-stats",false);
   }catch(err){
     console.error(err);
-    body.innerHTML='<tr><td colspan="13" class="empty-cell">Stats have not been generated yet. Run the “Update NFL Stats” GitHub Action once.</td></tr>';
+    body.innerHTML='<tr><td colspan="23" class="empty-cell">Stats have not been generated yet. Run the “Update NFL Stats” GitHub Action once.</td></tr>';
   }finally{
     state.statsLoading=false;
   }
