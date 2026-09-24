@@ -157,18 +157,14 @@
 .model-filter-button .filter-caret{margin-left:auto}
 .model-filter-popover{
   width:min(340px,calc(100vw - 20px));max-height:min(430px,calc(100vh - 24px));
-  overflow:hidden;isolation:isolate;contain:layout paint;z-index:5000;
-  backface-visibility:hidden
+  overflow:hidden;z-index:10000;background:var(--surface-3,#121720)
 }
 .model-game-popover{width:min(405px,calc(100vw - 20px))}
 .model-filter-popover .filter-options{
-  max-height:310px;position:relative;z-index:1;overscroll-behavior:contain;
+  max-height:310px;position:relative;z-index:1;overflow-y:auto;overscroll-behavior:contain;
   scrollbar-gutter:stable
 }
 .model-filter-popover .filter-option{position:relative;z-index:1}
-body:has(.model-filter-popover:not([hidden])) .hit-bar-tooltip{
-  opacity:0!important;visibility:hidden!important
-}
 .model-player-search{display:block;margin-top:14px}
 .model-player-search input{width:100%}
 .signal-odds strong{color:var(--text);font-size:.78rem}
