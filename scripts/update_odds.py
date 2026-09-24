@@ -5,6 +5,7 @@ import sys
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from curl_cffi import requests
 
@@ -14,6 +15,9 @@ PUBLIC_WEB_KEY = "FhMFpcPWXMeyZxOx"
 OUT = Path("data/nfl-odds.json")
 STATS = Path("data/nfl-stats.json")
 TEAM_STATS = Path("data/nfl-team-stats.json")
+HISTORY_DIR = Path("data/odds-history")
+HISTORY_INDEX = HISTORY_DIR / "index.json"
+CENTRAL = ZoneInfo("America/Chicago")
 TIMEOUT = 25
 
 TEAM_ABBR = {
@@ -1003,13 +1007,277 @@ def history_only():
 
     original = json.loads(json.dumps(previous))
     enriched = enrich_hit_rates(previous, by_norm, stats_payload, team_by_abbr, team_payload)
+    graded = grade_history(by_norm, stats_payload, team_by_abbr, team_payload)
 
     if compact_for_compare(original) == compact_for_compare(previous):
-        print(f"Historical hit rates already current for {enriched} prop outcomes.")
-        return
+        print(f"Historical hit rates already current for {enriched} live prop outcomes.")
+    else:
+        OUT.write_text(json.dumps(previous, indent=2) + "\n", encoding="utf-8")
+        print(f"Updated historical hit rates for {enriched} live prop outcomes.")
+    if graded:
+        print(f"Graded {graded} archived prop outcome(s).")
 
-    OUT.write_text(json.dumps(previous, indent=2) + "\n", encoding="utf-8")
-    print(f"Updated historical hit rates for {enriched} prop outcomes.")
+
+def _event_local_date(event):
+    commence = iso_dt(event.get("commenceTime"))
+    return commence.astimezone(CENTRAL).date().isoformat() if commence else None
+
+
+def _history_file(date_key):
+    return HISTORY_DIR / f"{date_key}.json"
+
+
+def _load_history_day(date_key):
+    path = _history_file(date_key)
+    if not path.exists():
+        return {"date": date_key, "createdAt": datetime.now(timezone.utc).isoformat(), "events": []}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {"date": date_key, "createdAt": datetime.now(timezone.utc).isoformat(), "events": []}
+
+
+def _write_history_day(payload):
+    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+    payload["updatedAt"] = datetime.now(timezone.utc).isoformat()
+    _history_file(payload["date"]).write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def _event_snapshot_candidate(event, previous_events, now):
+    commence = iso_dt(event.get("commenceTime"))
+    if not commence:
+        return None
+    # Freeze the board when a refresh lands roughly one hour before kickoff.
+    # If this run is just after kickoff, use the previous refresh if it was pregame.
+    if commence - timedelta(minutes=90) <= now < commence:
+        return event
+    if commence <= now <= commence + timedelta(hours=3):
+        previous = previous_events.get(str(event.get("id") or ""))
+        prev_update = iso_dt(previous.get("lastUpdate")) if previous else None
+        if previous and prev_update and prev_update < commence:
+            return previous
+    return None
+
+
+def archive_due_events(payload, previous_events, now):
+    changed = 0
+    by_date = {}
+    for event in payload.get("events") or []:
+        candidate = _event_snapshot_candidate(event, previous_events, now)
+        if not candidate:
+            continue
+        date_key = _event_local_date(candidate)
+        if not date_key:
+            continue
+        day = by_date.setdefault(date_key, _load_history_day(date_key))
+        frozen_ids = {str(item.get("id") or "") for item in day.get("events") or []}
+        event_id = str(candidate.get("id") or "")
+        if event_id in frozen_ids:
+            continue
+        frozen = json.loads(json.dumps(candidate))
+        frozen["snapshotAt"] = now.isoformat()
+        frozen["snapshotKind"] = "last-pregame"
+        for prop in frozen.get("props") or []:
+            prop["result"] = {"status": "pending"}
+        day.setdefault("events", []).append(frozen)
+        day["events"].sort(key=lambda item: item.get("commenceTime") or "")
+        changed += 1
+
+    for day in by_date.values():
+        _write_history_day(day)
+    if changed:
+        _rebuild_history_index()
+    return changed
+
+
+def _all_profile_logs(profile, current_season):
+    rows = []
+    if not profile:
+        return rows
+    by = profile.get("gameLogsBySeason") or {}
+    for season, games in by.items():
+        try:
+            season_num = int(season)
+        except (TypeError, ValueError):
+            continue
+        for game in games or []:
+            if game.get("played"):
+                rows.append(dict(game, _season=season_num))
+    if not by:
+        for game in profile.get("gameLog") or []:
+            if game.get("played"):
+                rows.append(dict(game, _season=current_season))
+    return rows
+
+
+def _date_distance_hours(game_date, event_time):
+    game_dt = iso_dt(game_date)
+    event_dt = iso_dt(event_time)
+    if not game_dt or not event_dt:
+        return 99999
+    return abs((game_dt - event_dt).total_seconds()) / 3600
+
+
+def _match_player_game(event, prop, profile, current_season):
+    opponent = _opponent_for_prop(event, prop, profile)
+    candidates = []
+    for game in _all_profile_logs(profile, current_season):
+        game_opp = str((game.get("opponent") or {}).get("abbreviation") or "").upper()
+        if opponent and game_opp != opponent:
+            continue
+        distance = _date_distance_hours(game.get("date"), event.get("commenceTime"))
+        if distance <= 48:
+            candidates.append((distance, game))
+    if candidates:
+        candidates.sort(key=lambda item: item[0])
+        return candidates[0][1]
+    return None
+
+
+def _match_team_game(event, prop, team_by_abbr, team_payload):
+    current_season = int(team_payload.get("season") or datetime.now(timezone.utc).year)
+    team_abbr = str(prop.get("team") or event.get("homeAbbr") or "").upper()
+    team = team_by_abbr.get(team_abbr)
+    if not team:
+        return None
+    opponent = event.get("awayAbbr") if team_abbr == event.get("homeAbbr") else event.get("homeAbbr")
+    candidates = []
+    by = team.get("gameLogsBySeason") or {}
+    seasons = [current_season - 1, current_season]
+    for season in seasons:
+        games = by.get(str(season)) or (team.get("gameLog") or [] if season == current_season else [])
+        for game in games:
+            game_opp = str((game.get("opponent") or {}).get("abbreviation") or "").upper()
+            if opponent and game_opp != str(opponent or "").upper():
+                continue
+            distance = _date_distance_hours(game.get("date"), event.get("commenceTime"))
+            if distance <= 48:
+                candidates.append((distance, game))
+    if candidates:
+        candidates.sort(key=lambda item: item[0])
+        return candidates[0][1]
+    return None
+
+
+def _grade_player_prop(event, prop, profile, current_season):
+    game = _match_player_game(event, prop, profile, current_season)
+    spec = _metric_spec(prop)
+    if not game or not spec:
+        return None
+    value = _metric_value(game, spec)
+    if value is None:
+        return None
+
+    if spec.get("comparison") == "gte":
+        hit = value >= float(spec["threshold"])
+        return {"status": "hit" if hit else "miss", "actual": value}
+
+    try:
+        line = float(prop.get("line"))
+    except (TypeError, ValueError):
+        return None
+    if abs(value - line) < 1e-9:
+        return {"status": "push", "actual": value}
+    selection = str(prop.get("selection") or "")
+    hit = value < line if selection == "Under" else value > line
+    return {"status": "hit" if hit else "miss", "actual": value}
+
+
+def _grade_team_prop(event, prop, team_by_abbr, team_payload):
+    game = _match_team_game(event, prop, team_by_abbr, team_payload)
+    if not game:
+        return None
+    kind = prop.get("teamMarketType")
+    stats = game.get("stats") or {}
+    points_for = _safe_number(stats.get("derived.pointsFor"))
+    points_against = _safe_number(stats.get("derived.pointsAgainst"))
+    diff = points_for - points_against
+    actual = None
+
+    if kind == "moneyline":
+        if diff == 0:
+            return {"status": "push", "actual": diff}
+        return {"status": "hit" if diff > 0 else "miss", "actual": diff}
+    try:
+        line = float(prop.get("line"))
+    except (TypeError, ValueError):
+        return None
+    if kind == "spread":
+        actual = diff + line
+        if abs(actual) < 1e-9:
+            return {"status": "push", "actual": diff}
+        return {"status": "hit" if actual > 0 else "miss", "actual": diff}
+    if kind == "teamTotal":
+        actual = points_for
+    elif kind == "gameTotal":
+        actual = points_for + points_against
+    else:
+        return None
+    if abs(actual - line) < 1e-9:
+        return {"status": "push", "actual": actual}
+    hit = actual < line if str(prop.get("selection") or "") == "Under" else actual > line
+    return {"status": "hit" if hit else "miss", "actual": actual}
+
+
+def grade_history(by_norm, stats_payload, team_by_abbr, team_payload):
+    if not HISTORY_DIR.exists():
+        return 0
+    current_season = int(stats_payload.get("season") or datetime.now(timezone.utc).year)
+    changed = 0
+    for path in sorted(HISTORY_DIR.glob("*.json")):
+        if path.name == "index.json":
+            continue
+        try:
+            day = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        day_changed = False
+        for event in day.get("events") or []:
+            for prop in event.get("props") or []:
+                current = (prop.get("result") or {}).get("status")
+                if current in {"hit", "miss", "push"}:
+                    continue
+                if prop.get("scope") in {"team", "game"}:
+                    result = _grade_team_prop(event, prop, team_by_abbr, team_payload)
+                else:
+                    profile = by_norm.get(normalize_name(prop.get("player")))
+                    result = _grade_player_prop(event, prop, profile, current_season)
+                if result:
+                    result["gradedAt"] = datetime.now(timezone.utc).isoformat()
+                    prop["result"] = result
+                    day_changed = True
+                    changed += 1
+        if day_changed:
+            _write_history_day(day)
+    if changed:
+        _rebuild_history_index()
+    return changed
+
+
+def _rebuild_history_index():
+    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+    days = []
+    for path in sorted(HISTORY_DIR.glob("*.json"), reverse=True):
+        if path.name == "index.json":
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        props = [prop for event in payload.get("events") or [] for prop in (event.get("props") or [])]
+        statuses = [(prop.get("result") or {}).get("status") for prop in props]
+        complete = bool(props) and all(status in {"hit", "miss", "push"} for status in statuses)
+        days.append({
+            "date": payload.get("date") or path.stem,
+            "file": path.name,
+            "events": len(payload.get("events") or []),
+            "props": len(props),
+            "status": "complete" if complete else "pending",
+        })
+    HISTORY_INDEX.write_text(json.dumps({
+        "updatedAt": datetime.now(timezone.utc).isoformat(),
+        "days": days,
+    }, indent=2) + "\n", encoding="utf-8")
 
 
 def compact_for_compare(payload):
@@ -1114,12 +1382,19 @@ def main():
     enriched = enrich_hit_rates(payload, by_norm, stats_payload, team_by_abbr, team_payload)
     print(f"Enriched {enriched} prop outcomes with historical hit rates.")
 
-    if previous and compact_for_compare(previous) == compact_for_compare(payload):
-        print("No odds changes; leaving data file untouched.")
-        return
+    archived = archive_due_events(payload, previous_events, now)
+    graded = grade_history(by_norm, stats_payload, team_by_abbr, team_payload)
+    if archived:
+        print(f"Frozen {archived} event board(s) into pregame history.")
+    if graded:
+        print(f"Graded {graded} historical prop outcome(s).")
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    odds_changed = not (previous and compact_for_compare(previous) == compact_for_compare(payload))
+    if not odds_changed:
+        print("No live odds changes; leaving live data file untouched.")
+    else:
+        OUT.parent.mkdir(parents=True, exist_ok=True)
+        OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     total_props = sum(len(event.get("props") or []) for event in combined)
     all_props = [prop for event in combined for prop in (event.get("props") or [])]
     pass_rush = sum(
