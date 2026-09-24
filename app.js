@@ -1363,7 +1363,7 @@ function oddsRowHtml(row,index){
 
   const triggerAttrs=scope==="player"
     ? ' odds-player-trigger" data-player-name="'+esc(displayPlayer)+'" tabindex="0" role="button" aria-label="Open '+esc(displayPlayer)+' game log'
-    : '"';
+    : "";
 
   return '<tr class="odds-row scope-'+esc(scope)+' '+(selectedInParlay?"parlay-selected":"")+'">'+
     '<td class="prop-cell'+triggerAttrs+'">'+content+'</td>'+
@@ -1391,7 +1391,7 @@ function appendOddsRows(){
   const currentSentinel=document.getElementById("oddsLoadMoreRow");
   if(currentSentinel){
     if(remaining>0){
-      currentSentinel.innerHTML='<td colspan="8" class="odds-load-more">Scroll to load '+fmt.format(remaining)+' more props…</td>';
+      currentSentinel.innerHTML='<td colspan="'+(state.oddsHistorical?9:8)+'" class="odds-load-more">Scroll to load '+fmt.format(remaining)+' more props…</td>';
     }else{
       currentSentinel.remove();
     }
@@ -1425,8 +1425,11 @@ function renderOdds(){
       let result=0;
       if(state.oddsSortKey==="line") result=(Number(a.line)||0)-(Number(b.line)||0);
       else if(state.oddsSortKey==="odds") result=(Number(a.odds)||0)-(Number(b.odds)||0);
-      else{
-        result=String(a.player).localeCompare(String(b.player))||
+      else if(state.oddsSortKey==="result"){
+        const rank={miss:0,pending:1,push:2,hit:3};
+        result=(rank[a.result?.status]??1)-(rank[b.result?.status]??1);
+      }else{
+        result=String(a.player||a.teamName||a.team||a.matchup).localeCompare(String(b.player||b.teamName||b.team||b.matchup))||
           String(a.market).localeCompare(String(b.market))||
           (Number(a.line)||0)-(Number(b.line)||0);
       }
@@ -1437,6 +1440,7 @@ function renderOdds(){
   if(version!==state.oddsRenderVersion) return;
   state.oddsSortedRows=rows;
   state.oddsRenderedCount=0;
+  oddsResultHead.hidden=!state.oddsHistorical;
 
   oddsCount.textContent=fmt.format(rows.length)+" prop"+(rows.length===1?"":"s");
   document.querySelectorAll(".odds-table th[data-odds-key]").forEach(th=>{
@@ -1447,15 +1451,15 @@ function renderOdds(){
   if(!rows.length){
     const requiredMarkets=new Set(["Passing + Rushing Yards","Kicking Points","Field Goals"]);
     const selectedUnavailable=[...state.selectedMarkets].filter(m=>requiredMarkets.has(m)&&!state.odds.some(row=>(row._marketLabel||canonicalPropCategory(row))===m));
-    let message=state.odds.length?"No FanDuel props match those filters.":"No FanDuel NFL player props are currently available in the feed.";
+    let message=state.odds.length?"No FanDuel markets match those filters.":"No FanDuel NFL markets are currently available in this board.";
     if(selectedUnavailable.length===1){
       message="FanDuel has not posted "+selectedUnavailable[0]+" for the current slate yet. This category will populate automatically as soon as the market is available.";
     }
-    oddsBody.innerHTML='<tr><td colspan="8" class="odds-empty">'+esc(message)+'</td></tr>';
+    oddsBody.innerHTML='<tr><td colspan="'+(state.oddsHistorical?9:8)+'" class="odds-empty">'+esc(message)+'</td></tr>';
     return;
   }
 
-  oddsBody.innerHTML='<tr id="oddsLoadMoreRow"><td colspan="8" class="odds-load-more">Loading props…</td></tr>';
+  oddsBody.innerHTML='<tr id="oddsLoadMoreRow"><td colspan="'+(state.oddsHistorical?9:8)+'" class="odds-load-more">Loading props…</td></tr>';
   appendOddsRows();
 }
 
