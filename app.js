@@ -599,6 +599,7 @@ function metricSpec(row){
   return null;
 }
 function canonicalPropCategory(row){
+  if(row&&["team","game"].includes(row.scope)) return String(row.market||"Team / Game Prop");
   const spec=metricSpec(row);
   if(!spec) return "";
   const labels={
@@ -655,10 +656,56 @@ function propHit(row,game){
   if(row.selection==="No") return value<=line;
   return null;
 }
+function teamForOddsRow(row){
+  const abbr=String(row?.team||row?.homeAbbr||"").toUpperCase();
+  return state.teamStats.find(team=>String(team.abbreviation||"").toUpperCase()===abbr)||null;
+}
+function teamPlayedLogs(team){
+  if(!team) return [];
+  const currentYear=Number(state.season||state.teamStatsRaw?.season||2026);
+  const by=team.gameLogsBySeason||{};
+  const rows=[];
+  for(const [season,games] of Object.entries(by)){
+    for(const game of games||[]) rows.push({...game,_season:Number(season)});
+  }
+  if(!Object.keys(by).length){
+    for(const game of team.gameLog||[]) rows.push({...game,_season:currentYear});
+  }
+  return rows.sort((a,b)=>(Number(b._season)-Number(a._season))||safe(b.week)-safe(a.week));
+}
+function teamPropValue(row,game){
+  const stats=game?.stats||{};
+  const pf=safe(stats["derived.pointsFor"]);
+  const pa=safe(stats["derived.pointsAgainst"]);
+  if(row.teamMarketType==="moneyline"||row.teamMarketType==="spread") return pf-pa;
+  if(row.teamMarketType==="teamTotal") return pf;
+  if(row.teamMarketType==="gameTotal") return pf+pa;
+  return null;
+}
+function teamPropHit(row,game){
+  const value=teamPropValue(row,game);
+  if(value===null) return null;
+  if(row.teamMarketType==="moneyline"){
+    if(value===0) return null;
+    return value>0;
+  }
+  const line=Number(row.line);
+  if(!Number.isFinite(line)) return null;
+  if(row.teamMarketType==="spread"){
+    const adjusted=value+line;
+    if(Math.abs(adjusted)<1e-9) return null;
+    return adjusted>0;
+  }
+  if(Math.abs(value-line)<1e-9) return null;
+  return row.selection==="Under"?value<line:value>line;
+}
+function rowPropHit(row,game){
+  return ["team","game"].includes(row?.scope)?teamPropHit(row,game):propHit(row,game);
+}
 function rateForGames(row,games){
   let hits=0,total=0;
   for(const game of games){
-    const hit=propHit(row,game);
+    const hit=rowPropHit(row,game);
     if(hit===null) continue;
     total++;
     if(hit) hits++;
@@ -709,29 +756,52 @@ function compareGamesChronologically(a,b){
   return safe(a?.week)-safe(b?.week);
 }
 function splitGamesForRow(row,split){
+  const currentYear=Number(state.season||state.teamStatsRaw?.season||2026);
+  const previousYear=currentYear-1;
+  const cutoff=Date.parse(row?.commenceTime||"");
+  const beforeGame=game=>{
+    const time=Date.parse(game?.date||"");
+    return !Number.isFinite(cutoff)||!Number.isFinite(time)||time<cutoff;
+  };
+
+  let games=[];
+  if(["team","game"].includes(row?.scope)){
+    const team=teamForOddsRow(row);
+    if(!team) return [];
+    const all=teamPlayedLogs(team).filter(beforeGame);
+    const opponent=opponentForRow(row,{team:row.team||team.abbreviation});
+    if(split==="l5") games=all.slice(0,5);
+    else if(split==="l10") games=all.slice(0,10);
+    else if(split==="h2h") games=opponent?all.filter(g=>String(g.opponent?.abbreviation||"").toUpperCase()===opponent):[];
+    else if(split==="current") games=all.filter(g=>Number(g._season)===currentYear);
+    else if(split==="previous") games=all.filter(g=>Number(g._season)===previousYear);
+    return games.filter(game=>teamPropHit(row,game)!==null).sort(compareGamesChronologically);
+  }
+
   const player=findPlayer(row.player);
   if(!player) return [];
-
-  const currentYear=Number(state.season||2026);
-  const previousYear=currentYear-1;
-  const all=playerPlayedLogs(player);
-  let games=[];
-
+  const all=playerPlayedLogs(player).filter(beforeGame);
   if(split==="l5") games=all.slice(0,5);
   else if(split==="l10") games=all.slice(0,10);
   else if(split==="h2h"){
     const opponent=opponentForRow(row,player);
     games=opponent?all.filter(g=>String(g.opponent?.abbreviation||"").toUpperCase()===opponent):[];
   }else if(split==="current"){
-    games=logsForSeason(player,currentYear).filter(g=>g.played).map(g=>({...g,_season:currentYear}));
+    games=logsForSeason(player,currentYear).filter(g=>g.played&&beforeGame(g)).map(g=>({...g,_season:currentYear}));
   }else if(split==="previous"){
-    games=logsForSeason(player,previousYear).filter(g=>g.played).map(g=>({...g,_season:previousYear}));
+    games=logsForSeason(player,previousYear).filter(g=>g.played&&beforeGame(g)).map(g=>({...g,_season:previousYear}));
   }
 
-  const applicable=games.filter(game=>propHit(row,game)!==null);
-  return applicable.sort(compareGamesChronologically);
+  return games.filter(game=>propHit(row,game)!==null).sort(compareGamesChronologically);
 }
 function lineForRow(row){
+  if(row&&row.teamMarketType==="moneyline") return 0;
+  if(row&&row.teamMarketType==="spread"){
+    const spread=Number(row.line);return Number.isFinite(spread)?-spread:null;
+  }
+  if(row&&["teamTotal","gameTotal"].includes(row.teamMarketType)){
+    const total=Number(row.line);return Number.isFinite(total)?total:null;
+  }
   const spec=metricSpec(row);
   if(spec?.comparison==="gte"&&Number.isFinite(Number(spec.threshold))) return Number(spec.threshold);
   if(row.line===null||row.line===undefined||row.line==="") return null;
@@ -850,17 +920,21 @@ function hitBarTooltip(game,row,value,rankInfo){
 function renderHitRateChart(row,split){
   state.hitRateActiveRow=row;
   state.hitRateActiveSplit=split;
+  const teamScope=["team","game"].includes(row?.scope);
   const player=findPlayer(row.player);
   const games=splitGamesForRow(row,split);
-  const rates=computeHitRates(row);
+  const rates=getHitRates(row);
   const selectedRate={l5:rates.l5,l10:rates.l10,h2h:rates.h2h,current:rates.current,previous:rates.previous}[split]||null;
-  const spec=metricSpec(row);
+  const spec=teamScope?{metric:"teamMarket"}:metricSpec(row);
   const line=lineForRow(row);
-  const values=games.map(game=>metricValue(game,spec)).filter(v=>v!==null);
+  const valueFor=game=>teamScope?teamPropValue(row,game):metricValue(game,spec);
+  const hitFor=game=>teamScope?teamPropHit(row,game):propHit(row,game);
+  const values=games.map(valueFor).filter(v=>v!==null);
   const average=values.length?values.reduce((sum,v)=>sum+v,0)/values.length:null;
   const med=median(values);
 
-  hitRateTitle.textContent=cleanDisplayPlayerName(row.player)+" - "+generalizedMarketLabel(row);
+  const chartEntity=teamScope?(row.teamName||row.team||(row.scope==="game"?"Game":"Team")):cleanDisplayPlayerName(row.player);
+  hitRateTitle.textContent=chartEntity+" - "+generalizedMarketLabel(row);
   hitRateSubtitle.innerHTML=esc(cleanDisplayProposition(row))+" • "+esc(row.matchup)+" <span class=\"hit-rate-odds\">"+formatAmerican(row.odds)+"</span>";
   hitRateSplitLabel.textContent=splitLabel(split);
   hitRateSelectedPct.textContent=selectedRate?selectedRate.pct+"%":"—";
@@ -896,15 +970,15 @@ function renderHitRateChart(row,split){
   const thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
 
   const bars=games.map((game,index)=>{
-    const value=metricValue(game,spec);
-    const hit=propHit(row,game);
+    const value=valueFor(game);
+    const hit=hitFor(game);
     const height=Math.max(2,((value-chartMin)/chartSpan)*100);
     const valueBottom=48+(height/100)*stageHeight;
-    const breakdown=metricBreakdown(game,spec).filter(([,v])=>v!==0);
+    const breakdown=teamScope?[]:metricBreakdown(game,spec).filter(([,v])=>v!==0);
     const detail=breakdown.length
       ? '<div class="hit-bar-detail">'+breakdown.map(([label,v])=>'<span><b>'+fmt.format(v)+'</b> '+label+'</span>').join("")+'</div>'
       : "";
-    const rankInfo=opponentRankForGame(player,game,spec);
+    const rankInfo=teamScope?null:opponentRankForGame(player,game,spec);
     const rankBadge=rankInfo?'<span class="hit-opp-rank">Opp #'+rankInfo.rank+'</span>':"";
     return '<div class="hit-bar-column" tabindex="0">'+
       '<div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div>'+
