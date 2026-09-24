@@ -1334,8 +1334,9 @@ function oddsRowHtml(row,index){
       : (row.matchup||"Game");
   const entityAttr=esc(entityName);
 
-  const addButton=
-    '<button type="button" class="parlay-add-button '+(selectedInParlay?"selected":"")+'" data-parlay-key="'+esc(hitRowKey)+'" aria-pressed="'+String(selectedInParlay)+'" aria-label="'+(selectedInParlay?"Remove":"Add")+' '+entityAttr+' '+esc(proposition)+' '+(selectedInParlay?"from":"to")+' parlay">'+(selectedInParlay?"✓":"+")+'</button>';
+  const addButton=state.oddsHistorical?"":(
+    '<button type="button" class="parlay-add-button '+(selectedInParlay?"selected":"")+'" data-parlay-key="'+esc(hitRowKey)+'" aria-pressed="'+String(selectedInParlay)+'" aria-label="'+(selectedInParlay?"Remove":"Add")+' '+entityAttr+' '+esc(proposition)+' '+(selectedInParlay?"from":"to")+' parlay">'+(selectedInParlay?"✓":"+")+'</button>'
+  );
 
   let visual="";
   if(scope==="player"){
@@ -1923,6 +1924,9 @@ async function loadOddsBoard(date="live",file=null){
     state.oddsDate=historical?date:"live";
     state.oddsHistorical=historical;
     state.oddsUpdatedAt=data.updatedAt||data.createdAt||null;
+    parlayBuilderButton.disabled=historical;
+    parlayBuilderButton.classList.toggle("history-disabled",historical);
+    if(historical&&state.parlayOpen)setParlayOpen(false);
     state.odds=flattenOddsPayload(data);
     state.hitRateCache.clear();
     state.selectedGames.clear();
