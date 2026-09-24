@@ -301,13 +301,52 @@ function generalizedMarketLabel(row){
   return label||"Player Prop";
 }
 
+function modelSupportedMarketLabel(row){
+  const spec=metricSpec(row);
+  if(!spec)return "";
+
+  const labels={
+    receivingYards:"Receiving Yards",
+    rushingYards:"Rushing Yards",
+    passingYards:"Passing Yards",
+    receptions:"Receptions",
+    passingTouchdowns:"Passing TDs",
+    receivingTouchdowns:"Receiving TDs",
+    rushingTouchdowns:"Rushing TDs",
+    rushingAttempts:"Rushing Attempts",
+    passingAttempts:"Passing Attempts",
+    passingCompletions:"Passing Completions",
+    passingInterceptions:"Interceptions Thrown",
+    passingLongest:"Longest Completion",
+    receivingLongest:"Longest Reception",
+    rushingLongest:"Longest Rush",
+    soloTackles:"Solo Tackles",
+    totalTackles:"Tackles + Assists",
+    sacks:"Sacks",
+    defensiveInterceptions:"Defensive Interceptions",
+    fieldGoalsMade:"Field Goals",
+    kickingPoints:"Kicking Points",
+    allPurposeYards:"Rush + Rec Yards",
+    passRushYards:"Pass + Rush Yards",
+    passRushRecYards:"Pass + Rush + Rec Yards"
+  };
+
+  if(spec.metric==="touchdowns"){
+    const text=(String(row.market||"")+" "+String(row.proposition||"")).toLowerCase();
+    return /any time touchdown scorer|anytime touchdown scorer/.test(text)
+      ?"Any Time Touchdown Scorer"
+      :"Touchdowns";
+  }
+  return labels[spec.metric]||generalizedMarketLabel(row);
+}
+
 function flattenOdds(raw){
   const out=[];
   for(const event of raw.events||[]){
     const away=event.awayAbbr||event.awayTeam||"AWAY",home=event.homeAbbr||event.homeTeam||"HOME";
     for(const prop of event.props||[]){
       const player=state.playerByName.get(norm(prop.player)),row=Object.assign({},prop,{eventId:String(event.id||""),awayAbbr:event.awayAbbr||"",homeAbbr:event.homeAbbr||"",awayTeam:event.awayTeam||"",homeTeam:event.homeTeam||"",matchup:away+" @ "+home,commenceTime:event.commenceTime||""});
-      row.player=clean(prop.player);row.team=prop.team||player&&player.team||"";row.position=prop.position||player&&player.position||"";row._marketLabel=generalizedMarketLabel(row);out.push(row);
+      row.player=clean(prop.player);row.team=prop.team||player&&player.team||"";row.position=prop.position||player&&player.position||"";row._marketLabel=generalizedMarketLabel(row);row._modelMarketLabel=modelSupportedMarketLabel(row);out.push(row);
     }
   }
   return out;
@@ -416,7 +455,8 @@ function analyze(row,cfg){
   const pos=String(row.position||player.position||"").toUpperCase();
   const team=String(row.team||player.team||"").toUpperCase();
   const opp=nextOpponent(Object.assign({},row,{team:team}));
-  const market=row._marketLabel;
+  const market=row._modelMarketLabel||modelSupportedMarketLabel(row);
+  if(!market)return null;
   if(cfg.positions.size&&!cfg.positions.has(pos))return null;
   if(cfg.markets.size&&!cfg.markets.has(market))return null;
   if(cfg.sides.size&&!cfg.sides.has(String(row.selection||"")))return null;
@@ -675,7 +715,7 @@ function renderModelFilters(){
   $("modelAllPositionsMark").textContent=state.selectedPositions.size?"":"✓";
   $("modelPositionLabel").textContent=modelFilterCountLabel(state.selectedPositions,"Position","All positions");
 
-  const markets=[...new Set(state.odds.map(x=>x._marketLabel).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const markets=[...new Set(state.odds.map(x=>x._modelMarketLabel||modelSupportedMarketLabel(x)).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   $("modelMarketOptions").innerHTML=markets.map(x=>modelRenderOption(x,x,state.selectedMarkets,"markets")).join("");
   $("modelAllMarketsMark").textContent=state.selectedMarkets.size?"":"✓";
   $("modelMarketLabel").textContent=modelFilterCountLabel(state.selectedMarkets,"Prop","All props");
@@ -745,7 +785,7 @@ function bindModelFilters(){
     if(!e.target.closest(".model-filter-control"))closeModelFilterPopovers();
   });
   window.addEventListener("resize",()=>closeModelFilterPopovers());
-  window.addEventListener("scroll",()=>closeModelFilterPopovers(),true);
+  window.addEventListener("scroll",e=>{const target=e.target;if(target&&target.closest&&target.closest(".model-filter-popover"))return;closeModelFilterPopovers()},true);
 }
 function fillSelects(){renderModelFilters()}
 function modelPlayerForRow(row){return state.playerByName.get(norm(row&&row.player))}
