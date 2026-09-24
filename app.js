@@ -323,6 +323,35 @@ function setView(view,updateHash=true){
   }
 }
 
+function rebuildUsageShares(){
+  const totals=new Map();
+  const own=new Map();
+  for(const p of state.players){
+    const team=String(p.team||"").toUpperCase();
+    let targets=0,carries=0;
+    for(const g of p.gameLog||[]){
+      if(!g||!g.played) continue;
+      targets+=safe(g.receivingTargets);
+      carries+=safe(g.rushingAttempts);
+    }
+    own.set(String(p.id),{targets,carries});
+    if(team){
+      const t=totals.get(team)||{targets:0,carries:0};
+      t.targets+=targets;t.carries+=carries;totals.set(team,t);
+    }
+  }
+  for(const p of state.players){
+    const o=own.get(String(p.id))||{targets:0,carries:0};
+    const t=totals.get(String(p.team||"").toUpperCase())||{targets:0,carries:0};
+    p.targetShare=t.targets?100*o.targets/t.targets:0;
+    p.carryShare=t.carries?100*o.carries/t.carries:0;
+    p.opportunityShare=(t.targets+t.carries)?100*(o.targets+o.carries)/(t.targets+t.carries):0;
+  }
+}
+function usagePct(value){
+  return Number.isFinite(Number(value))?(Math.round(Number(value)*10)/10).toFixed(1)+"%":"—";
+}
+
 function render(){
   const q=state.query.trim().toLowerCase();
   let rows=state.players.filter(p=>!p.oddsOnly&&(!q||[p.name,p.team,p.position].some(v=>String(v||"").toLowerCase().includes(q))));
@@ -353,6 +382,9 @@ function render(){
       '<td>'+fmt.format(safe(p.receivingYards))+'</td>'+
       '<td>'+fmt.format(safe(p.rushingYards))+'</td>'+
       '<td>'+fmt.format(safe(p.receptions))+'</td>'+
+      '<td>'+usagePct(p.targetShare)+'</td>'+
+      '<td>'+usagePct(p.carryShare)+'</td>'+
+      '<td>'+usagePct(p.opportunityShare)+'</td>'+
       '<td>'+fmt.format(safe(p.passingTouchdowns))+'</td>'+
       '<td>'+fmt.format(safe(p.passingYards))+'</td>'+
     '</tr>'
@@ -1465,7 +1497,7 @@ async function loadStats(){
     const res=await fetch("data/nfl-stats.json",{cache:"default"});
     if(!res.ok) throw new Error("HTTP "+res.status);
     const data=await res.json();
-    state.players=Array.isArray(data.players)?data.players:[];
+    state.players=Array.isArray(data.players)?data.players:[];\n    rebuildUsageShares();
     state.playerIndex=new Map(state.players.map(p=>[normalizeName(p.name),p]));
     state.hitRateCache.clear();
     state.season=data.season||null;
