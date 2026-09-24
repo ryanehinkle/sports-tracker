@@ -10,7 +10,7 @@
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
 <main class="shell model-shell">
-<header class="hero model-hero"><div><div class="eyebrow">NFL • TRACKER</div><h1>Model</h1></div><div class="hero-meta"><div class="status-pill"><span class="status-dot"></span><span id="modelSeason">Loading model…</span></div><div class="updated" id="modelUpdated">Building analytical index…</div></div></header>
+<header class="hero model-hero"><div><div class="eyebrow">NFL • TRACKER</div><h1>NFL Tracker</h1></div><div class="hero-meta"><div class="status-pill"><span class="status-dot"></span><span id="modelSeason">Loading model…</span></div><div class="updated" id="modelUpdated">Building analytical index…</div></div></header>
 <nav class="main-tabs model-nav" aria-label="NFL tracker sections"><a class="main-tab" href="index.html#stats">Player Stats</a><a class="main-tab" href="index.html#teams">Team Stats</a><a class="main-tab" href="index.html#odds">Odds</a><a class="main-tab active" href="model.html" aria-current="page">Model</a></nav>
 <section class="model-layout">
 <aside class="model-controls">
@@ -51,19 +51,30 @@
 </div><div id="modelFormula" class="formula-box"></div></div></details>
 </section></section>
 <footer class="model-footer"><span>Inputs: ESPN player/team game logs + current FanDuel prop feed.</span><span>Analytical estimates are not guarantees. Same-game correlation can change sportsbook pricing.</span></footer>
-</main><dialog id="modelPlayerModal" class="player-modal" aria-labelledby="modelModalPlayerName">
-  <div class="modal-panel">
-    <div class="modal-header">
-      <div class="modal-player">
-        <div class="modal-headshot-wrap"><img id="modelModalHeadshot" class="modal-headshot" src="" alt=""></div>
-        <div><div class="modal-kicker" id="modelModalKicker">REGULAR SEASON • GAME LOG</div><h2 id="modelModalPlayerName">Player</h2><div class="modal-player-meta" id="modelModalPlayerMeta"></div></div>
+</main><dialog id="hitRateModal" class="hit-rate-modal" aria-labelledby="hitRateTitle">
+  <div class="hit-rate-panel">
+    <div class="hit-rate-header">
+      <div>
+        <div class="hit-rate-eyebrow">PROP HIT RATE</div>
+        <h2 id="hitRateTitle">Player Prop</h2>
+        <div id="hitRateSubtitle" class="hit-rate-subtitle"></div>
       </div>
-      <div class="modal-actions">
-        <select id="modelModalSeasonSelect" class="season-select" aria-label="Game log season"></select>
-        <button id="modelModalClose" class="modal-close" type="button" aria-label="Close game log"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-      </div>
+      <button id="hitRateClose" class="modal-close" type="button" aria-label="Close hit-rate chart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
     </div>
-    <div class="modal-table-scroll"><table class="gamelog-table"><thead><tr><th class="week-col">Week</th><th class="opponent-col">Opponent</th><th>TD</th><th>All-Purpose Yds</th><th>Rec Yds</th><th>Rush Yds</th><th>Rec</th><th>Pass TD</th><th>Pass Yds</th></tr></thead><tbody id="modelGameLogBody"></tbody></table></div>
+    <div class="hit-rate-summary">
+      <div class="hit-rate-primary">
+        <span id="hitRateSplitLabel" class="hit-rate-split-label">Last 10</span>
+        <div><strong id="hitRateSelectedPct">—</strong><span id="hitRateSelectedRecord"></span></div>
+      </div>
+      <div id="hitRateBreakdown" class="hit-rate-breakdown"></div>
+    </div>
+    <div class="hit-rate-stats">
+      <span>Average: <strong id="hitRateAverage">—</strong></span>
+      <span>Median: <strong id="hitRateMedian">—</strong></span>
+    </div>
+    <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="model.js?v=3"></script>
+</dialog><script src="model.js?v=4"></script>
 </body></html>
