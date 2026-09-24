@@ -458,7 +458,7 @@ def main():
         existing = next((pick for pick in payload["picks"] if pick.get("date") == date_key), None)
 
         # Publish once the first kickoff of the local date is within ~90 minutes.
-        if not existing and first_start - timedelta(minutes=90) <= now < first_start:
+        if not existing and first_start - timedelta(minutes=75) <= now < first_start:
             eligible_event_ids = {str(event.get("id") or "") for event in events}
             rows = [row for row in flatten(odds_payload) if row.get("eventId") in eligible_event_ids]
             profiles = build_team_profiles(team_payload)
