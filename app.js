@@ -367,7 +367,7 @@ function render(){
     mark.textContent=th.dataset.key===state.sortKey?(state.sortDir==="asc"?"▲":"▼"):"";
   });
   if(!rows.length){
-    body.innerHTML='<tr><td colspan="8" class="empty-cell">No players match that search.</td></tr>';
+    body.innerHTML='<tr><td colspan="11" class="empty-cell">No players match that search.</td></tr>';
     return;
   }
   body.innerHTML=rows.map(p=>
@@ -1509,7 +1509,7 @@ async function loadStats(){
     if(state.activeView==="team-stats"&&!state.teamStatsRaw) setView("team-stats",false);
   }catch(err){
     console.error(err);
-    body.innerHTML='<tr><td colspan="8" class="empty-cell">Stats have not been generated yet. Run the “Update NFL Stats” GitHub Action once.</td></tr>';
+    body.innerHTML='<tr><td colspan="11" class="empty-cell">Stats have not been generated yet. Run the “Update NFL Stats” GitHub Action once.</td></tr>';
   }finally{
     state.statsLoading=false;
   }
