@@ -143,15 +143,22 @@ function split(logRows,row,spec){
   const hits=values.filter(Boolean).length;return{hits:hits,total:values.length,pct:100*hits/values.length};
 }
 function normalizeSplit(x){if(!x)return null;if(Number.isFinite(Number(x.pct)))return{hits:Number(x.hits)||0,total:Number(x.total)||0,pct:Number(x.pct)};return null}
+function playedHistory(player){
+  return logs(player,false).filter(g=>g&&g.played).sort((a,b)=>(a._season-b._season)||num(a.week)-num(b.week));
+}
+function ratesForSelection(row,player,selection){
+  const spec=metricSpec(row);if(!spec)return{l5:null,l10:null,h2h:null,current:null,previous:null};
+  const probe=Object.assign({},row,{selection:selection}),all=playedHistory(player),newest=[...all].reverse();
+  const current=all.filter(g=>g._season===Number(state.season)),prior=all.filter(g=>g._season===Number(state.season)-1),opp=nextOpponent(row);
+  const h2h=all.filter(g=>String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase()===opp);
+  return{l5:split(newest.slice(0,5),probe,spec),l10:split(newest.slice(0,10),probe,spec),h2h:split(h2h,probe,spec),current:split(current,probe,spec),previous:split(prior,probe,spec)};
+}
 function ratesFor(row,player){
   if(!metricSpec(row))return{l5:null,l10:null,h2h:null,current:null,previous:null};
   if(row.hitRates)return{l5:normalizeSplit(row.hitRates.l5),l10:normalizeSplit(row.hitRates.l10),h2h:normalizeSplit(row.hitRates.h2h),current:normalizeSplit(row.hitRates.current),previous:normalizeSplit(row.hitRates.previous)};
-  const spec=metricSpec(row);if(!spec)return{l5:null,l10:null,h2h:null,current:null,previous:null};
-  const all=logs(player,false).sort((a,b)=>(b._season-a._season)||num(b.week)-num(a.week)),current=all.filter(g=>g._season===Number(state.season)),prior=all.filter(g=>g._season===Number(state.season)-1);
-  const opp=nextOpponent(row),h2h=all.filter(g=>String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase()===opp);
-  return{l5:split(current.slice(0,5),row,spec),l10:split(current.slice(0,10),row,spec),h2h:split(h2h,row,spec),current:split(current,row,spec),previous:split(prior,row,spec)};
+  return ratesForSelection(row,player,String(row.selection||"Over"));
 }
-function smoothed(s){if(!s||!s.total)return null;return(s.hits+1.5)/(s.total+3)}
+function smoothed(s,strength=3){if(!s||!s.total)return null;return(s.hits+.5*strength)/(s.total+strength)}
 function nextOpponent(row){
   const team=String(row.team||"").toUpperCase(),home=String(row.homeAbbr||"").toUpperCase(),away=String(row.awayAbbr||"").toUpperCase();
   if(team&&home===team)return away;if(team&&away===team)return home;
