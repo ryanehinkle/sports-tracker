@@ -284,6 +284,21 @@ function analyze(row,cfg){
 }
 function generateSlips(candidates,cfg){
   const top=candidates.slice(0,34),slips=[],minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax),minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
+
+  // Alternate thresholds of the exact same player prop cannot be combined into one slip.
+  // Example: Chase Brown O63.5 rushing yards + Chase Brown O69.5 rushing yards.
+  function propFamilyKey(x){
+    const row=x.row||{};
+    return [
+      String(row.eventId||""),
+      norm(row.player||""),
+      String(x.market||row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase()
+    ].join("|");
+  }
+  function hasSamePropFamily(combo,next){
+    const key=propFamilyKey(next);
+    return combo.some(x=>propFamilyKey(x)===key);
+  }
   function spreadOk(combo,next){
     const values=combo.map(x=>Number(x.row.odds));
     if(next) values.push(Number(next.row.odds));
@@ -293,6 +308,8 @@ function generateSlips(candidates,cfg){
   }
   function add(combo){
     if(!spreadOk(combo))return;
+    const families=new Set(combo.map(propFamilyKey));
+    if(families.size!==combo.length)return;
     let d=1;
     for(const x of combo){const leg=americanToDecimal(x.row.odds);if(!leg)return;d*=leg}
     if(minD&&d<minD)return;if(maxD&&d>maxD)return;
@@ -303,6 +320,7 @@ function generateSlips(candidates,cfg){
     if(combo.length===target){add(combo);return}
     for(let i=start;i<top.length;i++){
       const x=top[i];
+      if(hasSamePropFamily(combo,x))continue;
       if(cfg.uniquePlayers&&combo.some(y=>norm(y.row.player)===norm(x.row.player)))continue;
       if(cfg.avoidSameGame&&combo.some(y=>y.row.eventId&&y.row.eventId===x.row.eventId))continue;
       if(!spreadOk(combo,x))continue;
