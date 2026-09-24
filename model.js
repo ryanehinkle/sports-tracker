@@ -63,6 +63,60 @@ function buildUsage(){
   }
 }
 
+function buildTeamProfiles(){
+  state.teamProfiles=new Map();state.teamStatMeta=new Map();
+  for(const view of state.teamRaw&&state.teamRaw.views||[]){
+    for(const stat of view.stats||[]){
+      if(stat&&stat.key&&!state.teamStatMeta.has(stat.key)){
+        state.teamStatMeta.set(stat.key,{group:stat.group||view.key||"other",higherBetter:stat.higherBetter!==false,label:stat.label||stat.key});
+      }
+    }
+  }
+  const keys=[...new Set(state.teams.flatMap(team=>Object.entries(team.stats||{}).filter(([,v])=>Number.isFinite(Number(v))).map(([k])=>k)))];
+  const peers=new Map(keys.map(key=>[key,state.teams.map(t=>Number(t.stats&&t.stats[key])).filter(Number.isFinite)]));
+  for(const team of state.teams){
+    const groups=new Map(),all=[];
+    for(const key of keys){
+      const value=Number(team.stats&&team.stats[key]);if(!Number.isFinite(value))continue;
+      const raw=percentile(value,peers.get(key)||[]);if(!Number.isFinite(raw))continue;
+      const meta=state.teamStatMeta.get(key)||{group:/allowed|against/i.test(key)?"defense":"offense",higherBetter:!/allowed|against|giveaway|penalt|loss/i.test(key)};
+      const signal=(meta.higherBetter?raw:100-raw)/100;
+      if(!groups.has(meta.group))groups.set(meta.group,[]);
+      groups.get(meta.group).push(signal);all.push(signal);
+    }
+    const groupSignals={};for(const [group,values] of groups)groupSignals[group]=avg(values)??.5;
+    const abbr=String(team.abbreviation||"").toUpperCase();
+    if(abbr)state.teamProfiles.set(abbr,{team,groups:groupSignals,all:avg(all)??.5,featureCount:all.length});
+  }
+}
+function teamProfile(abbr){return state.teamProfiles.get(String(abbr||"").toUpperCase())||null}
+function teamGroup(profile,key){return profile&&Number.isFinite(profile.groups&&profile.groups[key])?profile.groups[key]:profile&&Number.isFinite(profile.all)?profile.all:.5}
+function teamMarketSignal(row){
+  const home=teamProfile(row.homeAbbr),away=teamProfile(row.awayAbbr);if(!home||!away)return{signal:.5,breadth:0,components:{}};
+  const kind=row.teamMarketType,teamAbbr=String(row.team||"").toUpperCase();
+  const selected=teamProfile(teamAbbr),opponent=teamAbbr===String(row.homeAbbr||"").toUpperCase()?away:home;
+  let signal=.5,components={};
+  if((kind==="moneyline"||kind==="spread")&&selected&&opponent){
+    const strength=p=>.22*teamGroup(p,"offense")+.22*teamGroup(p,"defense")+.17*teamGroup(p,"scoring")+.13*teamGroup(p,"situational")+.11*teamGroup(p,"turnovers")+.08*teamGroup(p,"specialTeams")+.07*p.all;
+    const own=strength(selected),opp=strength(opponent);signal=clamp(.5+(own-opp)*.75,.05,.95);
+    components={offense:teamGroup(selected,"offense"),defense:teamGroup(selected,"defense"),scoring:teamGroup(selected,"scoring"),situational:teamGroup(selected,"situational"),turnovers:teamGroup(selected,"turnovers"),specialTeams:teamGroup(selected,"specialTeams"),all:selected.all};
+  }else{
+    const scoringEnv=.20*teamGroup(home,"offense")+.20*teamGroup(away,"offense")+.17*teamGroup(home,"scoring")+.17*teamGroup(away,"scoring")+.08*(1-teamGroup(home,"defense"))+.08*(1-teamGroup(away,"defense"))+.04*teamGroup(home,"situational")+.04*teamGroup(away,"situational")+.01*home.all+.01*away.all;
+    signal=clamp(scoringEnv,.05,.95);
+    if(kind==="teamTotal"&&selected&&opponent){
+      signal=clamp(.34*teamGroup(selected,"offense")+.24*teamGroup(selected,"scoring")+.16*(1-teamGroup(opponent,"defense"))+.10*teamGroup(selected,"situational")+.08*teamGroup(selected,"specialTeams")+.08*selected.all,.05,.95);
+    }
+    if(String(row.selection||"")==="Under")signal=1-signal;
+    components={offense:avg([teamGroup(home,"offense"),teamGroup(away,"offense")]),defense:avg([teamGroup(home,"defense"),teamGroup(away,"defense")]),scoring:avg([teamGroup(home,"scoring"),teamGroup(away,"scoring")]),situational:avg([teamGroup(home,"situational"),teamGroup(away,"situational")]),all:avg([home.all,away.all])};
+  }
+  const breadth=Math.min(1,((selected&&selected.featureCount)||home.featureCount||0)/Math.max(1,state.teamStatMeta.size||1));
+  return{signal,breadth,components};
+}
+function normalizedRate(rate){return rate&&Number.isFinite(Number(rate.pct))?Number(rate.pct)/100:null}
+function teamRates(row){
+  const r=row.hitRates||{};return{l5:normalizeSplit(r.l5),l10:normalizeSplit(r.l10),h2h:normalizeSplit(r.h2h),current:normalizeSplit(r.current),previous:normalizeSplit(r.previous)};
+}
+
 const DVP_KEYS=["receivingYards","receptions","receivingTargets","rushingYards","rushingAttempts","passingYards","passingTouchdowns","rushingTouchdowns","receivingTouchdowns","touchdowns","allPurposeYards"];
 function buildDvp(){
   const seasonCurrent=Number(state.season),seasonPrior=seasonCurrent-1,weekly=new Map();
