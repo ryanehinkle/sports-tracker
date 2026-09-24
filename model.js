@@ -5,7 +5,7 @@ const fmt=new Intl.NumberFormat("en-US");
 const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null};
+const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null};
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
 function norm(v){return String(v||"").toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\.?\b/g,"").replace(/[^a-z0-9]/g,"")}
@@ -431,6 +431,57 @@ function modelPctMarkup(rate,key,split,selected){
   const disabled=rate?"":" disabled aria-disabled=\"true\"";
   return'<button type="button" class="hit-summary-item '+(selected?"selected":"")+'" data-chart-split="'+esc(split)+'"'+disabled+'><span>'+esc(key)+'</span><strong class="'+cls+'">'+value+'</strong></button>';
 }
+function modelLogsForRankSeason(player,season){
+  const by=player&&player.gameLogsBySeason||{};
+  const rows=Array.isArray(by[String(season)])?by[String(season)]:(Number(season)===Number(state.season)?player&&player.gameLog||[]:[]);
+  return rows.filter(g=>g&&g.played);
+}
+function modelDefenseRankMapFor(season,week,position,spec){
+  if(!spec||!position)return new Map();
+  const key=[season,week,position,spec.metric].join("|");
+  if(state.opponentRankCache.has(key))return state.opponentRankCache.get(key);
+  const totals=new Map();
+  for(const p of state.players){
+    if(String(p.position||"").toUpperCase()!==String(position).toUpperCase())continue;
+    for(const game of modelLogsForRankSeason(p,season)){
+      if(num(game.week)>=week)continue;
+      const defense=String(game&&game.opponent&&game.opponent.abbreviation||"").toUpperCase();
+      const value=metricValue(game,spec.metric);
+      if(!defense||!Number.isFinite(value))continue;
+      if(!totals.has(defense))totals.set(defense,new Map());
+      const byWeek=totals.get(defense),gameWeek=num(game.week);
+      byWeek.set(gameWeek,(byWeek.get(gameWeek)||0)+value);
+    }
+  }
+  const rows=[];
+  for(const [team,byWeek] of totals){
+    const values=[...byWeek.values()];if(values.length<2)continue;
+    rows.push({team:team,value:values.reduce((s,v)=>s+v,0)/values.length,games:values.length});
+  }
+  rows.sort((a,b)=>a.value-b.value);
+  const result=new Map();
+  rows.forEach((item,index)=>result.set(item.team,{rank:index+1,total:rows.length,value:item.value,games:item.games}));
+  state.opponentRankCache.set(key,result);
+  return result;
+}
+function modelOpponentRankForGame(player,game,spec){
+  if(!player||!game||!spec)return null;
+  const season=Number(game._season||state.season),week=Math.max(1,num(game.week));
+  const opponent=String(game&&game.opponent&&game.opponent.abbreviation||"").toUpperCase();if(!opponent)return null;
+  let info=modelDefenseRankMapFor(season,week,String(player.position||"").toUpperCase(),spec).get(opponent)||null;
+  if(!info&&season>2020){
+    info=modelDefenseRankMapFor(season-1,99,String(player.position||"").toUpperCase(),spec).get(opponent)||null;
+    if(info)info=Object.assign({},info,{priorSeason:true});
+  }
+  return info;
+}
+function modelHitBarTooltip(game,row,value,rankInfo){
+  const opp=game&&game.opponent||{},abbr=opp.abbreviation||opp.name||"OPP";
+  const logo=opp.logo||(abbr?"https://a.espncdn.com/i/teamlogos/nfl/500/"+String(abbr).toLowerCase()+".png":"");
+  const rank=rankInfo?"#"+rankInfo.rank:"—",allowed=rankInfo?(Math.round(rankInfo.value*10)/10).toLocaleString():"—";
+  const season=game&&game._season||state.season||"";
+  return'<div class="hit-bar-tooltip"><div class="hit-tooltip-date">'+esc(modelChartDateLabel(game))+' • '+esc(season)+'</div><div class="hit-tooltip-matchup">'+(logo?'<img src="'+esc(logo)+'" alt="">':"")+'<span>'+esc(game&&game.isAway?"@ ":"vs ")+esc(abbr)+'</span><b>'+esc(game&&game.score||"")+'</b></div><div class="hit-tooltip-stat"><span>'+esc(generalizedMarketLabel(row))+'</span><strong>'+fmt.format(value)+'</strong></div><div class="hit-tooltip-rank"><span>Opp Rank</span><strong>'+rank+'</strong><small>'+allowed+' allowed / game'+(rankInfo&&rankInfo.priorSeason?" • prior season":"")+'</small></div></div>';
+}
 function renderModelHitRateChart(row,split){
   state.hitRateActiveRow=row;state.hitRateActiveSplit=split;
   const player=modelPlayerForRow(row),games=modelSplitGames(row,split),rates=ratesFor(row,player),selected=rates&&rates[split]||null,spec=metricSpec(row),line=modelLineForRow(row);
@@ -457,7 +508,8 @@ function renderModelHitRateChart(row,split){
   const bars=games.map((game,index)=>{
     const value=metricValue(game,spec.metric),hit=isHit(game,row,spec),height=Math.max(2,((value-chartMin)/chartSpan)*100),valueBottom=48+(height/100)*stageHeight,breakdown=modelMetricBreakdown(game,spec).filter(([,v])=>v!==0);
     const detail=breakdown.length?'<div class="hit-bar-detail">'+breakdown.map(([label,v])=>'<span><b>'+fmt.format(v)+'</b> '+label+'</span>').join("")+'</div>':"";
-    return'<div class="hit-bar-column"><div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div><div class="hit-bar-track"><div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div></div><div class="hit-bar-label"><span>'+esc(modelChartDateLabel(game))+'</span><span>'+esc(modelChartOpponentLabel(game))+'</span></div></div>';
+    const rankInfo=modelOpponentRankForGame(player,game,spec),rankBadge=rankInfo?'<span class="hit-opp-rank">Opp #'+rankInfo.rank+'</span>':"";
+    return'<div class="hit-bar-column" tabindex="0"><div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div><div class="hit-bar-track"><div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div></div><div class="hit-bar-label"><span>'+esc(modelChartDateLabel(game))+'</span><span>'+esc(modelChartOpponentLabel(game))+'</span>'+rankBadge+'</div>'+modelHitBarTooltip(game,row,value,rankInfo)+'</div>';
   }).join("");
   const threshold=thresholdBottom===null?"":'<div class="hit-threshold" style="bottom:'+thresholdBottom+'px"><span>'+esc(modelFormatLine(line))+'</span></div>';
   $("hitRateChart").innerHTML='<div class="hit-chart-plot" style="width:'+plotWidth+'px">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
