@@ -243,6 +243,7 @@ function cleanDisplayProposition(row){
 
   prop=prop.replace(/\bAlt\s+/gi,"");
   prop=prop.replace(/\bYds\b/gi,"Yards");
+  prop=prop.replace(/\bPass(?:ing)?\s*\+\s*Rush(?:ing)?\s+Yards\b/gi,"Passing + Rushing Yards");
   prop=prop.replace(/\s{2,}/g," ").trim().replace(/^[-:]+|[-:]+$/g,"").trim();
   return prop||String(row.market||"Player Prop");
 }
@@ -607,11 +608,11 @@ function renderSignals(){
   if(!rows.length){$("signalBody").innerHTML='<tr><td colspan="10" class="model-empty">No props satisfy every active constraint. Loosen one or more filters.</td></tr>';return}
   $("signalBody").innerHTML=rows.map(x=>{
     const r=x.row,head=r.headshot||x.player.headshot||fallbackHeadshot();
-    return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(r))+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(r.proposition||r.market||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
+    return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(r))+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
   }).join("");
 }
 function slipHtml(s,i){
-  let legs="";for(const x of s.legs){legs+='<div class="slip-leg model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(x.row))+'" tabindex="0" role="button" aria-label="Open '+esc(x.row.player)+' prop chart"><img src="'+esc(x.row.headshot||x.player.headshot||fallbackHeadshot())+'" alt=""><div class="slip-leg-copy"><strong>'+esc(x.row.player)+'</strong><span>'+esc(x.row.proposition||x.row.market)+' • '+esc(x.opp||"")+'</span></div><strong>'+formatOdds(x.row.odds)+'</strong></div>'}
+  let legs="";for(const x of s.legs){legs+='<div class="slip-leg model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(x.row))+'" tabindex="0" role="button" aria-label="Open '+esc(x.row.player)+' prop chart"><img src="'+esc(x.row.headshot||x.player.headshot||fallbackHeadshot())+'" alt=""><div class="slip-leg-copy"><strong>'+esc(x.row.player)+'</strong><span>'+esc(cleanDisplayProposition(x.row))+' • '+esc(x.opp||"")+'</span></div><strong>'+formatOdds(x.row.odds)+'</strong></div>'}
   const priceLabel=s.sameGamePairs>0?"EST. SGP ODDS":"PARLAY ODDS";
   return '<article class="slip-card"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+' • '+priceLabel+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score"><b>'+s.score.toFixed(1)+'</b><small>AVG GRADE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Est. hit prob</span><strong>'+pct(s.modelProb*100,1)+'</strong></div><div><span>Slip edge</span><strong>'+(s.slipEdge>=0?"+":"")+pct(s.slipEdge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
 }
