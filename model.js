@@ -826,14 +826,15 @@ function renderFormula(){
   const cal=state.calibration&&state.calibration.all&&state.calibration.all.test;
   const sample=state.calibration&&state.calibration.samples;
   $("modelFormula").innerHTML=
-    '<strong>Calibrated probability model</strong><br>'+
-    '<code>P = shrink(2025 walk-forward logistic estimate → current FanDuel no-vig probability)</code><br><br>'+
-    'Core history: <strong>L10 + season-to-date</strong><br>'+
-    'Line distance: <strong>recent mean vs current line</strong><br>'+
-    'Trend: <strong>last 3 vs last 5</strong><br>'+
-    'Opponent: <strong>defense-vs-position percentile</strong><br>'+
-    'Reliability: <strong>sample size + held-out calibration quality</strong><br>'+
-    'Final grade: <strong>68% estimated hit probability</strong> + reliability/calibration + secondary signals'+
+    '<strong>Calibrated mixed-market probability model</strong><br>'+
+    '<code>Players: shrink(2025 walk-forward logistic estimate → current FanDuel no-vig probability)</code><br>'+
+    '<code>Teams: book probability + historical cover/hit rates + full team-stat profile</code><br><br>'+
+    'Player history: <strong>L10 + season-to-date + line distance + trend</strong><br>'+
+    'Player matchup: <strong>defense-vs-position percentile</strong><br>'+
+    'Team matchup: <strong>every numeric ESPN team-stat category normalized league-wide</strong><br>'+
+    'Team weighting: <strong>offense, defense, scoring, situational, turnovers, special teams + all-stat composite</strong><br>'+
+    'Reliability: <strong>sample size + calibration/stat breadth</strong><br>'+
+    'Final grade: <strong>estimated hit probability</strong> + reliability + matchup/profile signals'+
     (sample?'<br><br><span>2025 walk-forward samples: '+fmt.format(sample)+(cal&&Number.isFinite(Number(cal.brier))?' • holdout Brier '+Number(cal.brier).toFixed(3):'')+'. Historical sportsbook closing lines are not stored, so training uses pregame trailing-five median + 0.5 lines.</span>':'')+
     '<br><span>Same-game parlay prices are estimates unless “Different games only” is enabled.</span>';
 }
