@@ -46,7 +46,7 @@ def metric_value(game, metric):
         if stored is not None:
             return safe_num(stored)
         return safe_num(game.get("fieldGoalsMade")) * 3 + safe_num(game.get("extraPointsMade"))
-    return metric_value(game, metric)
+    return safe_num(game.get(metric))
 
 
 def avg(values):
@@ -89,7 +89,7 @@ def build_dvp_lookup(players, metric, position):
             if not week or not opponent:
                 continue
             key = (week, opponent)
-            weekly[key] = weekly.get(key, 0.0) + safe_num(game.get(metric))
+            weekly[key] = weekly.get(key, 0.0) + metric_value(game, metric)
 
     teams = sorted({team for _, team in weekly})
     result = {}
@@ -128,13 +128,13 @@ def build_rows(players):
                 last5 = past[-5:]
                 last10 = past[-10:]
                 current = games[index]
-                values5 = [safe_num(game.get(metric)) for game in last5]
+                values5 = [metric_value(game, metric) for game in last5]
                 line = float(median(values5)) + 0.5
 
                 def hit_rate(sample):
                     if not sample:
                         return 0.5
-                    return avg(1.0 if safe_num(game.get(metric)) > line else 0.0 for game in sample)
+                    return avg(1.0 if metric_value(game, metric) > line else 0.0 for game in sample)
 
                 m5 = avg(values5)
                 spread = std(values5) + 1.0
