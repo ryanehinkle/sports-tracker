@@ -750,7 +750,7 @@ function renderHitRateChart(row,split){
   const med=median(values);
 
   hitRateTitle.textContent=cleanDisplayPlayerName(row.player)+" - "+generalizedMarketLabel(row);
-  hitRateSubtitle.textContent=cleanDisplayProposition(row)+" • "+row.matchup;
+  hitRateSubtitle.innerHTML=esc(cleanDisplayProposition(row))+" • "+esc(row.matchup)+" <span class=\"hit-rate-odds\">"+formatAmerican(row.odds)+"</span>";
   hitRateSplitLabel.textContent=splitLabel(split);
   hitRateSelectedPct.textContent=selectedRate?selectedRate.pct+"%":"—";
   hitRateSelectedPct.className=!selectedRate?"":selectedRate.pct>=70?"hit-good-text":selectedRate.pct>=50?"hit-mid-text":"hit-low-text";
