@@ -258,7 +258,7 @@ function generalizedMarketLabel(row){
   if(/last touchdown scorer/.test(lower)) return "Last Touchdown Scorer";
   if(/4th quarter td scorer/.test(lower)) return "Anytime 4th Quarter TD Scorer";
   if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(lower)) return period+"Rush + Rec Yards";
-  if(/pass\s*\+\s*rush.*yards/.test(lower)) return period+"Pass + Rush Yards";
+  if(/pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards/.test(lower)) return period+"Passing + Rushing Yards";
   if(/receiving yards/.test(lower)) return period+"Receiving Yards";
   if(/rushing yards/.test(lower)) return period+"Rushing Yards";
   if(/passing yards/.test(lower)) return period+"Passing Yards";
@@ -355,7 +355,7 @@ function usagePct(value){
 
 function render(){
   const q=state.query.trim().toLowerCase();
-  let rows=state.players.filter(p=>!p.oddsOnly&&(!q||[p.name,p.team,p.position].some(v=>String(v||"").toLowerCase().includes(q))));
+  let rows=state.players.filter(p=>(!p.oddsOnly||String(p.position||"").toUpperCase()==="K")&&(!q||[p.name,p.team,p.position].some(v=>String(v||"").toLowerCase().includes(q))));
   rows.sort((a,b)=>{
     let av=a[state.sortKey],bv=b[state.sortKey],result;
     if(state.sortKey==="name") result=String(av).localeCompare(String(bv));
@@ -368,7 +368,7 @@ function render(){
     mark.textContent=th.dataset.key===state.sortKey?(state.sortDir==="asc"?"▲":"▼"):"";
   });
   if(!rows.length){
-    body.innerHTML='<tr><td colspan="11" class="empty-cell">No players match that search.</td></tr>';
+    body.innerHTML='<tr><td colspan="13" class="empty-cell">No players match that search.</td></tr>';
     return;
   }
   body.innerHTML=rows.map(p=>
@@ -380,6 +380,8 @@ function render(){
       '</td>'+
       '<td class="stat-strong">'+fmt.format(safe(p.touchdowns))+'</td>'+
       '<td class="all-purpose">'+fmt.format(safe(p.allPurposeYards))+'</td>'+
+      '<td>'+fmt.format(safe(p.passRushYards??(safe(p.passingYards)+safe(p.rushingYards))))+'</td>'+
+      '<td>'+fmt.format(safe(p.kickingPoints))+'</td>'+
       '<td>'+fmt.format(safe(p.receivingYards))+'</td>'+
       '<td>'+fmt.format(safe(p.rushingYards))+'</td>'+
       '<td>'+fmt.format(safe(p.receptions))+'</td>'+
@@ -430,7 +432,7 @@ function renderModalSeason(){
   modalKicker.textContent=season+" REGULAR SEASON • GAME LOG";
 
   if(!logs.length){
-    gameLogBody.innerHTML='<tr><td colspan="9" class="modal-empty">No regular-season game log is available for '+esc(season)+'.</td></tr>';
+    gameLogBody.innerHTML='<tr><td colspan="11" class="modal-empty">No regular-season game log is available for '+esc(season)+'.</td></tr>';
     return;
   }
 
@@ -440,6 +442,8 @@ function renderModalSeason(){
       '<td class="opponent-cell">'+opponentHtml(game)+'</td>'+
       '<td class="stat-strong">'+gameStat(game,"touchdowns")+'</td>'+
       '<td class="all-purpose">'+gameStat(game,"allPurposeYards")+'</td>'+
+      '<td>'+gameStat(game,"passRushYards")+'</td>'+
+      '<td>'+gameStat(game,"kickingPoints")+'</td>'+
       '<td>'+gameStat(game,"receivingYards")+'</td>'+
       '<td>'+gameStat(game,"rushingYards")+'</td>'+
       '<td>'+gameStat(game,"receptions")+'</td>'+
@@ -499,7 +503,7 @@ function metricSpec(row){
 
   if(/any time touchdown scorer|anytime touchdown scorer/.test(text)) return {metric:"touchdowns",threshold:1,comparison:"gte"};
   if(/pass \+ rush \+ rec.*yards|pass.*rush.*reception.*yards/.test(text)) return {metric:"passRushRecYards"};
-  if(/pass \+ rush.*yards/.test(text)) return {metric:"passRushYards"};
+  if(/pass(?:ing)? \+ rush(?:ing)?.*yards/.test(text)) return {metric:"passRushYards"};
   if(/rush(?:ing)? \+ receiv.*yards|rush.*receiv.*yards/.test(text)) return {metric:"allPurposeYards"};
   if(/passing yards/.test(text)) return {metric:"passingYards"};
   if(/receiving yards/.test(text)) return {metric:"receivingYards"};
