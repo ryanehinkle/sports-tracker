@@ -11,6 +11,7 @@ on:
     branches: ["main"]
     paths:
       - "scripts/update_odds.py"
+      - "scripts/validate_prop_tracking.py"
       - ".github/workflows/update-odds.yml"
       - "requirements.txt"
   schedule:
@@ -62,6 +63,9 @@ jobs:
           else
             echo "hours=36" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Validate prop tracking mappings
+        run: python scripts/validate_prop_tracking.py
 
       - name: Pull FanDuel NFL player props
         env:
