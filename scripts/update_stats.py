@@ -39,6 +39,12 @@ FEEDS = {
         "sort": "passing.passingYards:desc",
         "fallback": {"passingYards": 3, "passingTouchdowns": 7},
     },
+    "kicking": {
+        "category": "specialTeams:kicking",
+        "sort": "kicking.totalPoints:desc",
+        "fallback": {},
+        "optional": True,
+    },
 }
 
 GAME_STAT_ALIASES = {
@@ -220,7 +226,13 @@ def fetch_feed(season, feed_name, cfg):
 def merge_players(season):
     merged = {}
     for feed_name, cfg in FEEDS.items():
-        feed = fetch_feed(season, feed_name, cfg)
+        try:
+            feed = fetch_feed(season, feed_name, cfg)
+        except Exception as exc:
+            if cfg.get("optional"):
+                print(f"WARNING: optional {feed_name} feed failed: {exc}", file=sys.stderr)
+                continue
+            raise
         print(f"{feed_name}: {len(feed)} athletes")
         for aid, row in feed.items():
             p = merged.setdefault(
@@ -238,6 +250,10 @@ def merge_players(season):
                     "receptions": 0,
                     "passingTouchdowns": 0,
                     "passingYards": 0,
+                    "passRushYards": 0,
+                    "fieldGoalsMade": 0,
+                    "extraPointsMade": 0,
+                    "kickingPoints": 0,
                 },
             )
             for k in ("name", "team", "position", "headshot"):
@@ -251,19 +267,30 @@ def merge_players(season):
                 "passingYards",
                 "receivingTouchdowns",
                 "rushingTouchdowns",
+                "fieldGoalsMade",
+                "extraPointsMade",
+                "totalPoints",
+                "kickingPoints",
             ):
                 if k in row:
                     p[k] = number(row[k])
 
     for p in merged.values():
         p["allPurposeYards"] = p["rushingYards"] + p["receivingYards"]
+        p["passRushYards"] = p["passingYards"] + p["rushingYards"]
         p["touchdowns"] = p.get("rushingTouchdowns", 0) + p.get("receivingTouchdowns", 0)
+        if not p.get("kickingPoints"):
+            p["kickingPoints"] = p.get("totalPoints", 0) or (p.get("fieldGoalsMade", 0) * 3 + p.get("extraPointsMade", 0))
+        p.pop("totalPoints", None)
         p.pop("rushingTouchdowns", None)
         p.pop("receivingTouchdowns", None)
 
     rows = [
         p for p in merged.values()
-        if any(p[k] for k in ("allPurposeYards", "receptions", "passingYards", "passingTouchdowns", "touchdowns"))
+        if (
+            any(p.get(k, 0) for k in ("allPurposeYards", "receptions", "passingYards", "passingTouchdowns", "touchdowns", "kickingPoints", "fieldGoalsMade"))
+            or str(p.get("position") or "").upper() == "K"
+        )
     ]
     rows.sort(key=lambda p: (p["allPurposeYards"], p["passingYards"], p["name"]), reverse=True)
     return rows
@@ -329,6 +356,10 @@ def profile_from_athlete(athlete, fallback_name=""):
         "receptions": 0,
         "passingTouchdowns": 0,
         "passingYards": 0,
+        "passRushYards": 0,
+        "fieldGoalsMade": 0,
+        "extraPointsMade": 0,
+        "kickingPoints": 0,
         "oddsOnly": True,
     }
 
@@ -383,6 +414,10 @@ def resolve_espn_player(name):
         "receptions": 0,
         "passingTouchdowns": 0,
         "passingYards": 0,
+        "passRushYards": 0,
+        "fieldGoalsMade": 0,
+        "extraPointsMade": 0,
+        "kickingPoints": 0,
         "oddsOnly": True,
     }
 
@@ -638,6 +673,34 @@ def attach_game_logs(players, season, previous_payload, refresh_current=True):
     return current_week
 
 
+def refresh_current_aggregates_from_logs(players):
+    """Keep displayed season totals in sync with the same game logs used by prop charts."""
+    for p in players:
+        games = [g for g in (p.get("gameLog") or []) if g.get("played")]
+        if not games:
+            continue
+
+        def total(key):
+            return sum(number(g.get(key)) for g in games)
+
+        p["receivingYards"] = total("receivingYards")
+        p["rushingYards"] = total("rushingYards")
+        p["receptions"] = total("receptions")
+        p["passingTouchdowns"] = total("passingTouchdowns")
+        p["passingYards"] = total("passingYards")
+        p["allPurposeYards"] = p["rushingYards"] + p["receivingYards"]
+        p["passRushYards"] = p["passingYards"] + p["rushingYards"]
+        p["touchdowns"] = total("touchdowns")
+        p["fieldGoalsMade"] = total("fieldGoalsMade")
+        p["extraPointsMade"] = total("extraPointsMade")
+        p["kickingPoints"] = total("kickingPoints")
+
+        # A kicker pulled in through FanDuel before the ESPN leaderboard feed
+        # catches up should still appear in Player Stats once we have game logs.
+        if str(p.get("position") or "").upper() == "K":
+            p.pop("oddsOnly", None)
+
+
 def load_previous():
     if not OUT.exists():
         return {}
@@ -687,6 +750,7 @@ def main():
         previous,
         refresh_current=not aggregates_unchanged,
     )
+    refresh_current_aggregates_from_logs(players)
 
     payload = {
         "season": season,
@@ -695,7 +759,11 @@ def main():
         "availableSeasons": [season, season - 1],
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "source": "ESPN",
-        "definition": {"allPurposeYards": "rushing + receiving yards"},
+        "definition": {
+            "allPurposeYards": "rushing + receiving yards",
+            "passRushYards": "passing + rushing yards",
+            "kickingPoints": "3 × field goals made + extra points made",
+        },
         "players": players,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
