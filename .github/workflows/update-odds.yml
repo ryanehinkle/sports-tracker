@@ -11,7 +11,7 @@ on:
     branches: ["main"]
     paths:
       - "scripts/update_odds.py"
-      - "scripts/validate_prop_tracking.py"
+      - "scripts/validate_prop_tracking.py"\n      - "scripts/build_ladder.py"\n      - "scripts/update_team_stats.py"
       - ".github/workflows/update-odds.yml"
       - "requirements.txt"
   schedule:
@@ -68,7 +68,7 @@ jobs:
 
       # Full refresh also discovers generalized combo and kicker player markets
       # (e.g. Passing + Rushing Yards and Kicking Points) when FanDuel publishes them.
-      - name: Pull FanDuel NFL player props
+      - name: Pull FanDuel NFL player + team/game markets
         env:
           ODDS_LOOKAHEAD_HOURS: ${{ steps.window.outputs.hours }}
         run: python scripts/update_odds.py
@@ -76,23 +76,30 @@ jobs:
       - name: Commit refreshed odds
         shell: bash
         run: |
-          if git diff --quiet -- data/nfl-odds.json; then
-            echo "No odds changes."
+          if git diff --quiet -- data/nfl-odds.json data/odds-history data/ladder-picks.json; then
+            echo "No odds/history changes."
             exit 0
           fi
 
           cp data/nfl-odds.json /tmp/nfl-odds.json
+          [ -f data/ladder-picks.json ] && cp data/ladder-picks.json /tmp/ladder-picks.json || true
+          [ -d data/odds-history ] && cp -R data/odds-history /tmp/odds-history || true
           git fetch origin main
           git reset --hard origin/main
           cp /tmp/nfl-odds.json data/nfl-odds.json
+          [ -f /tmp/ladder-picks.json ] && cp /tmp/ladder-picks.json data/ladder-picks.json || true
+          if [ -d /tmp/odds-history ]; then
+            rm -rf data/odds-history
+            cp -R /tmp/odds-history data/odds-history
+          fi
 
-          if git diff --quiet -- data/nfl-odds.json; then
-            echo "Remote already has these odds."
+          if git diff --quiet -- data/nfl-odds.json data/odds-history data/ladder-picks.json; then
+            echo "Remote already has these generated updates."
             exit 0
           fi
 
           git config user.name "sports-tracker-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/nfl-odds.json
-          git commit -m "Update FanDuel NFL player props"
+          git add data/nfl-odds.json data/odds-history data/ladder-picks.json
+          git commit -m "Update FanDuel NFL markets and history"
           git push
