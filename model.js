@@ -5,7 +5,7 @@ const fmt=new Intl.NumberFormat("en-US");
 const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map()};
+const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set()};
 const SLIPS_PER_PAGE=6;
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
@@ -22,6 +22,9 @@ function implied(o){const d=americanToDecimal(o);return d?1/d:null}
 function rowDecimalOdds(row){const exact=Number(row&&row.decimalOdds);return Number.isFinite(exact)&&exact>1?exact:americanToDecimal(row&&row.odds)}
 function formatOdds(o){o=Number(o);return Number.isFinite(o)?(o>0?"+":"")+Math.round(o):"—"}
 function fallbackHeadshot(){return "https://a.espncdn.com/i/headshots/nfl/players/full/0.png"}
+function modelTeamLogo(abbr){return abbr?"https://a.espncdn.com/i/teamlogos/nfl/500/"+String(abbr).toLowerCase()+".png":fallbackHeadshot()}
+function modelShortTeam(name){const parts=String(name||"").trim().split(/\s+/);return parts.length?parts[parts.length-1]:"Team"}
+function modelGameTime(value){const d=new Date(value);return Number.isNaN(d.getTime())?"":new Intl.DateTimeFormat("en-US",{weekday:"long",hour:"numeric",minute:"2-digit"}).format(d)}
 function modelPropKey(row){return [row.eventId||"",row.player||"",row.market||"",row.selection||"",row.line??"",row.proposition||""].join("¦")}
 function percentile(value,values){const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length||!Number.isFinite(value))return null;let below=0,equal=0;for(const x of a){if(x<value)below++;else if(x===value)equal++}return 100*(below+.5*equal)/a.length}
 
@@ -303,7 +306,7 @@ function flattenOdds(raw){
   for(const event of raw.events||[]){
     const away=event.awayAbbr||event.awayTeam||"AWAY",home=event.homeAbbr||event.homeTeam||"HOME";
     for(const prop of event.props||[]){
-      const player=state.playerByName.get(norm(prop.player)),row=Object.assign({},prop,{eventId:String(event.id||""),awayAbbr:event.awayAbbr||"",homeAbbr:event.homeAbbr||"",awayTeam:event.awayTeam||"",homeTeam:event.homeTeam||"",matchup:away+" @ "+home});
+      const player=state.playerByName.get(norm(prop.player)),row=Object.assign({},prop,{eventId:String(event.id||""),awayAbbr:event.awayAbbr||"",homeAbbr:event.homeAbbr||"",awayTeam:event.awayTeam||"",homeTeam:event.homeTeam||"",matchup:away+" @ "+home,commenceTime:event.commenceTime||""});
       row.player=clean(prop.player);row.team=prop.team||player&&player.team||"";row.position=prop.position||player&&player.position||"";row._marketLabel=generalizedMarketLabel(row);out.push(row);
     }
   }
@@ -396,7 +399,7 @@ function controls(){
     targetsPerGameMin:Number($("targetsPerGameMin").value)||0,carriesPerGameMin:Number($("carriesPerGameMin").value)||0,
     dvpMin:Number($("dvpMin").value)||0,dvpSample:Number($("dvpSample").value)||1,teamMatchupMin:Number($("teamMatchupMin").value)||0,
     edgeMin:Number($("edgeMin").value),oddsSpread:Number($("oddsSpread").value)||600,requireOpponentData:$("requireOpponentData").checked,
-    position:$("positionFilter").value,market:$("marketFilter").value,side:$("sideFilter").value,team:$("teamFilter").value,opponent:$("opponentFilter").value,game:$("gameFilter").value,player:$("playerFilter").value.trim().toLowerCase(),
+    positions:state.selectedPositions,markets:state.selectedMarkets,sides:state.selectedSides,games:state.selectedGames,player:$("playerFilter").value.trim().toLowerCase(),
     lineMin:$("lineMin").value===""?null:Number($("lineMin").value),lineMax:$("lineMax").value===""?null:Number($("lineMax").value),
     legOddsMin:Number($("legOddsMin").value),legOddsMax:Number($("legOddsMax").value),parlayOddsMin:Number($("parlayOddsMin").value),parlayOddsMax:Number($("parlayOddsMax").value),
     legsMin:clamp(Number($("legsMin").value)||1,1,10),legsMax:clamp(Number($("legsMax").value)||1,1,10),uniquePlayers:$("uniquePlayers").checked,avoidSameGame:$("avoidSameGame").checked,weights:Object.assign({},state.weights)
@@ -414,12 +417,10 @@ function analyze(row,cfg){
   const team=String(row.team||player.team||"").toUpperCase();
   const opp=nextOpponent(Object.assign({},row,{team:team}));
   const market=row._marketLabel;
-  if(cfg.position&&pos!==cfg.position)return null;
-  if(cfg.market&&market!==cfg.market)return null;
-  if(cfg.side&&String(row.selection||"")!==cfg.side)return null;
-  if(cfg.team&&team!==cfg.team)return null;
-  if(cfg.opponent&&opp!==cfg.opponent)return null;
-  if(cfg.game&&String(row.eventId)!==String(cfg.game))return null;
+  if(cfg.positions.size&&!cfg.positions.has(pos))return null;
+  if(cfg.markets.size&&!cfg.markets.has(market))return null;
+  if(cfg.sides.size&&!cfg.sides.has(String(row.selection||"")))return null;
+  if(cfg.games.size&&!cfg.games.has(String(row.eventId)))return null;
   if(cfg.player&&!String(row.player||"").toLowerCase().includes(cfg.player))return null;
 
   const spec=metricSpec(row);if(!spec)return null;
@@ -598,7 +599,7 @@ function renderSignals(){
   if(!rows.length){$("signalBody").innerHTML='<tr><td colspan="10" class="model-empty">No props satisfy every active constraint. Loosen one or more filters.</td></tr>';return}
   $("signalBody").innerHTML=rows.map(x=>{
     const r=x.row,head=r.headshot||x.player.headshot||fallbackHeadshot();
-    return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(r))+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(r.proposition||r.market||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td><td><strong>'+formatOdds(r.odds)+'</strong></td></tr>';
+    return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(r))+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(r.proposition||r.market||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
   }).join("");
 }
 function slipHtml(s,i){
@@ -661,12 +662,92 @@ function buildControls(){
   $("weightControls").innerHTML=WEIGHT_LABELS.map(pair=>'<button type="button" class="weight-button active" data-weight="'+pair[0]+'">'+pair[1]+'<strong>'+DEFAULTS.weights[pair[0]]+'</strong></button>').join("");
 }
 function syncLabels(){for(const [k] of HIT_LABELS)$(k+"Value").textContent=$(k+"Min").value+"%";$("targetShareValue").textContent=$("targetShare").value+"%";$("carryShareValue").textContent=$("carryShare").value+"%";$("opportunityShareValue").textContent=$("opportunityShare").value+"%";$("dvpValue").textContent=$("dvpMin").value+"th+";$("dvpSampleValue").textContent=$("dvpSample").value+"+";$("teamMatchupValue").textContent=$("teamMatchupMin").value+"th+";$("edgeValue").textContent=$("edgeMin").value+"%+";$("oddsSpreadValue").textContent=$("oddsSpread").value}
-function fillSelects(){
-  const positions=[...new Set(state.players.map(p=>String(p.position||"").toUpperCase()).filter(Boolean))].sort();$("positionFilter").insertAdjacentHTML("beforeend",positions.map(x=>'<option>'+esc(x)+'</option>').join(""));
-  const markets=[...new Set(state.odds.map(x=>x._marketLabel).filter(Boolean))].sort((a,b)=>a.localeCompare(b));$("marketFilter").insertAdjacentHTML("beforeend",markets.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join(""));
-  const teams=[...new Set(state.odds.map(x=>String(x.team||"").toUpperCase()).filter(Boolean))].sort();$("teamFilter").insertAdjacentHTML("beforeend",teams.map(x=>'<option>'+esc(x)+'</option>').join(""));
-  const opponents=[...new Set(state.odds.map(nextOpponent).filter(Boolean))].sort();$("opponentFilter").insertAdjacentHTML("beforeend",opponents.map(x=>'<option>'+esc(x)+'</option>').join(""));const games=[...new Map(state.odds.filter(x=>x.eventId).map(x=>[String(x.eventId),x.matchup])).entries()].sort((a,b)=>String(a[1]).localeCompare(String(b[1])));$("gameFilter").insertAdjacentHTML("beforeend",games.map(x=>'<option value="'+esc(x[0])+'">'+esc(x[1])+'</option>').join(""));
+function modelFilterCountLabel(set,singular,allLabel){
+  return set.size?set.size+" "+singular+(set.size===1?"":"s"):allLabel;
 }
+function modelRenderOption(value,label,selectedSet,kind){
+  const selected=selectedSet.has(String(value));
+  return '<button type="button" class="filter-option '+(selected?"selected":"")+'" data-model-kind="'+kind+'" data-model-value="'+esc(value)+'"><span class="filter-option-label">'+esc(label)+'</span><span class="option-checkbox">'+(selected?"✓":"")+'</span></button>';
+}
+function renderModelFilters(){
+  const positions=[...new Set(state.players.map(p=>String(p.position||"").toUpperCase()).filter(Boolean))].sort();
+  $("modelPositionOptions").innerHTML=positions.map(x=>modelRenderOption(x,x,state.selectedPositions,"positions")).join("");
+  $("modelAllPositionsMark").textContent=state.selectedPositions.size?"":"✓";
+  $("modelPositionLabel").textContent=modelFilterCountLabel(state.selectedPositions,"Position","All positions");
+
+  const markets=[...new Set(state.odds.map(x=>x._marketLabel).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  $("modelMarketOptions").innerHTML=markets.map(x=>modelRenderOption(x,x,state.selectedMarkets,"markets")).join("");
+  $("modelAllMarketsMark").textContent=state.selectedMarkets.size?"":"✓";
+  $("modelMarketLabel").textContent=modelFilterCountLabel(state.selectedMarkets,"Prop","All props");
+
+  const sides=["Over","Under"];
+  $("modelSideOptions").innerHTML=sides.map(x=>modelRenderOption(x,x,state.selectedSides,"sides")).join("");
+  $("modelAllSidesMark").textContent=state.selectedSides.size?"":"✓";
+  $("modelSideLabel").textContent=state.selectedSides.size?(state.selectedSides.size===2?"Over + Under":[...state.selectedSides][0]):"Over + Under";
+
+  const events=new Map();
+  for(const row of state.odds){
+    const id=String(row.eventId||"");if(!id||events.has(id))continue;
+    events.set(id,{id:id,matchup:row.matchup,awayAbbr:row.awayAbbr,homeAbbr:row.homeAbbr,awayTeam:row.awayTeam,homeTeam:row.homeTeam,commenceTime:row.commenceTime});
+  }
+  $("modelGameOptions").innerHTML=[...events.values()].sort((a,b)=>new Date(a.commenceTime||0)-new Date(b.commenceTime||0)).map(event=>{
+    const selected=state.selectedGames.has(event.id);
+    return '<button type="button" class="filter-option game-option '+(selected?"selected":"")+'" data-model-kind="games" data-model-value="'+esc(event.id)+'">'+
+      '<span class="game-option-logos"><img src="'+esc(modelTeamLogo(event.awayAbbr))+'" alt=""><img src="'+esc(modelTeamLogo(event.homeAbbr))+'" alt=""></span>'+
+      '<span class="game-option-copy"><span class="game-option-time">'+esc(modelGameTime(event.commenceTime))+'</span><span class="game-option-name">'+esc(modelShortTeam(event.awayTeam||event.awayAbbr))+' @ '+esc(modelShortTeam(event.homeTeam||event.homeAbbr))+'</span></span>'+
+      '<span class="option-checkbox">'+(selected?"✓":"")+'</span></button>';
+  }).join("");
+  $("modelAllGamesMark").textContent=state.selectedGames.size?"":"✓";
+  $("modelGameLabel").textContent=modelFilterCountLabel(state.selectedGames,"Game","All games");
+}
+function closeModelFilterPopovers(except){
+  document.querySelectorAll(".model-filter-popover").forEach(pop=>{
+    if(pop===except)return;
+    pop.hidden=true;
+    const btn=pop.parentElement&&pop.parentElement.querySelector(".model-filter-button");
+    if(btn){btn.classList.remove("open");btn.setAttribute("aria-expanded","false")}
+  });
+}
+function positionModelPopover(button,popover){
+  const rect=button.getBoundingClientRect(),margin=8;
+  popover.style.left=Math.max(margin,Math.min(rect.left,window.innerWidth-popover.offsetWidth-margin))+"px";
+  popover.style.top=Math.min(rect.bottom+7,window.innerHeight-popover.offsetHeight-margin)+"px";
+}
+function toggleModelFilter(button,popover){
+  const opening=popover.hidden;
+  closeModelFilterPopovers(opening?popover:null);
+  popover.hidden=!opening;button.classList.toggle("open",opening);button.setAttribute("aria-expanded",opening?"true":"false");
+  if(opening)requestAnimationFrame(()=>positionModelPopover(button,popover));
+}
+function bindModelFilters(){
+  const pairs=[
+    ["modelPositionButton","modelPositionPopover"],
+    ["modelMarketButton","modelMarketPopover"],
+    ["modelSideButton","modelSidePopover"],
+    ["modelGameButton","modelGamePopover"]
+  ];
+  for(const [buttonId,popId] of pairs){
+    $(buttonId).addEventListener("click",e=>{e.stopPropagation();toggleModelFilter($(buttonId),$(popId))});
+  }
+  document.addEventListener("click",e=>{
+    const option=e.target.closest("[data-model-kind][data-model-value]");
+    if(option){
+      const set=state["selected"+option.dataset.modelKind[0].toUpperCase()+option.dataset.modelKind.slice(1)];
+      const value=option.dataset.modelValue;
+      set.has(value)?set.delete(value):set.add(value);
+      renderModelFilters();schedule();return;
+    }
+    const clear=e.target.closest("[data-model-clear]");
+    if(clear){
+      const key=clear.dataset.modelClear,set=state["selected"+key[0].toUpperCase()+key.slice(1)];
+      set.clear();renderModelFilters();schedule();return;
+    }
+    if(!e.target.closest(".model-filter-control"))closeModelFilterPopovers();
+  });
+  window.addEventListener("resize",()=>closeModelFilterPopovers());
+  window.addEventListener("scroll",()=>closeModelFilterPopovers(),true);
+}
+function fillSelects(){renderModelFilters()}
 function modelPlayerForRow(row){return state.playerByName.get(norm(row&&row.player))}
 function modelPlayedLogs(player){
   return logs(player,false).filter(g=>g&&g.played).sort((a,b)=>(b._season-a._season)||num(b.week)-num(a.week));
@@ -774,7 +855,7 @@ function renderModelHitRateChart(row,split){
   const values=games.map(g=>metricValue(g,spec.metric)).filter(Number.isFinite);
   const average=values.length?values.reduce((s,v)=>s+v,0)/values.length:null,med=median(values);
   $("hitRateTitle").textContent=cleanDisplayPlayerName(row.player)+" - "+generalizedMarketLabel(row);
-  $("hitRateSubtitle").textContent=cleanDisplayProposition(row)+" • "+row.matchup;
+  $("hitRateSubtitle").innerHTML=esc(cleanDisplayProposition(row))+" • "+esc(row.matchup)+" <span class=\"hit-rate-odds\">"+formatOdds(row.odds)+"</span>";
   $("hitRateSplitLabel").textContent=modelSplitLabel(split);
   $("hitRateSelectedPct").textContent=selected?Math.round(selected.pct)+"%":"—";
   $("hitRateSelectedPct").className=!selected?"":selected.pct>=70?"hit-good-text":selected.pct>=50?"hit-mid-text":"hit-low-text";
@@ -808,6 +889,7 @@ function openModelHitRateChart(row){
   $("hitRateModal").showModal();
 }
 function bind(){
+  bindModelFilters();
   document.addEventListener("click",e=>{const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
   document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;e.preventDefault();const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
   $("hitRateClose").addEventListener("click",()=>$("hitRateModal").close());
@@ -826,9 +908,9 @@ function bind(){
     if(delta<0&&state.slipPage<pages-1){state.slipPage++;renderSlips(1)}
     else if(delta>0&&state.slipPage>0){state.slipPage--;renderSlips(-1)}
   },{passive:true});
-  document.querySelectorAll(".model-controls input,.model-controls select").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
+  document.querySelectorAll(".model-controls input").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
   $("weightControls").addEventListener("click",e=>{const b=e.target.closest("[data-weight]");if(!b)return;const k=b.dataset.weight,levels=[0,8,14,22,30,40],cur=state.weights[k],next=levels[(levels.indexOf(cur)+1)%levels.length];state.weights[k]=next;b.querySelector("strong").textContent=next;b.classList.toggle("active",next>0);schedule()});
-  $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;for(const id of ["positionFilter","marketFilter","sideFilter","teamFilter","opponentFilter","gameFilter","playerFilter"])$(id).value="";for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
+  $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();$("playerFilter").value="";renderModelFilters();for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
 }
 async function init(){
   buildControls();bind();syncLabels();
