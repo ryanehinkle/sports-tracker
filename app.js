@@ -928,6 +928,7 @@ function parlaySnapshot(row){
     selection:row.selection||"",
     line:row.line??null,
     odds:Number(row.odds),
+    decimalOdds:Number(row.decimalOdds)>1?Number(row.decimalOdds):null,
     alternate:Boolean(row.alternate),
     available:true
   };
@@ -971,7 +972,8 @@ function combinedParlayDecimal(){
   let product=1;
   for(const leg of state.parlayLegs){
     if(leg.available===false) return null;
-    const decimal=americanToDecimal(leg.odds);
+    const exact=Number(leg.decimalOdds);
+    const decimal=Number.isFinite(exact)&&exact>1?exact:americanToDecimal(leg.odds);
     if(decimal===null) return null;
     product*=decimal;
   }
