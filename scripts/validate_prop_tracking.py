@@ -3,7 +3,7 @@
 The site only has ESPN full-game game logs. This validator makes sure period/drive
 markets can never silently fall through to full-game totals.
 """
-from scripts.update_odds import _metric_spec, _metric_value, _prop_hit
+from update_odds import _metric_spec, _metric_value, _prop_hit
 
 
 def prop(market, proposition=None, line=50.5, selection="Over"):
