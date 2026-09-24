@@ -131,7 +131,7 @@
       <section class="odds-toolbar">
         <label class="search-wrap odds-search" for="oddsSearchInput">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
-          <input id="oddsSearchInput" type="search" placeholder="Search player, team, or prop…" autocomplete="off" />
+          <input id="oddsSearchInput" type="search" placeholder="Search player, team, game, or prop…" autocomplete="off" />
         </label>
 
         <div class="filter-strip">
@@ -158,15 +158,32 @@
           </div>
 
           <div class="filter-control">
+            <button id="scopeFilterButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">◎</span><span id="scopeFilterLabel">Market Type</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="scopeFilterDialog" class="filter-popover scope-filter-popover" hidden>
+              <div class="filter-popover-title">Market Type</div>
+              <div id="scopeFilterOptions" class="position-options">
+                <button type="button" class="scope-option active" data-scope=""><span>All Markets</span><span class="selection-mark">✓</span></button>
+                <button type="button" class="scope-option" data-scope="player"><span>Player Props</span><span class="selection-mark"></span></button>
+                <button type="button" class="scope-option" data-scope="team"><span>Team Props</span><span class="selection-mark"></span></button>
+                <button type="button" class="scope-option" data-scope="game"><span>Game Props</span><span class="selection-mark"></span></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-control">
             <button id="positionFilterButton" class="filter-button" type="button" aria-expanded="false">
-              <span class="filter-icon">↕</span><span id="positionFilterLabel">Over / Under</span><span class="filter-caret">⌄</span>
+              <span class="filter-icon">↕</span><span id="positionFilterLabel">Side</span><span class="filter-caret">⌄</span>
             </button>
             <div id="positionFilterDialog" class="filter-popover position-filter-popover" hidden>
-              <div class="filter-popover-title">Over / Under</div>
+              <div class="filter-popover-title">Side / Selection</div>
               <div id="positionFilterOptions" class="position-options">
-                <button type="button" class="position-option active" data-position=""><span>Any Position</span><span class="selection-mark">✓</span></button>
+                <button type="button" class="position-option active" data-position=""><span>Any Side</span><span class="selection-mark">✓</span></button>
                 <button type="button" class="position-option" data-position="Over"><span>Over</span><span class="selection-mark"></span></button>
                 <button type="button" class="position-option" data-position="Under"><span>Under</span><span class="selection-mark"></span></button>
+                <button type="button" class="position-option" data-position="Win"><span>Moneyline</span><span class="selection-mark"></span></button>
+                <button type="button" class="position-option" data-position="Cover"><span>Spread</span><span class="selection-mark"></span></button>
               </div>
             </div>
           </div>
@@ -199,6 +216,15 @@
         </div>
 
         <div class="odds-right-actions">
+          <div class="filter-control odds-date-control">
+            <button id="oddsDateButton" class="filter-button odds-date-button" type="button" aria-expanded="false">
+              <span class="filter-icon">◷</span><span id="oddsDateLabel">Live</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="oddsDateDialog" class="filter-popover odds-date-popover" hidden>
+              <div class="filter-popover-title">Board Date</div>
+              <div id="oddsDateOptions" class="filter-options"></div>
+            </div>
+          </div>
           <button id="parlayBuilderButton" class="parlay-builder-button" type="button" aria-expanded="false" aria-controls="parlayPanel">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h8M5 12h5M5 17h8M18 6v12M15 9l3-3 3 3"/></svg>
             <span>Parlay Builder</span>
@@ -220,6 +246,7 @@
                 <th class="prop-col" data-odds-key="player">Proposition <span class="odds-sort-indicator"></span></th>
                 <th data-odds-key="line">Line <span class="odds-sort-indicator"></span></th>
                 <th data-odds-key="odds">Odds <span class="odds-sort-indicator"></span></th>
+                <th id="oddsResultHead" class="result-head" data-odds-key="result" hidden>Result <span class="odds-sort-indicator"></span></th>
                 <th class="hit-head" data-odds-key="hitL5">L5 <span class="odds-sort-indicator"></span></th>
                 <th class="hit-head" data-odds-key="hitL10">L10 <span class="odds-sort-indicator"></span></th>
                 <th class="hit-head" data-odds-key="hitH2H">H2H <span class="odds-sort-indicator"></span></th>
@@ -394,6 +421,6 @@
   </dialog>
 
   <script src="theme.js?v=1"></script>
-  <script src="app.js?v=20260924-12"></script>
+  <script src="app.js?v=20260924-team-history"></script>
 </body>
 </html>
