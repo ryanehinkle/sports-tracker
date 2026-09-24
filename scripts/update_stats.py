@@ -76,12 +76,33 @@ GAME_STAT_ALIASES = {
         "fieldgoalsmadefieldgoalattempts",
         "fieldgoalsmadefieldgoalsattempted",
     ),
+    "fieldGoalsAttempted": (
+        "fieldgoalsattempted",
+        "fieldgoalattempts",
+        "fgattempts",
+        "fieldgoalsmadefieldgoalattempts",
+        "fieldgoalsmadefieldgoalsattempted",
+    ),
     "extraPointsMade": (
         "extrapointsmade",
         "xpmade",
         "patmade",
         "extrapointsmadeextrapointattempts",
         "extrapointsmadeextrapointsattempted",
+    ),
+    "extraPointsAttempted": (
+        "extrapointsattempted",
+        "extrapointattempts",
+        "xpattempts",
+        "patattempts",
+        "extrapointsmadeextrapointattempts",
+        "extrapointsmadeextrapointsattempted",
+    ),
+    "longFieldGoal": (
+        "longfieldgoalmade",
+        "longfieldgoal",
+        "longestfieldgoal",
+        "longfg",
     ),
     "kickingPoints": ("totalkickingpoints", "kickingpoints"),
 }
@@ -400,8 +421,16 @@ def profile_from_athlete(athlete, fallback_name=""):
         "passingYards": 0,
         "passRushYards": 0,
         "fieldGoalsMade": 0,
+        "fieldGoalsAttempted": 0,
+        "fieldGoalPct": 0,
+        "fieldGoalsPerGame": 0,
         "extraPointsMade": 0,
+        "extraPointsAttempted": 0,
+        "extraPointPct": 0,
+        "extraPointsPerGame": 0,
+        "longFieldGoal": 0,
         "kickingPoints": 0,
+        "kickingPointsPerGame": 0,
         "oddsOnly": True,
     }
 
@@ -486,7 +515,12 @@ def add_kicker_profiles(players):
             existing["team"] = profile.get("team") or existing.get("team") or ""
             existing["headshot"] = profile.get("headshot") or existing.get("headshot") or ""
             existing.pop("oddsOnly", None)
-            for key in ("passRushYards", "fieldGoalsMade", "extraPointsMade", "kickingPoints"):
+            for key in (
+                "passRushYards",
+                "fieldGoalsMade","fieldGoalsAttempted","fieldGoalPct","fieldGoalsPerGame",
+                "extraPointsMade","extraPointsAttempted","extraPointPct","extraPointsPerGame",
+                "longFieldGoal","kickingPoints","kickingPointsPerGame",
+            ):
                 existing.setdefault(key, 0)
             continue
         players.append(profile)
@@ -559,8 +593,16 @@ def resolve_espn_player(name):
         "passingYards": 0,
         "passRushYards": 0,
         "fieldGoalsMade": 0,
+        "fieldGoalsAttempted": 0,
+        "fieldGoalPct": 0,
+        "fieldGoalsPerGame": 0,
         "extraPointsMade": 0,
+        "extraPointsAttempted": 0,
+        "extraPointPct": 0,
+        "extraPointsPerGame": 0,
+        "longFieldGoal": 0,
         "kickingPoints": 0,
+        "kickingPointsPerGame": 0,
         "oddsOnly": True,
     }
 
@@ -629,16 +671,16 @@ def score_for_event(meta):
     return result, f"{player_score}-{opponent_score}"
 
 
-def get_game_stat(stat_values, aliases):
+def get_game_stat(stat_values, aliases, split_index=0):
     normalized = {normalize_name(k): v for k, v in stat_values.items()}
     for alias in aliases:
         if alias not in normalized:
             continue
         raw = normalized[alias]
         # ESPN exposes made/attempted kicking values as strings such as "2/3".
-        # For a "made" metric the first component is the value we need.
         if "/" in str(raw):
-            raw = str(raw).split("/", 1)[0]
+            parts = str(raw).split("/", 1)
+            raw = parts[min(max(split_index, 0), len(parts) - 1)]
         return number(raw)
     return 0
 
@@ -669,9 +711,21 @@ def parse_game_log(athlete_id, season):
                     for i in range(min(len(names), len(raw_stats)))
                 }
                 tracked = {
-                    key: get_game_stat(stat_values, aliases)
+                    key: get_game_stat(
+                        stat_values,
+                        aliases,
+                        split_index=1 if key in {"fieldGoalsAttempted", "extraPointsAttempted"} else 0,
+                    )
                     for key, aliases in GAME_STAT_ALIASES.items()
                 }
+                tracked["fieldGoalPct"] = (
+                    round(tracked["fieldGoalsMade"] / tracked["fieldGoalsAttempted"] * 100, 1)
+                    if tracked["fieldGoalsAttempted"] else 0
+                )
+                tracked["extraPointPct"] = (
+                    round(tracked["extraPointsMade"] / tracked["extraPointsAttempted"] * 100, 1)
+                    if tracked["extraPointsAttempted"] else 0
+                )
                 result, score = score_for_event(meta)
                 if result not in {"W", "L", "T"}:
                     # Do not mark an in-progress game as played even if ESPN exposes partial stats.
@@ -845,8 +899,17 @@ def refresh_current_aggregates_from_logs(players):
         p["passRushYards"] = p["passingYards"] + p["rushingYards"]
         p["touchdowns"] = total("touchdowns")
         p["fieldGoalsMade"] = total("fieldGoalsMade")
+        p["fieldGoalsAttempted"] = total("fieldGoalsAttempted")
+        p["fieldGoalPct"] = round(p["fieldGoalsMade"] / p["fieldGoalsAttempted"] * 100, 1) if p["fieldGoalsAttempted"] else 0
         p["extraPointsMade"] = total("extraPointsMade")
+        p["extraPointsAttempted"] = total("extraPointsAttempted")
+        p["extraPointPct"] = round(p["extraPointsMade"] / p["extraPointsAttempted"] * 100, 1) if p["extraPointsAttempted"] else 0
         p["kickingPoints"] = total("kickingPoints")
+        p["longFieldGoal"] = max((number(g.get("longFieldGoal")) for g in games), default=0)
+        games_played = len(games)
+        p["fieldGoalsPerGame"] = round(p["fieldGoalsMade"] / games_played, 2) if games_played else 0
+        p["extraPointsPerGame"] = round(p["extraPointsMade"] / games_played, 2) if games_played else 0
+        p["kickingPointsPerGame"] = round(p["kickingPoints"] / games_played, 2) if games_played else 0
 
         # A kicker pulled in through FanDuel before the ESPN leaderboard feed
         # catches up should still appear in Player Stats once we have game logs.
