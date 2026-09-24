@@ -511,7 +511,7 @@ def _metric_spec(prop):
         return {"metric": "rushingTouchdowns"}
     if "rushing attempts" in text or "rush attempts" in text:
         return {"metric": "rushingAttempts"}
-    if "pass attempts" in text:
+    if "pass attempts" in text or "passing attempts" in text:
         return {"metric": "passingAttempts"}
     if "pass completions" in text or "passing completions" in text:
         return {"metric": "passingCompletions"}
