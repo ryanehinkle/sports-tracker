@@ -155,13 +155,98 @@ function teamDefensePercentile(opp,spec){
   const peers=state.teams.map(t=>Number(t&&t.stats&&t.stats[key])).filter(Number.isFinite);
   return percentile(value,peers);
 }
+function escapeRegex(value){return String(value||"").replace(/[.*+?^$()|[\]{}\\]/g,"\\function flattenOdds(raw){")}
+function cleanDisplayPlayerName(value){
+  let text=String(value||"").trim();
+  text=text.replace(/\s+-\s+Alt\b.*$/i,"");
+  text=text.replace(/\s+\d+(?:\.\d+)?\+\s*(?:Yards?|Yds?|Receptions?|TDs?|Touchdowns?)?\s*$/i,"");
+  return text.trim();
+}
+
+function cleanDisplayProposition(row){
+  const player=cleanDisplayPlayerName(row.player);
+  let prop=String(row.proposition||row.market||"Player Prop").trim();
+
+  if(player){
+    const escaped=escapeRegex(player);
+    prop=prop.replace(new RegExp("^"+escaped+"\\s*-?\\s*","i"),"");
+    prop=prop.replace(new RegExp("\\b"+escaped+"\\s*-\\s*","ig"),"");
+  }
+
+  const milestone=prop.match(/(?:Player\s+)?to Record a \d+(?:\.\d+)?\+ Yard Reception/i);
+  if(milestone) return milestone[0].replace(/^to Record/i,"Player to Record");
+
+  if(/\d+(?:\.\d+)?\+/.test(prop)&&/^Over\s+\d+(?:\.\d+)?\s+/i.test(prop)){
+    prop=prop.replace(/^Over\s+\d+(?:\.\d+)?\s+/i,"");
+  }
+
+  prop=prop.replace(/\bAlt\s+/gi,"");
+  prop=prop.replace(/\bYds\b/gi,"Yards");
+  prop=prop.replace(/\s{2,}/g," ").trim().replace(/^[-:]+|[-:]+$/g,"").trim();
+  return prop||String(row.market||"Player Prop");
+}
+
+function generalizedMarketLabel(row){
+  const player=cleanDisplayPlayerName(row.player);
+  let label=String(row.market||row.proposition||"Player Prop").trim();
+
+  if(player){
+    label=label.replace(new RegExp(escapeRegex(player),"ig")," ");
+  }
+
+  label=label
+    .replace(/\bAlt\b/gi," ")
+    .replace(/\s+-\s+/g," ")
+    .replace(/\s{2,}/g," ")
+    .trim();
+
+  const lower=label.toLowerCase();
+  const period=lower.includes("1h")?"1H ":lower.includes("1q")?"1Q ":"";
+
+  if(/player to record a \d+(?:\.\d+)?\+ yard reception/i.test(label)){
+    const match=label.match(/player to record a \d+(?:\.\d+)?\+ yard reception/i);
+    return match?match[0].replace(/^player/i,"Player"):"Reception Milestone";
+  }
+  if(/any ?time touchdown scorer/.test(lower)) return "Any Time Touchdown Scorer";
+  if(/first touchdown scorer/.test(lower)) return "First Touchdown Scorer";
+  if(/last touchdown scorer/.test(lower)) return "Last Touchdown Scorer";
+  if(/4th quarter td scorer/.test(lower)) return "Anytime 4th Quarter TD Scorer";
+  if(/rush\s*\+\s*rec.*yards|rush.*reception.*yards/.test(lower)) return period+"Rush + Rec Yards";
+  if(/pass\s*\+\s*rush.*yards/.test(lower)) return period+"Pass + Rush Yards";
+  if(/receiving yards/.test(lower)) return period+"Receiving Yards";
+  if(/rushing yards/.test(lower)) return period+"Rushing Yards";
+  if(/passing yards/.test(lower)) return period+"Passing Yards";
+  if(/total receptions|\breceptions\b/.test(lower)) return period+"Receptions";
+  if(/rushing attempts|rush attempts/.test(lower)) return period+"Rushing Attempts";
+  if(/passing attempts|pass attempts/.test(lower)) return period+"Passing Attempts";
+  if(/pass completions|passing completions/.test(lower)) return period+"Passing Completions";
+  if(/passing tds|passing touchdowns/.test(lower)) return period+"Passing TDs";
+  if(/rushing tds|rushing touchdowns/.test(lower)) return period+"Rushing TDs";
+  if(/receiving tds|receiving touchdowns/.test(lower)) return period+"Receiving TDs";
+  if(/longest reception/.test(lower)) return period+"Longest Reception";
+  if(/longest rush/.test(lower)) return period+"Longest Rush";
+  if(/longest completion|longest pass/.test(lower)) return period+"Longest Completion";
+  if(/tackles.*assists/.test(lower)) return "Tackles + Assists";
+  if(/solo tackles/.test(lower)) return "Solo Tackles";
+  if(/defensive interceptions/.test(lower)) return "Defensive Interceptions";
+  if(/\bsacks\b/.test(lower)) return "Sacks";
+  if(/field goals/.test(lower)) return "Field Goals";
+  if(/kicking points/.test(lower)) return "Kicking Points";
+
+  label=label
+    .replace(/^\d+(?:\.\d+)?\+\s*(?:Yards?|Yds?)?\s*/i,"")
+    .replace(/^[-:]+|[-:]+$/g,"")
+    .trim();
+  return label||"Player Prop";
+}
+
 function flattenOdds(raw){
   const out=[];
   for(const event of raw.events||[]){
     const away=event.awayAbbr||event.awayTeam||"AWAY",home=event.homeAbbr||event.homeTeam||"HOME";
     for(const prop of event.props||[]){
       const player=state.playerByName.get(norm(prop.player)),row=Object.assign({},prop,{eventId:String(event.id||""),awayAbbr:event.awayAbbr||"",homeAbbr:event.homeAbbr||"",awayTeam:event.awayTeam||"",homeTeam:event.homeTeam||"",matchup:away+" @ "+home});
-      row.player=clean(prop.player);row.team=prop.team||player&&player.team||"";row.position=prop.position||player&&player.position||"";row._marketLabel=String(prop.marketLabel||prop.market||prop.proposition||"Prop");out.push(row);
+      row.player=clean(prop.player);row.team=prop.team||player&&player.team||"";row.position=prop.position||player&&player.position||"";row._marketLabel=generalizedMarketLabel(row);out.push(row);
     }
   }
   return out;
@@ -174,7 +259,7 @@ function controls(){
     targetsPerGameMin:Number($("targetsPerGameMin").value)||0,carriesPerGameMin:Number($("carriesPerGameMin").value)||0,
     dvpMin:Number($("dvpMin").value)||0,dvpSample:Number($("dvpSample").value)||1,teamMatchupMin:Number($("teamMatchupMin").value)||0,
     edgeMin:Number($("edgeMin").value),oddsSpread:Number($("oddsSpread").value)||600,requireOpponentData:$("requireOpponentData").checked,
-    position:$("positionFilter").value,market:$("marketFilter").value,side:$("sideFilter").value,team:$("teamFilter").value,opponent:$("opponentFilter").value,player:$("playerFilter").value.trim().toLowerCase(),
+    position:$("positionFilter").value,market:$("marketFilter").value,side:$("sideFilter").value,team:$("teamFilter").value,opponent:$("opponentFilter").value,game:$("gameFilter").value,player:$("playerFilter").value.trim().toLowerCase(),
     lineMin:$("lineMin").value===""?null:Number($("lineMin").value),lineMax:$("lineMax").value===""?null:Number($("lineMax").value),
     legOddsMin:Number($("legOddsMin").value),legOddsMax:Number($("legOddsMax").value),parlayOddsMin:Number($("parlayOddsMin").value),parlayOddsMax:Number($("parlayOddsMax").value),
     legsMin:clamp(Number($("legsMin").value)||1,1,10),legsMax:clamp(Number($("legsMax").value)||1,1,10),uniquePlayers:$("uniquePlayers").checked,avoidSameGame:$("avoidSameGame").checked,weights:Object.assign({},state.weights)
@@ -185,7 +270,7 @@ function analyze(row,cfg){
   const odds=Number(row.odds),line=Number(row.line);if(!Number.isFinite(odds)||odds<cfg.legOddsMin||odds>cfg.legOddsMax)return null;
   if(cfg.lineMin!==null&&(!Number.isFinite(line)||line<cfg.lineMin))return null;if(cfg.lineMax!==null&&(!Number.isFinite(line)||line>cfg.lineMax))return null;
   const pos=String(row.position||player.position||"").toUpperCase(),team=String(row.team||player.team||"").toUpperCase(),opp=nextOpponent(Object.assign({},row,{team:team})),market=row._marketLabel;
-  if(cfg.position&&pos!==cfg.position)return null;if(cfg.market&&market!==cfg.market)return null;if(cfg.side&&String(row.selection||"")!==cfg.side)return null;if(cfg.team&&team!==cfg.team)return null;if(cfg.opponent&&opp!==cfg.opponent)return null;if(cfg.player&&!String(row.player||"").toLowerCase().includes(cfg.player))return null;
+  if(cfg.position&&pos!==cfg.position)return null;if(cfg.market&&market!==cfg.market)return null;if(cfg.side&&String(row.selection||"")!==cfg.side)return null;if(cfg.team&&team!==cfg.team)return null;if(cfg.opponent&&opp!==cfg.opponent)return null;if(cfg.game&&String(row.eventId)!==String(cfg.game))return null;if(cfg.player&&!String(row.player||"").toLowerCase().includes(cfg.player))return null;
   const rates=ratesFor(row,player);for(const k of Object.keys(cfg.hit)){if(cfg.hit[k]>0&&(!rates[k]||rates[k].pct<cfg.hit[k]))return null}
   const usage=state.usage.get(String(player.id))||{target:0,carry:0,opportunity:0,targetsPerGame:0,carriesPerGame:0};
   if(usage.target<cfg.targetShare||usage.carry<cfg.carryShare||usage.opportunity<cfg.opportunityShare||usage.targetsPerGame<cfg.targetsPerGameMin||usage.carriesPerGame<cfg.carriesPerGameMin)return null;
@@ -273,7 +358,7 @@ function fillSelects(){
   const positions=[...new Set(state.players.map(p=>String(p.position||"").toUpperCase()).filter(Boolean))].sort();$("positionFilter").insertAdjacentHTML("beforeend",positions.map(x=>'<option>'+esc(x)+'</option>').join(""));
   const markets=[...new Set(state.odds.map(x=>x._marketLabel).filter(Boolean))].sort((a,b)=>a.localeCompare(b));$("marketFilter").insertAdjacentHTML("beforeend",markets.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join(""));
   const teams=[...new Set(state.odds.map(x=>String(x.team||"").toUpperCase()).filter(Boolean))].sort();$("teamFilter").insertAdjacentHTML("beforeend",teams.map(x=>'<option>'+esc(x)+'</option>').join(""));
-  const opponents=[...new Set(state.odds.map(nextOpponent).filter(Boolean))].sort();$("opponentFilter").insertAdjacentHTML("beforeend",opponents.map(x=>'<option>'+esc(x)+'</option>').join(""));
+  const opponents=[...new Set(state.odds.map(nextOpponent).filter(Boolean))].sort();$("opponentFilter").insertAdjacentHTML("beforeend",opponents.map(x=>'<option>'+esc(x)+'</option>').join(""));const games=[...new Map(state.odds.filter(x=>x.eventId).map(x=>[String(x.eventId),x.matchup])).entries()].sort((a,b)=>String(a[1]).localeCompare(String(b[1])));$("gameFilter").insertAdjacentHTML("beforeend",games.map(x=>'<option value="'+esc(x[0])+'">'+esc(x[1])+'</option>').join(""));
 }
 function modelGameStat(game,key){
   if(!game||!game.played)return"—";
@@ -323,7 +408,7 @@ function bind(){
   $("modelModalSeasonSelect").addEventListener("change",renderModelPlayerSeason);
   document.querySelectorAll(".model-controls input,.model-controls select").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
   $("weightControls").addEventListener("click",e=>{const b=e.target.closest("[data-weight]");if(!b)return;const k=b.dataset.weight,levels=[0,8,14,22,30,40],cur=state.weights[k],next=levels[(levels.indexOf(cur)+1)%levels.length];state.weights[k]=next;b.querySelector("strong").textContent=next;b.classList.toggle("active",next>0);schedule()});
-  $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;for(const id of ["positionFilter","marketFilter","sideFilter","teamFilter","opponentFilter","playerFilter"])$(id).value="";for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=false;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
+  $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;for(const id of ["positionFilter","marketFilter","sideFilter","teamFilter","opponentFilter","gameFilter","playerFilter"])$(id).value="";for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=false;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
 }
 async function init(){
   buildControls();bind();syncLabels();
