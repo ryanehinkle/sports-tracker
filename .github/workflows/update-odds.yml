@@ -66,6 +66,8 @@ jobs:
       - name: Validate prop tracking mappings
         run: python scripts/validate_prop_tracking.py
 
+      # Full refresh also discovers generalized combo and kicker player markets
+      # (e.g. Passing + Rushing Yards and Kicking Points) when FanDuel publishes them.
       - name: Pull FanDuel NFL player props
         env:
           ODDS_LOOKAHEAD_HOURS: ${{ steps.window.outputs.hours }}
