@@ -15,8 +15,8 @@ on:
       - ".github/workflows/update-odds.yml"
       - "requirements.txt"
   schedule:
-    # Refresh games that are getting close every four hours.
-    - cron: "17 */4 * * *"
+    # Refresh near-term FanDuel props every two hours.
+    - cron: "47 */2 * * *"
     # Broader weekly refresh so newly posted future props also get picked up.
     - cron: "41 15 * * 3,5"
 
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Sync latest main
         shell: bash
@@ -41,7 +41,7 @@ jobs:
           git reset --hard origin/main
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
