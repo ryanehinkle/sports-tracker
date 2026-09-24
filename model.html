@@ -6,7 +6,7 @@
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260924-theme1"><link rel="stylesheet" href="model.css?v=5">
+<link rel="stylesheet" href="styles.css?v=20260924-theme1"><link rel="stylesheet" href="model.css?v=6">
 </head>
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -32,13 +32,31 @@
 <label class="range-row"><span><b>Matchup percentile</b><small>Higher = more favorable</small></span><output id="dvpValue">0th+</output><input id="dvpMin" type="range" min="0" max="95" step="5" value="0"></label>
 <label class="check-row"><input id="requireOpponentData" type="checkbox"><span><b>Require opponent sample</b><small>Exclude legs without position-specific matchup data</small></span></label>
 <label class="range-row"><span><b>Opponent sample</b><small>Minimum player-games</small></span><output id="dvpSampleValue">2+</output><input id="dvpSample" type="range" min="1" max="16" step="1" value="2"></label><label class="range-row"><span><b>Team defense percentile</b><small>Relevant yards/points allowed</small></span><output id="teamMatchupValue">0th+</output><input id="teamMatchupMin" type="range" min="0" max="95" step="5" value="0"></label></section>
-<section class="control-section compact-grid">
-<label class="field"><span>Position</span><select id="positionFilter" class="filter-select model-filter-select"><option value="">All positions</option></select></label>
-<label class="field"><span>Market</span><select id="marketFilter" class="filter-select model-filter-select"><option value="">All props</option></select></label>
-<label class="field"><span>Side</span><select id="sideFilter" class="filter-select model-filter-select"><option value="">Over + Under</option><option>Over</option><option>Under</option></select></label>
-<label class="field"><span>Team</span><select id="teamFilter" class="filter-select model-filter-select"><option value="">All teams</option></select></label>
-<label class="field"><span>Opponent</span><select id="opponentFilter" class="filter-select model-filter-select"><option value="">All opponents</option></select></label>
-<label class="field"><span>Game</span><select id="gameFilter" class="filter-select model-filter-select"><option value="">All games</option></select></label><label class="field"><span>Player search</span><input id="playerFilter" type="search" placeholder="Player name…"></label></section>
+<section class="control-section model-filter-section">
+<div class="model-filter-grid">
+  <div class="model-filter-control">
+    <span class="model-filter-label">Position</span>
+    <button id="modelPositionButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">↕</span><span id="modelPositionLabel">All positions</span><span class="filter-caret">⌄</span></button>
+    <div id="modelPositionPopover" class="filter-popover model-filter-popover" hidden><div class="filter-popover-title">Positions</div><button class="filter-all-row" type="button" data-model-clear="positions"><span>All Positions</span><span class="selection-mark" id="modelAllPositionsMark">✓</span></button><div id="modelPositionOptions" class="filter-options"></div></div>
+  </div>
+  <div class="model-filter-control">
+    <span class="model-filter-label">Proposition</span>
+    <button id="modelMarketButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">✦</span><span id="modelMarketLabel">All props</span><span class="filter-caret">⌄</span></button>
+    <div id="modelMarketPopover" class="filter-popover model-filter-popover" hidden><div class="filter-popover-title">Propositions</div><button class="filter-all-row" type="button" data-model-clear="markets"><span>All Propositions</span><span class="selection-mark" id="modelAllMarketsMark">✓</span></button><div id="modelMarketOptions" class="filter-options"></div></div>
+  </div>
+  <div class="model-filter-control">
+    <span class="model-filter-label">Over / Under</span>
+    <button id="modelSideButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">⇅</span><span id="modelSideLabel">Over + Under</span><span class="filter-caret">⌄</span></button>
+    <div id="modelSidePopover" class="filter-popover model-filter-popover" hidden><div class="filter-popover-title">Over / Under</div><button class="filter-all-row" type="button" data-model-clear="sides"><span>Over + Under</span><span class="selection-mark" id="modelAllSidesMark">✓</span></button><div id="modelSideOptions" class="filter-options"></div></div>
+  </div>
+  <div class="model-filter-control">
+    <span class="model-filter-label">Games</span>
+    <button id="modelGameButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">◫</span><span id="modelGameLabel">All games</span><span class="filter-caret">⌄</span></button>
+    <div id="modelGamePopover" class="filter-popover model-filter-popover model-game-popover" hidden><div class="filter-popover-title">Games</div><button class="filter-all-row" type="button" data-model-clear="games"><span>All Games</span><span class="selection-mark" id="modelAllGamesMark">✓</span></button><div id="modelGameOptions" class="filter-options"></div></div>
+  </div>
+</div>
+<label class="field model-player-search"><span>Player search</span><input id="playerFilter" type="search" placeholder="Player name…"></label>
+</section>
 <section class="control-section"><div class="control-heading"><div><strong>Line & parlay shape</strong><span>Fine-tune stat lines, model edge, leg similarity, and slip size.</span></div></div>
 <div class="number-pair"><label class="field"><span>Stat line min</span><input id="lineMin" type="number" step=".5" placeholder="Any"></label><label class="field"><span>Stat line max</span><input id="lineMax" type="number" step=".5" placeholder="Any"></label></div><label class="range-row"><span><b>Minimum model edge</b><small>Estimated probability minus implied probability</small></span><output id="edgeValue">-20%+</output><input id="edgeMin" type="range" min="-20" max="30" step="1" value="-20"></label>
 <label class="range-row odds-spread-row"><span><b>Max leg odds spread</b><small>Keeps legs in a similar price range</small></span><output id="oddsSpreadValue">600</output><input id="oddsSpread" type="range" min="100" max="2500" step="100" value="600"></label>
@@ -50,7 +68,7 @@
 <section class="model-results">
 <div class="model-summary-grid"><article class="summary-card"><span>Eligible props</span><strong id="eligibleCount">—</strong><small id="eligibleSub">after filters</small></article><article class="summary-card"><span>Best leg score</span><strong id="bestScore">—</strong><small>highest-scored individual prop</small></article><article class="summary-card"><span>Generated slips</span><strong id="slipCount">—</strong><small id="slipSub">within requested odds</small></article><article class="summary-card"><span>Median edge</span><strong id="medianEdge">—</strong><small>model vs implied</small></article></div>
 <section class="model-card recommended-card"><div class="model-card-header recommended-header"><div><span class="model-kicker">AUTO-GENERATED</span><h2>Recommended slips</h2></div><div class="slip-pager-wrap"><div class="model-card-meta"><span id="slipPageStatus">Showing top slips</span></div><div id="slipPager" class="slip-pager" hidden><button id="slipPrev" type="button" aria-label="Previous recommended slips">‹</button><button id="slipNext" type="button" aria-label="Next recommended slips">›</button></div></div></div><div id="recommendedSlips" class="recommended-slips"><div class="model-loading"><span class="spinner"></span>Loading model data…</div></div></section>
-<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">LIVE ANALYTICS</span><h2>Top-pick signal profile</h2></div><div class="model-card-meta">Updates with every filter change</div></div><div class="chart-grid"><div><div class="chart-title">Signal strength</div><div id="signalProfileChart" class="bar-chart"></div></div><div><div class="chart-title">Top candidate scores</div><div id="scoreChart" class="bar-chart score-chart"></div></div></div></section><section class="model-card"><div class="model-card-header"><div><span class="model-kicker">SIGNAL BOARD</span><h2>Best individual legs</h2></div><div class="model-card-meta"><span id="legBoardCount">—</span> shown</div></div><div class="signal-table-wrap"><table class="signal-table"><thead><tr><th>Player / Prop</th><th>Score</th><th>L5</th><th>L10</th><th>H2H</th><th>2026</th><th>2025</th><th>Usage</th><th>Opponent</th><th>Odds</th></tr></thead><tbody id="signalBody"><tr><td colspan="10" class="model-loading">Analyzing props…</td></tr></tbody></table></div></section>
+<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">LIVE ANALYTICS</span><h2>Top-pick signal profile</h2></div><div class="model-card-meta">Updates with every filter change</div></div><div class="chart-grid"><div><div class="chart-title">Signal strength</div><div id="signalProfileChart" class="bar-chart"></div></div><div><div class="chart-title">Top candidate scores</div><div id="scoreChart" class="bar-chart score-chart"></div></div></div></section><section class="model-card"><div class="model-card-header"><div><span class="model-kicker">SIGNAL BOARD</span><h2>Best individual legs</h2></div><div class="model-card-meta"><span id="legBoardCount">—</span> shown</div></div><div class="signal-table-wrap"><table class="signal-table"><thead><tr><th>Player / Prop</th><th>Score</th><th>Odds</th><th>L5</th><th>L10</th><th>H2H</th><th>2026</th><th>2025</th><th>Usage</th><th>Opponent</th></tr></thead><tbody id="signalBody"><tr><td colspan="10" class="model-loading">Analyzing props…</td></tr></tbody></table></div></section>
 <details class="model-card analysis-card model-explainer"><summary class="model-card-header"><div><span class="model-kicker">MODEL EXPLAINER</span><h2>How each leg is scored</h2></div><span class="model-card-meta">View details</span></summary><div class="analysis-grid"><div class="analysis-copy">
 <p><strong>2025 walk-forward calibration</strong> tests the historical signals using only information that existed before each game, with late-season weeks held out from fitting.</p>\n<p><strong>Line-aware form</strong> uses L10/season hit history, recent mean versus the current line, and short-term trend instead of rewarding a position just for getting lots of touches.</p>\n<p><strong>Opponent DvP</strong> uses team production allowed by position, with a lighter prior-season blend early in the year so two current games do not dominate the grade.</p>\n<p><strong>Market anchoring</strong> removes overround when both sides are available, then shrinks the historical estimate toward FanDuel when the 2025 calibration was weak. This specifically prevents weak rushing-yard history from flooding the top results.</p>
 </div><div id="modelFormula" class="formula-box"></div></div></details>
@@ -81,5 +99,5 @@
     </div>
     <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="theme.js?v=1"></script><script src="model.js?v=9"></script>
+</dialog><script src="theme.js?v=1"></script><script src="model.js?v=10"></script>
 </body></html>
