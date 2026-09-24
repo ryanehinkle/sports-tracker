@@ -709,7 +709,11 @@ function renderModelFilters(){
   $("modelAllPositionsMark").textContent=state.selectedPositions.size?"":"✓";
   $("modelPositionLabel").textContent=modelFilterCountLabel(state.selectedPositions,"Position","All positions");
 
-  const markets=[...new Set(state.odds.map(x=>x._modelMarketLabel||modelSupportedMarketLabel(x)).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const requiredMarkets=["Passing + Rushing Yards","Kicking Points","Field Goals"];
+  const markets=[...new Set([
+    ...requiredMarkets,
+    ...state.odds.map(x=>x._modelMarketLabel||modelSupportedMarketLabel(x)).filter(Boolean)
+  ])].sort((a,b)=>a.localeCompare(b));
   $("modelMarketOptions").innerHTML=markets.map(x=>modelRenderOption(x,x,state.selectedMarkets,"markets")).join("");
   $("modelAllMarketsMark").textContent=state.selectedMarkets.size?"":"✓";
   $("modelMarketLabel").textContent=modelFilterCountLabel(state.selectedMarkets,"Prop","All props");
