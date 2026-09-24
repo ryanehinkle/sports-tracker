@@ -18,6 +18,7 @@ function pct(v,d){return Number.isFinite(v)?v.toFixed(d==null?0:d)+"%":"—"}
 function americanToDecimal(o){o=Number(o);if(!Number.isFinite(o)||o===0)return null;return o>0?1+o/100:1+100/Math.abs(o)}
 function decimalToAmerican(d){d=Number(d);if(!Number.isFinite(d)||d<=1)return null;return d>=2?Math.round((d-1)*100):Math.round(-100/(d-1))}
 function implied(o){const d=americanToDecimal(o);return d?1/d:null}
+function rowDecimalOdds(row){const exact=Number(row&&row.decimalOdds);return Number.isFinite(exact)&&exact>1?exact:americanToDecimal(row&&row.odds)}
 function formatOdds(o){o=Number(o);return Number.isFinite(o)?(o>0?"+":"")+Math.round(o):"—"}
 function fallbackHeadshot(){return "https://a.espncdn.com/i/headshots/nfl/players/full/0.png"}
 function modelPropKey(row){return [row.eventId||"",row.player||"",row.market||"",row.selection||"",row.line??"",row.proposition||""].join("¦")}
@@ -319,10 +320,11 @@ function buildPricePairs(){
   }
 }
 function marketProbability(row){
-  const raw=implied(row.odds);if(!Number.isFinite(raw))return .5;
+  const decimal=rowDecimalOdds(row),raw=decimal?1/decimal:null;
+  if(!Number.isFinite(raw))return .5;
   const pair=state.pricePairs.get(pricePairKey(row));
   const side=String(row.selection||""),opposite=side==="Over"?"Under":side==="Under"?"Over":side==="Yes"?"No":side==="No"?"Yes":"";
-  const other=opposite&&pair&&pair[opposite]?implied(pair[opposite].odds):null;
+  const otherRow=opposite&&pair&&pair[opposite],otherDecimal=otherRow?rowDecimalOdds(otherRow):null,other=otherDecimal?1/otherDecimal:null;
   return Number.isFinite(other)?raw/(raw+other):raw;
 }
 function calibrationForMetric(metric){
@@ -519,7 +521,7 @@ function generateSlips(candidates,cfg){
   function statsFor(legs){
     let decimal=1,joint=1,sameGamePairs=0;
     for(let i=0;i<legs.length;i++){
-      const d=americanToDecimal(legs[i].row.odds);if(!d)return null;
+      const d=rowDecimalOdds(legs[i].row);if(!d)return null;
       decimal*=d;joint*=legs[i].modelProb;
       for(let j=0;j<i;j++)if(legs[i].row.eventId&&legs[i].row.eventId===legs[j].row.eventId)sameGamePairs++;
     }
