@@ -122,7 +122,7 @@ function metricSpec(row){
 
   if(/any time touchdown scorer|anytime touchdown scorer/.test(text))return{metric:"touchdowns",threshold:1,comparison:"gte"};
   if(/pass\s*\+\s*rush\s*\+\s*rec.*yards|pass.*rush.*reception.*yards/.test(text))return{metric:"passRushRecYards"};
-  if(/pass\s*\+\s*rush.*yards/.test(text))return{metric:"passRushYards"};
+  if(/pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards/.test(text))return{metric:"passRushYards"};
   if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(text))return{metric:"allPurposeYards"};
   if(/passing yards/.test(text))return{metric:"passingYards"};
   if(/receiving yards/.test(text))return{metric:"receivingYards"};
@@ -201,7 +201,7 @@ function teamDefenseMetric(spec){
   const m=spec&&spec.metric;
   if(["receivingYards","receptions","receivingTargets","passingYards","passingTouchdowns"].includes(m))return"derived.passYardsAllowedPerGame";
   if(["rushingYards","rushingAttempts","rushingTouchdowns"].includes(m))return"derived.rushYardsAllowedPerGame";
-  if(m==="touchdowns")return"derived.pointsAllowedPerGame";
+  if(m==="touchdowns"||m==="kickingPoints"||m==="fieldGoalsMade")return"derived.pointsAllowedPerGame";
   return"derived.yardsAllowedPerGame";
 }
 function teamDefensePercentile(opp,spec){
@@ -273,7 +273,7 @@ function generalizedMarketLabel(row){
   if(/last touchdown scorer/.test(lower)) return "Last Touchdown Scorer";
   if(/4th quarter td scorer/.test(lower)) return "Anytime 4th Quarter TD Scorer";
   if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(lower)) return period+"Rush + Rec Yards";
-  if(/pass\s*\+\s*rush.*yards/.test(lower)) return period+"Pass + Rush Yards";
+  if(/pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards/.test(lower)) return period+"Passing + Rushing Yards";
   if(/receiving yards/.test(lower)) return period+"Receiving Yards";
   if(/rushing yards/.test(lower)) return period+"Rushing Yards";
   if(/passing yards/.test(lower)) return period+"Passing Yards";
@@ -718,8 +718,12 @@ function closeModelFilterPopovers(except){
 }
 function positionModelPopover(button,popover){
   const rect=button.getBoundingClientRect(),margin=8;
-  popover.style.left=Math.max(margin,Math.min(rect.left,window.innerWidth-popover.offsetWidth-margin))+"px";
-  popover.style.top=Math.min(rect.bottom+7,window.innerHeight-popover.offsetHeight-margin)+"px";
+  const left=Math.max(margin,Math.min(rect.left,window.innerWidth-popover.offsetWidth-margin));
+  let top=rect.bottom+7;
+  const maxTop=window.innerHeight-popover.offsetHeight-margin;
+  if(top>maxTop)top=Math.max(margin,rect.top-popover.offsetHeight-7);
+  popover.style.left=left+"px";
+  popover.style.top=top+"px";
 }
 function toggleModelFilter(button,popover){
   const opening=popover.hidden;
@@ -742,13 +746,25 @@ function bindModelFilters(){
     if(option){
       const set=state["selected"+option.dataset.modelKind[0].toUpperCase()+option.dataset.modelKind.slice(1)];
       const value=option.dataset.modelValue;
+      const popover=option.closest(".model-filter-popover");
       set.has(value)?set.delete(value):set.add(value);
-      renderModelFilters();schedule();return;
+      renderModelFilters();
+      if(popover&&!popover.hidden){
+        const button=popover.parentElement&&popover.parentElement.querySelector(".model-filter-button");
+        if(button)requestAnimationFrame(()=>positionModelPopover(button,popover));
+      }
+      schedule();return;
     }
     const clear=e.target.closest("[data-model-clear]");
     if(clear){
       const key=clear.dataset.modelClear,set=state["selected"+key[0].toUpperCase()+key.slice(1)];
-      set.clear();renderModelFilters();schedule();return;
+      const popover=clear.closest(".model-filter-popover");
+      set.clear();renderModelFilters();
+      if(popover&&!popover.hidden){
+        const button=popover.parentElement&&popover.parentElement.querySelector(".model-filter-button");
+        if(button)requestAnimationFrame(()=>positionModelPopover(button,popover));
+      }
+      schedule();return;
     }
     if(!e.target.closest(".model-filter-control"))closeModelFilterPopovers();
   });
