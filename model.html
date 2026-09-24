@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="theme-color" content="#151922">
+<title>NFL Model • NFL Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="model.css?v=1">
+</head>
+<body>
+<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+<main class="shell model-shell">
+<header class="hero model-hero"><div><div class="eyebrow">NFL • TRACKER</div><h1>Model</h1></div><div class="hero-meta"><div class="status-pill"><span class="status-dot"></span><span id="modelSeason">Loading model…</span></div><div class="updated" id="modelUpdated">Building analytical index…</div></div></header>
+<nav class="main-tabs model-nav" aria-label="NFL tracker sections"><a class="main-tab" href="index.html#stats">Player Stats</a><a class="main-tab" href="index.html#teams">Team Stats</a><a class="main-tab" href="index.html#odds">Odds</a><a class="main-tab active" href="model.html" aria-current="page">Model</a></nav>
+<section class="model-layout">
+<aside class="model-controls">
+<div class="model-control-header"><div><span class="model-kicker">LIVE CRITERIA</span><h2>Build constraints</h2></div><button id="resetModel" class="model-reset" type="button">Reset</button></div>
+<section class="control-section"><div class="control-heading"><div><strong>Historical hit rate</strong><span>Minimum required hit rate for every eligible leg.</span></div></div><div id="hitRateControls" class="slider-stack"></div></section>
+<section class="control-section"><div class="control-heading"><div><strong>Usage & opportunity</strong><span>Player involvement based on targets and carries.</span></div></div>
+<label class="range-row"><span><b>Target share</b><small>Receiving opportunities</small></span><output id="targetShareValue">0%</output><input id="targetShare" type="range" min="0" max="70" step="1" value="0"></label>
+<label class="range-row"><span><b>Carry share</b><small>Team rushing attempts</small></span><output id="carryShareValue">0%</output><input id="carryShare" type="range" min="0" max="90" step="1" value="0"></label>
+<label class="range-row"><span><b>Opportunity share</b><small>Targets + carries</small></span><output id="opportunityShareValue">0%</output><input id="opportunityShare" type="range" min="0" max="80" step="1" value="0"></label></section>
+<section class="control-section"><div class="control-heading"><div><strong>Opponent matchup</strong><span>Defense-vs-position profile rebuilt from player game logs.</span></div></div>
+<label class="range-row"><span><b>Matchup percentile</b><small>Higher = more favorable</small></span><output id="dvpValue">0th+</output><input id="dvpMin" type="range" min="0" max="95" step="5" value="0"></label>
+<label class="check-row"><input id="requireOpponentData" type="checkbox"><span><b>Require opponent sample</b><small>Exclude legs without position-specific matchup data</small></span></label>
+<label class="range-row"><span><b>Opponent sample</b><small>Minimum player-games</small></span><output id="dvpSampleValue">2+</output><input id="dvpSample" type="range" min="1" max="16" step="1" value="2"></label></section>
+<section class="control-section compact-grid">
+<label class="field"><span>Position</span><select id="positionFilter"><option value="">All positions</option></select></label>
+<label class="field"><span>Market</span><select id="marketFilter"><option value="">All props</option></select></label>
+<label class="field"><span>Side</span><select id="sideFilter"><option value="">Over + Under</option><option>Over</option><option>Under</option></select></label>
+<label class="field"><span>Team</span><select id="teamFilter"><option value="">All teams</option></select></label>
+<label class="field"><span>Opponent</span><select id="opponentFilter"><option value="">All opponents</option></select></label>
+<label class="field"><span>Player search</span><input id="playerFilter" type="search" placeholder="Player name…"></label></section>
+<section class="control-section"><div class="control-heading"><div><strong>Price & parlay shape</strong><span>Constrain each leg and the generated final slip.</span></div></div>
+<div class="number-pair"><label class="field"><span>Leg odds min</span><input id="legOddsMin" type="number" value="-500"></label><label class="field"><span>Leg odds max</span><input id="legOddsMax" type="number" value="500"></label></div>
+<div class="number-pair"><label class="field"><span>Final odds min</span><input id="parlayOddsMin" type="number" value="100"></label><label class="field"><span>Final odds max</span><input id="parlayOddsMax" type="number" value="350"></label></div>
+<div class="number-pair"><label class="field"><span>Minimum legs</span><input id="legsMin" type="number" min="1" max="10" value="2"></label><label class="field"><span>Maximum legs</span><input id="legsMax" type="number" min="1" max="10" value="4"></label></div>
+<label class="check-row"><input id="uniquePlayers" type="checkbox" checked><span><b>Unique players</b><small>Avoid multiple legs from the same player</small></span></label>
+<label class="check-row"><input id="avoidSameGame" type="checkbox"><span><b>Diversify games</b><small>Prefer legs from different matchups</small></span></label></section>
+<section class="control-section"><div class="control-heading"><div><strong>Model weighting</strong><span>Click a signal to cycle its influence.</span></div></div><div id="weightControls" class="weight-grid"></div></section>
+</aside>
+<section class="model-results">
+<div class="model-summary-grid"><article class="summary-card"><span>Eligible props</span><strong id="eligibleCount">—</strong><small id="eligibleSub">after filters</small></article><article class="summary-card"><span>Best score</span><strong id="bestScore">—</strong><small>0–100 composite</small></article><article class="summary-card"><span>Candidate slips</span><strong id="slipCount">—</strong><small>within requested odds</small></article><article class="summary-card"><span>Median edge</span><strong id="medianEdge">—</strong><small>model vs implied</small></article></div>
+<section class="model-card recommended-card"><div class="model-card-header"><div><span class="model-kicker">AUTO-GENERATED</span><h2>Recommended slips</h2></div><div class="model-card-meta">Recalculates instantly as criteria change</div></div><div id="recommendedSlips" class="recommended-slips"><div class="model-loading"><span class="spinner"></span>Loading model data…</div></div></section>
+<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">SIGNAL BOARD</span><h2>Best individual legs</h2></div><div class="model-card-meta"><span id="legBoardCount">—</span> shown</div></div><div class="signal-table-wrap"><table class="signal-table"><thead><tr><th>Player / Prop</th><th>Score</th><th>L5</th><th>L10</th><th>H2H</th><th>2026</th><th>2025</th><th>Usage</th><th>Opponent</th><th>Odds</th></tr></thead><tbody id="signalBody"><tr><td colspan="10" class="model-loading">Analyzing props…</td></tr></tbody></table></div></section>
+<section class="model-card analysis-card"><div class="model-card-header"><div><span class="model-kicker">MODEL EXPLAINER</span><h2>How each leg is being scored</h2></div></div><div class="analysis-grid"><div class="analysis-copy">
+<p><strong>Historical consistency</strong> blends L5, L10, head-to-head, current season and prior season rates. Small samples are shrunk toward a neutral prior.</p>
+<p><strong>Usage stability</strong> measures each player's share of team receiving targets, rushing attempts, and total opportunities.</p>
+<p><strong>Opponent DvP</strong> rebuilds QB/RB/WR/TE production allowed by each defense and converts the relevant matchup to a league percentile.</p>
+<p><strong>Price efficiency</strong> compares estimated probability with sportsbook implied probability. Positive separation helps the score but does not guarantee value.</p>
+</div><div id="modelFormula" class="formula-box"></div></div></section>
+</section></section>
+<footer class="model-footer"><span>Inputs: ESPN player/team game logs + current FanDuel prop feed.</span><span>Analytical estimates are not guarantees. Same-game correlation can change sportsbook pricing.</span></footer>
+</main><script src="model.js?v=1"></script>
+</body></html>
