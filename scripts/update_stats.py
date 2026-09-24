@@ -9,6 +9,7 @@ from pathlib import Path
 import requests
 
 BASE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete"
+SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
 GAMELOG = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/{athlete_id}/gamelog"
 SEARCH = "https://site.web.api.espn.com/apis/common/v3/search"
 ATHLETE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/{athlete_id}"
@@ -78,6 +79,35 @@ def get_json(url, params=None):
             if attempt < 2:
                 time.sleep(1.5 * (attempt + 1))
     raise last_error
+
+
+def stats_publication_safe():
+    """Return False while any NFL game is live, or if the safety check cannot be verified.
+
+    ESPN season leaderboards can change during a game. We deliberately leave the
+    previously published snapshot untouched until every active game is final.
+    """
+    try:
+        payload = get_json(SCOREBOARD, {"limit": 100})
+    except Exception as exc:
+        print(f"SAFETY GATE: scoreboard check failed ({exc}); leaving stats untouched.")
+        return False
+
+    live = []
+    for event in payload.get("events") or []:
+        status = ((event.get("status") or {}).get("type") or {})
+        state = str(status.get("state") or "").lower()
+        completed = status.get("completed")
+        name = str(event.get("name") or event.get("shortName") or event.get("id") or "NFL game")
+        if state == "in" or (completed is False and state not in {"pre", ""}):
+            live.append(name)
+
+    if live:
+        print("SAFETY GATE: live NFL game(s) in progress; keeping last completed-game snapshot:")
+        for name in live:
+            print(f"  - {name}")
+        return False
+    return True
 
 
 def current_season():
@@ -459,6 +489,9 @@ def parse_game_log(athlete_id, season):
                     for key, aliases in GAME_STAT_ALIASES.items()
                 }
                 result, score = score_for_event(meta)
+                if result not in {"W", "L", "T"}:
+                    # Do not mark an in-progress game as played even if ESPN exposes partial stats.
+                    continue
                 opponent = meta.get("opponent") or {}
                 opponent_abbr = str(opponent.get("abbreviation") or "").upper()
 
@@ -615,6 +648,9 @@ def load_previous():
 
 
 def main():
+    if not stats_publication_safe():
+        return
+
     season = current_season()
     players = merge_players(season)
     players = add_odds_only_players(players)
