@@ -560,7 +560,7 @@ function metricSpec(row){
 
   if(/any time touchdown scorer|anytime touchdown scorer/.test(text)) return {metric:"touchdowns",threshold:1,comparison:"gte"};
   if(/pass \+ rush \+ rec.*yards|pass.*rush.*reception.*yards/.test(text)) return {metric:"passRushRecYards"};
-  if(/pass(?:ing)? (?:\\+|plus) rush(?:ing)?.*yards/.test(text)) return {metric:"passRushYards"};
+  if(/pass(?:ing)? (?:\+|plus) rush(?:ing)?.*yards/.test(text)) return {metric:"passRushYards"};
   if(/rush(?:ing)? \+ receiv.*yards|rush.*receiv.*yards/.test(text)) return {metric:"allPurposeYards"};
   if(/passing yards/.test(text)) return {metric:"passingYards"};
   if(/receiving yards/.test(text)) return {metric:"receivingYards"};
