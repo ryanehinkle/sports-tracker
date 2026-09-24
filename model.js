@@ -630,7 +630,13 @@ function rateTd(r){return r?'<td class="'+metricClass(r.pct)+'">'+Math.round(r.p
 function usageText(x){const a=[];if(x.usage.target)a.push("T "+Math.round(x.usage.target)+"%");if(x.usage.carry)a.push("C "+Math.round(x.usage.carry)+"%");return a.length?a.join(" • "):"—"}
 function renderSignals(){
   const rows=state.eligible.slice(0,60);$("legBoardCount").textContent=fmt.format(rows.length);
-  if(!rows.length){$("signalBody").innerHTML='<tr><td colspan="10" class="model-empty">No props satisfy every active constraint. Loosen one or more filters.</td></tr>';return}
+  if(!rows.length){
+    const unavailable=[...state.selectedMarkets].filter(m=>!state.odds.some(row=>(row._modelMarketLabel||modelSupportedMarketLabel(row))===m));
+    const message=unavailable.length===1
+      ?"FanDuel has not posted "+unavailable[0]+" for the current slate yet. The model will populate it automatically as soon as a live line is available."
+      :"No props satisfy every active constraint. Loosen one or more filters.";
+    $("signalBody").innerHTML='<tr><td colspan="10" class="model-empty">'+esc(message)+'</td></tr>';return
+  }
   $("signalBody").innerHTML=rows.map(x=>{
     const r=x.row,head=r.headshot||x.player.headshot||fallbackHeadshot();
     return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(r))+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
