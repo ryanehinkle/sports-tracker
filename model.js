@@ -122,7 +122,7 @@ function metricSpec(row){
 
   if(/any time touchdown scorer|anytime touchdown scorer/.test(text))return{metric:"touchdowns",threshold:1,comparison:"gte"};
   if(/pass\s*\+\s*rush\s*\+\s*rec.*yards|pass.*rush.*reception.*yards/.test(text))return{metric:"passRushRecYards"};
-  if(/pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards/.test(text))return{metric:"passRushYards"};
+  if(/pass(?:ing)?\s*(?:\+|plus)\s*rush(?:ing)?.*yards/.test(text))return{metric:"passRushYards"};
   if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(text))return{metric:"allPurposeYards"};
   if(/passing yards/.test(text))return{metric:"passingYards"};
   if(/receiving yards/.test(text))return{metric:"receivingYards"};
@@ -274,7 +274,7 @@ function generalizedMarketLabel(row){
   if(/last touchdown scorer/.test(lower)) return "Last Touchdown Scorer";
   if(/4th quarter td scorer/.test(lower)) return "Anytime 4th Quarter TD Scorer";
   if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(lower)) return period+"Rush + Rec Yards";
-  if(/pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards/.test(lower)) return period+"Passing + Rushing Yards";
+  if(/pass(?:ing)?\s*(?:\+|plus)\s*rush(?:ing)?.*yards/.test(lower)) return period+"Passing + Rushing Yards";
   if(/receiving yards/.test(lower)) return period+"Receiving Yards";
   if(/rushing yards/.test(lower)) return period+"Rushing Yards";
   if(/passing yards/.test(lower)) return period+"Passing Yards";
