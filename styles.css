@@ -1066,3 +1066,5 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
     top:0;
   }
 }
+
+.main-tabs .main-tab,.main-tabs .main-tab:visited{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;line-height:1.2;appearance:none;-webkit-appearance:none}
