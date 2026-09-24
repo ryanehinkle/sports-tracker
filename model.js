@@ -54,28 +54,48 @@ function buildUsage(){
 
 const DVP_KEYS=["receivingYards","receptions","receivingTargets","rushingYards","rushingAttempts","passingYards","passingTouchdowns","rushingTouchdowns","receivingTouchdowns","touchdowns","allPurposeYards"];
 function buildDvp(){
-  const raw=new Map();
+  const seasonCurrent=Number(state.season),seasonPrior=seasonCurrent-1,weekly=new Map();
   for(const p of state.players){
-    const pos=String(p.position||"").toUpperCase();if(!["QB","RB","WR","TE"].includes(pos))continue;
-    for(const g of currentLogs(p)){
-      const opp=String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase();if(!opp)continue;
-      const key=opp+"|"+pos,b=raw.get(key)||{samples:0,metrics:{}};
-      b.samples++;
-      for(const metric of DVP_KEYS){
-        let value=0;
-        if(metric==="touchdowns")value=num(g.rushingTouchdowns)+num(g.receivingTouchdowns);
-        else if(metric==="allPurposeYards")value=num(g.rushingYards)+num(g.receivingYards);
-        else value=num(g[metric]);
-        b.metrics[metric]=(b.metrics[metric]||0)+value;
+    const pos=String(p.position||"").toUpperCase();
+    if(!["QB","RB","WR","TE"].includes(pos))continue;
+    const by=p.gameLogsBySeason||{};
+    for(const season of [seasonCurrent,seasonPrior]){
+      const rows=Array.isArray(by[String(season)])?by[String(season)]:(season===seasonCurrent?p.gameLog||[]:[]);
+      for(const g of rows){
+        if(!g||!g.played)continue;
+        const opp=String(g.opponent&&g.opponent.abbreviation||"").toUpperCase(),week=num(g.week);
+        if(!opp||!week)continue;
+        const key=[season,opp,pos,week].join("|"),entry=weekly.get(key)||{};
+        for(const metric of DVP_KEYS){
+          let value=0;
+          if(metric==="touchdowns")value=num(g.rushingTouchdowns)+num(g.receivingTouchdowns);
+          else if(metric==="allPurposeYards")value=num(g.rushingYards)+num(g.receivingYards);
+          else value=num(g[metric]);
+          entry[metric]=(entry[metric]||0)+value;
+        }
+        weekly.set(key,entry);
       }
-      raw.set(key,b);
     }
   }
+  const teamPos=new Map();
+  for(const [key,metrics] of weekly){
+    const parts=key.split("|"),season=Number(parts[0]),opp=parts[1],pos=parts[2],bucketKey=opp+"|"+pos;
+    const bucket=teamPos.get(bucketKey)||{current:[],prior:[]};
+    (season===seasonCurrent?bucket.current:bucket.prior).push(metrics);teamPos.set(bucketKey,bucket);
+  }
   const means=new Map();
-  for(const [key,b] of raw){const m={};for(const metric of DVP_KEYS)m[metric]=b.samples?b.metrics[metric]/b.samples:0;means.set(key,{samples:b.samples,metrics:m})}
+  for(const [key,bucket] of teamPos){
+    const metrics={};
+    for(const metric of DVP_KEYS){
+      const cur=bucket.current.map(g=>num(g[metric])),prior=bucket.prior.map(g=>num(g[metric]));
+      const cw=cur.length,pw=prior.length*.35,total=cw+pw;
+      metrics[metric]=total?((avg(cur)*cw)+(avg(prior)*pw))/total:0;
+    }
+    means.set(key,{currentGames:bucket.current.length,priorGames:bucket.prior.length,metrics:metrics});
+  }
   state.dvp.clear();
   for(const [key,row] of means){
-    const pos=key.split("|")[1],entry={samples:row.samples,metrics:{}};
+    const pos=key.split("|")[1],entry={samples:row.currentGames,currentGames:row.currentGames,priorGames:row.priorGames,metrics:{}};
     for(const metric of DVP_KEYS){
       const peers=[];for(const [peerKey,peer] of means)if(peerKey.endsWith("|"+pos))peers.push(peer.metrics[metric]);
       entry.metrics[metric]={value:row.metrics[metric],percentile:percentile(row.metrics[metric],peers)};
@@ -83,7 +103,6 @@ function buildDvp(){
     state.dvp.set(key,entry);
   }
 }
-
 function metricSpec(row){
   const text=(String(row.market||"")+" "+String(row.proposition||"")).toLowerCase();
   if(/first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b/.test(text))return null;
