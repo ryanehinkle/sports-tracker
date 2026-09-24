@@ -121,3 +121,27 @@
 }
 .field select.model-filter-select:hover{border-color:#3a4658;background-color:#1a202b}
 .field select.model-filter-select:focus{border-color:#486f75;box-shadow:0 0 0 3px rgba(102,217,168,.08)}
+
+
+/* Recommended slip pagination */
+.recommended-header{align-items:center}
+.slip-pager-wrap{display:flex;align-items:center;gap:10px}
+.slip-pager{display:flex;align-items:center;gap:6px}
+.slip-pager[hidden]{display:none!important}
+.slip-pager button{
+  width:31px;height:31px;display:grid;place-items:center;border:1px solid var(--line);border-radius:9px;
+  background:var(--surface, #171c26);color:var(--text,#f4f7fb);font:800 1.15rem/1 Inter,system-ui;
+  cursor:pointer;transition:.14s
+}
+.slip-pager button:hover:not(:disabled){border-color:color-mix(in srgb,var(--accent) 55%,var(--line));background:var(--surface-2,#1d2430);color:var(--accent)}
+.slip-pager button:disabled{opacity:.32;cursor:default}
+.recommended-slips.page-next{animation:slipsInNext .18s ease-out}
+.recommended-slips.page-prev{animation:slipsInPrev .18s ease-out}
+@keyframes slipsInNext{from{opacity:.45;transform:translateX(10px)}to{opacity:1;transform:none}}
+@keyframes slipsInPrev{from{opacity:.45;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@media(max-width:700px){
+  .recommended-header{align-items:flex-start}
+  .slip-pager-wrap{gap:7px}
+  .slip-pager button{width:29px;height:29px}
+  .recommended-header .model-card-meta{display:none}
+}
