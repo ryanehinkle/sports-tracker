@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
+from curl_cffi import requests as curl_requests
 
 CORE_STATS = "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{season}/types/2/teams/{team_id}/statistics"
 SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
@@ -112,10 +113,36 @@ def load_json(path):
         return {}
 
 
+def scoreboard_json():
+    errors = []
+    try:
+        return get_json(SCOREBOARD, {"limit": 100})
+    except Exception as exc:
+        errors.append(exc)
+
+    for url in (
+        SCOREBOARD,
+        "https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+    ):
+        try:
+            response = curl_requests.get(
+                url,
+                params={"limit": 100},
+                headers=UA,
+                impersonate="chrome120",
+                timeout=TIMEOUT,
+            )
+            response.raise_for_status()
+            return response.json()
+        except Exception as exc:
+            errors.append(exc)
+    raise RuntimeError(" / ".join(str(x) for x in errors[-3:]))
+
+
 def stats_publication_safe():
     """Never publish season/team totals while an NFL game is in progress."""
     try:
-        payload = get_json(SCOREBOARD, {"limit": 100})
+        payload = scoreboard_json()
     except Exception as exc:
         print(f"SAFETY GATE: scoreboard check failed ({exc}); leaving team stats untouched.")
         return False
