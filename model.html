@@ -5,7 +5,7 @@
 <title>NFL Model • NFL Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260923-2"><link rel="stylesheet" href="model.css?v=3">
+<link rel="stylesheet" href="styles.css?v=20260924-1"><link rel="stylesheet" href="model.css?v=4">
 </head>
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -43,7 +43,7 @@
 <label class="range-row odds-spread-row"><span><b>Max leg odds spread</b><small>Keeps legs in a similar price range</small></span><output id="oddsSpreadValue">600</output><input id="oddsSpread" type="range" min="100" max="2500" step="100" value="600"></label>
 
 <label class="check-row"><input id="uniquePlayers" type="checkbox" checked><span><b>Unique players</b><small>Avoid multiple legs from the same player</small></span></label>
-<label class="check-row"><input id="avoidSameGame" type="checkbox"><span><b>Diversify games</b><small>Prefer legs from different matchups</small></span></label></section>
+<label class="check-row"><input id="avoidSameGame" type="checkbox" checked><span><b>Different games only</b><small>Keeps parlay odds exact from the listed leg prices; FanDuel can reprice same-game parlays</small></span></label></section>
 <details class="control-disclosure"><summary><span><strong>Advanced model weights</strong><small>Optional scoring controls</small></span><b>+</b></summary><section class="control-section compact-advanced"><div id="weightControls" class="weight-grid"></div></section></details>
 </aside>
 <section class="model-results">
@@ -83,5 +83,5 @@
     </div>
     <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="model.js?v=6"></script>
+</dialog><script src="model.js?v=7"></script>
 </body></html>
