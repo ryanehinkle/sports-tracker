@@ -128,7 +128,7 @@ function metricSpec(row){
   if(/receiving tds|receiving touchdowns/.test(text))return{metric:"receivingTouchdowns"};
   if(/rushing tds|rushing touchdowns/.test(text))return{metric:"rushingTouchdowns"};
   if(/rushing attempts|rush attempts/.test(text))return{metric:"rushingAttempts"};
-  if(/pass attempts/.test(text))return{metric:"passingAttempts"};
+  if(/pass attempts|passing attempts/.test(text))return{metric:"passingAttempts"};
   if(/pass completions|passing completions/.test(text))return{metric:"passingCompletions"};
   if(/interceptions thrown|pass interceptions/.test(text))return{metric:"passingInterceptions"};
   if(/longest completion|longest pass/.test(text))return{metric:"passingLongest"};
