@@ -19,6 +19,7 @@
 <div class="control-heading"><div><strong>Odds range</strong><span>Set the allowed price for each leg and the finished parlay.</span></div></div>
 <div class="number-pair"><label class="field"><span>Per-leg odds min</span><input id="legOddsMin" type="number" value="-500"></label><label class="field"><span>Per-leg odds max</span><input id="legOddsMax" type="number" value="500"></label></div>
 <div class="number-pair"><label class="field"><span>Total odds min</span><input id="parlayOddsMin" type="number" value="100"></label><label class="field"><span>Total odds max</span><input id="parlayOddsMax" type="number" value="350"></label></div>
+<div class="number-pair"><label class="field"><span>Minimum legs</span><input id="legsMin" type="number" min="1" max="10" value="2"></label><label class="field"><span>Maximum legs</span><input id="legsMax" type="number" min="1" max="10" value="4"></label></div>
 
 </section>
 <section class="control-section"><div class="control-heading"><div><strong>Historical hit rate</strong><span>Minimum required hit rate for every eligible leg.</span></div></div><div id="hitRateControls" class="slider-stack"></div></section>
@@ -40,7 +41,7 @@
 <section class="control-section"><div class="control-heading"><div><strong>Line & parlay shape</strong><span>Fine-tune stat lines, model edge, leg similarity, and slip size.</span></div></div>
 <div class="number-pair"><label class="field"><span>Stat line min</span><input id="lineMin" type="number" step=".5" placeholder="Any"></label><label class="field"><span>Stat line max</span><input id="lineMax" type="number" step=".5" placeholder="Any"></label></div><label class="range-row"><span><b>Minimum model edge</b><small>Estimated probability minus implied probability</small></span><output id="edgeValue">-20%+</output><input id="edgeMin" type="range" min="-20" max="30" step="1" value="-20"></label>
 <label class="range-row odds-spread-row"><span><b>Max leg odds spread</b><small>Keeps legs in a similar price range</small></span><output id="oddsSpreadValue">600</output><input id="oddsSpread" type="range" min="100" max="2500" step="100" value="600"></label>
-<div class="number-pair"><label class="field"><span>Minimum legs</span><input id="legsMin" type="number" min="1" max="10" value="2"></label><label class="field"><span>Maximum legs</span><input id="legsMax" type="number" min="1" max="10" value="4"></label></div>
+
 <label class="check-row"><input id="uniquePlayers" type="checkbox" checked><span><b>Unique players</b><small>Avoid multiple legs from the same player</small></span></label>
 <label class="check-row"><input id="avoidSameGame" type="checkbox"><span><b>Diversify games</b><small>Prefer legs from different matchups</small></span></label></section>
 <details class="control-disclosure"><summary><span><strong>Advanced model weights</strong><small>Optional scoring controls</small></span><b>+</b></summary><section class="control-section compact-advanced"><div id="weightControls" class="weight-grid"></div></section></details>
