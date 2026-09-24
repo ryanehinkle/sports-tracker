@@ -228,6 +228,7 @@ function cleanDisplayProposition(row){
 
   prop=prop.replace(/\bAlt\s+/gi,"");
   prop=prop.replace(/\bYds\b/gi,"Yards");
+  prop=prop.replace(/\bPass(?:ing)?\s*\+\s*Rush(?:ing)?\s+Yards\b/gi,"Passing + Rushing Yards");
   prop=prop.replace(/\s{2,}/g," ").trim().replace(/^[-:]+|[-:]+$/g,"").trim();
   return prop||String(row.market||"Player Prop");
 }
