@@ -12,7 +12,8 @@ on:
       - "scripts/update_team_stats.py"
       - "scripts/update_odds.py"
       - "scripts/build_model_calibration.py"
-      - "scripts/validate_prop_tracking.py"\n      - "scripts/build_ladder.py"
+      - "scripts/validate_prop_tracking.py"
+      - "scripts/build_ladder.py"
       - "requirements.txt"
       - ".github/workflows/update-and-deploy.yml"
 
@@ -48,7 +49,7 @@ jobs:
       - name: Pull current ESPN player stats
         run: python scripts/update_stats.py
 
-      - name: Pull current ESPN team stats
+      - name: Pull current + prior ESPN team stats
         run: python scripts/update_team_stats.py
 
       - name: Validate prop tracking mappings
@@ -57,10 +58,13 @@ jobs:
       - name: Rebuild 2025 model calibration
         run: python scripts/build_model_calibration.py
 
-      - name: Precompute prop hit rates from fresh game logs
+      - name: Precompute prop hit rates and grade archived boards
         run: python scripts/update_odds.py --history-only
 
-      - name: Grade daily ladder challenge\n        run: python scripts/build_ladder.py\n\n      - name: Commit refreshed stats and grades
+      - name: Grade daily ladder challenge
+        run: python scripts/build_ladder.py
+
+      - name: Commit refreshed stats and grades
         shell: bash
         run: |
           if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/odds-history data/ladder-picks.json; then
