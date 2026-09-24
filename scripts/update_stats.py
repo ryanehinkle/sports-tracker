@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
+from curl_cffi import requests as curl_requests
 
 BASE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/statistics/byathlete"
 SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
@@ -40,7 +41,7 @@ FEEDS = {
         "fallback": {"passingYards": 3, "passingTouchdowns": 7},
     },
     "kicking": {
-        "category": "specialTeams:kicking",
+        "category": "kicking",
         "sort": "kicking.totalPoints:desc",
         "fallback": {},
         "optional": True,
@@ -87,14 +88,37 @@ def get_json(url, params=None):
     raise last_error
 
 
-def stats_publication_safe():
-    """Return False while any NFL game is live, or if the safety check cannot be verified.
-
-    ESPN season leaderboards can change during a game. We deliberately leave the
-    previously published snapshot untouched until every active game is final.
-    """
+def scoreboard_json():
+    """Fetch the scoreboard with a browser-like fallback for GitHub Actions."""
+    errors = []
     try:
-        payload = get_json(SCOREBOARD, {"limit": 100})
+        return get_json(SCOREBOARD, {"limit": 100})
+    except Exception as exc:
+        errors.append(exc)
+
+    for url in (
+        SCOREBOARD,
+        "https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+    ):
+        try:
+            response = curl_requests.get(
+                url,
+                params={"limit": 100},
+                headers=UA,
+                impersonate="chrome120",
+                timeout=TIMEOUT,
+            )
+            response.raise_for_status()
+            return response.json()
+        except Exception as exc:
+            errors.append(exc)
+    raise RuntimeError(" / ".join(str(x) for x in errors[-3:]))
+
+
+def stats_publication_safe():
+    """Return False while any NFL game is live, or if the safety check cannot be verified."""
+    try:
+        payload = scoreboard_json()
     except Exception as exc:
         print(f"SAFETY GATE: scoreboard check failed ({exc}); leaving stats untouched.")
         return False
