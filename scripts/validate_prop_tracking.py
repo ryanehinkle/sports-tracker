@@ -38,11 +38,14 @@ def main():
         "Receptions": "receptions",
         "Rushing Attempts": "rushingAttempts",
         "Passing Yards": "passingYards",
+        "Passing + Rushing Yards": "passRushYards",
         "Passing Attempts": "passingAttempts",
         "Passing Completions": "passingCompletions",
         "Longest Reception": "receivingLongest",
         "Longest Rush": "rushingLongest",
         "Player To Record A Sack": "sacks",
+        "Field Goals": "fieldGoalsMade",
+        "Kicking Points": "kickingPoints",
     }
     for name, metric in expected.items():
         spec = _metric_spec(prop(name))
@@ -51,10 +54,15 @@ def main():
     game = {
         "rushingYards": 61,
         "receivingYards": 27,
+        "passingYards": 242,
+        "fieldGoalsMade": 3,
+        "kickingPoints": 11,
         "rushingTouchdowns": 1,
         "receivingTouchdowns": 1,
     }
     assert _metric_value(game, {"metric": "allPurposeYards"}) == 88
+    assert _metric_value(game, {"metric": "passRushYards"}) == 303
+    assert _metric_value(game, {"metric": "kickingPoints"}) == 11
     assert _metric_value(game, {"metric": "touchdowns"}) == 2
     assert _prop_hit(prop("Rushing Yards", line=60.5), game) is True
     assert _prop_hit(prop("Rushing Yards", line=61.5), game) is False
