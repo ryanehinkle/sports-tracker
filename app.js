@@ -529,6 +529,8 @@ function metricValue(game,spec){
   if(!game||!spec) return null;
   if(spec.metric==="passRushYards") return safe(game.passingYards)+safe(game.rushingYards);
   if(spec.metric==="passRushRecYards") return safe(game.passingYards)+safe(game.rushingYards)+safe(game.receivingYards);
+  if(spec.metric==="allPurposeYards") return safe(game.rushingYards)+safe(game.receivingYards);
+  if(spec.metric==="touchdowns") return safe(game.rushingTouchdowns)+safe(game.receivingTouchdowns);
   const value=game[spec.metric];
   return Number.isFinite(Number(value))?Number(value):null;
 }
