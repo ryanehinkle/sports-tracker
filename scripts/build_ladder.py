@@ -343,14 +343,27 @@ def choose_slip(rows, date_key, profiles):
             break
 
     if not best:
-        # Deterministic fallback: top three compatible rows. This keeps the
-        # challenge populated even on unusually thin slates.
+        # Deterministic fallback: preserve the requested 3-leg floor whenever
+        # a board has at least three outcomes. First keep player uniqueness,
+        # then relax only the odds-spread guard if the slate is unusually thin.
         combo = []
-        for row in sorted(scored, key=lambda item: item["_confidence"], reverse=True):
-            if compatible(combo, row, 700):
-                combo.append(row)
+        ranked = sorted(scored, key=lambda item: item["_confidence"], reverse=True)
+        for row in ranked:
+            player = norm(row.get("player"))
+            if player and any(norm(existing.get("player")) == player for existing in combo):
+                continue
+            if any(family_key(existing) == family_key(row) for existing in combo):
+                continue
+            combo.append(row)
             if len(combo) >= 3:
                 break
+        if len(combo) < 3:
+            for row in ranked:
+                if row in combo or any(family_key(existing) == family_key(row) for existing in combo):
+                    continue
+                combo.append(row)
+                if len(combo) >= 3:
+                    break
         if len(combo) < 1:
             return None
         decimal = parlay_decimal(combo) or 1
