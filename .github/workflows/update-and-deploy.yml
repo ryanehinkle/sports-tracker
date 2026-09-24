@@ -3,15 +3,18 @@ name: Update NFL Stats
 on:
   workflow_dispatch:
   schedule:
-    # GitHub cron is UTC. Check every hour for fresh ESPN season totals.
-    - cron: "17 * * * *"
+    # Refresh the entire stats/model pipeline every two hours.
+    - cron: "17 */2 * * *"
   push:
     branches: ["main"]
-    paths-ignore:
-      - "data/nfl-stats.json"
-      - "data/nfl-team-stats.json"
-      - "data/nfl-odds.json"
-      - "data/model-calibration.json"
+    paths:
+      - "scripts/update_stats.py"
+      - "scripts/update_team_stats.py"
+      - "scripts/update_odds.py"
+      - "scripts/build_model_calibration.py"
+      - "scripts/validate_prop_tracking.py"
+      - "requirements.txt"
+      - ".github/workflows/update-and-deploy.yml"
 
 permissions:
   contents: write
@@ -25,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Sync latest main
         shell: bash
@@ -34,7 +37,7 @@ jobs:
           git reset --hard origin/main
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
