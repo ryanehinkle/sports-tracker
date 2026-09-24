@@ -10,6 +10,7 @@ from pathlib import Path
 import requests
 
 CORE_STATS = "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{season}/types/2/teams/{team_id}/statistics"
+SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
 WEEK_EVENTS = "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{season}/types/2/weeks/{week}/events"
 CDN_GAME = "https://cdn.espn.com/core/nfl/game"
 PLAYER_STATS = Path("data/nfl-stats.json")
@@ -109,6 +110,31 @@ def load_json(path):
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return {}
+
+
+def stats_publication_safe():
+    """Never publish season/team totals while an NFL game is in progress."""
+    try:
+        payload = get_json(SCOREBOARD, {"limit": 100})
+    except Exception as exc:
+        print(f"SAFETY GATE: scoreboard check failed ({exc}); leaving team stats untouched.")
+        return False
+
+    live = []
+    for event in payload.get("events") or []:
+        status = ((event.get("status") or {}).get("type") or {})
+        state = str(status.get("state") or "").lower()
+        completed = status.get("completed")
+        name = str(event.get("name") or event.get("shortName") or event.get("id") or "NFL game")
+        if state == "in" or (completed is False and state not in {"pre", ""}):
+            live.append(name)
+
+    if live:
+        print("SAFETY GATE: live NFL game(s) in progress; keeping last completed-game team snapshot:")
+        for name in live:
+            print(f"  - {name}")
+        return False
+    return True
 
 
 def current_context():
@@ -676,6 +702,9 @@ def compact_payload(payload):
 
 
 def main():
+    if not stats_publication_safe():
+        return
+
     season, current_week = current_context()
     previous = load_json(OUT)
     teams = team_list()
