@@ -1068,3 +1068,40 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 }
 
 .main-tabs .main-tab,.main-tabs .main-tab:visited{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;line-height:1.2;appearance:none;-webkit-appearance:none}
+
+
+/* Prop chart opponent-rank badges + hover/focus detail cards. */
+.hit-opp-rank{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  margin-top:1px;padding:1px 5px;border:1px solid #334052;border-radius:999px;
+  color:#6f7e91!important;background:#171e27;font-size:.52rem!important;font-weight:800!important
+}
+.hit-bar-column{outline:none}
+.hit-bar-column:focus-visible{outline:1px solid rgba(102,217,168,.38);outline-offset:2px;border-radius:6px}
+.hit-bar-tooltip{
+  position:absolute;left:50%;top:58px;z-index:12;width:228px;
+  transform:translate(-50%,8px);padding:11px 12px;border:1px solid #303a49;border-radius:12px;
+  background:rgba(10,13,18,.97);box-shadow:0 18px 42px rgba(0,0,0,.48);
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s,transform .14s;
+  color:#dce3eb;text-align:left
+}
+.hit-bar-column:hover .hit-bar-tooltip,.hit-bar-column:focus .hit-bar-tooltip{
+  opacity:1;visibility:visible;transform:translate(-50%,0)
+}
+.hit-bar-column:first-child .hit-bar-tooltip{left:0;transform:translate(0,8px)}
+.hit-bar-column:first-child:hover .hit-bar-tooltip,.hit-bar-column:first-child:focus .hit-bar-tooltip{transform:translate(0,0)}
+.hit-bar-column:last-child .hit-bar-tooltip{left:auto;right:0;transform:translate(0,8px)}
+.hit-bar-column:last-child:hover .hit-bar-tooltip,.hit-bar-column:last-child:focus .hit-bar-tooltip{transform:translate(0,0)}
+.hit-tooltip-date{color:#7f8a9a;font-size:.62rem;font-weight:750;margin-bottom:8px}
+.hit-tooltip-matchup{display:flex;align-items:center;gap:7px;padding-bottom:9px;border-bottom:1px solid #252e3a}
+.hit-tooltip-matchup img{width:26px;height:26px;object-fit:contain}
+.hit-tooltip-matchup span{color:#e6ebf1;font-size:.72rem;font-weight:800}
+.hit-tooltip-matchup b{margin-left:auto;color:#929dad;font-size:.65rem}
+.hit-tooltip-stat,.hit-tooltip-rank{display:grid;grid-template-columns:1fr auto;gap:3px 10px;align-items:center;padding-top:9px}
+.hit-tooltip-stat span,.hit-tooltip-rank span{color:#8f9aaa;font-size:.62rem;font-weight:700}
+.hit-tooltip-stat strong{color:#69ddb0;font-size:.78rem}
+.hit-tooltip-rank strong{color:#f0f4f8;font-size:.78rem}
+.hit-tooltip-rank small{grid-column:1/-1;color:#657386;font-size:.55rem}
+@media(max-width:760px){
+  .hit-bar-tooltip{width:205px;padding:9px 10px}
+}
