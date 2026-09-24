@@ -70,8 +70,20 @@ GAME_STAT_ALIASES = {
     "assistedTackles": ("assistedtackles", "assists"),
     "sacks": ("sacks",),
     "defensiveInterceptions": ("defensiveinterceptions", "interceptionsmade"),
-    "fieldGoalsMade": ("fieldgoalsmade", "fgmade"),
-    "extraPointsMade": ("extrapointsmade", "xpmade", "patmade"),
+    "fieldGoalsMade": (
+        "fieldgoalsmade",
+        "fgmade",
+        "fieldgoalsmadefieldgoalattempts",
+        "fieldgoalsmadefieldgoalsattempted",
+    ),
+    "extraPointsMade": (
+        "extrapointsmade",
+        "xpmade",
+        "patmade",
+        "extrapointsmadeextrapointattempts",
+        "extrapointsmadeextrapointsattempted",
+    ),
+    "kickingPoints": ("totalkickingpoints", "kickingpoints"),
 }
 
 
@@ -618,10 +630,16 @@ def score_for_event(meta):
 
 
 def get_game_stat(stat_values, aliases):
-    normalized = {normalize_name(k): number(v) for k, v in stat_values.items()}
+    normalized = {normalize_name(k): v for k, v in stat_values.items()}
     for alias in aliases:
-        if alias in normalized:
-            return normalized[alias]
+        if alias not in normalized:
+            continue
+        raw = normalized[alias]
+        # ESPN exposes made/attempted kicking values as strings such as "2/3".
+        # For a "made" metric the first component is the value we need.
+        if "/" in str(raw):
+            raw = str(raw).split("/", 1)[0]
+        return number(raw)
     return 0
 
 
@@ -667,7 +685,10 @@ def parse_game_log(athlete_id, season):
                 tracked["passRushRecYards"] = (
                     tracked["passingYards"] + tracked["rushingYards"] + tracked["receivingYards"]
                 )
-                tracked["kickingPoints"] = tracked["fieldGoalsMade"] * 3 + tracked["extraPointsMade"]
+                tracked["kickingPoints"] = (
+                    tracked.get("kickingPoints", 0)
+                    or tracked["fieldGoalsMade"] * 3 + tracked["extraPointsMade"]
+                )
 
                 game_date = (
                     meta.get("gameDate")
