@@ -5,7 +5,7 @@ const fmt=new Intl.NumberFormat("en-US");
 const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,modalPlayer:null};
+const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null};
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
 function norm(v){return String(v||"").toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\.?\b/g,"").replace(/[^a-z0-9]/g,"")}
@@ -20,6 +20,7 @@ function decimalToAmerican(d){d=Number(d);if(!Number.isFinite(d)||d<=1)return nu
 function implied(o){const d=americanToDecimal(o);return d?1/d:null}
 function formatOdds(o){o=Number(o);return Number.isFinite(o)?(o>0?"+":"")+Math.round(o):"—"}
 function fallbackHeadshot(){return "https://a.espncdn.com/i/headshots/nfl/players/full/0.png"}
+function modelPropKey(row){return [row.eventId||"",row.player||"",row.market||"",row.selection||"",row.line??"",row.proposition||""].join("¦")}
 function percentile(value,values){const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length||!Number.isFinite(value))return null;let below=0,equal=0;for(const x of a){if(x<value)below++;else if(x===value)equal++}return 100*(below+.5*equal)/a.length}
 
 function logs(player,seasonOnly){
@@ -326,11 +327,11 @@ function renderSignals(){
   if(!rows.length){$("signalBody").innerHTML='<tr><td colspan="10" class="model-empty">No props satisfy every active constraint. Loosen one or more filters.</td></tr>';return}
   $("signalBody").innerHTML=rows.map(x=>{
     const r=x.row,head=r.headshot||x.player.headshot||fallbackHeadshot();
-    return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(r.proposition||r.market||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td><td><strong>'+formatOdds(r.odds)+'</strong></td></tr>';
+    return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(r))+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(r.proposition||r.market||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td><td><strong>'+formatOdds(r.odds)+'</strong></td></tr>';
   }).join("");
 }
 function slipHtml(s,i){
-  let legs="";for(const x of s.legs){legs+='<div class="slip-leg model-player-trigger" data-player-id="'+esc(x.player.id)+'" tabindex="0" role="button" aria-label="Open '+esc(x.row.player)+' game log"><img src="'+esc(x.row.headshot||x.player.headshot||fallbackHeadshot())+'" alt=""><div class="slip-leg-copy"><strong>'+esc(x.row.player)+'</strong><span>'+esc(x.row.proposition||x.row.market)+' • '+esc(x.opp||"")+'</span></div><strong>'+formatOdds(x.row.odds)+'</strong></div>'}
+  let legs="";for(const x of s.legs){legs+='<div class="slip-leg model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(x.row))+'" tabindex="0" role="button" aria-label="Open '+esc(x.row.player)+' prop chart"><img src="'+esc(x.row.headshot||x.player.headshot||fallbackHeadshot())+'" alt=""><div class="slip-leg-copy"><strong>'+esc(x.row.player)+'</strong><span>'+esc(x.row.proposition||x.row.market)+' • '+esc(x.opp||"")+'</span></div><strong>'+formatOdds(x.row.odds)+'</strong></div>'}
   const product=s.legs.reduce((p,x)=>p*x.modelProb,1);
   return '<article class="slip-card"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score"><b>'+s.score.toFixed(1)+'</b><small>AVG SCORE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Model prob*</span><strong>'+pct(product*100,1)+'</strong></div><div><span>Avg edge</span><strong>'+(s.edge>=0?"+":"")+pct(s.edge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
 }
@@ -346,7 +347,7 @@ function renderCharts(){
 }
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
-  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.slips=generateSlips(out,cfg);renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();
+  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg);renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
@@ -360,52 +361,100 @@ function fillSelects(){
   const teams=[...new Set(state.odds.map(x=>String(x.team||"").toUpperCase()).filter(Boolean))].sort();$("teamFilter").insertAdjacentHTML("beforeend",teams.map(x=>'<option>'+esc(x)+'</option>').join(""));
   const opponents=[...new Set(state.odds.map(nextOpponent).filter(Boolean))].sort();$("opponentFilter").insertAdjacentHTML("beforeend",opponents.map(x=>'<option>'+esc(x)+'</option>').join(""));const games=[...new Map(state.odds.filter(x=>x.eventId).map(x=>[String(x.eventId),x.matchup])).entries()].sort((a,b)=>String(a[1]).localeCompare(String(b[1])));$("gameFilter").insertAdjacentHTML("beforeend",games.map(x=>'<option value="'+esc(x[0])+'">'+esc(x[1])+'</option>').join(""));
 }
-function modelGameStat(game,key){
-  if(!game||!game.played)return"—";
-  return fmt.format(num(game[key]));
+function modelPlayerForRow(row){return state.playerByName.get(norm(row&&row.player))}
+function modelPlayedLogs(player){
+  return logs(player,false).filter(g=>g&&g.played).sort((a,b)=>(b._season-a._season)||num(b.week)-num(a.week));
 }
-function modelOpponentHtml(game){
-  if(!game||!game.played||!game.opponent)return'<span class="no-game">—</span>';
-  const abbr=game.opponent.abbreviation||"",name=game.opponent.name||abbr||"Opponent";
-  const logo=game.opponent.logo||(abbr?"https://a.espncdn.com/i/teamlogos/nfl/500/"+abbr.toLowerCase()+".png":"");
-  const venue=game.isAway?"@":"vs";
-  const result=game.result?'<span class="game-result '+(String(game.result).toUpperCase()==="W"?"win":String(game.result).toUpperCase()==="L"?"loss":"tie")+'">('+esc(game.result)+(game.score?" "+esc(game.score):"")+')</span>':"";
-  return'<div class="opponent-matchup"><span class="venue-marker">'+venue+'</span>'+(logo?'<img class="opponent-logo" src="'+esc(logo)+'" alt="">':"")+'<span class="opponent-name">'+esc(name)+'</span>'+result+'</div>';
+function modelSplitLabel(split){
+  return {l5:"Last 5",l10:"Last 10",h2h:"Head-to-Head",current:String(state.season||2026),previous:String((state.season||2026)-1)}[split]||split;
 }
-function modelLogsForSeason(player,season){
-  const by=player&&player.gameLogsBySeason||{};
-  if(Array.isArray(by[String(season)]))return by[String(season)];
-  if(Number(season)===Number(state.season)&&Array.isArray(player&&player.gameLog))return player.gameLog;
+function modelSplitGames(row,split){
+  const player=modelPlayerForRow(row);if(!player)return[];
+  const currentYear=Number(state.season||2026),previousYear=currentYear-1,all=modelPlayedLogs(player);
+  let games=[],newestFirst=false;
+  if(split==="l5"){games=all.slice(0,5);newestFirst=true}
+  else if(split==="l10"){games=all.slice(0,10);newestFirst=true}
+  else if(split==="h2h"){const opponent=nextOpponent(row);games=opponent?all.filter(g=>String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase()===opponent):[];newestFirst=true}
+  else if(split==="current")games=all.filter(g=>g._season===currentYear);
+  else if(split==="previous")games=all.filter(g=>g._season===previousYear);
+  const spec=metricSpec(row);
+  const applicable=games.filter(g=>spec&&isHit(g,row,spec)!==null);
+  return newestFirst?applicable.reverse():applicable;
+}
+function modelLineForRow(row){
+  const spec=metricSpec(row);
+  if(spec&&spec.comparison==="gte"&&Number.isFinite(Number(spec.threshold)))return Number(spec.threshold);
+  const line=Number(row.line);return Number.isFinite(line)?line:null;
+}
+function modelFormatLine(v){
+  if(v===null||v===undefined||v==="")return"—";
+  const x=Number(v);return Number.isFinite(x)?String(x):String(v);
+}
+function modelChartDateLabel(game){
+  if(game&&game.date){const d=new Date(game.date);if(!Number.isNaN(d.getTime()))return new Intl.DateTimeFormat("en-US",{month:"numeric",day:"numeric"}).format(d)}
+  return"W"+String(game&&game.week!=null?game.week:"—");
+}
+function modelChartOpponentLabel(game){
+  const abbr=game&&game.opponent&&game.opponent.abbreviation||"";if(!abbr)return"";
+  return(game.isAway?"@ ":"vs ")+abbr;
+}
+function modelMetricBreakdown(game,spec){
+  if(!spec)return[];
+  if(spec.metric==="passRushYards")return[["PASS YDS",num(game.passingYards)],["RUSH YDS",num(game.rushingYards)]];
+  if(spec.metric==="allPurposeYards")return[["RUSH YDS",num(game.rushingYards)],["REC YDS",num(game.receivingYards)]];
+  if(spec.metric==="passRushRecYards")return[["PASS YDS",num(game.passingYards)],["RUSH YDS",num(game.rushingYards)],["REC YDS",num(game.receivingYards)]];
   return[];
 }
-function renderModelPlayerSeason(){
-  const player=state.modalPlayer;if(!player)return;
-  const season=Number($("modelModalSeasonSelect").value||state.season),rows=modelLogsForSeason(player,season);
-  $("modelModalKicker").textContent=season+" REGULAR SEASON • GAME LOG";
-  if(!rows.length){$("modelGameLogBody").innerHTML='<tr><td colspan="9" class="modal-empty">No regular-season game log is available.</td></tr>';return}
-  $("modelGameLogBody").innerHTML=rows.map(game=>'<tr class="'+(game.played?"":"no-game-row")+'"><td class="week-cell">Week '+esc(game.week)+'</td><td class="opponent-cell">'+modelOpponentHtml(game)+'</td><td class="stat-strong">'+modelGameStat(game,"touchdowns")+'</td><td class="all-purpose">'+modelGameStat(game,"allPurposeYards")+'</td><td>'+modelGameStat(game,"receivingYards")+'</td><td>'+modelGameStat(game,"rushingYards")+'</td><td>'+modelGameStat(game,"receptions")+'</td><td>'+modelGameStat(game,"passingTouchdowns")+'</td><td>'+modelGameStat(game,"passingYards")+'</td></tr>').join("");
+function modelPctMarkup(rate,key,split,selected){
+  const value=rate?Math.round(rate.pct)+"%":"-";
+  const cls=!rate?"hit-na-text":rate.pct>=70?"hit-good-text":rate.pct>=50?"hit-mid-text":"hit-low-text";
+  const disabled=rate?"":" disabled aria-disabled=\"true\"";
+  return'<button type="button" class="hit-summary-item '+(selected?"selected":"")+'" data-chart-split="'+esc(split)+'"'+disabled+'><span>'+esc(key)+'</span><strong class="'+cls+'">'+value+'</strong></button>';
 }
-function openModelPlayer(player){
-  if(!player)return;
-  state.modalPlayer=player;
-  $("modelModalHeadshot").src=player.headshot||fallbackHeadshot();
-  $("modelModalPlayerName").textContent=player.name||"Player";
-  $("modelModalPlayerMeta").textContent=[player.position,player.team].filter(Boolean).join(" • ");
-  const by=player.gameLogsBySeason||{};
-  let seasons=Object.keys(by).filter(y=>Array.isArray(by[y])&&by[y].some(g=>g&&g.played)).map(Number).sort((a,b)=>b-a);
-  if(!seasons.includes(Number(state.season))&&Array.isArray(player.gameLog)&&player.gameLog.some(g=>g&&g.played))seasons.unshift(Number(state.season));
-  seasons=[...new Set(seasons)];
-  $("modelModalSeasonSelect").innerHTML=seasons.map(y=>'<option value="'+y+'">'+y+'</option>').join("");
-  $("modelModalSeasonSelect").value=String(seasons[0]||state.season);
-  renderModelPlayerSeason();
-  $("modelPlayerModal").showModal();
+function renderModelHitRateChart(row,split){
+  state.hitRateActiveRow=row;state.hitRateActiveSplit=split;
+  const player=modelPlayerForRow(row),games=modelSplitGames(row,split),rates=ratesFor(row,player),selected=rates&&rates[split]||null,spec=metricSpec(row),line=modelLineForRow(row);
+  const values=games.map(g=>metricValue(g,spec)).filter(Number.isFinite);
+  const average=values.length?values.reduce((s,v)=>s+v,0)/values.length:null,med=median(values);
+  $("hitRateTitle").textContent=cleanDisplayPlayerName(row.player)+" - "+generalizedMarketLabel(row);
+  $("hitRateSubtitle").textContent=cleanDisplayProposition(row)+" • "+row.matchup;
+  $("hitRateSplitLabel").textContent=modelSplitLabel(split);
+  $("hitRateSelectedPct").textContent=selected?Math.round(selected.pct)+"%":"—";
+  $("hitRateSelectedPct").className=!selected?"":selected.pct>=70?"hit-good-text":selected.pct>=50?"hit-mid-text":"hit-low-text";
+  $("hitRateSelectedRecord").textContent=selected?" "+selected.hits+" of "+selected.total:"";
+  $("hitRateAverage").textContent=average===null?"—":(Math.round(average*10)/10).toLocaleString();
+  $("hitRateMedian").textContent=med===null?"—":(Math.round(med*10)/10).toLocaleString();
+  const cy=String(state.season||2026),py=String((state.season||2026)-1);
+  $("hitRateBreakdown").innerHTML=[
+    modelPctMarkup(rates.l5,"L5","l5",split==="l5"),
+    modelPctMarkup(rates.l10,"L10","l10",split==="l10"),
+    modelPctMarkup(rates.h2h,"H2H","h2h",split==="h2h"),
+    modelPctMarkup(rates.current,cy,"current",split==="current"),
+    modelPctMarkup(rates.previous,py,"previous",split==="previous")
+  ].join("");
+  if(!games.length||!spec){$("hitRateChart").innerHTML='<div class="hit-chart-empty">No applicable game-by-game data is available for this prop.</div>';return}
+  const maxValue=Math.max(...values,0),minValue=Math.min(...values,0),positiveLine=line===null?0:Math.max(line,0),chartMax=Math.max(1,maxValue,positiveLine)*1.16,chartMin=Math.min(0,minValue),chartSpan=Math.max(1,chartMax-chartMin),linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100)),plotWidth=Math.max(680,games.length*92),stageHeight=286,thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
+  const bars=games.map((game,index)=>{
+    const value=metricValue(game,spec),hit=isHit(game,row,spec),height=Math.max(2,((value-chartMin)/chartSpan)*100),valueBottom=48+(height/100)*stageHeight,breakdown=modelMetricBreakdown(game,spec).filter(([,v])=>v!==0);
+    const detail=breakdown.length?'<div class="hit-bar-detail">'+breakdown.map(([label,v])=>'<span><b>'+fmt.format(v)+'</b> '+label+'</span>').join("")+'</div>':"";
+    return'<div class="hit-bar-column"><div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div><div class="hit-bar-track"><div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div></div><div class="hit-bar-label"><span>'+esc(modelChartDateLabel(game))+'</span><span>'+esc(modelChartOpponentLabel(game))+'</span></div></div>';
+  }).join("");
+  const threshold=thresholdBottom===null?"":'<div class="hit-threshold" style="bottom:'+thresholdBottom+'px"><span>'+esc(modelFormatLine(line))+'</span></div>';
+  $("hitRateChart").innerHTML='<div class="hit-chart-plot" style="width:'+plotWidth+'px">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
+}
+function openModelHitRateChart(row){
+  if(!row)return;
+  const rates=ratesFor(row,modelPlayerForRow(row));
+  const split=rates&&rates.l10?"l10":rates&&rates.current?"current":rates&&rates.l5?"l5":"current";
+  renderModelHitRateChart(row,split);
+  $("hitRateModal").showModal();
 }
 function bind(){
-  document.addEventListener("click",e=>{const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;const player=state.players.find(p=>String(p.id)===String(trigger.dataset.playerId));if(player)openModelPlayer(player)});
-  document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;e.preventDefault();const player=state.players.find(p=>String(p.id)===String(trigger.dataset.playerId));if(player)openModelPlayer(player)});
-  $("modelModalClose").addEventListener("click",()=>$("modelPlayerModal").close());
-  $("modelPlayerModal").addEventListener("click",e=>{if(e.target===$("modelPlayerModal"))$("modelPlayerModal").close()});
-  $("modelModalSeasonSelect").addEventListener("change",renderModelPlayerSeason);
+  document.addEventListener("click",e=>{const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
+  document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;e.preventDefault();const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
+  $("hitRateClose").addEventListener("click",()=>$("hitRateModal").close());
+  $("hitRateModal").addEventListener("click",e=>{if(e.target===$("hitRateModal"))$("hitRateModal").close()});
+  $("hitRateBreakdown").addEventListener("click",e=>{const button=e.target.closest("[data-chart-split]");if(!button||button.disabled||!state.hitRateActiveRow)return;renderModelHitRateChart(state.hitRateActiveRow,button.dataset.chartSplit)});
   document.querySelectorAll(".model-controls input,.model-controls select").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
   $("weightControls").addEventListener("click",e=>{const b=e.target.closest("[data-weight]");if(!b)return;const k=b.dataset.weight,levels=[0,8,14,22,30,40],cur=state.weights[k],next=levels[(levels.indexOf(cur)+1)%levels.length];state.weights[k]=next;b.querySelector("strong").textContent=next;b.classList.toggle("active",next>0);schedule()});
   $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;for(const id of ["positionFilter","marketFilter","sideFilter","teamFilter","opponentFilter","gameFilter","playerFilter"])$(id).value="";for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=false;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
