@@ -530,6 +530,37 @@ function metricSpec(row){
   if(/^touchdowns?$/.test(market.trim())||/ total touchdowns/.test(text)) return {metric:"touchdowns"};
   return null;
 }
+function canonicalPropCategory(row){
+  const spec=metricSpec(row);
+  if(!spec) return "";
+  const labels={
+    touchdowns:"Touchdowns",
+    passRushRecYards:"Passing + Rushing + Receiving Yards",
+    passRushYards:"Passing + Rushing Yards",
+    allPurposeYards:"Rushing + Receiving Yards",
+    passingYards:"Passing Yards",
+    receivingYards:"Receiving Yards",
+    rushingYards:"Rushing Yards",
+    receptions:"Receptions",
+    passingTouchdowns:"Passing TDs",
+    receivingTouchdowns:"Receiving TDs",
+    rushingTouchdowns:"Rushing TDs",
+    rushingAttempts:"Rushing Attempts",
+    passingAttempts:"Passing Attempts",
+    passingCompletions:"Passing Completions",
+    passingInterceptions:"Interceptions Thrown",
+    passingLongest:"Longest Completion",
+    receivingLongest:"Longest Reception",
+    rushingLongest:"Longest Rush",
+    soloTackles:"Solo Tackles",
+    totalTackles:"Tackles + Assists",
+    sacks:"Sacks",
+    defensiveInterceptions:"Defensive Interceptions",
+    fieldGoalsMade:"Field Goals",
+    kickingPoints:"Kicking Points"
+  };
+  return labels[spec.metric]||"";
+}
 function metricValue(game,spec){
   if(!game||!spec) return null;
   if(spec.metric==="passRushYards") return safe(game.passingYards)+safe(game.rushingYards);
@@ -844,7 +875,7 @@ function renderGameFilters(){
   gameFilterLabel.textContent=state.selectedGames.size?state.selectedGames.size+" Game"+(state.selectedGames.size===1?"":"s"):"Games";
 }
 function renderMarketFilters(){
-  const markets=[...new Set(state.odds.map(row=>row._marketLabel||generalizedMarketLabel(row)).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const markets=[...new Set(state.odds.map(row=>row._marketLabel||canonicalPropCategory(row)).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   marketFilterOptions.innerHTML=markets.map(market=>{
     const checked=state.selectedMarkets.has(market);
     return '<button type="button" class="filter-option '+(checked?"selected":"")+'" data-market="'+esc(market)+'">'+
@@ -1094,7 +1125,9 @@ function renderParlay(){
 
 function oddsRowPassesFilters(row){
   if(state.selectedGames.size&&!state.selectedGames.has(row.eventId)) return false;
-  if(state.selectedMarkets.size&&!state.selectedMarkets.has(row._marketLabel||generalizedMarketLabel(row))) return false;
+  const category=row._marketLabel||canonicalPropCategory(row);
+  if(!category) return false;
+  if(state.selectedMarkets.size&&!state.selectedMarkets.has(category)) return false;
   if(state.oddsPosition&&row.selection!==state.oddsPosition) return false;
   const odds=Number(row.odds);
   const minOdds=state.oddsMin??ODDS_SLIDER_MIN;
@@ -1631,7 +1664,7 @@ async function loadOdds(){
           matchup
         };
         row._displayPlayer=cleanedPlayer;
-        row._marketLabel=generalizedMarketLabel(row);
+        row._marketLabel=canonicalPropCategory(row);
         row._displayProposition=cleanDisplayProposition(row);
         row._parlayKey=[
           row.eventId||"",
@@ -1791,6 +1824,10 @@ const filterPairs=[
   [positionFilterDialog,positionFilterButton],
   [oddsRangeDialog,oddsRangeButton]
 ];
+for(const [popover,button] of filterPairs){
+  popover.dataset.anchorButton=button.id;
+  document.body.appendChild(popover);
+}
 function closeFilterPopovers(except=null){
   for(const [popover,button] of filterPairs){
     if(popover===except) continue;
@@ -1902,7 +1939,7 @@ clearFiltersButton.addEventListener("click",()=>{
 });
 
 document.addEventListener("click",e=>{
-  if(!e.target.closest(".filter-control")) closeFilterPopovers();
+  if(!e.target.closest(".filter-control")&&!e.target.closest(".filter-popover")) closeFilterPopovers();
 });
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape") closeFilterPopovers();
