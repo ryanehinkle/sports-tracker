@@ -23,7 +23,11 @@ const state={
   oddsQuery:"",
   selectedGames:new Set(),
   selectedMarkets:new Set(),
+  oddsScope:"",
   oddsPosition:"",
+  oddsDate:"live",
+  oddsHistorical:false,
+  oddsHistoryIndex:null,
   oddsMin:null,
   oddsMax:null,
   availableOddsMin:null,
@@ -86,19 +90,28 @@ const parlayClearButton=document.getElementById("parlayClearButton");
 
 const gameFilterButton=document.getElementById("gameFilterButton");
 const marketFilterButton=document.getElementById("marketFilterButton");
+const scopeFilterButton=document.getElementById("scopeFilterButton");
 const positionFilterButton=document.getElementById("positionFilterButton");
 const oddsRangeButton=document.getElementById("oddsRangeButton");
 const clearFiltersButton=document.getElementById("clearFiltersButton");
 const gameFilterLabel=document.getElementById("gameFilterLabel");
 const marketFilterLabel=document.getElementById("marketFilterLabel");
+const scopeFilterLabel=document.getElementById("scopeFilterLabel");
 const positionFilterLabel=document.getElementById("positionFilterLabel");
 const oddsRangeLabel=document.getElementById("oddsRangeLabel");
 const gameFilterDialog=document.getElementById("gameFilterDialog");
 const marketFilterDialog=document.getElementById("marketFilterDialog");
+const scopeFilterDialog=document.getElementById("scopeFilterDialog");
 const positionFilterDialog=document.getElementById("positionFilterDialog");
 const oddsRangeDialog=document.getElementById("oddsRangeDialog");
 const gameFilterOptions=document.getElementById("gameFilterOptions");
 const marketFilterOptions=document.getElementById("marketFilterOptions");
+const scopeFilterOptions=document.getElementById("scopeFilterOptions");
+const oddsDateButton=document.getElementById("oddsDateButton");
+const oddsDateLabel=document.getElementById("oddsDateLabel");
+const oddsDateDialog=document.getElementById("oddsDateDialog");
+const oddsDateOptions=document.getElementById("oddsDateOptions");
+const oddsResultHead=document.getElementById("oddsResultHead");
 const allGamesMark=document.getElementById("allGamesMark");
 const allMarketsMark=document.getElementById("allMarketsMark");
 const oddsMinInput=document.getElementById("oddsMinInput");
