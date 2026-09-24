@@ -1,5 +1,210 @@
 {
   "version": 1,
-  "updatedAt": null,
-  "picks": []
+  "updatedAt": "2026-09-24T23:40:11.542130+00:00",
+  "picks": [
+    {
+      "day": 1,
+      "date": "2026-09-24",
+      "createdAt": "2026-09-24T23:40:11.542130+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 102,
+      "decimalOdds": 2.016477,
+      "estimatedProbability": 0.601308,
+      "confidence": 88.2,
+      "selectionTier": "Relaxed history",
+      "simulations": 60000,
+      "status": "pending",
+      "legs": [
+        {
+          "selection": "Over",
+          "scope": "player",
+          "market": "Passing Yards",
+          "proposition": "Over 149.5 Passing Yards",
+          "decimalOdds": 1.181818181818182,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4360423.png",
+          "awayAbbr": "ATL",
+          "homeAbbr": "GB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 89,
+              "hits": 8,
+              "total": 9
+            },
+            "h2h": null,
+            "current": null,
+            "previous": {
+              "pct": 89,
+              "hits": 8,
+              "total": 9
+            }
+          },
+          "line": 149.5,
+          "alternate": true,
+          "team": "ATL",
+          "eventId": "36076208",
+          "matchup": "ATL @ GB",
+          "position": "QB",
+          "commenceTime": "2026-09-25T00:16:00.000Z",
+          "odds": -550,
+          "player": "Michael Penix Jr.",
+          "key": "36076208\u00a6Michael Penix Jr.\u00a6Passing Yards\u00a6Over\u00a6149.5\u00a6Over 149.5 Passing Yards",
+          "confidence": 90.0,
+          "estimatedProbability": 0.90026,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "scope": "player",
+          "market": "Rushing Yards",
+          "proposition": "Over 49.5 Rushing Yards",
+          "decimalOdds": 1.181818181818182,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430807.png",
+          "awayAbbr": "ATL",
+          "homeAbbr": "GB",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 71,
+              "hits": 12,
+              "total": 17
+            }
+          },
+          "line": 49.5,
+          "alternate": true,
+          "team": "ATL",
+          "eventId": "36076208",
+          "matchup": "ATL @ GB",
+          "position": "RB",
+          "commenceTime": "2026-09-25T00:16:00.000Z",
+          "odds": -550,
+          "player": "Bijan Robinson",
+          "key": "36076208\u00a6Bijan Robinson\u00a6Rushing Yards\u00a6Over\u00a649.5\u00a6Over 49.5 Rushing Yards",
+          "confidence": 84.4,
+          "estimatedProbability": 0.844495,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "scope": "player",
+          "market": "Rushing Yards",
+          "proposition": "Over 14.5 Rushing Yards",
+          "decimalOdds": 1.3125,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4241474.png",
+          "awayAbbr": "ATL",
+          "homeAbbr": "GB",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 76,
+              "hits": 13,
+              "total": 17
+            }
+          },
+          "line": 14.5,
+          "alternate": true,
+          "team": "ATL",
+          "eventId": "36076208",
+          "matchup": "ATL @ GB",
+          "position": "RB",
+          "commenceTime": "2026-09-25T00:16:00.000Z",
+          "odds": -320,
+          "player": "Brian Robinson Jr.",
+          "key": "36076208\u00a6Brian Robinson Jr.\u00a6Rushing Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Rushing Yards",
+          "confidence": 81.9,
+          "estimatedProbability": 0.819219,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "scope": "player",
+          "market": "Player to Record a 10+ Yard Reception",
+          "proposition": "Player to Record a 10+ Yard Reception",
+          "decimalOdds": 1.1,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4572680.png",
+          "awayAbbr": "ATL",
+          "homeAbbr": "GB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 8,
+              "total": 8
+            }
+          },
+          "line": 9.5,
+          "alternate": true,
+          "team": "GB",
+          "eventId": "36076208",
+          "matchup": "ATL @ GB",
+          "position": "TE",
+          "commenceTime": "2026-09-25T00:16:00.000Z",
+          "odds": -1000,
+          "player": "Tucker Kraft",
+          "key": "36076208\u00a6Tucker Kraft\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
+          "confidence": 96.5,
+          "estimatedProbability": 0.965455,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    }
+  ]
 }
