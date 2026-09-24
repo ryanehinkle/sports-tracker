@@ -1833,76 +1833,127 @@ async function loadStats(){
   }
 }
 
-async function loadOdds(){
-  if(state.oddsRaw||state.oddsLoading) return;
+function flattenOddsPayload(data){
+  const flattened=[];
+  for(const event of data.events||[]){
+    const away=event.awayAbbr||event.awayTeam||"AWAY";
+    const home=event.homeAbbr||event.homeTeam||"HOME";
+    const matchup=away+" @ "+home;
+    for(const prop of event.props||[]){
+      const scope=prop.scope||"player";
+      const cleanedPlayer=scope==="player"?cleanDisplayPlayerName(prop.player):"";
+      const profile=scope==="player"?findPlayer(cleanedPlayer):null;
+      const row={
+        ...prop,
+        scope,
+        player:cleanedPlayer,
+        team:prop.team||profile?.team||"",
+        position:prop.position||profile?.position||(scope==="team"?"TEAM":scope==="game"?"GAME":""),
+        headshot:prop.headshot||profile?.headshot||"",
+        eventId:String(event.id||""),
+        commenceTime:event.commenceTime||"",
+        snapshotAt:event.snapshotAt||data.updatedAt||"",
+        homeTeam:event.homeTeam||"",
+        awayTeam:event.awayTeam||"",
+        homeAbbr:event.homeAbbr||"",
+        awayAbbr:event.awayAbbr||"",
+        matchup
+      };
+      row._displayPlayer=cleanedPlayer;
+      row._marketLabel=canonicalPropCategory(row);
+      row._displayProposition=cleanDisplayProposition(row);
+      row._parlayKey=[
+        row.eventId||"",
+        cleanedPlayer||row.team||row.scope||"",
+        row.market||"",
+        row.selection||"",
+        row.line??"",
+        row.proposition||""
+      ].join("¦");
+      row._searchText=[
+        row.player,row.team,row.teamName,row.position,row.scope,row.market,row._marketLabel,row.proposition,
+        row._displayProposition,row.matchup,row.selection
+      ].map(value=>String(value||"").toLowerCase()).join(" ");
+      flattened.push(row);
+    }
+  }
+  return flattened;
+}
+
+function renderOddsDateOptions(){
+  const days=state.oddsHistoryIndex?.days||[];
+  oddsDateOptions.innerHTML=
+    '<button type="button" class="filter-option date-option '+(state.oddsDate==="live"?"selected":"")+'" data-odds-date="live"><span class="filter-option-label"><strong>Live</strong><small>Current FanDuel board</small></span><span class="option-checkbox">'+(state.oddsDate==="live"?"✓":"")+'</span></button>'+
+    days.map(day=>{
+      const selected=state.oddsDate===day.date;
+      return '<button type="button" class="filter-option date-option '+(selected?"selected":"")+'" data-odds-date="'+esc(day.date)+'" data-odds-file="'+esc(day.file||day.date+".json")+'">'+
+        '<span class="filter-option-label"><strong>'+esc(formatHistoryDate(day.date))+'</strong><small>'+fmt.format(day.props||0)+' props • '+esc(day.status||"pending")+'</small></span>'+
+        '<span class="option-checkbox">'+(selected?"✓":"")+'</span></button>';
+    }).join("");
+  oddsDateLabel.textContent=state.oddsDate==="live"?"Live":formatHistoryDate(state.oddsDate);
+}
+
+async function loadOddsHistoryIndex(){
+  try{
+    const res=await fetch("data/odds-history/index.json?v="+Date.now(),{cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    state.oddsHistoryIndex=await res.json();
+  }catch(err){
+    state.oddsHistoryIndex={days:[]};
+  }
+  renderOddsDateOptions();
+}
+
+async function loadOddsBoard(date="live",file=null){
+  if(state.oddsLoading) return;
   state.oddsLoading=true;
   try{
-    const res=await fetch("data/nfl-odds.json?v="+Date.now(),{cache:"no-store"});
+    const historical=date!=="live";
+    const url=historical
+      ?"data/odds-history/"+encodeURIComponent(file||date+".json")+"?v="+Date.now()
+      :"data/nfl-odds.json?v="+Date.now();
+    const res=await fetch(url,{cache:"no-store"});
     if(!res.ok) throw new Error("HTTP "+res.status);
     const data=await res.json();
+
     state.oddsRaw=data;
-    state.oddsUpdatedAt=data.updatedAt||null;
-    const flattened=[];
-
-    for(const event of data.events||[]){
-      const away=event.awayAbbr||event.awayTeam||"AWAY";
-      const home=event.homeAbbr||event.homeTeam||"HOME";
-      const matchup=away+" @ "+home;
-      for(const prop of event.props||[]){
-        const cleanedPlayer=cleanDisplayPlayerName(prop.player);
-        const profile=findPlayer(cleanedPlayer);
-        const row={
-          ...prop,
-          player:cleanedPlayer,
-          team:prop.team||profile?.team||"",
-          position:prop.position||profile?.position||"",
-          headshot:prop.headshot||profile?.headshot||"",
-          eventId:String(event.id||""),
-          commenceTime:event.commenceTime||"",
-          homeTeam:event.homeTeam||"",
-          awayTeam:event.awayTeam||"",
-          homeAbbr:event.homeAbbr||"",
-          awayAbbr:event.awayAbbr||"",
-          matchup
-        };
-        row._displayPlayer=cleanedPlayer;
-        row._marketLabel=canonicalPropCategory(row);
-        row._displayProposition=cleanDisplayProposition(row);
-        row._parlayKey=[
-          row.eventId||"",
-          cleanedPlayer,
-          row.market||"",
-          row.selection||"",
-          row.line??"",
-          row.proposition||""
-        ].join("¦");
-        row._searchText=[
-          row.player,row.team,row.position,row.market,row._marketLabel,row.proposition,
-          row._displayProposition,row.matchup,row.selection
-        ].map(value=>String(value||"").toLowerCase()).join(" ");
-        flattened.push(row);
-      }
-    }
-
-    state.odds=flattened;
+    state.oddsDate=historical?date:"live";
+    state.oddsHistorical=historical;
+    state.oddsUpdatedAt=data.updatedAt||data.createdAt||null;
+    state.odds=flattenOddsPayload(data);
     state.hitRateCache.clear();
-    reconcileParlay();
-    renderParlay();
-    const numericOdds=flattened.map(r=>Number(r.odds)).filter(Number.isFinite);
-    state.availableOddsMin=numericOdds.length?Math.min(...numericOdds):null;
-    state.availableOddsMax=numericOdds.length?Math.max(...numericOdds):null;
+    state.selectedGames.clear();
+    state.selectedMarkets.clear();
+    state.oddsScope="";
+    state.oddsPosition="";
     state.oddsMin=null;
     state.oddsMax=null;
+
+    if(!historical){
+      reconcileParlay();
+      renderParlay();
+    }
+
+    const numericOdds=state.odds.map(r=>Number(r.odds)).filter(Number.isFinite);
+    state.availableOddsMin=numericOdds.length?Math.min(...numericOdds):null;
+    state.availableOddsMax=numericOdds.length?Math.max(...numericOdds):null;
+    renderOddsDateOptions();
     updateFilterButtons();
     renderOdds();
     if(state.activeView==="odds") setView("odds",false);
   }catch(err){
     console.error(err);
-    oddsBody.innerHTML='<tr><td colspan="8" class="odds-empty">Odds data is not available yet.</td></tr>';
+    oddsBody.innerHTML='<tr><td colspan="'+(state.oddsHistorical?9:8)+'" class="odds-empty">That odds board is not available yet.</td></tr>';
     oddsCount.textContent="— props";
   }finally{
     state.oddsLoading=false;
   }
+}
+
+async function loadOdds(){
+  if(state.oddsRaw||state.oddsLoading) return;
+  await loadOddsHistoryIndex();
+  await loadOddsBoard("live");
 }
 
 search.addEventListener("input",e=>{state.query=e.target.value;render()});
