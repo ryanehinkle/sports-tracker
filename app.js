@@ -1497,7 +1497,8 @@ async function loadStats(){
     const res=await fetch("data/nfl-stats.json",{cache:"default"});
     if(!res.ok) throw new Error("HTTP "+res.status);
     const data=await res.json();
-    state.players=Array.isArray(data.players)?data.players:[];\n    rebuildUsageShares();
+    state.players=Array.isArray(data.players)?data.players:[];
+    rebuildUsageShares();
     state.playerIndex=new Map(state.players.map(p=>[normalizeName(p.name),p]));
     state.hitRateCache.clear();
     state.season=data.season||null;
