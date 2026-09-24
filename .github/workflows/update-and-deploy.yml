@@ -47,35 +47,34 @@ jobs:
       - name: Pull current ESPN team stats
         run: python scripts/update_team_stats.py
 
-      - name: Precompute prop hit rates from fresh game logs
-        run: python scripts/update_odds.py --history-only
+      - name: Validate prop tracking mappings\n        run: python scripts/validate_prop_tracking.py\n\n      - name: Rebuild 2025 model calibration\n        run: python scripts/build_model_calibration.py\n\n      - name: Precompute prop hit rates from fresh game logs\n        run: python scripts/update_odds.py --history-only
 
       - name: Commit refreshed stats
         shell: bash
         run: |
-          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json; then
+          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json; then
             echo "No player/team/history changes."
             exit 0
           fi
 
           cp data/nfl-stats.json /tmp/nfl-stats.json
           cp data/nfl-team-stats.json /tmp/nfl-team-stats.json
-          cp data/nfl-odds.json /tmp/nfl-odds.json
+          cp data/nfl-odds.json /tmp/nfl-odds.json\n          cp data/model-calibration.json /tmp/model-calibration.json
 
           git fetch origin main
           git reset --hard origin/main
 
           cp /tmp/nfl-stats.json data/nfl-stats.json
           cp /tmp/nfl-team-stats.json data/nfl-team-stats.json
-          cp /tmp/nfl-odds.json data/nfl-odds.json
+          cp /tmp/nfl-odds.json data/nfl-odds.json\n          cp /tmp/model-calibration.json data/model-calibration.json
 
-          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json; then
+          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json; then
             echo "Remote already has these generated updates."
             exit 0
           fi
 
           git config user.name "sports-tracker-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json
+          git add data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json
           git commit -m "Update NFL stats and prop hit rates"
           git push
