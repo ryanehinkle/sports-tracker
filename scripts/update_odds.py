@@ -1049,7 +1049,7 @@ def _event_snapshot_candidate(event, previous_events, now):
         return None
     # Freeze the board when a refresh lands roughly one hour before kickoff.
     # If this run is just after kickoff, use the previous refresh if it was pregame.
-    if commence - timedelta(minutes=90) <= now < commence:
+    if commence - timedelta(minutes=75) <= now < commence:
         return event
     if commence <= now <= commence + timedelta(hours=3):
         previous = previous_events.get(str(event.get("id") or ""))
