@@ -1024,7 +1024,7 @@ function renderGameFilters(){
   gameFilterLabel.textContent=state.selectedGames.size?state.selectedGames.size+" Game"+(state.selectedGames.size===1?"":"s"):"Games";
 }
 function renderMarketFilters(){
-  const requiredMarkets=["Passing + Rushing Yards","Kicking Points","Field Goals"];
+  const requiredMarkets=["Moneyline","Spread","Alt Spread","Game Total","Alt Game Total","Team Total","Alt Team Total","Passing + Rushing Yards","Kicking Points","Field Goals"];
   const markets=[...new Set([
     ...requiredMarkets,
     ...state.odds.map(row=>row._marketLabel||canonicalPropCategory(row)).filter(Boolean)
@@ -1036,7 +1036,7 @@ function renderMarketFilters(){
     '</button>';
   }).join("");
   allMarketsMark.textContent=state.selectedMarkets.size?"":"✓";
-  marketFilterLabel.textContent=state.selectedMarkets.size?state.selectedMarkets.size+" Prop"+(state.selectedMarkets.size===1?"":"s"):"Propositions";
+  marketFilterLabel.textContent=state.selectedMarkets.size?state.selectedMarkets.size+" Market"+(state.selectedMarkets.size===1?"":"s"):"Propositions";
 }
 function renderScopeFilter(){
   document.querySelectorAll(".scope-option").forEach(btn=>{
@@ -1244,7 +1244,7 @@ function renderParlay(){
       '<div class="parlay-empty">'+
         '<div class="parlay-empty-icon">+</div>'+
         '<strong>Build your parlay</strong>'+
-        '<span>Use the + buttons beside player props to add legs.</span>'+
+        '<span>Use the + buttons beside player, team, or game markets to add legs.</span>'+
       '</div>';
     return;
   }
@@ -1270,18 +1270,21 @@ function renderParlay(){
     return '<section class="parlay-game-group">'+
       '<div class="parlay-game-heading">'+logos+'<strong>'+esc(matchup||"NFL")+'</strong></div>'+
       legs.map(leg=>{
-        const player=cleanDisplayPlayerName(leg.player);
-        const profile=findPlayer(player);
-        const headshot=leg.headshot||profile?.headshot||fallbackHeadshot(player);
+        const scope=leg.scope||"player",player=cleanDisplayPlayerName(leg.player),profile=scope==="player"?findPlayer(player):null;
+        const entity=scope==="player"?player:scope==="team"?(leg.teamName||leg.team||"Team"):(leg.matchup||"Game");
         const proposition=cleanDisplayProposition({...leg,player});
-        return '<article class="parlay-leg '+(leg.available===false?"unavailable":"")+'">'+
-          '<img class="parlay-leg-headshot" src="'+esc(headshot)+'" alt="" onerror="this.src=\''+fallbackHeadshot(player)+'\'">'+
+        const visual=scope==="player"
+          ? '<img class="parlay-leg-headshot" src="'+esc(leg.headshot||profile?.headshot||fallbackHeadshot(player))+'" alt="" onerror="this.src=\''+fallbackHeadshot(player)+'\'">'
+          : scope==="team"
+            ? '<img class="parlay-leg-headshot team-parlay-logo" src="'+esc(teamLogo(leg.team))+'" alt="" onerror="this.src=\''+fallbackTeamLogo(leg.team)+'\'">'
+            : '<span class="parlay-leg-game-logos">'+(leg.awayAbbr?'<img src="'+esc(teamLogo(leg.awayAbbr))+'" alt="">':"")+(leg.homeAbbr?'<img src="'+esc(teamLogo(leg.homeAbbr))+'" alt="">':"")+'</span>';
+        return '<article class="parlay-leg '+(leg.available===false?"unavailable":"")+'">'+visual+
           '<div class="parlay-leg-copy">'+
-            '<strong>'+esc(player)+'</strong>'+
+            '<strong>'+esc(entity)+'</strong>'+
             '<span>'+esc(proposition)+'</span>'+
             '<small><b>FD</b> '+esc(leg.available===false?"Unavailable":formatAmerican(leg.odds))+'</small>'+
           '</div>'+
-          '<button class="parlay-remove-leg" type="button" data-parlay-remove="'+esc(leg.key)+'" aria-label="Remove '+esc(player)+' from parlay">×</button>'+
+          '<button class="parlay-remove-leg" type="button" data-parlay-remove="'+esc(leg.key)+'" aria-label="Remove '+esc(entity)+' from parlay">×</button>'+
         '</article>';
       }).join("")+
     '</section>';
