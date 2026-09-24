@@ -931,7 +931,11 @@ function renderGameFilters(){
   gameFilterLabel.textContent=state.selectedGames.size?state.selectedGames.size+" Game"+(state.selectedGames.size===1?"":"s"):"Games";
 }
 function renderMarketFilters(){
-  const markets=[...new Set(state.odds.map(row=>row._marketLabel||canonicalPropCategory(row)).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const requiredMarkets=["Passing + Rushing Yards","Kicking Points","Field Goals"];
+  const markets=[...new Set([
+    ...requiredMarkets,
+    ...state.odds.map(row=>row._marketLabel||canonicalPropCategory(row)).filter(Boolean)
+  ])].sort((a,b)=>a.localeCompare(b));
   marketFilterOptions.innerHTML=markets.map(market=>{
     const checked=state.selectedMarkets.has(market);
     return '<button type="button" class="filter-option '+(checked?"selected":"")+'" data-market="'+esc(market)+'">'+
@@ -1308,7 +1312,12 @@ function renderOdds(){
   });
 
   if(!rows.length){
-    const message=state.odds.length?"No FanDuel props match those filters.":"No FanDuel NFL player props are currently available in the feed.";
+    const requiredMarkets=new Set(["Passing + Rushing Yards","Kicking Points","Field Goals"]);
+    const selectedUnavailable=[...state.selectedMarkets].filter(m=>requiredMarkets.has(m)&&!state.odds.some(row=>(row._marketLabel||canonicalPropCategory(row))===m));
+    let message=state.odds.length?"No FanDuel props match those filters.":"No FanDuel NFL player props are currently available in the feed.";
+    if(selectedUnavailable.length===1){
+      message="FanDuel has not posted "+selectedUnavailable[0]+" for the current slate yet. This category will populate automatically as soon as the market is available.";
+    }
     oddsBody.innerHTML='<tr><td colspan="8" class="odds-empty">'+esc(message)+'</td></tr>';
     return;
   }
