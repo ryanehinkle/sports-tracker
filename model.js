@@ -853,6 +853,37 @@ function buildControls(){
   $("hitRateControls").innerHTML=HIT_LABELS.map(pair=>'<label class="range-row"><span><b>'+pair[1]+' minimum</b><small>Required hit rate</small></span><output id="'+pair[0]+'Value">'+DEFAULTS[pair[0]]+'%</output><input id="'+pair[0]+'Min" type="range" min="0" max="100" step="5" value="'+DEFAULTS[pair[0]]+'"></label>').join("");
   $("weightControls").innerHTML=WEIGHT_LABELS.map(pair=>'<button type="button" class="weight-button active" data-weight="'+pair[0]+'">'+pair[1]+'<strong>'+DEFAULTS.weights[pair[0]]+'</strong></button>').join("");
 }
+function applyPreset(key){
+  const preset=PRESETS[key];if(!preset)return;
+  for(const [k] of HIT_LABELS)$(k+"Min").value=preset[k]??DEFAULTS[k];
+  for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","targetsPerGameMin","carriesPerGameMin"]){
+    $(id).value=0;
+  }
+  $("dvpSample").value=DEFAULTS.dvpSample;
+  $("requireOpponentData").checked=false;
+  $("teamMatchupMin").value=preset.teamMatchupMin??0;
+  $("edgeMin").value=preset.edgeMin??DEFAULTS.edgeMin;
+  $("oddsSpread").value=preset.oddsSpread??DEFAULTS.oddsSpread;
+  for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=preset[id]??DEFAULTS[id];
+  $("lineMin").value="";$("lineMax").value="";$("playerFilter").value="";
+  $("uniquePlayers").checked=preset.uniquePlayers!==false;
+  $("avoidSameGame").checked=Boolean(preset.avoidSameGame);
+  state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();
+  renderModelFilters();syncLabels();recalc();
+  $("modelPresetButton").querySelector("span").textContent=preset.label;
+}
+function closePresetPopover(){
+  const pop=$("modelPresetPopover"),btn=$("modelPresetButton");if(!pop||!btn)return;
+  pop.hidden=true;btn.setAttribute("aria-expanded","false");btn.classList.remove("open");
+}
+function togglePresetPopover(){
+  const pop=$("modelPresetPopover"),btn=$("modelPresetButton"),opening=pop.hidden;
+  closePresetPopover();if(!opening)return;
+  const rect=btn.getBoundingClientRect();pop.hidden=false;document.body.appendChild(pop);
+  pop.style.left=Math.max(10,Math.min(rect.left,window.innerWidth-pop.offsetWidth-10))+"px";
+  let top=rect.bottom+8;if(top+pop.offsetHeight>window.innerHeight-10)top=Math.max(10,rect.top-pop.offsetHeight-8);
+  pop.style.top=top+"px";btn.setAttribute("aria-expanded","true");btn.classList.add("open");
+}
 function syncLabels(){for(const [k] of HIT_LABELS)$(k+"Value").textContent=$(k+"Min").value+"%";$("targetShareValue").textContent=$("targetShare").value+"%";$("carryShareValue").textContent=$("carryShare").value+"%";$("opportunityShareValue").textContent=$("opportunityShare").value+"%";$("dvpValue").textContent=$("dvpMin").value+"th+";$("dvpSampleValue").textContent=$("dvpSample").value+"+";$("teamMatchupValue").textContent=$("teamMatchupMin").value+"th+";$("edgeValue").textContent=$("edgeMin").value+"%+";$("oddsSpreadValue").textContent=$("oddsSpread").value}
 function modelFilterCountLabel(set,singular,allLabel){
   return set.size?set.size+" "+singular+(set.size===1?"":"s"):allLabel;
@@ -862,12 +893,12 @@ function modelRenderOption(value,label,selectedSet,kind){
   return '<button type="button" class="filter-option '+(selected?"selected":"")+'" data-model-kind="'+kind+'" data-model-value="'+esc(value)+'"><span class="filter-option-label">'+esc(label)+'</span><span class="option-checkbox">'+(selected?"✓":"")+'</span></button>';
 }
 function renderModelFilters(){
-  const positions=[...new Set(state.players.map(p=>String(p.position||"").toUpperCase()).filter(Boolean))].sort();
+  const positions=[...new Set([...state.players.map(p=>String(p.position||"").toUpperCase()),...state.odds.map(r=>String(r.position||"").toUpperCase())].filter(Boolean))].sort();
   $("modelPositionOptions").innerHTML=positions.map(x=>modelRenderOption(x,x,state.selectedPositions,"positions")).join("");
   $("modelAllPositionsMark").textContent=state.selectedPositions.size?"":"✓";
   $("modelPositionLabel").textContent=modelFilterCountLabel(state.selectedPositions,"Position","All positions");
 
-  const requiredMarkets=["Passing + Rushing Yards","Kicking Points","Field Goals"];
+  const requiredMarkets=["Moneyline","Spread","Alt Spread","Game Total","Alt Game Total","Team Total","Alt Team Total","Passing + Rushing Yards","Kicking Points","Field Goals"];
   const markets=[...new Set([
     ...requiredMarkets,
     ...state.odds.map(x=>x._modelMarketLabel||modelSupportedMarketLabel(x)).filter(Boolean)
@@ -876,10 +907,11 @@ function renderModelFilters(){
   $("modelAllMarketsMark").textContent=state.selectedMarkets.size?"":"✓";
   $("modelMarketLabel").textContent=modelFilterCountLabel(state.selectedMarkets,"Prop","All props");
 
-  const sides=["Over","Under"];
-  $("modelSideOptions").innerHTML=sides.map(x=>modelRenderOption(x,x,state.selectedSides,"sides")).join("");
+  const sides=["Over","Under","Win","Cover"];
+  const sideLabels={Over:"Over",Under:"Under",Win:"Moneyline",Cover:"Spread"};
+  $("modelSideOptions").innerHTML=sides.map(x=>modelRenderOption(x,sideLabels[x],state.selectedSides,"sides")).join("");
   $("modelAllSidesMark").textContent=state.selectedSides.size?"":"✓";
-  $("modelSideLabel").textContent=state.selectedSides.size?(state.selectedSides.size===2?"Over + Under":[...state.selectedSides][0]):"Over + Under";
+  $("modelSideLabel").textContent=state.selectedSides.size?modelFilterCountLabel(state.selectedSides,"Side","All sides"):"All sides";
 
   const events=new Map();
   for(const row of state.odds){
