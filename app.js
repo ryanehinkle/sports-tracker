@@ -489,7 +489,7 @@ function metricSpec(row){
   const prop=String(row.proposition||"").toLowerCase();
   const text=(market+" "+prop).replace(/\s+/g," ");
 
-  if(/first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b/.test(text)) return null;
+  if(/first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b|\bmost\s+(?:rushing|receiving|passing)\s+yards\b/.test(text)) return null;
 
   const receptionMilestone=text.match(/(?:record a |record |)(\d+(?:\.\d+)?)\+ yard reception/);
   if(receptionMilestone) return {metric:"receivingLongest",threshold:Number(receptionMilestone[1]),comparison:"gte"};
@@ -517,6 +517,7 @@ function metricSpec(row){
   if(/longest rush/.test(text)) return {metric:"rushingLongest"};
   if(/solo tackles/.test(text)) return {metric:"soloTackles"};
   if(/tackles \+ assists/.test(text)) return {metric:"totalTackles"};
+  if(/(?:player\s+)?to record a sack|\brecord a sack\b/.test(text)) return {metric:"sacks",threshold:1,comparison:"gte"};
   if(/\bsacks\b/.test(text)) return {metric:"sacks"};
   if(/defensive interceptions/.test(text)) return {metric:"defensiveInterceptions"};
   if(/field goals/.test(text)) return {metric:"fieldGoalsMade"};
@@ -539,6 +540,7 @@ function propHit(row,game){
 
   if(spec.comparison==="gte") return value>=spec.threshold;
 
+  if(row.line===null||row.line===undefined||row.line==="") return null;
   const line=Number(row.line);
   if(!Number.isFinite(line)) return null;
   if(row.selection==="Under") return value<line;
@@ -619,6 +621,7 @@ function splitGamesForRow(row,split){
 function lineForRow(row){
   const spec=metricSpec(row);
   if(spec?.comparison==="gte"&&Number.isFinite(Number(spec.threshold))) return Number(spec.threshold);
+  if(row.line===null||row.line===undefined||row.line==="") return null;
   const line=Number(row.line);
   return Number.isFinite(line)?line:null;
 }
