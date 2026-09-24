@@ -256,7 +256,7 @@ function generalizedMarketLabel(row){
   if(/first touchdown scorer/.test(lower)) return "First Touchdown Scorer";
   if(/last touchdown scorer/.test(lower)) return "Last Touchdown Scorer";
   if(/4th quarter td scorer/.test(lower)) return "Anytime 4th Quarter TD Scorer";
-  if(/rush\s*\+\s*rec.*yards|rush.*reception.*yards/.test(lower)) return period+"Rush + Rec Yards";
+  if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(lower)) return period+"Rush + Rec Yards";
   if(/pass\s*\+\s*rush.*yards/.test(lower)) return period+"Pass + Rush Yards";
   if(/receiving yards/.test(lower)) return period+"Receiving Yards";
   if(/rushing yards/.test(lower)) return period+"Rushing Yards";
