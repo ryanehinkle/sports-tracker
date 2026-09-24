@@ -3,9 +3,15 @@
 const $=id=>document.getElementById(id);
 const fmt=new Intl.NumberFormat("en-US");
 const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
+const PRESETS={
+  "even-ladder":{label:"Even Ladder",l5:100,l10:75,h2h:0,current:0,previous:70,legOddsMin:-1200,legOddsMax:-280,parlayOddsMin:-110,parlayOddsMax:110,legsMin:3,legsMax:6,oddsSpread:700,edgeMin:-20,uniquePlayers:true,avoidSameGame:false},
+  "ten-x":{label:"+1000 Sharp",l5:70,l10:65,h2h:0,current:55,previous:55,legOddsMin:-500,legOddsMax:250,parlayOddsMin:850,parlayOddsMax:1200,legsMin:3,legsMax:5,oddsSpread:1000,edgeMin:0,teamMatchupMin:45,uniquePlayers:true,avoidSameGame:false},
+  "high-confidence":{label:"High Confidence",l5:80,l10:70,h2h:0,current:60,previous:60,legOddsMin:-900,legOddsMax:-150,parlayOddsMin:-130,parlayOddsMax:180,legsMin:2,legsMax:4,oddsSpread:650,edgeMin:-2,teamMatchupMin:50,uniquePlayers:true,avoidSameGame:false},
+  "balanced-value":{label:"Balanced Value",l5:65,l10:60,h2h:0,current:55,previous:55,legOddsMin:-450,legOddsMax:150,parlayOddsMin:250,parlayOddsMax:550,legsMin:2,legsMax:4,oddsSpread:800,edgeMin:1,teamMatchupMin:40,uniquePlayers:true,avoidSameGame:false}
+};
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set()};
+const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),ladderData:{picks:[]},ladderIndex:0};
 const SLIPS_PER_PAGE=6;
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
@@ -25,7 +31,7 @@ function fallbackHeadshot(){return "https://a.espncdn.com/i/headshots/nfl/player
 function modelTeamLogo(abbr){return abbr?"https://a.espncdn.com/i/teamlogos/nfl/500/"+String(abbr).toLowerCase()+".png":fallbackHeadshot()}
 function modelShortTeam(name){const parts=String(name||"").trim().split(/\s+/);return parts.length?parts[parts.length-1]:"Team"}
 function modelGameTime(value){const d=new Date(value);return Number.isNaN(d.getTime())?"":new Intl.DateTimeFormat("en-US",{weekday:"long",hour:"numeric",minute:"2-digit"}).format(d)}
-function modelPropKey(row){return [row.eventId||"",row.player||"",row.market||"",row.selection||"",row.line??"",row.proposition||""].join("¦")}
+function modelPropKey(row){return [row.eventId||"",row.player||row.team||row.scope||"",row.market||"",row.selection||"",row.line??"",row.proposition||""].join("¦")}
 function percentile(value,values){const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length||!Number.isFinite(value))return null;let below=0,equal=0;for(const x of a){if(x<value)below++;else if(x===value)equal++}return 100*(below+.5*equal)/a.length}
 
 function logs(player,seasonOnly){
