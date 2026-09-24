@@ -1052,7 +1052,7 @@ function renderPositionFilter(){
     btn.classList.toggle("active",active);
     btn.querySelector(".selection-mark").textContent=active?"✓":"";
   });
-  positionFilterLabel.textContent=state.oddsPosition||"Over / Under";
+  positionFilterLabel.textContent=state.oddsPosition==="Win"?"Moneyline":state.oddsPosition==="Cover"?"Spread":state.oddsPosition||"Side";
 }
 function clampToSlider(value){
   return Math.max(ODDS_SLIDER_MIN,Math.min(ODDS_SLIDER_MAX,value));
@@ -1108,8 +1108,8 @@ function parlayKeyFor(row){
   ].join("¦");
 }
 function getHitRates(row){
-  if(!metricSpec(row)) return {l5:null,l10:null,h2h:null,current:null,previous:null};
   if(row?.hitRates) return row.hitRates;
+  if(!metricSpec(row)) return {l5:null,l10:null,h2h:null,current:null,previous:null};
   const key=parlayKeyFor(row);
   if(state.hitRateCache.has(key)) return state.hitRateCache.get(key);
   const player=findPlayer(row.player);
@@ -2074,8 +2074,10 @@ oddsTableScroll.addEventListener("scroll",()=>{
 const filterPairs=[
   [gameFilterDialog,gameFilterButton],
   [marketFilterDialog,marketFilterButton],
+  [scopeFilterDialog,scopeFilterButton],
   [positionFilterDialog,positionFilterButton],
-  [oddsRangeDialog,oddsRangeButton]
+  [oddsRangeDialog,oddsRangeButton],
+  [oddsDateDialog,oddsDateButton]
 ];
 for(const [popover,button] of filterPairs){
   popover.dataset.anchorButton=button.id;
