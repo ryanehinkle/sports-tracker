@@ -299,7 +299,10 @@ def clean_market_label(market_name, player_name):
     label = re.sub(r"\brec\s+yards\b", "Receiving Yards", label, flags=re.I)
     label = re.sub(r"\brush\s+yards\b", "Rushing Yards", label, flags=re.I)
     label = re.sub(r"\bpass\s+yards\b", "Passing Yards", label, flags=re.I)
+    label = re.sub(r"\bpass(?:ing)?\s*\+\s*rush(?:ing)?\s+yards\b", "Passing + Rushing Yards", label, flags=re.I)
     label = re.sub(r"\bpass\s+tds\b", "Passing TDs", label, flags=re.I)
+    label = re.sub(r"\bkicking\s+points\b", "Kicking Points", label, flags=re.I)
+    label = re.sub(r"\bfield\s+goals?(?:\s+made)?\b", "Field Goals", label, flags=re.I)
     label = re.sub(r"\s{2,}", " ", label).strip(" -:")
     return label or str(market_name or "Player Prop")
 
@@ -491,7 +494,7 @@ def _metric_spec(prop):
         return {"metric": "touchdowns", "threshold": 1.0, "comparison": "gte"}
     if re.search(r"pass\s*\+\s*rush\s*\+\s*rec.*yards|pass.*rush.*reception.*yards", text):
         return {"metric": "passRushRecYards"}
-    if re.search(r"pass\s*\+\s*rush.*yards", text):
+    if re.search(r"pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards", text):
         return {"metric": "passRushYards"}
     if re.search(r"rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards", text):
         return {"metric": "allPurposeYards"}
