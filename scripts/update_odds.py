@@ -860,6 +860,7 @@ def _all_logs_newest_first(profile, current_season):
 
 
 def _opponent_for_prop(event, prop, profile):
+    profile = profile or {}
     team = str(prop.get("team") or profile.get("team") or "").upper()
     home = str(event.get("homeAbbr") or "").upper()
     away = str(event.get("awayAbbr") or "").upper()
@@ -1233,6 +1234,9 @@ def grade_history(by_norm, stats_payload, team_by_abbr, team_payload):
             continue
         day_changed = False
         for event in day.get("events") or []:
+            commence = iso_dt(event.get("commenceTime"))
+            if commence and commence > datetime.now(timezone.utc):
+                continue
             for prop in event.get("props") or []:
                 current = (prop.get("result") or {}).get("status")
                 if current in {"hit", "miss", "push"}:
