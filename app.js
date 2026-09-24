@@ -2112,8 +2112,10 @@ function toggleFilterPopover(popover,button,renderFn){
 
 gameFilterButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(gameFilterDialog,gameFilterButton,renderGameFilters)});
 marketFilterButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(marketFilterDialog,marketFilterButton,renderMarketFilters)});
+scopeFilterButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(scopeFilterDialog,scopeFilterButton,renderScopeFilter)});
 positionFilterButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(positionFilterDialog,positionFilterButton,renderPositionFilter)});
 oddsRangeButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(oddsRangeDialog,oddsRangeButton,syncOddsRangeControls)});
+oddsDateButton.addEventListener("click",e=>{e.stopPropagation();toggleFilterPopover(oddsDateDialog,oddsDateButton,renderOddsDateOptions)});
 
 gameFilterOptions.addEventListener("click",e=>{
   const btn=e.target.closest("[data-game-id]");
@@ -2142,6 +2144,20 @@ document.querySelectorAll(".position-option").forEach(btn=>btn.addEventListener(
   updateFilterButtons();
   renderOdds();
 }));
+document.querySelectorAll(".scope-option").forEach(btn=>btn.addEventListener("click",()=>{
+  state.oddsScope=btn.dataset.scope||"";
+  updateFilterButtons();
+  renderOdds();
+}));
+oddsDateOptions.addEventListener("click",async e=>{
+  const btn=e.target.closest("[data-odds-date]");
+  if(!btn) return;
+  const date=btn.dataset.oddsDate||"live";
+  const file=btn.dataset.oddsFile||null;
+  closeFilterPopovers();
+  if(date===state.oddsDate) return;
+  await loadOddsBoard(date,file);
+});
 function clampSliderPair(changed){
   let min=Number(oddsMinRange.value);
   let max=Number(oddsMaxRange.value);
@@ -2184,6 +2200,7 @@ applyOddsRange.addEventListener("click",()=>{
 clearFiltersButton.addEventListener("click",()=>{
   state.selectedGames.clear();
   state.selectedMarkets.clear();
+  state.oddsScope="";
   state.oddsPosition="";
   state.oddsMin=null;
   state.oddsMax=null;
@@ -2276,12 +2293,13 @@ teamStatsTabButton.addEventListener("click",()=>{
 oddsTabButton.addEventListener("click",()=>{
   setView("odds");
   loadStats();
+  loadTeamStats();
   loadOdds();
 });
 window.addEventListener("hashchange",()=>{
   const view=location.hash==="#odds"?"odds":location.hash==="#teams"?"team-stats":"stats";
   setView(view,false);
-  if(view==="odds"){loadStats();loadOdds()}
+  if(view==="odds"){loadStats();loadTeamStats();loadOdds()}
   else if(view==="team-stats") loadTeamStats();
   else loadStats();
 });
@@ -2311,6 +2329,7 @@ setView(initialView,false);
 
 if(initialView==="odds"){
   loadStats();
+  loadTeamStats();
   loadOdds();
 }else if(initialView==="team-stats"){
   loadTeamStats();
