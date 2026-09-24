@@ -745,12 +745,43 @@ function bind(){
 async function init(){
   buildControls();bind();syncLabels();
   try{
-    const responses=await Promise.all([fetch("data/nfl-stats.json",{cache:"default"}),fetch("data/nfl-odds.json",{cache:"default"}),fetch("data/nfl-team-stats.json",{cache:"default"})]);
+    const responses=await Promise.all([
+      fetch("data/nfl-stats.json",{cache:"default"}),
+      fetch("data/nfl-odds.json",{cache:"default"}),
+      fetch("data/nfl-team-stats.json",{cache:"default"}),
+      fetch("data/model-calibration.json",{cache:"default"})
+    ]);
     if(!responses[0].ok||!responses[1].ok)throw new Error("Model data unavailable");
-    const stats=await responses[0].json(),odds=await responses[1].json(),teams=responses[2].ok?await responses[2].json():{teams:[]};
-    state.season=stats.season||new Date().getFullYear();state.players=stats.players||[];state.teams=teams.teams||[];state.playerByName=new Map(state.players.map(p=>[norm(p.name),p]));state.odds=flattenOdds(odds);buildUsage();buildDvp();fillSelects();
-    $("modelSeason").textContent=state.season+" Model • "+fmt.format(state.odds.length)+" props";const updated=odds.updatedAt||stats.updatedAt;$("modelUpdated").textContent=updated?"Updated "+new Date(updated).toLocaleString([],{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"Live analytical model";recalc();
-  }catch(err){console.error(err);$("recommendedSlips").innerHTML='<div class="model-empty">The model could not load the current stats/odds datasets. Refresh after the next data update.</div>';$("modelSeason").textContent="Model unavailable";$("modelUpdated").textContent="Data load failed"}
+
+    const stats=await responses[0].json();
+    const odds=await responses[1].json();
+    const teams=responses[2].ok?await responses[2].json():{teams:[]};
+    const calibration=responses[3].ok?await responses[3].json():null;
+
+    state.season=stats.season||new Date().getFullYear();
+    state.players=stats.players||[];
+    state.teams=teams.teams||[];
+    state.calibration=calibration;
+    state.playerByName=new Map(state.players.map(p=>[norm(p.name),p]));
+    state.odds=flattenOdds(odds);
+
+    // Precompute indexes once on load. Slider/filter changes only score in-memory
+    // rows; they never refetch ESPN/FanDuel or rebuild historical datasets.
+    buildPricePairs();
+    buildUsage();
+    buildDvp();
+    fillSelects();
+
+    $("modelSeason").textContent=state.season+" Model • "+fmt.format(state.odds.length)+" props";
+    const updated=odds.updatedAt||stats.updatedAt;
+    $("modelUpdated").textContent=updated?"Updated "+new Date(updated).toLocaleString([],{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"Live analytical model";
+    recalc();
+  }catch(err){
+    console.error(err);
+    $("recommendedSlips").innerHTML='<div class="model-empty">The model could not load the current stats/odds datasets. Refresh after the next data update.</div>';
+    $("modelSeason").textContent="Model unavailable";
+    $("modelUpdated").textContent="Data load failed";
+  }
 }
 init();
 })();
