@@ -677,10 +677,11 @@ def get_game_stat(stat_values, aliases, split_index=0):
         if alias not in normalized:
             continue
         raw = normalized[alias]
-        # ESPN exposes made/attempted kicking values as strings such as "2/3".
-        if "/" in str(raw):
-            parts = str(raw).split("/", 1)
-            raw = parts[min(max(split_index, 0), len(parts) - 1)]
+        # ESPN kicking made/attempted values are commonly "3-3" (and some
+        # snapshots use "3/3"). Pick made=0 or attempted=1 from either shape.
+        pair = re.fullmatch(r"\s*(\d+)\s*[-/]\s*(\d+)\s*", str(raw))
+        if pair:
+            raw = pair.group(1 if split_index <= 0 else 2)
         return number(raw)
     return 0
 
@@ -710,12 +711,6 @@ def parse_game_log(athlete_id, season):
                     names[i]: raw_stats[i]
                     for i in range(min(len(names), len(raw_stats)))
                 }
-                if str(athlete_id) == "3953687" and season == current_season():
-                    kicking_debug = {
-                        key: value for key, value in stat_values.items()
-                        if any(token in normalize_name(key) for token in ("fieldgoal", "extrapoint", "kicking", "longfield"))
-                    }
-                    print(f"KICKER DEBUG week {week}: {kicking_debug}")
                 tracked = {
                     key: get_game_stat(
                         stat_values,
