@@ -320,9 +320,11 @@ function setView(view,updateHash=true){
   oddsTabButton.setAttribute("aria-selected",String(isOdds));
 
   if(isOdds){
-    seasonLabel.textContent="FanDuel Player Props";
-    updatedLabel.textContent=formatUpdated(state.oddsUpdatedAt);
-    pageFooter.innerHTML="<span>Odds read directly from FanDuel’s public sportsbook web feed.</span><span>Hit rates use ESPN regular-season game logs • “—” means the split is not applicable or unavailable.</span>";
+    seasonLabel.textContent=state.oddsHistorical?("FanDuel History • "+formatHistoryDate(state.oddsDate)):"FanDuel Markets";
+    updatedLabel.textContent=state.oddsHistorical?"Frozen pregame board • "+formatUpdated(state.oddsUpdatedAt):formatUpdated(state.oddsUpdatedAt);
+    pageFooter.innerHTML=state.oddsHistorical
+      ? "<span>Historical boards preserve the last pre-kickoff FanDuel prices and hit-rate splits saved by the tracker.</span><span>Result is graded from the completed ESPN game log • charts exclude games played after the saved board.</span>"
+      : "<span>Odds read directly from FanDuel’s public sportsbook web feed.</span><span>Player, team and game markets use ESPN regular-season game logs • “—” means the split is not applicable or unavailable.</span>";
   }else if(isTeams){
     seasonLabel.textContent=(state.teamStatsRaw?.season||state.season||"Current")+" Team Stats";
     updatedLabel.textContent=formatUpdated(state.teamStatsUpdatedAt);
@@ -1031,6 +1033,14 @@ function renderMarketFilters(){
   allMarketsMark.textContent=state.selectedMarkets.size?"":"✓";
   marketFilterLabel.textContent=state.selectedMarkets.size?state.selectedMarkets.size+" Prop"+(state.selectedMarkets.size===1?"":"s"):"Propositions";
 }
+function renderScopeFilter(){
+  document.querySelectorAll(".scope-option").forEach(btn=>{
+    const active=btn.dataset.scope===state.oddsScope;
+    btn.classList.toggle("active",active);
+    btn.querySelector(".selection-mark").textContent=active?"✓":"";
+  });
+  scopeFilterLabel.textContent=state.oddsScope==="player"?"Player Props":state.oddsScope==="team"?"Team Props":state.oddsScope==="game"?"Game Props":"Market Type";
+}
 function renderPositionFilter(){
   document.querySelectorAll(".position-option").forEach(btn=>{
     const active=btn.dataset.position===state.oddsPosition;
@@ -1073,9 +1083,10 @@ function syncOddsRangeControls(){
 function updateFilterButtons(){
   renderGameFilters();
   renderMarketFilters();
+  renderScopeFilter();
   renderPositionFilter();
   syncOddsRangeControls();
-  const active=state.selectedGames.size||state.selectedMarkets.size||state.oddsPosition||state.oddsMin!==null||state.oddsMax!==null;
+  const active=state.selectedGames.size||state.selectedMarkets.size||state.oddsScope||state.oddsPosition||state.oddsMin!==null||state.oddsMax!==null;
   clearFiltersButton.classList.toggle("visible",Boolean(active));
 }
 
@@ -1084,7 +1095,7 @@ function parlayKeyFor(row){
   if(row?._parlayKey) return row._parlayKey;
   return [
     row.eventId||"",
-    cleanDisplayPlayerName(row.player||""),
+    cleanDisplayPlayerName(row.player||"")||row.team||row.scope||"",
     row.market||"",
     row.selection||"",
     row.line??"",
@@ -1106,8 +1117,11 @@ function parlaySnapshot(row){
   return {
     key:parlayKeyFor(row),
     eventId:String(row.eventId||""),
+    scope:row.scope||"player",
     player:cleanDisplayPlayerName(row.player||""),
     team:row.team||"",
+    teamName:row.teamName||"",
+    teamMarketType:row.teamMarketType||"",
     headshot:row.headshot||"",
     matchup:row.matchup||"",
     awayAbbr:row.awayAbbr||"",
@@ -1274,6 +1288,7 @@ function oddsRowPassesFilters(row){
   const category=row._marketLabel||canonicalPropCategory(row);
   if(!category) return false;
   if(state.selectedMarkets.size&&!state.selectedMarkets.has(category)) return false;
+  if(state.oddsScope&&String(row.scope||"player")!==state.oddsScope) return false;
   if(state.oddsPosition&&row.selection!==state.oddsPosition) return false;
   const odds=Number(row.odds);
   const minOdds=state.oddsMin??ODDS_SLIDER_MIN;
