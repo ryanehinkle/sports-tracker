@@ -403,7 +403,7 @@ def _walk_kicker_athletes(value):
             if isinstance(position, dict)
             else str(position or "")
         )
-        if str(abbreviation or "").upper() == "K" and value.get("id"):
+        if str(abbreviation or "").upper() in {"K", "PK"} and value.get("id"):
             yield value
         for child in value.values():
             yield from _walk_kicker_athletes(child)
