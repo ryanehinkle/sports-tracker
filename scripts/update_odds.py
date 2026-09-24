@@ -450,7 +450,7 @@ def _metric_spec(prop):
 
     # ESPN game logs are full-game totals. Period/drive markets must never be
     # compared with full-game stats; they require play-by-play/drive-level data.
-    if re.search(r"first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b", text):
+    if re.search(r"first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b|\bmost\s+(?:rushing|receiving|passing)\s+yards\b", text):
         return None
 
     match = re.search(r"(?:player\s+)?to record a (\d+(?:\.\d+)?)\+ yard reception", text)
@@ -501,6 +501,8 @@ def _metric_spec(prop):
         return {"metric": "soloTackles"}
     if "tackles + assists" in text:
         return {"metric": "totalTackles"}
+    if re.search(r"(?:player\s+)?to record a sack|\brecord a sack\b", text):
+        return {"metric": "sacks", "threshold": 1.0, "comparison": "gte"}
     if re.search(r"\bsacks\b", text):
         return {"metric": "sacks"}
     if "defensive interceptions" in text:
