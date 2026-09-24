@@ -506,7 +506,62 @@ function controls(){
     legsMin:clamp(Number($("legsMin").value)||1,1,10),legsMax:clamp(Number($("legsMax").value)||1,1,10),uniquePlayers:$("uniquePlayers").checked,avoidSameGame:$("avoidSameGame").checked,weights:Object.assign({},state.weights)
   };
 }
+function analyzeTeamMarket(row,cfg){
+  const odds=Number(row.odds),hasLine=row.line!==null&&row.line!==undefined&&row.line!=="",line=hasLine?Number(row.line):null;
+  if(!Number.isFinite(odds)||odds<cfg.legOddsMin||odds>cfg.legOddsMax)return null;
+  if(cfg.lineMin!==null&&(!Number.isFinite(line)||line<cfg.lineMin))return null;
+  if(cfg.lineMax!==null&&(!Number.isFinite(line)||line>cfg.lineMax))return null;
+
+  const pos=String(row.position||row.scope||"TEAM").toUpperCase(),team=String(row.team||"").toUpperCase(),market=row._modelMarketLabel||modelSupportedMarketLabel(row);
+  if(!market)return null;
+  if(cfg.positions.size&&!cfg.positions.has(pos))return null;
+  if(cfg.markets.size&&!cfg.markets.has(market))return null;
+  if(cfg.sides.size&&!cfg.sides.has(String(row.selection||"")))return null;
+  if(cfg.games.size&&!cfg.games.has(String(row.eventId)))return null;
+  const identity=[row.teamName,row.team,row.matchup,row.proposition,market].join(" ").toLowerCase();
+  if(cfg.player&&!identity.includes(cfg.player))return null;
+
+  const rates=teamRates(row);
+  for(const k of Object.keys(cfg.hit)){
+    if(cfg.hit[k]>0&&(!rates[k]||rates[k].pct<cfg.hit[k]))return null;
+  }
+
+  const statModel=teamMarketSignal(row),matchupSignal=statModel.signal;
+  if(cfg.teamMatchupMin>0&&matchupSignal*100<cfg.teamMatchupMin)return null;
+
+  const book=marketProbability(row);
+  const historicalParts=[
+    [normalizedRate(rates.l5),.30],[normalizedRate(rates.l10),.26],
+    [normalizedRate(rates.current),.16],[normalizedRate(rates.previous),.20],
+    [normalizedRate(rates.h2h),.08]
+  ].filter(([v])=>Number.isFinite(v));
+  const history=historicalParts.length?historicalParts.reduce((s,[v,w])=>s+v*w,0)/historicalParts.reduce((s,[,w])=>s+w,0):book;
+  const sampleTotal=Math.min(20,[rates.l10,rates.current,rates.previous].reduce((s,r)=>s+num(r&&r.total),0));
+  const reliability=clamp(sampleTotal/18,0,1);
+  // Team markets deliberately combine market price, actual historical cover/hit
+  // rates, and a profile built from every numeric team-stat category.
+  let modelProb=.30*book+.38*history+.32*statModel.signal;
+  const shrink=.50+.32*reliability+.18*statModel.breadth;
+  modelProb=clamp(book+(modelProb-book)*shrink,.03,.97);
+  const edge=modelProb-book;if(edge*100<cfg.edgeMin)return null;
+
+  const recent=avg([normalizedRate(rates.l5),normalizedRate(rates.l10)].filter(Number.isFinite))??modelProb;
+  const season=avg([normalizedRate(rates.current),normalizedRate(rates.previous)].filter(Number.isFinite))??recent;
+  const h2h=normalizedRate(rates.h2h),h2hSignal=Number.isFinite(h2h)?h2h:season;
+  const profileSignal=clamp(.55*statModel.breadth+.45*(statModel.components.all??statModel.signal),0,1);
+  const valueSignal=clamp(.5+edge*3,0,1);
+  const w=cfg.weights,total=Object.values(w).reduce((a,b)=>a+b,0)||1;
+  const weightedSignal=(w.recent*recent+w.season*season+w.h2h*h2hSignal+w.usage*profileSignal+w.matchup*matchupSignal+w.value*valueSignal)/total;
+  const score=100*clamp(.68*modelProb+.10*reliability+.12*statModel.breadth+.10*weightedSignal,0,1);
+
+  const opp=team&&team===String(row.homeAbbr||"").toUpperCase()?String(row.awayAbbr||"").toUpperCase():team?String(row.homeAbbr||"").toUpperCase():"";
+  return{row,player:null,pos,team,opp,market,rates,usage:{target:0,carry:0,opportunity:0,targetsPerGame:0,carriesPerGame:0},
+    dvpRow:null,dvpPct:matchupSignal*100,favorableDvp:matchupSignal*100,teamMatchupPct:matchupSignal*100,dvpMetric:null,
+    recentSignal:recent,seasonSignal:season,h2hSignal,usageSignal:profileSignal,matchupSignal,valueSignal,
+    modelProb,impliedProb:book,edge,score,reliability,calibrationQuality:statModel.breadth,teamProfile:statModel};
+}
 function analyze(row,cfg){
+  if(["team","game"].includes(row&&row.scope))return analyzeTeamMarket(row,cfg);
   const player=state.playerByName.get(norm(row.player));if(!player)return null;
   const odds=Number(row.odds);
   const hasLine=row.line!==null&&row.line!==undefined&&row.line!=="",line=hasLine?Number(row.line):null;
