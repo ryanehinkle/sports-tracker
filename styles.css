@@ -113,7 +113,8 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 .modal-close:hover{color:#fff;background:#28313f;border-color:#445064}
 .modal-close svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .modal-table-scroll{overflow:auto}
-.gamelog-table{min-width:1120px}
+.gamelog-table{min-width:1320px}
+#statsView table{min-width:1460px}
 .gamelog-table thead{position:sticky;top:0;z-index:3}
 .gamelog-table th{cursor:default;background:#191f2a;padding:13px 14px}
 .gamelog-table th:hover{color:#8f9caf}
@@ -267,7 +268,7 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 .filter-popover .filter-all-row{
   min-height:50px;margin:0 9px 5px;width:calc(100% - 18px);padding:0 12px;border-radius:10px;font-size:.8rem
 }
-.filter-popover .filter-options{max-height:310px;padding:0 9px 8px}
+.filter-popover .filter-options{max-height:310px;padding:0 9px 8px;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-gutter:stable}
 .filter-popover .filter-option{min-height:48px;padding:7px 8px;font-size:.78rem}
 .filter-popover .selection-mark,.filter-popover .option-checkbox{
   width:28px;height:28px;flex:0 0 28px;border-radius:8px;font-size:.72rem
