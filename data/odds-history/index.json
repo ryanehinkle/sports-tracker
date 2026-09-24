@@ -1,4 +1,12 @@
 {
-  "updatedAt": null,
-  "days": []
+  "updatedAt": "2026-09-24T23:44:40.601553+00:00",
+  "days": [
+    {
+      "date": "2026-09-24",
+      "file": "2026-09-24.json",
+      "events": 1,
+      "props": 758,
+      "status": "pending"
+    }
+  ]
 }
