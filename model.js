@@ -1147,8 +1147,68 @@ function openModelHitRateChart(row){
   renderModelHitRateChart(row,split);
   $("hitRateModal").showModal();
 }
+function localDateKey(){
+  const parts=new Intl.DateTimeFormat("en-CA",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+  const get=type=>parts.find(p=>p.type===type)?.value||"";
+  return get("year")+"-"+get("month")+"-"+get("day");
+}
+function ladderDateLabel(value){
+  const d=new Date(String(value||"")+"T12:00:00");
+  return Number.isNaN(d.getTime())?String(value||""):new Intl.DateTimeFormat("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"}).format(d);
+}
+function ladderStatusIcon(status){return status==="hit"?"✓":status==="miss"?"×":status==="push"?"↔":"•"}
+function renderLadderLaunch(){
+  const picks=[...(state.ladderData&&state.ladderData.picks||[])].sort((a,b)=>num(a.day)-num(b.day));
+  const today=picks.find(p=>p.date===localDateKey());
+  const last=picks[picks.length-1],day=today?num(today.day):(num(last&&last.day)+1||1);
+  $("todayPickButtonLabel").textContent="See today's pick (Day "+day+")";
+  if(today)state.ladderIndex=Math.max(0,picks.findIndex(p=>p===today));
+  else if(picks.length)state.ladderIndex=picks.length-1;
+}
+function ladderLegHtml(leg){
+  const scope=leg.scope||"player",status=String(leg.result&&leg.result.status||"pending");
+  const entity=scope==="player"?cleanDisplayPlayerName(leg.player):(scope==="team"?(leg.teamName||leg.team||"Team"):(leg.matchup||"Game"));
+  let visual;
+  if(scope==="player")visual='<img src="'+esc(leg.headshot||fallbackHeadshot())+'" alt="">';
+  else if(scope==="team")visual='<img src="'+esc(modelTeamLogo(leg.team))+'" alt="">';
+  else visual='<span class="ladder-game-logos"><img src="'+esc(modelTeamLogo(leg.awayAbbr))+'" alt=""><img src="'+esc(modelTeamLogo(leg.homeAbbr))+'" alt=""></span>';
+  const actual=leg.result&&leg.result.actual!==undefined?'<small>Final: '+esc(String(leg.result.actual))+'</small>':"";
+  return '<div class="ladder-leg ladder-'+esc(status)+'">'+visual+'<div class="ladder-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(leg))+'</span><small>'+formatOdds(leg.odds)+' • confidence '+pct(Number(leg.confidence),1)+'</small></div><div class="ladder-leg-result"><span>'+ladderStatusIcon(status)+'</span><strong>'+esc(status==="pending"?"Pending":status.charAt(0).toUpperCase()+status.slice(1))+'</strong>'+actual+'</div></div>';
+}
+function renderLadderPick(){
+  const picks=[...(state.ladderData&&state.ladderData.picks||[])].sort((a,b)=>num(a.day)-num(b.day));
+  $("ladderPrev").disabled=state.ladderIndex<=0;
+  $("ladderNext").disabled=!picks.length||state.ladderIndex>=picks.length-1;
+  if(!picks.length){
+    $("ladderPickTitle").textContent="Today's ladder is queued";
+    $("ladderPickMeta").textContent="The first challenge entry is generated from the final pregame board roughly one hour before kickoff.";
+    $("ladderHistoryStatus").textContent="Day 1";
+    $("ladderPickBody").innerHTML='<div class="ladder-awaiting"><span class="today-pick-dot"></span><div><strong>Day 1 is preparing</strong><span>The engine will run tens of thousands of combinations and publish the closest, highest-confidence even-money ladder automatically.</span></div></div>';
+    return;
+  }
+  state.ladderIndex=clamp(state.ladderIndex,0,picks.length-1);
+  const pick=picks[state.ladderIndex],status=String(pick.status||"pending");
+  $("ladderPickTitle").textContent="Day "+pick.day+" • "+ladderDateLabel(pick.date);
+  $("ladderPickMeta").textContent=(pick.selectionTier||"Even Ladder")+" • "+fmt.format(pick.simulations||0)+" combinations searched";
+  $("ladderHistoryStatus").textContent="Day "+pick.day+" of "+picks[picks.length-1].day;
+  const statusLabel=status==="hit"?"WIN":status==="miss"?"LOSS":status==="push"?"PUSH":"LIVE / PENDING";
+  $("ladderPickBody").innerHTML='<article class="ladder-slip ladder-slip-'+esc(status)+'">'+
+    '<div class="ladder-slip-summary"><div><span>PARLAY ODDS</span><strong>'+formatOdds(pick.odds)+'</strong></div><div><span>MODEL CONFIDENCE</span><strong>'+pct(Number(pick.confidence),1)+'</strong></div><div><span>EST. HIT PROB.</span><strong>'+pct(Number(pick.estimatedProbability)*100,1)+'</strong></div><div class="ladder-overall-status"><span>'+ladderStatusIcon(status)+'</span><strong>'+statusLabel+'</strong></div></div>'+
+    '<div class="ladder-legs">'+(pick.legs||[]).map(ladderLegHtml).join("")+'</div>'+
+  '</article>';
+}
+function toggleLadderPanel(){
+  const panel=$("ladderChallengePanel"),opening=panel.hidden;
+  panel.hidden=!opening;$("todayPickButton").setAttribute("aria-expanded",opening?"true":"false");
+  $("todayPickButton").classList.toggle("active",opening);
+  if(opening)renderLadderPick();
+}
+
 function bind(){
   bindModelFilters();
+  $("todayPickButton").addEventListener("click",toggleLadderPanel);
+  $("ladderPrev").addEventListener("click",()=>{if(state.ladderIndex<=0)return;state.ladderIndex--;renderLadderPick()});
+  $("ladderNext").addEventListener("click",()=>{const n=(state.ladderData&&state.ladderData.picks||[]).length;if(state.ladderIndex>=n-1)return;state.ladderIndex++;renderLadderPick()});
   $("modelPresetButton").addEventListener("click",e=>{e.stopPropagation();togglePresetPopover()});
   $("modelPresetPopover").addEventListener("click",e=>{
     const option=e.target.closest("[data-preset]");if(!option)return;
