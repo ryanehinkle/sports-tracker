@@ -415,6 +415,26 @@ def _walk_kicker_athletes(value):
 def fetch_team_kickers(team_abbr, team_id):
     payload = browser_json(ROSTER.format(team_id=team_id))
     found = {}
+
+    # ESPN's roster response is grouped by a human-readable position name.
+    # Some snapshots omit the nested athlete.position object, so use the group
+    # heading first and retain the recursive position-based fallback.
+    for group in payload.get("athletes") or []:
+        group_position = str(group.get("position") or "").strip().lower()
+        if "kicker" not in group_position and group_position not in {"k", "pk"}:
+            continue
+        for athlete in group.get("items") or []:
+            profile = profile_from_athlete(
+                athlete,
+                athlete.get("displayName") or athlete.get("fullName") or "",
+            )
+            if not profile:
+                continue
+            profile["team"] = team_abbr
+            profile["position"] = "K"
+            profile.pop("oddsOnly", None)
+            found[profile["id"]] = profile
+
     for athlete in _walk_kicker_athletes(payload):
         profile = profile_from_athlete(athlete, athlete.get("displayName") or athlete.get("fullName") or "")
         if not profile:
