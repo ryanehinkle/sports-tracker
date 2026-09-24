@@ -1244,7 +1244,8 @@ async function init(){
       fetch("data/nfl-stats.json",{cache:"default"}),
       fetch("data/nfl-odds.json?v="+Date.now(),{cache:"no-store"}),
       fetch("data/nfl-team-stats.json",{cache:"default"}),
-      fetch("data/model-calibration.json",{cache:"default"})
+      fetch("data/model-calibration.json",{cache:"default"}),
+      fetch("data/ladder-picks.json?v="+Date.now(),{cache:"no-store"})
     ]);
     if(!responses[0].ok||!responses[1].ok)throw new Error("Model data unavailable");
 
@@ -1252,11 +1253,14 @@ async function init(){
     const odds=await responses[1].json();
     const teams=responses[2].ok?await responses[2].json():{teams:[]};
     const calibration=responses[3].ok?await responses[3].json():null;
+    const ladder=responses[4]&&responses[4].ok?await responses[4].json():{picks:[]};
 
     state.season=stats.season||new Date().getFullYear();
     state.players=stats.players||[];
     state.teams=teams.teams||[];
+    state.teamRaw=teams;
     state.calibration=calibration;
+    state.ladderData=ladder||{picks:[]};
     state.playerByName=new Map(state.players.map(p=>[norm(p.name),p]));
     state.odds=flattenOdds(odds);
 
@@ -1265,9 +1269,11 @@ async function init(){
     buildPricePairs();
     buildUsage();
     buildDvp();
+    buildTeamProfiles();
     fillSelects();
+    renderLadderLaunch();
 
-    $("modelSeason").textContent=state.season+" Model • "+fmt.format(state.odds.length)+" props";
+    $("modelSeason").textContent=state.season+" Model • "+fmt.format(state.odds.length)+" markets";
     const updated=odds.updatedAt||stats.updatedAt;
     $("modelUpdated").textContent=updated?"Updated "+new Date(updated).toLocaleString([],{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"Live analytical model";
     recalc();
