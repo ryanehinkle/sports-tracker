@@ -22,8 +22,11 @@ SPECS = {
     "receptions": {"positions": {"WR", "TE", "RB"}},
     "rushingAttempts": {"positions": {"RB", "QB"}},
     "passingYards": {"positions": {"QB"}},
+    "passRushYards": {"positions": {"QB"}},
     "passingAttempts": {"positions": {"QB"}},
     "passingCompletions": {"positions": {"QB"}},
+    "fieldGoalsMade": {"positions": {"K"}},
+    "kickingPoints": {"positions": {"K"}},
 }
 FEATURES = ["l5", "l10", "season", "lineZ", "trend", "dvp"]
 
@@ -33,6 +36,17 @@ def safe_num(value, default=0.0):
         return float(value)
     except (TypeError, ValueError):
         return default
+
+
+def metric_value(game, metric):
+    if metric == "passRushYards":
+        return safe_num(game.get("passingYards")) + safe_num(game.get("rushingYards"))
+    if metric == "kickingPoints":
+        stored = game.get("kickingPoints")
+        if stored is not None:
+            return safe_num(stored)
+        return safe_num(game.get("fieldGoalsMade")) * 3 + safe_num(game.get("extraPointsMade"))
+    return metric_value(game, metric)
 
 
 def avg(values):
@@ -134,7 +148,7 @@ def build_rows(players):
                     "metric": metric,
                     "position": position,
                     "week": week,
-                    "y": 1.0 if safe_num(current.get(metric)) > line else 0.0,
+                    "y": 1.0 if metric_value(current, metric) > line else 0.0,
                     "x": [
                         hit_rate(last5),
                         hit_rate(last10),
