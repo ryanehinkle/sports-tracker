@@ -86,11 +86,12 @@ function buildDvp(){
 
 function metricSpec(row){
   const text=(String(row.market||"")+" "+String(row.proposition||"")).toLowerCase();
+  if(/first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b/.test(text))return null;
   let m=text.match(/(\d+(?:\.\d+)?)\+ yard reception/);if(m)return{metric:"receivingLongest",threshold:Number(m[1]),comparison:"gte"};
   if(/any.?time touchdown|score.*touchdown/.test(text))return{metric:"touchdowns",threshold:1,comparison:"gte"};
   if(/pass.*rush.*rec.*yards/.test(text))return{metric:"passRushRecYards"};
   if(/pass.*rush.*yards/.test(text)&&!/rec/.test(text))return{metric:"passRushYards"};
-  if(/rush.*rec.*yards/.test(text))return{metric:"allPurposeYards"};
+  if(/rush(?:ing)?.*receiv.*yards/.test(text))return{metric:"allPurposeYards"};
   if(/passing yards/.test(text))return{metric:"passingYards"};
   if(/receiving yards/.test(text))return{metric:"receivingYards"};
   if(/rushing yards/.test(text))return{metric:"rushingYards"};
@@ -124,6 +125,7 @@ function split(logRows,row,spec){
 }
 function normalizeSplit(x){if(!x)return null;if(Number.isFinite(Number(x.pct)))return{hits:Number(x.hits)||0,total:Number(x.total)||0,pct:Number(x.pct)};return null}
 function ratesFor(row,player){
+  if(!metricSpec(row))return{l5:null,l10:null,h2h:null,current:null,previous:null};
   if(row.hitRates)return{l5:normalizeSplit(row.hitRates.l5),l10:normalizeSplit(row.hitRates.l10),h2h:normalizeSplit(row.hitRates.h2h),current:normalizeSplit(row.hitRates.current),previous:normalizeSplit(row.hitRates.previous)};
   const spec=metricSpec(row);if(!spec)return{l5:null,l10:null,h2h:null,current:null,previous:null};
   const all=logs(player,false).sort((a,b)=>(b._season-a._season)||num(b.week)-num(a.week)),current=all.filter(g=>g._season===Number(state.season)),prior=all.filter(g=>g._season===Number(state.season)-1);
@@ -275,7 +277,7 @@ function analyze(row,cfg){
   const rates=ratesFor(row,player);for(const k of Object.keys(cfg.hit)){if(cfg.hit[k]>0&&(!rates[k]||rates[k].pct<cfg.hit[k]))return null}
   const usage=state.usage.get(String(player.id))||{target:0,carry:0,opportunity:0,targetsPerGame:0,carriesPerGame:0};
   if(usage.target<cfg.targetShare||usage.carry<cfg.carryShare||usage.opportunity<cfg.opportunityShare||usage.targetsPerGame<cfg.targetsPerGameMin||usage.carriesPerGame<cfg.carriesPerGameMin)return null;
-  const spec=metricSpec(row),metric=dvpMetric(spec),dvpRow=state.dvp.get(opp+"|"+pos),dvpInfo=metric&&dvpRow&&dvpRow.metrics[metric],dvpPct=dvpInfo&&dvpInfo.percentile,teamMatchupPct=teamDefensePercentile(opp,spec);
+  const spec=metricSpec(row);if(!spec)return null;const metric=dvpMetric(spec),dvpRow=state.dvp.get(opp+"|"+pos),dvpInfo=metric&&dvpRow&&dvpRow.metrics[metric],dvpPct=dvpInfo&&dvpInfo.percentile,teamMatchupPct=teamDefensePercentile(opp,spec);
   if(cfg.requireOpponentData&&(!dvpRow||dvpRow.samples<cfg.dvpSample||!Number.isFinite(dvpPct)))return null;if(cfg.dvpMin>0&&(!Number.isFinite(dvpPct)||dvpPct<cfg.dvpMin))return null;if(cfg.dvpMin>0&&dvpRow&&dvpRow.samples<cfg.dvpSample)return null;if(cfg.teamMatchupMin>0&&(!Number.isFinite(teamMatchupPct)||teamMatchupPct<cfg.teamMatchupMin))return null;
   const recent=avg([smoothed(rates.l5),smoothed(rates.l10)].filter(Number.isFinite))??.5,season=avg([smoothed(rates.current),smoothed(rates.previous)].filter(Number.isFinite))??recent,h2h=smoothed(rates.h2h)??season;
   const usageSignal=clamp(Math.max(usage.target,usage.carry,usage.opportunity)/55,0,1),matchup=avg([Number.isFinite(dvpPct)?dvpPct/100:null,Number.isFinite(teamMatchupPct)?teamMatchupPct/100:null].filter(Number.isFinite))??.5,modelProb=clamp(.38*recent+.32*season+.12*h2h+.10*usageSignal+.08*matchup,.03,.97),book=implied(odds)??.5,edge=modelProb-book;if(edge*100<cfg.edgeMin)return null;
