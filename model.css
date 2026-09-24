@@ -176,3 +176,54 @@
 @media(max-width:520px){
   .model-filter-grid{grid-template-columns:1fr}
 }
+
+/* =========================================================
+   PRESETS + TEAM MODEL + DAILY LADDER
+   ========================================================= */
+.model-control-actions{display:flex;align-items:center;gap:8px}
+.model-preset-button{height:36px;display:inline-flex;align-items:center;gap:8px;padding:0 11px;border:1px solid #344052;border-radius:9px;background:#1a212c;color:#c5cfda;font:800 .68rem Inter;cursor:pointer}
+.model-preset-button:hover,.model-preset-button.open{border-color:#4e6f69;color:#fff;background:#1d282d}
+.model-preset-popover{position:fixed;z-index:2500;width:min(320px,calc(100vw - 20px));padding:8px;border:1px solid #334052;border-radius:14px;background:#161c25;box-shadow:0 22px 60px rgba(0,0,0,.42)}
+.preset-popover-title{padding:8px 10px;color:#7f8da0;font-size:.61rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.preset-option{width:100%;display:grid;gap:3px;text-align:left;border:0;border-radius:10px;background:transparent;padding:10px 11px;color:#dce4ec;cursor:pointer}
+.preset-option:hover{background:#202936}
+.preset-option strong{font-size:.72rem}.preset-option span{font-size:.59rem;color:#7c899b;line-height:1.35}
+.ladder-launch-row{min-height:54px;display:flex;justify-content:flex-end;align-items:center;gap:12px}
+.today-pick-button{display:inline-flex;align-items:center;gap:9px;height:42px;padding:0 14px;border:1px solid rgba(102,217,168,.28);border-radius:12px;background:rgba(102,217,168,.08);color:#dff8ed;font:850 .72rem Inter;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,.12)}
+.today-pick-button:hover,.today-pick-button.active{background:rgba(102,217,168,.13);border-color:rgba(102,217,168,.48)}
+.today-pick-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(102,217,168,.08)}
+.today-pick-arrow{color:var(--accent);font-size:.9rem}
+.ladder-launch-note{font-size:.6rem;color:#657286}
+.ladder-challenge-panel{border:1px solid #2d3b47;border-radius:18px;background:rgba(21,27,36,.96);overflow:hidden;box-shadow:var(--shadow)}
+.ladder-challenge-panel[hidden]{display:none}
+.ladder-challenge-header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 18px;border-bottom:1px solid #2b3644;background:#181f29}
+.ladder-challenge-header h2{margin:0;font-size:1.05rem}
+.ladder-pick-meta{margin-top:4px;color:#708095;font-size:.61rem}
+.ladder-history-nav{display:flex;align-items:center;gap:9px}
+.ladder-history-nav button{width:31px;height:31px;border:1px solid #344052;border-radius:9px;background:#1b222d;color:#cdd6df;font-size:1.1rem;cursor:pointer}
+.ladder-history-nav button:disabled{opacity:.3;cursor:default}
+.ladder-history-nav span{color:#8190a3;font-size:.64rem;font-weight:750}
+.ladder-pick-body{padding:14px}
+.ladder-slip{border:1px solid #2d3948;border-radius:15px;background:#131a22;overflow:hidden}
+.ladder-slip-hit{border-color:rgba(103,221,169,.45);box-shadow:inset 0 0 0 1px rgba(103,221,169,.08)}
+.ladder-slip-miss{border-color:rgba(255,123,134,.42);box-shadow:inset 0 0 0 1px rgba(255,123,134,.07)}
+.ladder-slip-summary{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #2a3543;background:#171e27}
+.ladder-slip-summary>div{padding:12px 14px;border-right:1px solid #2a3543}.ladder-slip-summary>div:last-child{border-right:0}
+.ladder-slip-summary span{display:block;color:#657386;font-size:.52rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+.ladder-slip-summary strong{display:block;margin-top:4px;font-size:.88rem;color:#eaf0f5}
+.ladder-overall-status span{display:inline-grid;place-items:center;width:24px;height:24px;margin-right:6px;border-radius:50%;background:#202a36}
+.ladder-slip-hit .ladder-overall-status strong,.ladder-slip-hit .ladder-overall-status span{color:var(--win)}
+.ladder-slip-miss .ladder-overall-status strong,.ladder-slip-miss .ladder-overall-status span{color:var(--loss)}
+.ladder-legs{display:grid}
+.ladder-leg{display:grid;grid-template-columns:42px minmax(0,1fr) 108px;gap:11px;align-items:center;padding:11px 14px;border-bottom:1px solid rgba(44,55,70,.65)}
+.ladder-leg:last-child{border-bottom:0}.ladder-leg>img{width:42px;height:42px;border-radius:50%;object-fit:contain;background:#202936}
+.ladder-game-logos{position:relative;width:42px;height:42px}.ladder-game-logos img{position:absolute;width:30px;height:30px;object-fit:contain}.ladder-game-logos img:first-child{left:0;bottom:0}.ladder-game-logos img:last-child{right:0;top:0}
+.ladder-leg-copy{min-width:0}.ladder-leg-copy strong{display:block;font-size:.73rem}.ladder-leg-copy span{display:block;margin-top:2px;color:#8996a7;font-size:.62rem}.ladder-leg-copy small{display:block;margin-top:3px;color:#657386;font-size:.55rem}
+.ladder-leg-result{text-align:right}.ladder-leg-result>span{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;margin-bottom:3px;background:#222b36;font-weight:900}.ladder-leg-result strong,.ladder-leg-result small{display:block;font-size:.59rem}.ladder-leg-result small{color:#667486;margin-top:2px}
+.ladder-hit .ladder-leg-result span,.ladder-hit .ladder-leg-result strong{color:var(--win);background:rgba(103,221,169,.10)}
+.ladder-miss .ladder-leg-result span,.ladder-miss .ladder-leg-result strong{color:var(--loss);background:rgba(255,123,134,.10)}
+.ladder-push .ladder-leg-result span,.ladder-push .ladder-leg-result strong{color:#e3bf64}
+.ladder-awaiting{display:flex;align-items:center;gap:13px;padding:18px;border:1px dashed #344352;border-radius:13px;color:#8090a2}
+.ladder-awaiting strong{display:block;color:#dce5ec;font-size:.75rem}.ladder-awaiting span:not(.today-pick-dot){display:block;margin-top:4px;font-size:.62rem;line-height:1.45}
+.signal-game-logos{position:relative;width:42px;height:42px;flex:0 0 42px}.signal-game-logos img{position:absolute!important;width:29px!important;height:29px!important;object-fit:contain!important;background:#1b222d!important}.signal-game-logos img:first-child{left:0;bottom:0}.signal-game-logos img:last-child{right:0;top:0}
+@media(max-width:980px){.ladder-launch-row{justify-content:flex-start;flex-wrap:wrap}.ladder-slip-summary{grid-template-columns:1fr 1fr}.ladder-slip-summary>div:nth-child(2){border-right:0}.ladder-leg{grid-template-columns:38px minmax(0,1fr) 92px}.model-control-actions{gap:5px}}
