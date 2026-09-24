@@ -24,6 +24,9 @@ def main():
         "1H Rushing + Receiving Yards",
         "First Half Receptions",
         "4th Quarter TD Scorer",
+        "Most Rushing Yards",
+        "Most Receiving Yards",
+        "Most Passing Yards",
     ]
     for name in unsupported:
         assert _metric_spec(prop(name)) is None, f"{name} must not use full-game totals"
@@ -39,6 +42,7 @@ def main():
         "Passing Completions": "passingCompletions",
         "Longest Reception": "receivingLongest",
         "Longest Rush": "rushingLongest",
+        "Player To Record A Sack": "sacks",
     }
     for name, metric in expected.items():
         spec = _metric_spec(prop(name))
@@ -54,6 +58,8 @@ def main():
     assert _metric_value(game, {"metric": "touchdowns"}) == 2
     assert _prop_hit(prop("Rushing Yards", line=60.5), game) is True
     assert _prop_hit(prop("Rushing Yards", line=61.5), game) is False
+    sack_game = {"sacks": 1}
+    assert _prop_hit(prop("Player To Record A Sack", line=None, selection="Yes"), sack_game) is True
 
     print("Prop tracking validation passed.")
 
