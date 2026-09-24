@@ -30,7 +30,7 @@
 <label class="field"><span>Side</span><select id="sideFilter"><option value="">Over + Under</option><option>Over</option><option>Under</option></select></label>
 <label class="field"><span>Team</span><select id="teamFilter"><option value="">All teams</option></select></label>
 <label class="field"><span>Opponent</span><select id="opponentFilter"><option value="">All opponents</option></select></label>
-<label class="field"><span>Player search</span><input id="playerFilter" type="search" placeholder="Player name…"></label></section>
+<label class="field"><span>Game</span><select id="gameFilter"><option value="">All games</option></select></label><label class="field"><span>Player search</span><input id="playerFilter" type="search" placeholder="Player name…"></label></section>
 <section class="control-section"><div class="control-heading"><div><strong>Price & parlay shape</strong><span>Constrain each leg and the generated final slip.</span></div></div>
 <div class="number-pair"><label class="field"><span>Stat line min</span><input id="lineMin" type="number" step=".5" placeholder="Any"></label><label class="field"><span>Stat line max</span><input id="lineMax" type="number" step=".5" placeholder="Any"></label></div><div class="number-pair"><label class="field"><span>Leg odds min</span><input id="legOddsMin" type="number" value="-500"></label><label class="field"><span>Leg odds max</span><input id="legOddsMax" type="number" value="500"></label></div><label class="range-row"><span><b>Minimum model edge</b><small>Estimated probability minus implied probability</small></span><output id="edgeValue">-20%+</output><input id="edgeMin" type="range" min="-20" max="30" step="1" value="-20"></label>
 <div class="number-pair"><label class="field"><span>Final odds min</span><input id="parlayOddsMin" type="number" value="100"></label><label class="field"><span>Final odds max</span><input id="parlayOddsMax" type="number" value="350"></label></div><label class="range-row odds-spread-row"><span><b>Max leg odds spread</b><small>Keeps legs in a similar price range</small></span><output id="oddsSpreadValue">600</output><input id="oddsSpread" type="range" min="100" max="2500" step="100" value="600"></label>
@@ -65,5 +65,5 @@
     </div>
     <div class="modal-table-scroll"><table class="gamelog-table"><thead><tr><th class="week-col">Week</th><th class="opponent-col">Opponent</th><th>TD</th><th>All-Purpose Yds</th><th>Rec Yds</th><th>Rush Yds</th><th>Rec</th><th>Pass TD</th><th>Pass Yds</th></tr></thead><tbody id="modelGameLogBody"></tbody></table></div>
   </div>
-</dialog><script src="model.js?v=2"></script>
+</dialog><script src="model.js?v=3"></script>
 </body></html>
