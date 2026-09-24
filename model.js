@@ -303,10 +303,35 @@ function generalizedMarketLabel(row){
 }
 
 function modelSupportedMarketLabel(row){
-  // Use the exact same generalized proposition names as the Odds page.
-  // The model only exposes markets it can actually score from game-log data,
-  // which removes team/player-specific drive and period props from this menu.
-  return metricSpec(row)?generalizedMarketLabel(row):"";
+  const spec=metricSpec(row);
+  if(!spec)return"";
+  const labels={
+    touchdowns:"Touchdowns",
+    passRushRecYards:"Passing + Rushing + Receiving Yards",
+    passRushYards:"Passing + Rushing Yards",
+    allPurposeYards:"Rushing + Receiving Yards",
+    passingYards:"Passing Yards",
+    receivingYards:"Receiving Yards",
+    rushingYards:"Rushing Yards",
+    receptions:"Receptions",
+    passingTouchdowns:"Passing TDs",
+    receivingTouchdowns:"Receiving TDs",
+    rushingTouchdowns:"Rushing TDs",
+    rushingAttempts:"Rushing Attempts",
+    passingAttempts:"Passing Attempts",
+    passingCompletions:"Passing Completions",
+    passingInterceptions:"Interceptions Thrown",
+    passingLongest:"Longest Completion",
+    receivingLongest:"Longest Reception",
+    rushingLongest:"Longest Rush",
+    soloTackles:"Solo Tackles",
+    totalTackles:"Tackles + Assists",
+    sacks:"Sacks",
+    defensiveInterceptions:"Defensive Interceptions",
+    fieldGoalsMade:"Field Goals",
+    kickingPoints:"Kicking Points"
+  };
+  return labels[spec.metric]||"";
 }
 
 function flattenOdds(raw){
@@ -709,11 +734,14 @@ function renderModelFilters(){
   $("modelAllGamesMark").textContent=state.selectedGames.size?"":"✓";
   $("modelGameLabel").textContent=modelFilterCountLabel(state.selectedGames,"Game","All games");
 }
+function modelFilterAnchor(pop){
+  return pop&&pop.dataset.anchorButton?$(pop.dataset.anchorButton):null;
+}
 function closeModelFilterPopovers(except){
   document.querySelectorAll(".model-filter-popover").forEach(pop=>{
     if(pop===except)return;
     pop.hidden=true;
-    const btn=pop.parentElement&&pop.parentElement.querySelector(".model-filter-button");
+    const btn=modelFilterAnchor(pop);
     if(btn){btn.classList.remove("open");btn.setAttribute("aria-expanded","false")}
   });
 }
@@ -740,7 +768,10 @@ function bindModelFilters(){
     ["modelGameButton","modelGamePopover"]
   ];
   for(const [buttonId,popId] of pairs){
-    $(buttonId).addEventListener("click",e=>{e.stopPropagation();toggleModelFilter($(buttonId),$(popId))});
+    const button=$(buttonId),popover=$(popId);
+    popover.dataset.anchorButton=buttonId;
+    document.body.appendChild(popover);
+    button.addEventListener("click",e=>{e.stopPropagation();toggleModelFilter(button,popover)});
   }
   document.addEventListener("click",e=>{
     const option=e.target.closest("[data-model-kind][data-model-value]");
@@ -751,7 +782,7 @@ function bindModelFilters(){
       set.has(value)?set.delete(value):set.add(value);
       renderModelFilters();
       if(popover&&!popover.hidden){
-        const button=popover.parentElement&&popover.parentElement.querySelector(".model-filter-button");
+        const button=modelFilterAnchor(popover);
         if(button)requestAnimationFrame(()=>positionModelPopover(button,popover));
       }
       schedule();return;
@@ -762,15 +793,16 @@ function bindModelFilters(){
       const popover=clear.closest(".model-filter-popover");
       set.clear();renderModelFilters();
       if(popover&&!popover.hidden){
-        const button=popover.parentElement&&popover.parentElement.querySelector(".model-filter-button");
+        const button=modelFilterAnchor(popover);
         if(button)requestAnimationFrame(()=>positionModelPopover(button,popover));
       }
       schedule();return;
     }
-    if(!e.target.closest(".model-filter-control"))closeModelFilterPopovers();
+    if(!e.target.closest(".model-filter-control")&&!e.target.closest(".model-filter-popover"))closeModelFilterPopovers();
   });
   window.addEventListener("resize",()=>closeModelFilterPopovers());
-  window.addEventListener("scroll",e=>{const target=e.target;if(target&&target.closest&&target.closest(".model-filter-popover"))return;closeModelFilterPopovers()},true);
+  const controls=document.querySelector(".model-controls");
+  if(controls)controls.addEventListener("scroll",()=>closeModelFilterPopovers(),{passive:true});
 }
 function fillSelects(){renderModelFilters()}
 function modelPlayerForRow(row){return state.playerByName.get(norm(row&&row.player))}
