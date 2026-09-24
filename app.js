@@ -595,6 +595,15 @@ function hitCell(rate,rowKey,split){
 function splitLabel(split){
   return {l5:"Last 5",l10:"Last 10",h2h:"Head-to-Head",current:String(state.season||2026),previous:String((state.season||2026)-1)}[split]||split;
 }
+function compareGamesChronologically(a,b){
+  const at=Date.parse(a?.date||"");
+  const bt=Date.parse(b?.date||"");
+  if(Number.isFinite(at)&&Number.isFinite(bt)&&at!==bt) return at-bt;
+  const as=Number(a?._season||state.season||0);
+  const bs=Number(b?._season||state.season||0);
+  if(as!==bs) return as-bs;
+  return safe(a?.week)-safe(b?.week);
+}
 function splitGamesForRow(row,split){
   const player=findPlayer(row.player);
   if(!player) return [];
@@ -604,13 +613,11 @@ function splitGamesForRow(row,split){
   const all=playerPlayedLogs(player);
   let games=[];
 
-  let newestFirst=false;
-  if(split==="l5"){games=all.slice(0,5);newestFirst=true}
-  else if(split==="l10"){games=all.slice(0,10);newestFirst=true}
+  if(split==="l5") games=all.slice(0,5);
+  else if(split==="l10") games=all.slice(0,10);
   else if(split==="h2h"){
     const opponent=opponentForRow(row,player);
     games=opponent?all.filter(g=>String(g.opponent?.abbreviation||"").toUpperCase()===opponent):[];
-    newestFirst=true;
   }else if(split==="current"){
     games=logsForSeason(player,currentYear).filter(g=>g.played).map(g=>({...g,_season:currentYear}));
   }else if(split==="previous"){
@@ -618,7 +625,7 @@ function splitGamesForRow(row,split){
   }
 
   const applicable=games.filter(game=>propHit(row,game)!==null);
-  return newestFirst?applicable.reverse():applicable;
+  return applicable.sort(compareGamesChronologically);
 }
 function lineForRow(row){
   const spec=metricSpec(row);
@@ -1438,7 +1445,8 @@ function renderTeamSummary(team,stat){
 function renderTeamTrendChart(team,stat){
   const points=(team.gameLog||[])
     .map(game=>({game,value:teamGameValue(game,stat)}))
-    .filter(point=>point.value!==null);
+    .filter(point=>point.value!==null)
+    .sort((a,b)=>compareGamesChronologically(a.game,b.game));
 
   if(!points.length){
     teamStatChart.innerHTML='<div class="team-chart-empty">Game-by-game data is not available for this ESPN stat. Use League Compare to see all 32 teams.</div>';
