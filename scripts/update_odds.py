@@ -1177,10 +1177,15 @@ def _grade_player_prop(event, prop, profile, current_season):
         line = float(prop.get("line"))
     except (TypeError, ValueError):
         return None
-    if abs(value - line) < 1e-9:
-        return {"status": "push", "actual": value}
     selection = str(prop.get("selection") or "")
-    hit = value < line if selection == "Under" else value > line
+    if selection in {"Over", "Under"} and abs(value - line) < 1e-9:
+        return {"status": "push", "actual": value}
+    if selection == "Under":
+        hit = value < line
+    elif selection == "No":
+        hit = value <= line
+    else:
+        hit = value > line
     return {"status": "hit" if hit else "miss", "actual": value}
 
 
