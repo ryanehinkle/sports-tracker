@@ -710,6 +710,12 @@ def parse_game_log(athlete_id, season):
                     names[i]: raw_stats[i]
                     for i in range(min(len(names), len(raw_stats)))
                 }
+                if str(athlete_id) == "3953687" and season == current_season():
+                    kicking_debug = {
+                        key: value for key, value in stat_values.items()
+                        if any(token in normalize_name(key) for token in ("fieldgoal", "extrapoint", "kicking", "longfield"))
+                    }
+                    print(f"KICKER DEBUG week {week}: {kicking_debug}")
                 tracked = {
                     key: get_game_stat(
                         stat_values,
