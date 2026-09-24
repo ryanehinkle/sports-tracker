@@ -212,7 +212,7 @@ function generalizedMarketLabel(row){
   if(/first touchdown scorer/.test(lower)) return "First Touchdown Scorer";
   if(/last touchdown scorer/.test(lower)) return "Last Touchdown Scorer";
   if(/4th quarter td scorer/.test(lower)) return "Anytime 4th Quarter TD Scorer";
-  if(/rush\s*\+\s*rec.*yards|rush.*reception.*yards/.test(lower)) return period+"Rush + Rec Yards";
+  if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(lower)) return period+"Rush + Rec Yards";
   if(/pass\s*\+\s*rush.*yards/.test(lower)) return period+"Pass + Rush Yards";
   if(/receiving yards/.test(lower)) return period+"Receiving Yards";
   if(/rushing yards/.test(lower)) return period+"Rushing Yards";
@@ -432,7 +432,7 @@ function modelPctMarkup(rate,key,split,selected){
 function renderModelHitRateChart(row,split){
   state.hitRateActiveRow=row;state.hitRateActiveSplit=split;
   const player=modelPlayerForRow(row),games=modelSplitGames(row,split),rates=ratesFor(row,player),selected=rates&&rates[split]||null,spec=metricSpec(row),line=modelLineForRow(row);
-  const values=games.map(g=>metricValue(g,spec)).filter(Number.isFinite);
+  const values=games.map(g=>metricValue(g,spec.metric)).filter(Number.isFinite);
   const average=values.length?values.reduce((s,v)=>s+v,0)/values.length:null,med=median(values);
   $("hitRateTitle").textContent=cleanDisplayPlayerName(row.player)+" - "+generalizedMarketLabel(row);
   $("hitRateSubtitle").textContent=cleanDisplayProposition(row)+" • "+row.matchup;
@@ -453,7 +453,7 @@ function renderModelHitRateChart(row,split){
   if(!games.length||!spec){$("hitRateChart").innerHTML='<div class="hit-chart-empty">No applicable game-by-game data is available for this prop.</div>';return}
   const maxValue=Math.max(...values,0),minValue=Math.min(...values,0),positiveLine=line===null?0:Math.max(line,0),chartMax=Math.max(1,maxValue,positiveLine)*1.16,chartMin=Math.min(0,minValue),chartSpan=Math.max(1,chartMax-chartMin),linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100)),plotWidth=Math.max(680,games.length*92),stageHeight=286,thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
   const bars=games.map((game,index)=>{
-    const value=metricValue(game,spec),hit=isHit(game,row,spec),height=Math.max(2,((value-chartMin)/chartSpan)*100),valueBottom=48+(height/100)*stageHeight,breakdown=modelMetricBreakdown(game,spec).filter(([,v])=>v!==0);
+    const value=metricValue(game,spec.metric),hit=isHit(game,row,spec),height=Math.max(2,((value-chartMin)/chartSpan)*100),valueBottom=48+(height/100)*stageHeight,breakdown=modelMetricBreakdown(game,spec).filter(([,v])=>v!==0);
     const detail=breakdown.length?'<div class="hit-bar-detail">'+breakdown.map(([label,v])=>'<span><b>'+fmt.format(v)+'</b> '+label+'</span>').join("")+'</div>':"";
     return'<div class="hit-bar-column"><div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div><div class="hit-bar-track"><div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div></div><div class="hit-bar-label"><span>'+esc(modelChartDateLabel(game))+'</span><span>'+esc(modelChartOpponentLabel(game))+'</span></div></div>';
   }).join("");
