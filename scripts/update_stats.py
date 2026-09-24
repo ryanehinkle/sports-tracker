@@ -17,6 +17,13 @@ ATHLETE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athl
 OUT = Path("data/nfl-stats.json")
 ODDS = Path("data/nfl-odds.json")
 TIMEOUT = 30
+TEAM_IDS = {
+    "ARI": 22, "ATL": 1, "BAL": 33, "BUF": 2, "CAR": 29, "CHI": 3, "CIN": 4, "CLE": 5,
+    "DAL": 6, "DEN": 7, "DET": 8, "GB": 9, "HOU": 34, "IND": 11, "JAX": 30, "KC": 12,
+    "LV": 13, "LAC": 24, "LAR": 14, "MIA": 15, "MIN": 16, "NE": 17, "NO": 18, "NYG": 19,
+    "NYJ": 20, "PHI": 21, "PIT": 23, "SF": 25, "SEA": 26, "TB": 27, "TEN": 10, "WSH": 28,
+}
+ROSTER = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/{team_id}/roster"
 UA = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/153.0 Safari/537.36",
     "Accept": "application/json,text/plain,*/*",
@@ -39,12 +46,6 @@ FEEDS = {
         "category": "offense:passing",
         "sort": "passing.passingYards:desc",
         "fallback": {"passingYards": 3, "passingTouchdowns": 7},
-    },
-    "kicking": {
-        "category": "kicking",
-        "sort": "kicking.totalPoints:desc",
-        "fallback": {},
-        "optional": True,
     },
 }
 
@@ -88,22 +89,19 @@ def get_json(url, params=None):
     raise last_error
 
 
-def scoreboard_json():
-    """Fetch the scoreboard with a browser-like fallback for GitHub Actions."""
+def browser_json(url, params=None, fallback_urls=()):
+    """Fetch ESPN JSON with a browser-like fallback for GitHub Actions."""
     errors = []
     try:
-        return get_json(SCOREBOARD, {"limit": 100})
+        return get_json(url, params)
     except Exception as exc:
         errors.append(exc)
 
-    for url in (
-        SCOREBOARD,
-        "https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
-    ):
+    for candidate in (url, *fallback_urls):
         try:
             response = curl_requests.get(
-                url,
-                params={"limit": 100},
+                candidate,
+                params=params,
                 headers=UA,
                 impersonate="chrome120",
                 timeout=TIMEOUT,
@@ -113,6 +111,14 @@ def scoreboard_json():
         except Exception as exc:
             errors.append(exc)
     raise RuntimeError(" / ".join(str(x) for x in errors[-3:]))
+
+
+def scoreboard_json():
+    return browser_json(
+        SCOREBOARD,
+        {"limit": 100},
+        ("https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",),
+    )
 
 
 def stats_publication_safe():
@@ -386,6 +392,87 @@ def profile_from_athlete(athlete, fallback_name=""):
         "kickingPoints": 0,
         "oddsOnly": True,
     }
+
+
+def _walk_kicker_athletes(value):
+    """Yield athlete-shaped objects with a K position from any roster response shape."""
+    if isinstance(value, dict):
+        position = value.get("position") or {}
+        abbreviation = (
+            position.get("abbreviation")
+            if isinstance(position, dict)
+            else str(position or "")
+        )
+        if str(abbreviation or "").upper() == "K" and value.get("id"):
+            yield value
+        for child in value.values():
+            yield from _walk_kicker_athletes(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from _walk_kicker_athletes(child)
+
+
+def fetch_team_kickers(team_abbr, team_id):
+    payload = browser_json(ROSTER.format(team_id=team_id))
+    found = {}
+    for athlete in _walk_kicker_athletes(payload):
+        profile = profile_from_athlete(athlete, athlete.get("displayName") or athlete.get("fullName") or "")
+        if not profile:
+            continue
+        profile["team"] = team_abbr
+        profile["position"] = "K"
+        profile.pop("oddsOnly", None)
+        found[profile["id"]] = profile
+    return list(found.values())
+
+
+def add_kicker_profiles(players):
+    """Add every current NFL kicker from ESPN team rosters, independent of prop availability."""
+    by_id = {str(p.get("id")): p for p in players}
+    fetched = []
+
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        futures = {
+            pool.submit(fetch_team_kickers, abbr, team_id): abbr
+            for abbr, team_id in TEAM_IDS.items()
+        }
+        for future in as_completed(futures):
+            abbr = futures[future]
+            try:
+                fetched.extend(future.result())
+            except Exception as exc:
+                print(f"WARNING: roster kicker fetch failed for {abbr}: {exc}", file=sys.stderr)
+
+    added = 0
+    for profile in fetched:
+        aid = str(profile.get("id") or "")
+        if not aid:
+            continue
+        existing = by_id.get(aid)
+        if existing:
+            existing["position"] = "K"
+            existing["team"] = profile.get("team") or existing.get("team") or ""
+            existing["headshot"] = profile.get("headshot") or existing.get("headshot") or ""
+            existing.pop("oddsOnly", None)
+            for key in ("passRushYards", "fieldGoalsMade", "extraPointsMade", "kickingPoints"):
+                existing.setdefault(key, 0)
+            continue
+        players.append(profile)
+        by_id[aid] = profile
+        added += 1
+
+    players.sort(
+        key=lambda p: (
+            p.get("oddsOnly", False),
+            str(p.get("position") or "").upper() != "K",
+            -(p.get("allPurposeYards", 0) or 0),
+            -(p.get("passingYards", 0) or 0),
+            p.get("name", ""),
+        )
+    )
+    kicker_count = sum(1 for p in players if str(p.get("position") or "").upper() == "K")
+    print(f"roster kickers: {kicker_count} total ({added} newly added)")
+    return players
 
 
 def resolve_espn_player(name):
@@ -740,6 +827,7 @@ def main():
 
     season = current_season()
     players = merge_players(season)
+    players = add_kicker_profiles(players)
     players = add_odds_only_players(players)
     if len(players) < 25:
         raise RuntimeError(f"Only {len(players)} players parsed; refusing to overwrite good data.")
