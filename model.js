@@ -5,7 +5,7 @@ const fmt=new Intl.NumberFormat("en-US");
 const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map()};
+const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map()};
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
 function norm(v){return String(v||"").toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\.?\b/g,"").replace(/[^a-z0-9]/g,"")}
@@ -104,34 +104,52 @@ function buildDvp(){
   }
 }
 function metricSpec(row){
-  const text=(String(row.market||"")+" "+String(row.proposition||"")).toLowerCase();
+  const market=String(row.market||row.proposition||"").toLowerCase();
+  const prop=String(row.proposition||"").toLowerCase();
+  const text=(market+" "+prop).replace(/\s+/g," ");
+
   if(/first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b|\bmost\s+(?:rushing|receiving|passing)\s+yards\b/.test(text))return null;
-  let m=text.match(/(\d+(?:\.\d+)?)\+ yard reception/);if(m)return{metric:"receivingLongest",threshold:Number(m[1]),comparison:"gte"};
-  if(/any.?time touchdown|score.*touchdown/.test(text))return{metric:"touchdowns",threshold:1,comparison:"gte"};
-  if(/pass.*rush.*rec.*yards/.test(text))return{metric:"passRushRecYards"};
-  if(/pass.*rush.*yards/.test(text)&&!/rec/.test(text))return{metric:"passRushYards"};
-  if(/rush(?:ing)?.*receiv.*yards/.test(text))return{metric:"allPurposeYards"};
+
+  let match=text.match(/(?:player\s+)?to record a (\d+(?:\.\d+)?)\+ yard reception/);
+  if(match)return{metric:"receivingLongest",threshold:Number(match[1]),comparison:"gte"};
+  match=text.match(/(?:score\s+)?(\d+(?:\.\d+)?)\+ touchdowns?/);
+  if(match)return{metric:"touchdowns",threshold:Number(match[1]),comparison:"gte"};
+
+  if(/any time touchdown scorer|anytime touchdown scorer/.test(text))return{metric:"touchdowns",threshold:1,comparison:"gte"};
+  if(/pass\s*\+\s*rush\s*\+\s*rec.*yards|pass.*rush.*reception.*yards/.test(text))return{metric:"passRushRecYards"};
+  if(/pass\s*\+\s*rush.*yards/.test(text))return{metric:"passRushYards"};
+  if(/rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards/.test(text))return{metric:"allPurposeYards"};
   if(/passing yards/.test(text))return{metric:"passingYards"};
   if(/receiving yards/.test(text))return{metric:"receivingYards"};
   if(/rushing yards/.test(text))return{metric:"rushingYards"};
   if(/receptions/.test(text)&&!/longest/.test(text))return{metric:"receptions"};
-  if(/passing (tds|touchdowns)/.test(text))return{metric:"passingTouchdowns"};
-  if(/receiving (tds|touchdowns)/.test(text))return{metric:"receivingTouchdowns"};
-  if(/rushing (tds|touchdowns)/.test(text))return{metric:"rushingTouchdowns"};
+  if(/passing tds|passing touchdowns/.test(text))return{metric:"passingTouchdowns"};
+  if(/receiving tds|receiving touchdowns/.test(text))return{metric:"receivingTouchdowns"};
+  if(/rushing tds|rushing touchdowns/.test(text))return{metric:"rushingTouchdowns"};
   if(/rushing attempts|rush attempts/.test(text))return{metric:"rushingAttempts"};
   if(/pass attempts/.test(text))return{metric:"passingAttempts"};
-  if(/completions/.test(text))return{metric:"passingCompletions"};
+  if(/pass completions|passing completions/.test(text))return{metric:"passingCompletions"};
+  if(/interceptions thrown|pass interceptions/.test(text))return{metric:"passingInterceptions"};
+  if(/longest completion|longest pass/.test(text))return{metric:"passingLongest"};
   if(/longest reception/.test(text))return{metric:"receivingLongest"};
   if(/longest rush/.test(text))return{metric:"rushingLongest"};
+  if(/solo tackles/.test(text))return{metric:"soloTackles"};
+  if(/tackles \+ assists/.test(text))return{metric:"totalTackles"};
   if(/(?:player\s+)?to record a sack|\brecord a sack\b/.test(text))return{metric:"sacks",threshold:1,comparison:"gte"};
+  if(/\bsacks\b/.test(text))return{metric:"sacks"};
+  if(/defensive interceptions/.test(text))return{metric:"defensiveInterceptions"};
+  if(/field goals/.test(text))return{metric:"fieldGoalsMade"};
+  if(/kicking points/.test(text))return{metric:"kickingPoints"};
   return null;
 }
 function metricValue(g,m){
+  if(!g||!m)return null;
   if(m==="touchdowns")return num(g.rushingTouchdowns)+num(g.receivingTouchdowns);
   if(m==="allPurposeYards")return num(g.rushingYards)+num(g.receivingYards);
   if(m==="passRushRecYards")return num(g.passingYards)+num(g.rushingYards)+num(g.receivingYards);
   if(m==="passRushYards")return num(g.passingYards)+num(g.rushingYards);
-  return num(g[m]);
+  const value=g[m];
+  return Number.isFinite(Number(value))?Number(value):null;
 }
 function isHit(g,row,spec){
   const hasSpecThreshold=Number.isFinite(Number(spec.threshold)),hasLine=row.line!==null&&row.line!==undefined&&row.line!=="";const threshold=hasSpecThreshold?Number(spec.threshold):(hasLine?Number(row.line):NaN);if(!Number.isFinite(threshold))return null;
@@ -145,7 +163,11 @@ function split(logRows,row,spec){
 }
 function normalizeSplit(x){if(!x)return null;if(Number.isFinite(Number(x.pct)))return{hits:Number(x.hits)||0,total:Number(x.total)||0,pct:Number(x.pct)};return null}
 function playedHistory(player){
-  return logs(player,false).filter(g=>g&&g.played).sort((a,b)=>(a._season-b._season)||num(a.week)-num(b.week));
+  const key=String(player&&player.id||norm(player&&player.name));
+  if(state.historyCache.has(key))return state.historyCache.get(key);
+  const rows=logs(player,false).filter(g=>g&&g.played).sort((a,b)=>(a._season-b._season)||num(a.week)-num(b.week));
+  state.historyCache.set(key,rows);
+  return rows;
 }
 function ratesForSelection(row,player,selection){
   const spec=metricSpec(row);if(!spec)return{l5:null,l10:null,h2h:null,current:null,previous:null};
@@ -178,12 +200,16 @@ function teamDefenseMetric(spec){
   return"derived.yardsAllowedPerGame";
 }
 function teamDefensePercentile(opp,spec){
-  const key=teamDefenseMetric(spec);
-  const team=state.teams.find(t=>String(t.abbreviation||"").toUpperCase()===String(opp||"").toUpperCase());
-  if(!team||!team.stats)return null;
-  const value=Number(team.stats[key]);if(!Number.isFinite(value))return null;
-  const peers=state.teams.map(t=>Number(t&&t.stats&&t.stats[key])).filter(Number.isFinite);
-  return percentile(value,peers);
+  const statKey=teamDefenseMetric(spec);
+  if(!state.teamDefenseCache.has(statKey)){
+    const peers=state.teams.map(t=>Number(t&&t.stats&&t.stats[statKey])).filter(Number.isFinite),map=new Map();
+    for(const team of state.teams){
+      const value=Number(team&&team.stats&&team.stats[statKey]),abbr=String(team&&team.abbreviation||"").toUpperCase();
+      if(abbr&&Number.isFinite(value))map.set(abbr,percentile(value,peers));
+    }
+    state.teamDefenseCache.set(statKey,map);
+  }
+  return state.teamDefenseCache.get(statKey).get(String(opp||"").toUpperCase())??null;
 }
 function escapeRegex(value){return String(value||"").replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
 function cleanDisplayPlayerName(value){
@@ -320,8 +346,13 @@ function overForecastFeatures(row,player,dvpPct){
   return{vector:[p(overRates.l5),p(overRates.l10),seasonP,lineZ,trend,Number.isFinite(dvpPct)?dvpPct/100:.5],overRates:overRates,historyCount:Math.min(10,recent.length)};
 }
 function calibratedOverProbability(row,player,dvpPct){
+  const cacheKey=modelPropKey(row)+"|"+String(Number.isFinite(dvpPct)?Math.round(dvpPct*100)/100:"na");
+  if(state.forecastCache.has(cacheKey))return state.forecastCache.get(cacheKey);
   const spec=metricSpec(row),features=overForecastFeatures(row,player,dvpPct),cal=calibrationForMetric(spec&&spec.metric);
-  if(!features)return{probability:.5,reliability:0,calibrationQuality:0,features:null};
+  if(!features){
+    const fallback={probability:.5,reliability:0,calibrationQuality:0,features:null};
+    state.forecastCache.set(cacheKey,fallback);return fallback;
+  }
   let probability;
   if(cal&&Array.isArray(cal.coefficients)&&Array.isArray(cal.means)&&Array.isArray(cal.stds)){
     let score=Number(cal.intercept)||0;
@@ -341,13 +372,18 @@ function calibratedOverProbability(row,player,dvpPct){
   // much harder toward the sportsbook. This is what keeps weak 2025 rushing-yard
   // calibration from flooding the board with RB props.
   const calibrationQuality=cal?clamp(brierLift/.12,0,1):.12;
-  return{probability:clamp(probability,.03,.97),reliability:reliability,calibrationQuality:calibrationQuality,features:features};
+  const result={probability:clamp(probability,.03,.97),reliability:reliability,calibrationQuality:calibrationQuality,features:features};
+  state.forecastCache.set(cacheKey,result);return result;
 }
 function usageStability(player){
-  const rows=playedHistory(player).slice(-5);if(rows.length<2)return .5;
-  const values=rows.map(g=>num(g.receivingTargets)+num(g.rushingAttempts)),m=avg(values);if(!m)return .5;
-  const variance=values.reduce((s,v)=>s+(v-m)*(v-m),0)/(values.length-1),cv=Math.sqrt(variance)/(m+1);
-  return clamp(1-cv,0,1);
+  const key=String(player&&player.id||norm(player&&player.name));
+  if(state.usageStabilityCache.has(key))return state.usageStabilityCache.get(key);
+  const rows=playedHistory(player).slice(-5);
+  if(rows.length<2){state.usageStabilityCache.set(key,.5);return .5}
+  const values=rows.map(g=>num(g.receivingTargets)+num(g.rushingAttempts)),m=avg(values);
+  if(!m){state.usageStabilityCache.set(key,.5);return .5}
+  const variance=values.reduce((s,v)=>s+(v-m)*(v-m),0)/(values.length-1),cv=Math.sqrt(variance)/(m+1),value=clamp(1-cv,0,1);
+  state.usageStabilityCache.set(key,value);return value;
 }
 
 function controls(){
@@ -569,7 +605,21 @@ function slipHtml(s,i){
 }
 function renderSlips(){$("slipCount").textContent=fmt.format(state.slips.length);$("recommendedSlips").innerHTML=state.slips.length?state.slips.slice(0,6).map(slipHtml).join(""):'<div class="model-empty">No parlay combination lands inside the requested final-odds range. Adjust final odds or leg count.</div>'}
 function renderSummary(){$("eligibleCount").textContent=fmt.format(state.eligible.length);$("eligibleSub").textContent=state.odds.length?"of "+fmt.format(state.odds.length)+" current props":"after filters";$("bestScore").textContent=state.eligible.length?state.eligible[0].score.toFixed(1):"—";const m=median(state.eligible.map(x=>x.edge*100));$("medianEdge").textContent=Number.isFinite(m)?(m>=0?"+":"")+m.toFixed(1)+"%":"—"}
-function renderFormula(){const w=state.weights,total=Object.values(w).reduce((a,b)=>a+b,0)||1;$("modelFormula").innerHTML='<strong>Composite score</strong><br><code>Score = 100 × Σ(weight × signal) / Σ(weight)</code><br><br>Recent form: <strong>'+Math.round(100*w.recent/total)+'%</strong><br>Season consistency: <strong>'+Math.round(100*w.season/total)+'%</strong><br>Head-to-head: <strong>'+Math.round(100*w.h2h/total)+'%</strong><br>Usage: <strong>'+Math.round(100*w.usage/total)+'%</strong><br>Opponent DvP: <strong>'+Math.round(100*w.matchup/total)+'%</strong><br>Price edge: <strong>'+Math.round(100*w.value/total)+'%</strong><br><br><span>*Slip probability uses an independence baseline; sportsbook same-game correlation can differ.</span>'}
+function renderFormula(){
+  const cal=state.calibration&&state.calibration.all&&state.calibration.all.test;
+  const sample=state.calibration&&state.calibration.samples;
+  $("modelFormula").innerHTML=
+    '<strong>Calibrated probability model</strong><br>'+
+    '<code>P = shrink(2025 walk-forward logistic estimate → current FanDuel no-vig probability)</code><br><br>'+
+    'Core history: <strong>L10 + season-to-date</strong><br>'+
+    'Line distance: <strong>recent mean vs current line</strong><br>'+
+    'Trend: <strong>last 3 vs last 5</strong><br>'+
+    'Opponent: <strong>defense-vs-position percentile</strong><br>'+
+    'Reliability: <strong>sample size + held-out calibration quality</strong><br>'+
+    'Final grade: <strong>68% estimated hit probability</strong> + reliability/calibration + secondary signals'+
+    (sample?'<br><br><span>2025 walk-forward samples: '+fmt.format(sample)+(cal&&Number.isFinite(Number(cal.brier))?' • holdout Brier '+Number(cal.brier).toFixed(3):'')+'. Historical sportsbook closing lines are not stored, so training uses pregame trailing-five median + 0.5 lines.</span>':'')+
+    '<br><span>Same-game parlay prices are estimates unless “Different games only” is enabled.</span>';
+}
 function renderCharts(){
   const top=state.eligible[0];
   if(!top){$("signalProfileChart").innerHTML='<div class="model-empty">No eligible leg</div>';$("scoreChart").innerHTML='<div class="model-empty">No eligible candidates</div>';return}
