@@ -255,7 +255,7 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 .filter-button.open{background:#222a36;border-color:#46556a;color:#fff}
 .filter-popover[hidden]{display:none!important}
 .filter-popover{
-  position:fixed;z-index:1200;width:min(380px,calc(100vw - 20px));max-height:min(430px,calc(100vh - 24px));
+  position:fixed;z-index:10000;width:min(380px,calc(100vw - 20px));max-height:min(430px,calc(100vh - 24px));
   overflow:hidden;border:1px solid #313a49;border-radius:14px;background:#121720;color:var(--text);
   box-shadow:0 18px 52px rgba(0,0,0,.5)
 }
