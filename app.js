@@ -488,7 +488,7 @@ function metricSpec(row){
   const prop=String(row.proposition||"").toLowerCase();
   const text=(market+" "+prop).replace(/\s+/g," ");
 
-  if(/first touchdown scorer|last touchdown scorer|quarter td scorer|1q |1h /.test(text)) return null;
+  if(/first touchdown scorer|last touchdown scorer|quarter td scorer|\b(?:1q|2q|3q|4q|1h|2h)\b|\bquarter\b|\bhalf\b|\bdrive\b/.test(text)) return null;
 
   const receptionMilestone=text.match(/(?:record a |record |)(\d+(?:\.\d+)?)\+ yard reception/);
   if(receptionMilestone) return {metric:"receivingLongest",threshold:Number(receptionMilestone[1]),comparison:"gte"};
@@ -499,7 +499,7 @@ function metricSpec(row){
   if(/any time touchdown scorer|anytime touchdown scorer/.test(text)) return {metric:"touchdowns",threshold:1,comparison:"gte"};
   if(/pass \+ rush \+ rec.*yards|pass.*rush.*reception.*yards/.test(text)) return {metric:"passRushRecYards"};
   if(/pass \+ rush.*yards/.test(text)) return {metric:"passRushYards"};
-  if(/rush \+ rec.*yards|rush.*reception.*yards/.test(text)) return {metric:"allPurposeYards"};
+  if(/rush(?:ing)? \+ receiv.*yards|rush.*receiv.*yards/.test(text)) return {metric:"allPurposeYards"};
   if(/passing yards/.test(text)) return {metric:"passingYards"};
   if(/receiving yards/.test(text)) return {metric:"receivingYards"};
   if(/rushing yards/.test(text)) return {metric:"rushingYards"};
@@ -837,6 +837,7 @@ function parlayKeyFor(row){
   ].join("¦");
 }
 function getHitRates(row){
+  if(!metricSpec(row)) return {l5:null,l10:null,h2h:null,current:null,previous:null};
   if(row?.hitRates) return row.hitRates;
   const key=parlayKeyFor(row);
   if(state.hitRateCache.has(key)) return state.hitRateCache.get(key);
