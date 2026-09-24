@@ -1353,3 +1353,8 @@ html[data-theme="buzzer"] .fanduel-pill{background:rgba(239,63,67,.08);border-co
 .odds-result.result-pending{color:var(--muted)}
 .scope-team .prop-player-name,.scope-game .prop-player-name{font-weight:800}
 @media(max-width:900px){.odds-date-button{min-width:96px}.odds-right-actions{flex-wrap:wrap}}
+
+.team-parlay-logo{object-fit:contain!important;padding:3px}
+.parlay-leg-game-logos{position:relative;width:40px;height:40px;flex:0 0 40px}
+.parlay-leg-game-logos img{position:absolute;width:28px;height:28px;object-fit:contain;border-radius:50%;background:var(--panel);border:1px solid var(--line)}
+.parlay-leg-game-logos img:first-child{left:0;bottom:0}.parlay-leg-game-logos img:last-child{right:0;top:0}
