@@ -99,3 +99,12 @@
   .model-layout{display:block}
   .model-controls{margin-bottom:16px}
 }
+
+
+/* Keep the global header/title/nav locked to the exact same position as the main tracker pages. */
+.model-shell{width:min(1500px,calc(100% - 40px));padding:48px 0 28px}
+.model-hero{margin-bottom:22px}
+.model-nav{margin-bottom:18px}
+@media(max-width:980px){
+  .model-shell{width:min(1500px,calc(100% - 40px));padding:48px 0 28px}
+}
