@@ -819,7 +819,24 @@ def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     total_props = sum(len(event.get("props") or []) for event in combined)
+    all_props = [prop for event in combined for prop in (event.get("props") or [])]
+    pass_rush = sum(
+        1 for prop in all_props
+        if re.search(r"pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards", f"{prop.get('market') or ''} {prop.get('proposition') or ''}", re.I)
+    )
+    kicking_points = sum(
+        1 for prop in all_props
+        if "kicking points" in f"{prop.get('market') or ''} {prop.get('proposition') or ''}".lower()
+    )
+    field_goals = sum(
+        1 for prop in all_props
+        if "field goals" in f"{prop.get('market') or ''} {prop.get('proposition') or ''}".lower()
+    )
     print(f"Wrote {len(combined)} event(s), {total_props} FanDuel prop outcomes.")
+    print(
+        "Supported combo/kicker outcomes: "
+        f"passing+rushing={pass_rush}, kicking points={kicking_points}, field goals={field_goals}"
+    )
 
 
 if __name__ == "__main__":
