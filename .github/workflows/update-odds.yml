@@ -15,9 +15,8 @@ on:
       - ".github/workflows/update-odds.yml"
       - "requirements.txt"
   schedule:
-    # Refresh near-term FanDuel prices every 15 minutes so displayed parlays
-    # are built from current leg prices rather than multi-hour-old snapshots.
-    - cron: "2,17,32,47 * * * *"
+    # Refresh games that are getting close every four hours.
+    - cron: "17 */4 * * *"
     # Broader weekly refresh so newly posted future props also get picked up.
     - cron: "41 15 * * 3,5"
 
