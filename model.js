@@ -2,10 +2,10 @@
 "use strict";
 const $=id=>document.getElementById(id);
 const fmt=new Intl.NumberFormat("en-US");
-const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
+const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0};
+const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,modalPlayer:null};
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
 function norm(v){return String(v||"").toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\.?\b/g,"").replace(/[^a-z0-9]/g,"")}
@@ -173,7 +173,7 @@ function controls(){
     hit:hit,targetShare:Number($("targetShare").value)||0,carryShare:Number($("carryShare").value)||0,opportunityShare:Number($("opportunityShare").value)||0,
     targetsPerGameMin:Number($("targetsPerGameMin").value)||0,carriesPerGameMin:Number($("carriesPerGameMin").value)||0,
     dvpMin:Number($("dvpMin").value)||0,dvpSample:Number($("dvpSample").value)||1,teamMatchupMin:Number($("teamMatchupMin").value)||0,
-    edgeMin:Number($("edgeMin").value),requireOpponentData:$("requireOpponentData").checked,
+    edgeMin:Number($("edgeMin").value),oddsSpread:Number($("oddsSpread").value)||600,requireOpponentData:$("requireOpponentData").checked,
     position:$("positionFilter").value,market:$("marketFilter").value,side:$("sideFilter").value,team:$("teamFilter").value,opponent:$("opponentFilter").value,player:$("playerFilter").value.trim().toLowerCase(),
     lineMin:$("lineMin").value===""?null:Number($("lineMin").value),lineMax:$("lineMax").value===""?null:Number($("lineMax").value),
     legOddsMin:Number($("legOddsMin").value),legOddsMax:Number($("legOddsMax").value),parlayOddsMin:Number($("parlayOddsMin").value),parlayOddsMax:Number($("parlayOddsMax").value),
@@ -198,25 +198,54 @@ function analyze(row,cfg){
 }
 function generateSlips(candidates,cfg){
   const top=candidates.slice(0,34),slips=[],minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax),minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
-  function add(combo){let d=1;for(const x of combo){const leg=americanToDecimal(x.row.odds);if(!leg)return;d*=leg}if(minD&&d<minD)return;if(maxD&&d>maxD)return;slips.push({legs:combo.slice(),decimal:d,odds:decimalToAmerican(d),score:avg(combo.map(x=>x.score))||0,edge:avg(combo.map(x=>x.edge))||0})}
-  function walk(start,combo,target){if(slips.length>1600)return;if(combo.length===target){add(combo);return}for(let i=start;i<top.length;i++){const x=top[i];if(cfg.uniquePlayers&&combo.some(y=>norm(y.row.player)===norm(x.row.player)))continue;if(cfg.avoidSameGame&&combo.some(y=>y.row.eventId&&y.row.eventId===x.row.eventId))continue;combo.push(x);walk(i+1,combo,target);combo.pop()}}
+  function spreadOk(combo,next){
+    const values=combo.map(x=>Number(x.row.odds));
+    if(next) values.push(Number(next.row.odds));
+    const clean=values.filter(Number.isFinite);
+    if(clean.length<2) return true;
+    return Math.max(...clean)-Math.min(...clean)<=cfg.oddsSpread;
+  }
+  function add(combo){
+    if(!spreadOk(combo))return;
+    let d=1;
+    for(const x of combo){const leg=americanToDecimal(x.row.odds);if(!leg)return;d*=leg}
+    if(minD&&d<minD)return;if(maxD&&d>maxD)return;
+    slips.push({legs:combo.slice(),decimal:d,odds:decimalToAmerican(d),score:avg(combo.map(x=>x.score))||0,edge:avg(combo.map(x=>x.edge))||0,spread:Math.max(...combo.map(x=>Number(x.row.odds)))-Math.min(...combo.map(x=>Number(x.row.odds)))});
+  }
+  function walk(start,combo,target){
+    if(slips.length>1600)return;
+    if(combo.length===target){add(combo);return}
+    for(let i=start;i<top.length;i++){
+      const x=top[i];
+      if(cfg.uniquePlayers&&combo.some(y=>norm(y.row.player)===norm(x.row.player)))continue;
+      if(cfg.avoidSameGame&&combo.some(y=>y.row.eventId&&y.row.eventId===x.row.eventId))continue;
+      if(!spreadOk(combo,x))continue;
+      combo.push(x);walk(i+1,combo,target);combo.pop();
+    }
+  }
   for(let size=minLegs;size<=maxLegs;size++){walk(0,[],size);if(slips.length>1600)break}
   slips.sort((a,b)=>(b.score+Math.max(0,b.edge*100)*.35)-(a.score+Math.max(0,a.edge*100)*.35));
-  const out=[],seen=new Set();for(const s of slips){const sig=s.legs.map(x=>norm(x.row.player)+"|"+x.market).sort().join("~");if(seen.has(sig))continue;seen.add(sig);out.push(s);if(out.length>=9)break}return out;
+  const out=[],seen=new Set();
+  for(const s of slips){
+    const sig=s.legs.map(x=>norm(x.row.player)+"|"+x.market).sort().join("~");
+    if(seen.has(sig))continue;
+    seen.add(sig);out.push(s);if(out.length>=9)break;
+  }
+  return out;
 }
 function metricClass(v){if(!Number.isFinite(v))return"metric-na";if(v>=70)return"metric-good";if(v>=50)return"metric-mid";return"metric-low"}
 function rateTd(r){return r?'<td class="'+metricClass(r.pct)+'">'+Math.round(r.pct)+'% <small class="cell-sample">'+r.hits+'/'+r.total+'</small></td>':'<td class="metric-na">—</td>'}
 function usageText(x){const a=[];if(x.usage.target)a.push("T "+Math.round(x.usage.target)+"%");if(x.usage.carry)a.push("C "+Math.round(x.usage.carry)+"%");return a.length?a.join(" • "):"—"}
 function renderSignals(){
-  const rows=state.eligible.slice(0,120);$("legBoardCount").textContent=fmt.format(rows.length);
+  const rows=state.eligible.slice(0,60);$("legBoardCount").textContent=fmt.format(rows.length);
   if(!rows.length){$("signalBody").innerHTML='<tr><td colspan="10" class="model-empty">No props satisfy every active constraint. Loosen one or more filters.</td></tr>';return}
   $("signalBody").innerHTML=rows.map(x=>{
     const r=x.row,head=r.headshot||x.player.headshot||fallbackHeadshot();
-    return '<tr><td><div class="signal-player"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(r.proposition||r.market||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></div></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td><td><strong>'+formatOdds(r.odds)+'</strong></td></tr>';
+    return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(r.proposition||r.market||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td><td><strong>'+formatOdds(r.odds)+'</strong></td></tr>';
   }).join("");
 }
 function slipHtml(s,i){
-  let legs="";for(const x of s.legs){legs+='<div class="slip-leg"><img src="'+esc(x.row.headshot||x.player.headshot||fallbackHeadshot())+'" alt=""><div class="slip-leg-copy"><strong>'+esc(x.row.player)+'</strong><span>'+esc(x.row.proposition||x.row.market)+' • '+esc(x.opp||"")+'</span></div><strong>'+formatOdds(x.row.odds)+'</strong></div>'}
+  let legs="";for(const x of s.legs){legs+='<div class="slip-leg model-player-trigger" data-player-id="'+esc(x.player.id)+'" tabindex="0" role="button" aria-label="Open '+esc(x.row.player)+' game log"><img src="'+esc(x.row.headshot||x.player.headshot||fallbackHeadshot())+'" alt=""><div class="slip-leg-copy"><strong>'+esc(x.row.player)+'</strong><span>'+esc(x.row.proposition||x.row.market)+' • '+esc(x.opp||"")+'</span></div><strong>'+formatOdds(x.row.odds)+'</strong></div>'}
   const product=s.legs.reduce((p,x)=>p*x.modelProb,1);
   return '<article class="slip-card"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score"><b>'+s.score.toFixed(1)+'</b><small>AVG SCORE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Model prob*</span><strong>'+pct(product*100,1)+'</strong></div><div><span>Avg edge</span><strong>'+(s.edge>=0?"+":"")+pct(s.edge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
 }
@@ -239,17 +268,62 @@ function buildControls(){
   $("hitRateControls").innerHTML=HIT_LABELS.map(pair=>'<label class="range-row"><span><b>'+pair[1]+' minimum</b><small>Required hit rate</small></span><output id="'+pair[0]+'Value">'+DEFAULTS[pair[0]]+'%</output><input id="'+pair[0]+'Min" type="range" min="0" max="100" step="5" value="'+DEFAULTS[pair[0]]+'"></label>').join("");
   $("weightControls").innerHTML=WEIGHT_LABELS.map(pair=>'<button type="button" class="weight-button active" data-weight="'+pair[0]+'">'+pair[1]+'<strong>'+DEFAULTS.weights[pair[0]]+'</strong></button>').join("");
 }
-function syncLabels(){for(const [k] of HIT_LABELS)$(k+"Value").textContent=$(k+"Min").value+"%";$("targetShareValue").textContent=$("targetShare").value+"%";$("carryShareValue").textContent=$("carryShare").value+"%";$("opportunityShareValue").textContent=$("opportunityShare").value+"%";$("dvpValue").textContent=$("dvpMin").value+"th+";$("dvpSampleValue").textContent=$("dvpSample").value+"+";$("teamMatchupValue").textContent=$("teamMatchupMin").value+"th+";$("edgeValue").textContent=$("edgeMin").value+"%+"}
+function syncLabels(){for(const [k] of HIT_LABELS)$(k+"Value").textContent=$(k+"Min").value+"%";$("targetShareValue").textContent=$("targetShare").value+"%";$("carryShareValue").textContent=$("carryShare").value+"%";$("opportunityShareValue").textContent=$("opportunityShare").value+"%";$("dvpValue").textContent=$("dvpMin").value+"th+";$("dvpSampleValue").textContent=$("dvpSample").value+"+";$("teamMatchupValue").textContent=$("teamMatchupMin").value+"th+";$("edgeValue").textContent=$("edgeMin").value+"%+";$("oddsSpreadValue").textContent=$("oddsSpread").value}
 function fillSelects(){
   const positions=[...new Set(state.players.map(p=>String(p.position||"").toUpperCase()).filter(Boolean))].sort();$("positionFilter").insertAdjacentHTML("beforeend",positions.map(x=>'<option>'+esc(x)+'</option>').join(""));
   const markets=[...new Set(state.odds.map(x=>x._marketLabel).filter(Boolean))].sort((a,b)=>a.localeCompare(b));$("marketFilter").insertAdjacentHTML("beforeend",markets.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join(""));
   const teams=[...new Set(state.odds.map(x=>String(x.team||"").toUpperCase()).filter(Boolean))].sort();$("teamFilter").insertAdjacentHTML("beforeend",teams.map(x=>'<option>'+esc(x)+'</option>').join(""));
   const opponents=[...new Set(state.odds.map(nextOpponent).filter(Boolean))].sort();$("opponentFilter").insertAdjacentHTML("beforeend",opponents.map(x=>'<option>'+esc(x)+'</option>').join(""));
 }
+function modelGameStat(game,key){
+  if(!game||!game.played)return"—";
+  return fmt.format(num(game[key]));
+}
+function modelOpponentHtml(game){
+  if(!game||!game.played||!game.opponent)return'<span class="no-game">—</span>';
+  const abbr=game.opponent.abbreviation||"",name=game.opponent.name||abbr||"Opponent";
+  const logo=game.opponent.logo||(abbr?"https://a.espncdn.com/i/teamlogos/nfl/500/"+abbr.toLowerCase()+".png":"");
+  const venue=game.isAway?"@":"vs";
+  const result=game.result?'<span class="game-result '+(String(game.result).toUpperCase()==="W"?"win":String(game.result).toUpperCase()==="L"?"loss":"tie")+'">('+esc(game.result)+(game.score?" "+esc(game.score):"")+')</span>':"";
+  return'<div class="opponent-matchup"><span class="venue-marker">'+venue+'</span>'+(logo?'<img class="opponent-logo" src="'+esc(logo)+'" alt="">':"")+'<span class="opponent-name">'+esc(name)+'</span>'+result+'</div>';
+}
+function modelLogsForSeason(player,season){
+  const by=player&&player.gameLogsBySeason||{};
+  if(Array.isArray(by[String(season)]))return by[String(season)];
+  if(Number(season)===Number(state.season)&&Array.isArray(player&&player.gameLog))return player.gameLog;
+  return[];
+}
+function renderModelPlayerSeason(){
+  const player=state.modalPlayer;if(!player)return;
+  const season=Number($("modelModalSeasonSelect").value||state.season),rows=modelLogsForSeason(player,season);
+  $("modelModalKicker").textContent=season+" REGULAR SEASON • GAME LOG";
+  if(!rows.length){$("modelGameLogBody").innerHTML='<tr><td colspan="9" class="modal-empty">No regular-season game log is available.</td></tr>';return}
+  $("modelGameLogBody").innerHTML=rows.map(game=>'<tr class="'+(game.played?"":"no-game-row")+'"><td class="week-cell">Week '+esc(game.week)+'</td><td class="opponent-cell">'+modelOpponentHtml(game)+'</td><td class="stat-strong">'+modelGameStat(game,"touchdowns")+'</td><td class="all-purpose">'+modelGameStat(game,"allPurposeYards")+'</td><td>'+modelGameStat(game,"receivingYards")+'</td><td>'+modelGameStat(game,"rushingYards")+'</td><td>'+modelGameStat(game,"receptions")+'</td><td>'+modelGameStat(game,"passingTouchdowns")+'</td><td>'+modelGameStat(game,"passingYards")+'</td></tr>').join("");
+}
+function openModelPlayer(player){
+  if(!player)return;
+  state.modalPlayer=player;
+  $("modelModalHeadshot").src=player.headshot||fallbackHeadshot();
+  $("modelModalPlayerName").textContent=player.name||"Player";
+  $("modelModalPlayerMeta").textContent=[player.position,player.team].filter(Boolean).join(" • ");
+  const by=player.gameLogsBySeason||{};
+  let seasons=Object.keys(by).filter(y=>Array.isArray(by[y])&&by[y].some(g=>g&&g.played)).map(Number).sort((a,b)=>b-a);
+  if(!seasons.includes(Number(state.season))&&Array.isArray(player.gameLog)&&player.gameLog.some(g=>g&&g.played))seasons.unshift(Number(state.season));
+  seasons=[...new Set(seasons)];
+  $("modelModalSeasonSelect").innerHTML=seasons.map(y=>'<option value="'+y+'">'+y+'</option>').join("");
+  $("modelModalSeasonSelect").value=String(seasons[0]||state.season);
+  renderModelPlayerSeason();
+  $("modelPlayerModal").showModal();
+}
 function bind(){
+  document.addEventListener("click",e=>{const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;const player=state.players.find(p=>String(p.id)===String(trigger.dataset.playerId));if(player)openModelPlayer(player)});
+  document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;e.preventDefault();const player=state.players.find(p=>String(p.id)===String(trigger.dataset.playerId));if(player)openModelPlayer(player)});
+  $("modelModalClose").addEventListener("click",()=>$("modelPlayerModal").close());
+  $("modelPlayerModal").addEventListener("click",e=>{if(e.target===$("modelPlayerModal"))$("modelPlayerModal").close()});
+  $("modelModalSeasonSelect").addEventListener("change",renderModelPlayerSeason);
   document.querySelectorAll(".model-controls input,.model-controls select").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
   $("weightControls").addEventListener("click",e=>{const b=e.target.closest("[data-weight]");if(!b)return;const k=b.dataset.weight,levels=[0,8,14,22,30,40],cur=state.weights[k],next=levels[(levels.indexOf(cur)+1)%levels.length];state.weights[k]=next;b.querySelector("strong").textContent=next;b.classList.toggle("active",next>0);schedule()});
-  $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;for(const id of ["positionFilter","marketFilter","sideFilter","teamFilter","opponentFilter","playerFilter"])$(id).value="";for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=false;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
+  $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;for(const id of ["positionFilter","marketFilter","sideFilter","teamFilter","opponentFilter","playerFilter"])$(id).value="";for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=false;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
 }
 async function init(){
   buildControls();bind();syncLabels();
