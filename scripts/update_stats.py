@@ -764,13 +764,14 @@ def attach_game_logs(players, season, previous_payload, refresh_current=True):
         for p in players:
             previous = previous_by_id.get(p["id"], {})
             previous_by_season = previous.get("gameLogsBySeason") or {}
+            force_kicker_refresh = str(p.get("position") or "").upper() == "K"
 
             current_existing = previous_by_season.get(str(season)) or previous.get("gameLog") or []
             current_has_dates = current_existing and all(
                 (not g.get("played")) or g.get("date")
                 for g in current_existing
             )
-            if refresh_current or not current_has_dates:
+            if refresh_current or not current_has_dates or force_kicker_refresh:
                 futures[pool.submit(parse_game_log, p["id"], season)] = (p, season)
             else:
                 raw_logs[(p["id"], season)] = [g for g in current_existing if g.get("played")]
@@ -780,7 +781,7 @@ def attach_game_logs(players, season, previous_payload, refresh_current=True):
                 (not g.get("played")) or g.get("date")
                 for g in prior_existing
             )
-            if prior_has_dates:
+            if prior_has_dates and not force_kicker_refresh:
                 raw_logs[(p["id"], prior_season)] = [g for g in prior_existing if g.get("played")]
             else:
                 futures[pool.submit(parse_game_log, p["id"], prior_season)] = (p, prior_season)
