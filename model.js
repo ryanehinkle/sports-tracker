@@ -302,42 +302,10 @@ function generalizedMarketLabel(row){
 }
 
 function modelSupportedMarketLabel(row){
-  const spec=metricSpec(row);
-  if(!spec)return "";
-
-  const labels={
-    receivingYards:"Receiving Yards",
-    rushingYards:"Rushing Yards",
-    passingYards:"Passing Yards",
-    receptions:"Receptions",
-    passingTouchdowns:"Passing TDs",
-    receivingTouchdowns:"Receiving TDs",
-    rushingTouchdowns:"Rushing TDs",
-    rushingAttempts:"Rushing Attempts",
-    passingAttempts:"Passing Attempts",
-    passingCompletions:"Passing Completions",
-    passingInterceptions:"Interceptions Thrown",
-    passingLongest:"Longest Completion",
-    receivingLongest:"Longest Reception",
-    rushingLongest:"Longest Rush",
-    soloTackles:"Solo Tackles",
-    totalTackles:"Tackles + Assists",
-    sacks:"Sacks",
-    defensiveInterceptions:"Defensive Interceptions",
-    fieldGoalsMade:"Field Goals",
-    kickingPoints:"Kicking Points",
-    allPurposeYards:"Rush + Rec Yards",
-    passRushYards:"Pass + Rush Yards",
-    passRushRecYards:"Pass + Rush + Rec Yards"
-  };
-
-  if(spec.metric==="touchdowns"){
-    const text=(String(row.market||"")+" "+String(row.proposition||"")).toLowerCase();
-    return /any time touchdown scorer|anytime touchdown scorer/.test(text)
-      ?"Any Time Touchdown Scorer"
-      :"Touchdowns";
-  }
-  return labels[spec.metric]||generalizedMarketLabel(row);
+  // Use the exact same generalized proposition names as the Odds page.
+  // The model only exposes markets it can actually score from game-log data,
+  // which removes team/player-specific drive and period props from this menu.
+  return metricSpec(row)?generalizedMarketLabel(row):"";
 }
 
 function flattenOdds(raw){
