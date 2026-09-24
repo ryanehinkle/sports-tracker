@@ -6,7 +6,7 @@
     2026,
     2025
   ],
-  "updatedAt": "2026-09-24T21:43:47.322374+00:00",
+  "updatedAt": "2026-09-24T21:47:58.495357+00:00",
   "source": "ESPN",
   "definition": {
     "allPurposeYards": "rushing + receiving yards",
@@ -150134,11 +150134,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -150175,11 +150175,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -150216,11 +150216,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -150257,11 +150257,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -150298,11 +150298,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -150339,11 +150339,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -150380,11 +150380,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -150421,11 +150421,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -150471,11 +150471,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -150512,11 +150512,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -150553,11 +150553,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -150594,11 +150594,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 0,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -150635,11 +150635,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -150676,11 +150676,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -150717,11 +150717,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -150758,11 +150758,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -150799,11 +150799,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -151030,11 +151030,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -151071,11 +151071,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -151112,11 +151112,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -151153,11 +151153,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -151194,11 +151194,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -151235,11 +151235,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -151276,11 +151276,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -151317,11 +151317,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -151358,11 +151358,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -151399,11 +151399,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -151440,11 +151440,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -151481,11 +151481,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -151522,11 +151522,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 15,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -151572,11 +151572,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -151613,11 +151613,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -151654,11 +151654,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -151695,11 +151695,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -151760,11 +151760,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -151801,11 +151801,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -151842,11 +151842,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -151883,11 +151883,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -151924,11 +151924,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -151965,11 +151965,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -152006,11 +152006,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -152047,11 +152047,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -152088,11 +152088,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -152129,11 +152129,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -152179,11 +152179,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -152229,11 +152229,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -152270,11 +152270,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -152311,11 +152311,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -152352,11 +152352,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -152393,11 +152393,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -152624,11 +152624,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -152665,11 +152665,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 16,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -152706,11 +152706,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -152747,11 +152747,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -152788,11 +152788,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -152829,11 +152829,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -152870,11 +152870,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -152911,11 +152911,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -152952,11 +152952,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -153002,11 +153002,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -153043,11 +153043,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -153084,11 +153084,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -153125,11 +153125,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 16,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -153166,11 +153166,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -153207,11 +153207,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -153248,11 +153248,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -153289,11 +153289,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -153520,11 +153520,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -153561,11 +153561,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -153602,11 +153602,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -153643,11 +153643,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -153711,11 +153711,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -153752,11 +153752,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -153793,11 +153793,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -153834,11 +153834,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -153875,11 +153875,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -153916,11 +153916,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -153957,11 +153957,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -153998,11 +153998,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -154039,11 +154039,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -154080,11 +154080,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -154121,11 +154121,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 0,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -154352,11 +154352,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -154393,11 +154393,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -154434,11 +154434,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -154475,11 +154475,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -154516,11 +154516,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -154557,11 +154557,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 0,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -154598,11 +154598,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -154648,11 +154648,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -154689,11 +154689,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -154730,11 +154730,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -154771,11 +154771,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -154812,11 +154812,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -154853,11 +154853,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -154894,11 +154894,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -154935,11 +154935,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -154976,11 +154976,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -155017,11 +155017,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -155248,11 +155248,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -155289,11 +155289,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -155330,11 +155330,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -155371,11 +155371,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -155412,11 +155412,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -155453,11 +155453,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 17,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -155494,11 +155494,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -155535,11 +155535,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -155576,11 +155576,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -155617,11 +155617,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -155658,11 +155658,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -155708,11 +155708,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -155749,11 +155749,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 16,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -155790,11 +155790,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -155831,11 +155831,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -155872,11 +155872,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -155913,11 +155913,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -156144,11 +156144,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -156185,11 +156185,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -156226,11 +156226,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -156267,11 +156267,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -156308,11 +156308,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -156349,11 +156349,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -156390,11 +156390,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -156440,11 +156440,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -156481,11 +156481,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -156522,11 +156522,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -156563,11 +156563,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -156604,11 +156604,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -156645,11 +156645,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -156686,11 +156686,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -156727,11 +156727,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -156768,11 +156768,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -156809,11 +156809,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -157418,11 +157418,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -157459,11 +157459,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -157500,11 +157500,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 17,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -157541,11 +157541,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -157582,11 +157582,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -157623,11 +157623,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -157664,11 +157664,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -157705,11 +157705,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -157755,11 +157755,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -157796,11 +157796,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -157837,11 +157837,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -157878,11 +157878,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -157919,11 +157919,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -157960,11 +157960,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -158001,11 +158001,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -158042,11 +158042,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -158083,11 +158083,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -158314,11 +158314,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -158355,11 +158355,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -158396,11 +158396,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -158437,11 +158437,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -158487,11 +158487,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -158528,11 +158528,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -158569,11 +158569,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -158610,11 +158610,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -158651,11 +158651,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -158692,11 +158692,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -158733,11 +158733,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -158774,11 +158774,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -158815,11 +158815,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -158856,11 +158856,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -158897,11 +158897,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -158938,11 +158938,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -158979,11 +158979,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -160493,11 +160493,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -160534,11 +160534,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -160575,11 +160575,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -160616,11 +160616,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -160657,11 +160657,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -160698,11 +160698,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -160739,11 +160739,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -160780,11 +160780,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -160821,11 +160821,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -160862,11 +160862,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -160930,11 +160930,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -160971,11 +160971,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -161012,11 +161012,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -161053,11 +161053,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -161284,11 +161284,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -161325,11 +161325,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -161366,11 +161366,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -161407,11 +161407,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -161448,11 +161448,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -161489,11 +161489,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -161530,11 +161530,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 15,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -161571,11 +161571,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -161612,11 +161612,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -161662,11 +161662,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -161703,11 +161703,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -161744,11 +161744,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 20,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -161785,11 +161785,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -161826,11 +161826,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 0,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -161867,11 +161867,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -161908,11 +161908,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -161949,11 +161949,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 0,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -162180,11 +162180,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -162221,11 +162221,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -162262,11 +162262,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -162303,11 +162303,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -162344,11 +162344,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -162385,11 +162385,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -162426,11 +162426,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -162467,11 +162467,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -162508,11 +162508,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -162558,11 +162558,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -162599,11 +162599,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 15,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -162640,11 +162640,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -162681,11 +162681,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -162722,11 +162722,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -162763,11 +162763,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -162804,11 +162804,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -162845,11 +162845,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -163157,11 +163157,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -163198,11 +163198,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -163239,11 +163239,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -163280,11 +163280,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -163321,11 +163321,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -163362,11 +163362,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -163403,11 +163403,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -163444,11 +163444,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -163485,11 +163485,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -163716,11 +163716,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -163757,11 +163757,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -163798,11 +163798,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -163839,11 +163839,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -163880,11 +163880,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -163921,11 +163921,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -163962,11 +163962,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -164012,11 +164012,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -164053,11 +164053,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -164094,11 +164094,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -164135,11 +164135,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -164176,11 +164176,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -164217,11 +164217,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -164258,11 +164258,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -164299,11 +164299,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -164340,11 +164340,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -164381,11 +164381,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -164612,11 +164612,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -164653,11 +164653,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -164694,11 +164694,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -164735,11 +164735,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -164776,11 +164776,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -164817,11 +164817,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -164858,11 +164858,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -164899,11 +164899,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -164949,11 +164949,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -164990,11 +164990,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -165031,11 +165031,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -165072,11 +165072,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -165113,11 +165113,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -165154,11 +165154,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -165195,11 +165195,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -165236,11 +165236,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -165277,11 +165277,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -165508,11 +165508,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -165549,11 +165549,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -165590,11 +165590,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -165631,11 +165631,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -165672,11 +165672,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -165713,11 +165713,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -165754,11 +165754,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -165804,11 +165804,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -165845,11 +165845,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -165886,11 +165886,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -165927,11 +165927,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -165968,11 +165968,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -166009,11 +166009,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -166050,11 +166050,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 18,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -166091,11 +166091,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -166132,11 +166132,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -166173,11 +166173,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -166593,11 +166593,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -166634,11 +166634,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -166675,11 +166675,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -166716,11 +166716,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 0,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -166757,11 +166757,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -166807,11 +166807,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -166848,11 +166848,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -166889,11 +166889,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -166939,11 +166939,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -166980,11 +166980,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -167021,11 +167021,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -167062,11 +167062,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -167103,11 +167103,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -167144,11 +167144,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -167185,11 +167185,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -167226,11 +167226,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -167457,11 +167457,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -167498,11 +167498,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -167539,11 +167539,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -167580,11 +167580,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -167621,11 +167621,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -167671,11 +167671,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -167712,11 +167712,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 14,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -167753,11 +167753,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 15,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -167812,11 +167812,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -167853,11 +167853,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -167894,11 +167894,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -167935,11 +167935,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 16,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -167976,11 +167976,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -168017,11 +168017,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -168058,11 +168058,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 20,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -168335,11 +168335,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -168376,11 +168376,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -168417,11 +168417,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -168458,11 +168458,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -168499,11 +168499,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -168540,11 +168540,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -168581,11 +168581,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -168631,11 +168631,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -168672,11 +168672,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -168713,11 +168713,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -168754,11 +168754,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -168795,11 +168795,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -169071,11 +169071,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -169112,11 +169112,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -169153,11 +169153,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -169194,11 +169194,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -169235,11 +169235,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -169276,11 +169276,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -169317,11 +169317,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -169358,11 +169358,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -169408,11 +169408,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -169449,11 +169449,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -169490,11 +169490,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -169531,11 +169531,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -169572,11 +169572,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -169613,11 +169613,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -169654,11 +169654,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -169695,11 +169695,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -169935,11 +169935,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 0,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -169976,11 +169976,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -170017,11 +170017,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -170058,11 +170058,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -170099,11 +170099,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -170140,11 +170140,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -170181,11 +170181,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -170222,11 +170222,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -170263,11 +170263,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -170304,11 +170304,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -170345,11 +170345,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -170395,11 +170395,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -170436,11 +170436,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -170477,11 +170477,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -170518,11 +170518,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -170559,11 +170559,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -170600,11 +170600,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -170831,11 +170831,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -170872,11 +170872,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -170913,11 +170913,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -170954,11 +170954,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -170995,11 +170995,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -171036,11 +171036,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -171077,11 +171077,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -171118,11 +171118,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -171159,11 +171159,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -171200,11 +171200,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -171241,11 +171241,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -171282,11 +171282,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -171323,11 +171323,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -171373,11 +171373,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -171414,11 +171414,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -171455,11 +171455,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -171496,11 +171496,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -171727,11 +171727,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 15,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -171768,11 +171768,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 17,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -171809,11 +171809,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -171850,11 +171850,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -171891,11 +171891,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 1,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -172617,11 +172617,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -172658,11 +172658,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -172699,11 +172699,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -172740,11 +172740,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -172781,11 +172781,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -172822,11 +172822,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -172872,11 +172872,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -172913,11 +172913,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -172954,11 +172954,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -172995,11 +172995,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -173036,11 +173036,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -173077,11 +173077,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 2,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -173118,11 +173118,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -173159,11 +173159,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -173200,11 +173200,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -173241,11 +173241,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -173282,11 +173282,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -173513,11 +173513,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -173554,11 +173554,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -173595,11 +173595,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -173636,11 +173636,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -173677,11 +173677,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -173718,11 +173718,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 7,
@@ -173759,11 +173759,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -173800,11 +173800,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -173841,11 +173841,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -173882,11 +173882,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -173923,11 +173923,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 16,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -173973,11 +173973,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -174014,11 +174014,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -174055,11 +174055,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -174096,11 +174096,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -174137,11 +174137,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 8,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -174178,11 +174178,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 13,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
@@ -174409,11 +174409,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 2,
@@ -174450,11 +174450,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 3,
@@ -174491,11 +174491,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 12,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 4,
@@ -174532,11 +174532,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 5,
@@ -174573,11 +174573,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 3,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 6,
@@ -174623,11 +174623,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 16,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 8,
@@ -174664,11 +174664,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 4,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 9,
@@ -174705,11 +174705,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 9,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 10,
@@ -174746,11 +174746,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 11,
@@ -174787,11 +174787,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 5,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 12,
@@ -174828,11 +174828,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 6,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 13,
@@ -174869,11 +174869,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 0,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 14,
@@ -174910,11 +174910,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 7,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 15,
@@ -174951,11 +174951,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 16,
@@ -174992,11 +174992,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 17,
@@ -175033,11 +175033,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 11,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           },
           {
             "week": 18,
@@ -175074,11 +175074,11 @@
             "defensiveInterceptions": 0,
             "fieldGoalsMade": 0,
             "extraPointsMade": 0,
+            "kickingPoints": 10,
             "touchdowns": 0,
             "allPurposeYards": 0,
             "passRushYards": 0,
-            "passRushRecYards": 0,
-            "kickingPoints": 0
+            "passRushRecYards": 0
           }
         ]
       }
