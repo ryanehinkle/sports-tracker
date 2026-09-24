@@ -33,6 +33,14 @@ CORE_PROP_TABS = {
     "rushing-props",
     "defensive-props",
     "kicking-props",
+    "kicker-props",
+    "kicking",
+    "player-kicking-props",
+    "passing-rushing-props",
+    "passing-rushing",
+    "qb-props",
+    "player-combos",
+    "player-combo-props",
     "touchdown-scorers",
     "touchdowns",
     "player-props",
@@ -299,7 +307,7 @@ def clean_market_label(market_name, player_name):
     label = re.sub(r"\brec\s+yards\b", "Receiving Yards", label, flags=re.I)
     label = re.sub(r"\brush\s+yards\b", "Rushing Yards", label, flags=re.I)
     label = re.sub(r"\bpass\s+yards\b", "Passing Yards", label, flags=re.I)
-    label = re.sub(r"\bpass(?:ing)?\s*\+\s*rush(?:ing)?\s+yards\b", "Passing + Rushing Yards", label, flags=re.I)
+    label = re.sub(r"\bpass(?:ing)?\s*(?:\+|plus)\s*rush(?:ing)?\s+yards\b", "Passing + Rushing Yards", label, flags=re.I)
     label = re.sub(r"\bpass\s+tds\b", "Passing TDs", label, flags=re.I)
     label = re.sub(r"\bkicking\s+points\b", "Kicking Points", label, flags=re.I)
     label = re.sub(r"\bfield\s+goals?(?:\s+made)?\b", "Field Goals", label, flags=re.I)
@@ -353,7 +361,17 @@ def is_player_market(market, player_profiles):
         return True
 
     market_name = str(market.get("marketName") or "")
-    if find_profile([market_name], {}, player_profiles):
+    runner_text = []
+    for runner in runners:
+        runner_text.extend([
+            runner.get("runnerName"),
+            runner.get("name"),
+            runner.get("selectionName"),
+        ])
+
+    # Some FanDuel combo/kicker markets use a generic market title and place
+    # the athlete name only on the runner. Treat those as player markets too.
+    if find_profile([market_name, *runner_text], {}, player_profiles):
         return True
 
     market_type = str(market.get("marketType") or market.get("marketTypeId") or "").upper()
@@ -494,7 +512,7 @@ def _metric_spec(prop):
         return {"metric": "touchdowns", "threshold": 1.0, "comparison": "gte"}
     if re.search(r"pass\s*\+\s*rush\s*\+\s*rec.*yards|pass.*rush.*reception.*yards", text):
         return {"metric": "passRushRecYards"}
-    if re.search(r"pass(?:ing)?\s*\+\s*rush(?:ing)?.*yards", text):
+    if re.search(r"pass(?:ing)?\s*(?:\+|plus)\s*rush(?:ing)?.*yards", text):
         return {"metric": "passRushYards"}
     if re.search(r"rush(?:ing)?\s*\+\s*receiv.*yards|rush.*receiv.*yards", text):
         return {"metric": "allPurposeYards"}
