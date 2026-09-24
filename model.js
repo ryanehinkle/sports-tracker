@@ -300,7 +300,7 @@ function marketProbability(row){
   return Number.isFinite(other)?raw/(raw+other):raw;
 }
 function calibrationForMetric(metric){
-  return state.calibration&&state.calibration.metrics&&state.calibration.metrics[metric]||state.calibration&&state.calibration.all||null;
+  return state.calibration&&state.calibration.metrics&&state.calibration.metrics[metric]||null;
 }
 function logistic(value){return 1/(1+Math.exp(-Math.max(-20,Math.min(20,value))))}
 function overForecastFeatures(row,player,dvpPct){
@@ -333,8 +333,14 @@ function calibratedOverProbability(row,player,dvpPct){
   }else{
     probability=clamp(.28*features.vector[1]+.27*features.vector[2]+.22*logistic(features.vector[3]*1.5)+.08*logistic(features.vector[4])+.15*features.vector[5],.05,.95);
   }
-  const reliability=clamp(features.historyCount/10,0,1),accuracy=Number(cal&&cal.test&&cal.test.accuracy);
-  const calibrationQuality=Number.isFinite(accuracy)?clamp((accuracy-.5)/.2,0,1):.35;
+  const reliability=clamp(features.historyCount/10,0,1);
+  const testBrier=Number(cal&&cal.test&&cal.test.brier),testHit=Number(cal&&cal.test&&cal.test.hitRate);
+  const baselineBrier=Number.isFinite(testHit)?testHit*(1-testHit):NaN;
+  const brierLift=Number.isFinite(testBrier)&&baselineBrier>0?(baselineBrier-testBrier)/baselineBrier:0;
+  // A model that barely beats a constant-rate baseline is deliberately shrunk
+  // much harder toward the sportsbook. This is what keeps weak 2025 rushing-yard
+  // calibration from flooding the board with RB props.
+  const calibrationQuality=cal?clamp(brierLift/.12,0,1):.12;
   return{probability:clamp(probability,.03,.97),reliability:reliability,calibrationQuality:calibrationQuality,features:features};
 }
 function usageStability(player){
@@ -359,19 +365,98 @@ function controls(){
 }
 function analyze(row,cfg){
   const player=state.playerByName.get(norm(row.player));if(!player)return null;
-  const odds=Number(row.odds),line=Number(row.line);if(!Number.isFinite(odds)||odds<cfg.legOddsMin||odds>cfg.legOddsMax)return null;
-  if(cfg.lineMin!==null&&(!Number.isFinite(line)||line<cfg.lineMin))return null;if(cfg.lineMax!==null&&(!Number.isFinite(line)||line>cfg.lineMax))return null;
-  const pos=String(row.position||player.position||"").toUpperCase(),team=String(row.team||player.team||"").toUpperCase(),opp=nextOpponent(Object.assign({},row,{team:team})),market=row._marketLabel;
-  if(cfg.position&&pos!==cfg.position)return null;if(cfg.market&&market!==cfg.market)return null;if(cfg.side&&String(row.selection||"")!==cfg.side)return null;if(cfg.team&&team!==cfg.team)return null;if(cfg.opponent&&opp!==cfg.opponent)return null;if(cfg.game&&String(row.eventId)!==String(cfg.game))return null;if(cfg.player&&!String(row.player||"").toLowerCase().includes(cfg.player))return null;
-  const rates=ratesFor(row,player);for(const k of Object.keys(cfg.hit)){if(cfg.hit[k]>0&&(!rates[k]||rates[k].pct<cfg.hit[k]))return null}
+  const odds=Number(row.odds);
+  const hasLine=row.line!==null&&row.line!==undefined&&row.line!=="",line=hasLine?Number(row.line):null;
+  if(!Number.isFinite(odds)||odds<cfg.legOddsMin||odds>cfg.legOddsMax)return null;
+  if(cfg.lineMin!==null&&(!Number.isFinite(line)||line<cfg.lineMin))return null;
+  if(cfg.lineMax!==null&&(!Number.isFinite(line)||line>cfg.lineMax))return null;
+
+  const pos=String(row.position||player.position||"").toUpperCase();
+  const team=String(row.team||player.team||"").toUpperCase();
+  const opp=nextOpponent(Object.assign({},row,{team:team}));
+  const market=row._marketLabel;
+  if(cfg.position&&pos!==cfg.position)return null;
+  if(cfg.market&&market!==cfg.market)return null;
+  if(cfg.side&&String(row.selection||"")!==cfg.side)return null;
+  if(cfg.team&&team!==cfg.team)return null;
+  if(cfg.opponent&&opp!==cfg.opponent)return null;
+  if(cfg.game&&String(row.eventId)!==String(cfg.game))return null;
+  if(cfg.player&&!String(row.player||"").toLowerCase().includes(cfg.player))return null;
+
+  const spec=metricSpec(row);if(!spec)return null;
+  const rates=ratesFor(row,player);
+  for(const k of Object.keys(cfg.hit)){
+    if(cfg.hit[k]>0&&(!rates[k]||rates[k].pct<cfg.hit[k]))return null;
+  }
+
   const usage=state.usage.get(String(player.id))||{target:0,carry:0,opportunity:0,targetsPerGame:0,carriesPerGame:0};
   if(usage.target<cfg.targetShare||usage.carry<cfg.carryShare||usage.opportunity<cfg.opportunityShare||usage.targetsPerGame<cfg.targetsPerGameMin||usage.carriesPerGame<cfg.carriesPerGameMin)return null;
-  const spec=metricSpec(row);if(!spec)return null;const metric=dvpMetric(spec),dvpRow=state.dvp.get(opp+"|"+pos),dvpInfo=metric&&dvpRow&&dvpRow.metrics[metric],dvpPct=dvpInfo&&dvpInfo.percentile,teamMatchupPct=teamDefensePercentile(opp,spec);
-  if(cfg.requireOpponentData&&(!dvpRow||dvpRow.samples<cfg.dvpSample||!Number.isFinite(dvpPct)))return null;if(cfg.dvpMin>0&&(!Number.isFinite(dvpPct)||dvpPct<cfg.dvpMin))return null;if(cfg.dvpMin>0&&dvpRow&&dvpRow.samples<cfg.dvpSample)return null;if(cfg.teamMatchupMin>0&&(!Number.isFinite(teamMatchupPct)||teamMatchupPct<cfg.teamMatchupMin))return null;
-  const recent=avg([smoothed(rates.l5),smoothed(rates.l10)].filter(Number.isFinite))??.5,season=avg([smoothed(rates.current),smoothed(rates.previous)].filter(Number.isFinite))??recent,h2h=smoothed(rates.h2h)??season;
-  const usageSignal=clamp(Math.max(usage.target,usage.carry,usage.opportunity)/55,0,1),matchup=avg([Number.isFinite(dvpPct)?dvpPct/100:null,Number.isFinite(teamMatchupPct)?teamMatchupPct/100:null].filter(Number.isFinite))??.5,modelProb=clamp(.38*recent+.32*season+.12*h2h+.10*usageSignal+.08*matchup,.03,.97),book=implied(odds)??.5,edge=modelProb-book;if(edge*100<cfg.edgeMin)return null;
-  const valueSignal=clamp(.5+edge*2,0,1),w=cfg.weights,total=Object.values(w).reduce((a,b)=>a+b,0)||1,score=100*(w.recent*recent+w.season*season+w.h2h*h2h+w.usage*usageSignal+w.matchup*matchup+w.value*valueSignal)/total;
-  return{row:row,player:player,pos:pos,team:team,opp:opp,market:market,rates:rates,usage:usage,dvpRow:dvpRow,dvpPct:dvpPct,teamMatchupPct:teamMatchupPct,dvpMetric:metric,recentSignal:recent,seasonSignal:season,h2hSignal:h2h,usageSignal:usageSignal,matchupSignal:matchup,valueSignal:valueSignal,modelProb:modelProb,impliedProb:book,edge:edge,score:clamp(score,0,100)};
+
+  const metric=dvpMetric(spec);
+  const dvpRow=state.dvp.get(opp+"|"+pos);
+  const dvpInfo=metric&&dvpRow&&dvpRow.metrics[metric];
+  const dvpPct=dvpInfo&&Number(dvpInfo.percentile);
+  const teamMatchupPct=teamDefensePercentile(opp,spec);
+  const isUnder=String(row.selection||"")==="Under"||String(row.selection||"")==="No";
+  const favorableDvp=Number.isFinite(dvpPct)?(isUnder?100-dvpPct:dvpPct):null;
+  const favorableTeam=Number.isFinite(teamMatchupPct)?(isUnder?100-teamMatchupPct:teamMatchupPct):null;
+  const effectiveDvpSample=dvpRow?num(dvpRow.currentGames)+num(dvpRow.priorGames)*.35:0;
+
+  if(cfg.requireOpponentData&&(!dvpRow||!Number.isFinite(favorableDvp)))return null;
+  if(cfg.dvpMin>0&&(!Number.isFinite(favorableDvp)||favorableDvp<cfg.dvpMin))return null;
+  if(cfg.dvpMin>0&&effectiveDvpSample<cfg.dvpSample)return null;
+  if(cfg.teamMatchupMin>0&&(!Number.isFinite(favorableTeam)||favorableTeam<cfg.teamMatchupMin))return null;
+
+  // 2025 walk-forward calibration estimates the probability of the OVER.
+  // UNDER/NO selections use the complement. The historical estimate is then
+  // shrunk toward FanDuel's no-vig probability according to held-out quality.
+  const calibrated=calibratedOverProbability(row,player,dvpPct);
+  const historicalProb=isUnder?1-calibrated.probability:calibrated.probability;
+  const book=marketProbability(row);
+  const historyWeight=clamp(.18+.22*calibrated.reliability+.38*calibrated.calibrationQuality,.18,.72);
+  let modelProb=book+(historicalProb-book)*historyWeight;
+
+  const h2h=smoothed(rates.h2h,5);
+  if(Number.isFinite(h2h)&&rates.h2h&&rates.h2h.total>=2){
+    const h2hWeight=Math.min(.08,.02*rates.h2h.total);
+    modelProb=modelProb*(1-h2hWeight)+h2h*h2hWeight;
+  }
+  modelProb=clamp(modelProb,.03,.97);
+
+  const edge=modelProb-book;
+  if(edge*100<cfg.edgeMin)return null;
+
+  const recent=avg([smoothed(rates.l5,4),smoothed(rates.l10,5)].filter(Number.isFinite))??modelProb;
+  const season=avg([smoothed(rates.current,5),smoothed(rates.previous,7)].filter(Number.isFinite))??recent;
+  const h2hSignal=Number.isFinite(h2h)?h2h:season;
+  const usageSignal=usageStability(player);
+  const matchup=avg([
+    Number.isFinite(favorableDvp)?favorableDvp/100:null,
+    Number.isFinite(favorableTeam)?favorableTeam/100:null
+  ].filter(Number.isFinite))??.5;
+  const valueSignal=clamp(.5+edge*3,0,1);
+
+  const w=cfg.weights,total=Object.values(w).reduce((a,b)=>a+b,0)||1;
+  const weightedSignal=(w.recent*recent+w.season*season+w.h2h*h2hSignal+w.usage*usageSignal+w.matchup*matchup+w.value*valueSignal)/total;
+
+  // Success probability is the dominant grade. Reliability and historical
+  // calibration quality matter more than raw volume, preventing position bias.
+  const score=100*clamp(
+    .68*modelProb+
+    .10*calibrated.reliability+
+    .12*calibrated.calibrationQuality+
+    .10*weightedSignal,
+    0,1
+  );
+
+  return{
+    row:row,player:player,pos:pos,team:team,opp:opp,market:market,rates:rates,usage:usage,
+    dvpRow:dvpRow,dvpPct:dvpPct,favorableDvp:favorableDvp,teamMatchupPct:teamMatchupPct,
+    dvpMetric:metric,recentSignal:recent,seasonSignal:season,h2hSignal:h2hSignal,
+    usageSignal:usageSignal,matchupSignal:matchup,valueSignal:valueSignal,
+    modelProb:modelProb,impliedProb:book,edge:edge,score:score,
+    reliability:calibrated.reliability,calibrationQuality:calibrated.calibrationQuality
+  };
 }
 function generateSlips(candidates,cfg){
   const top=candidates.slice(0,34),slips=[],minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax),minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
