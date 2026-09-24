@@ -309,6 +309,7 @@ function cleanDisplayProposition(row){
 }
 
 function generalizedMarketLabel(row){
+  if(row&&["team","game"].includes(row.scope)) return String(row.market||"Team / Game Prop");
   const player=cleanDisplayPlayerName(row.player);
   let label=String(row.market||row.proposition||"Player Prop").trim();
 
@@ -363,6 +364,7 @@ function generalizedMarketLabel(row){
 }
 
 function modelSupportedMarketLabel(row){
+  if(row&&["team","game"].includes(row.scope)) return String(row.market||"Team / Game Prop");
   const spec=metricSpec(row);
   if(!spec)return"";
   const labels={
@@ -399,8 +401,14 @@ function flattenOdds(raw){
   for(const event of raw.events||[]){
     const away=event.awayAbbr||event.awayTeam||"AWAY",home=event.homeAbbr||event.homeTeam||"HOME";
     for(const prop of event.props||[]){
-      const player=state.playerByName.get(norm(prop.player)),row=Object.assign({},prop,{eventId:String(event.id||""),awayAbbr:event.awayAbbr||"",homeAbbr:event.homeAbbr||"",awayTeam:event.awayTeam||"",homeTeam:event.homeTeam||"",matchup:away+" @ "+home,commenceTime:event.commenceTime||""});
-      row.player=clean(prop.player);row.team=prop.team||player&&player.team||"";row.position=prop.position||player&&player.position||"";row._marketLabel=generalizedMarketLabel(row);row._modelMarketLabel=modelSupportedMarketLabel(row);out.push(row);
+      const scope=prop.scope||"player",player=scope==="player"?state.playerByName.get(norm(prop.player)):null;
+      const row=Object.assign({},prop,{scope,eventId:String(event.id||""),awayAbbr:event.awayAbbr||"",homeAbbr:event.homeAbbr||"",awayTeam:event.awayTeam||"",homeTeam:event.homeTeam||"",matchup:away+" @ "+home,commenceTime:event.commenceTime||""});
+      row.player=scope==="player"?clean(prop.player):"";
+      row.team=prop.team||player&&player.team||"";
+      row.position=prop.position||player&&player.position||(scope==="team"?"TEAM":scope==="game"?"GAME":"");
+      row._marketLabel=generalizedMarketLabel(row);
+      row._modelMarketLabel=modelSupportedMarketLabel(row);
+      out.push(row);
     }
   }
   return out;
