@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260924-theme4" />
+  <link rel="stylesheet" href="styles.css?v=20260924-theme5" />
 </head>
 <body>
   <div class="ambient ambient-one"></div>
@@ -53,7 +53,17 @@
                 <th data-key="touchdowns">TD <span class="sort-indicator"></span></th>
                 <th data-key="allPurposeYards">All-Purpose Yds <span class="sort-indicator"></span></th>
                 <th data-key="passRushYards">Pass + Rush Yds <span class="sort-indicator"></span></th>
-                <th data-key="kickingPoints">Kicking Pts <span class="sort-indicator"></span></th>
+                <th data-key="kickingPoints">K Pts <span class="sort-indicator"></span></th>
+                <th data-key="kickingPointsPerGame">K Pts/G <span class="sort-indicator"></span></th>
+                <th data-key="fieldGoalsMade">FGM <span class="sort-indicator"></span></th>
+                <th data-key="fieldGoalsAttempted">FGA <span class="sort-indicator"></span></th>
+                <th data-key="fieldGoalPct">FG% <span class="sort-indicator"></span></th>
+                <th data-key="fieldGoalsPerGame">FGM/G <span class="sort-indicator"></span></th>
+                <th data-key="extraPointsMade">XPM <span class="sort-indicator"></span></th>
+                <th data-key="extraPointsAttempted">XPA <span class="sort-indicator"></span></th>
+                <th data-key="extraPointPct">XP% <span class="sort-indicator"></span></th>
+                <th data-key="extraPointsPerGame">XPM/G <span class="sort-indicator"></span></th>
+                <th data-key="longFieldGoal">Long FG <span class="sort-indicator"></span></th>
                 <th data-key="receivingYards">Rec Yds <span class="sort-indicator"></span></th>
                 <th data-key="rushingYards">Rush Yds <span class="sort-indicator"></span></th>
                 <th data-key="receptions">Rec <span class="sort-indicator"></span></th>
@@ -65,7 +75,7 @@
               </tr>
             </thead>
             <tbody id="statsBody">
-              <tr><td colspan="13" class="loading-cell"><div class="spinner"></div>Loading NFL stats…</td></tr>
+              <tr><td colspan="23" class="loading-cell"><div class="spinner"></div>Loading NFL stats…</td></tr>
             </tbody>
           </table>
         </div>
@@ -331,7 +341,7 @@
 
       <div class="modal-table-scroll">
         <table class="gamelog-table">
-          <thead>
+          <thead id="gameLogHead">
             <tr>
               <th class="week-col">Week</th>
               <th class="opponent-col">Opponent</th>
@@ -385,6 +395,6 @@
   </dialog>
 
   <script src="theme.js?v=1"></script>
-  <script src="app.js?v=20260924-8"></script>
+  <script src="app.js?v=20260924-9"></script>
 </body>
 </html>
