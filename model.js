@@ -5,7 +5,7 @@ const fmt=new Intl.NumberFormat("en-US");
 const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null};
+const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map()};
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
 function norm(v){return String(v||"").toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\.?\b/g,"").replace(/[^a-z0-9]/g,"")}
@@ -279,6 +279,68 @@ function flattenOdds(raw){
     }
   }
   return out;
+}
+
+function pricePairKey(row){
+  return[String(row.eventId||""),norm(row.player||""),String(row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase(),String(row.line??"")].join("|");
+}
+function buildPricePairs(){
+  state.pricePairs=new Map();
+  for(const row of state.odds){
+    const key=pricePairKey(row),pair=state.pricePairs.get(key)||{};
+    pair[String(row.selection||"")]=row;state.pricePairs.set(key,pair);
+  }
+}
+function marketProbability(row){
+  const raw=implied(row.odds);if(!Number.isFinite(raw))return .5;
+  const pair=state.pricePairs.get(pricePairKey(row));
+  const side=String(row.selection||""),opposite=side==="Over"?"Under":side==="Under"?"Over":side==="Yes"?"No":side==="No"?"Yes":"";
+  const other=opposite&&pair&&pair[opposite]?implied(pair[opposite].odds):null;
+  return Number.isFinite(other)?raw/(raw+other):raw;
+}
+function calibrationForMetric(metric){
+  return state.calibration&&state.calibration.metrics&&state.calibration.metrics[metric]||state.calibration&&state.calibration.all||null;
+}
+function logistic(value){return 1/(1+Math.exp(-Math.max(-20,Math.min(20,value))))}
+function overForecastFeatures(row,player,dvpPct){
+  const spec=metricSpec(row),threshold=Number.isFinite(Number(spec&&spec.threshold))?Number(spec.threshold):Number(row.line);
+  if(!spec||!Number.isFinite(threshold))return null;
+  const overRates=ratesForSelection(row,player,"Over"),history=playedHistory(player),recent=history.slice(-10),last5=recent.slice(-5);
+  const values5=last5.map(g=>metricValue(g,spec.metric)).filter(Number.isFinite);
+  if(!values5.length)return null;
+  const m=avg(values5),variance=values5.length>1?values5.reduce((s,v)=>s+(v-m)*(v-m),0)/(values5.length-1):0,spread=Math.sqrt(variance)+1;
+  const last3=values5.slice(-3),lineZ=(m-threshold)/spread,trend=(avg(last3)-m)/spread;
+  const p=s=>s&&s.total?s.hits/s.total:.5;
+  let seasonP=p(overRates.current);
+  if(!overRates.current||overRates.current.total<4){
+    const cur=overRates.current||{hits:0,total:0},prev=overRates.previous||{hits:0,total:0},total=cur.total+prev.total*.35;
+    seasonP=total?(cur.hits+prev.hits*.35)/total:.5;
+  }
+  return{vector:[p(overRates.l5),p(overRates.l10),seasonP,lineZ,trend,Number.isFinite(dvpPct)?dvpPct/100:.5],overRates:overRates,historyCount:Math.min(10,recent.length)};
+}
+function calibratedOverProbability(row,player,dvpPct){
+  const spec=metricSpec(row),features=overForecastFeatures(row,player,dvpPct),cal=calibrationForMetric(spec&&spec.metric);
+  if(!features)return{probability:.5,reliability:0,calibrationQuality:0,features:null};
+  let probability;
+  if(cal&&Array.isArray(cal.coefficients)&&Array.isArray(cal.means)&&Array.isArray(cal.stds)){
+    let score=Number(cal.intercept)||0;
+    for(let i=0;i<cal.coefficients.length;i++){
+      const z=(features.vector[i]-Number(cal.means[i]||0))/(Number(cal.stds[i])||1);
+      score+=Number(cal.coefficients[i]||0)*z;
+    }
+    probability=logistic(score);
+  }else{
+    probability=clamp(.28*features.vector[1]+.27*features.vector[2]+.22*logistic(features.vector[3]*1.5)+.08*logistic(features.vector[4])+.15*features.vector[5],.05,.95);
+  }
+  const reliability=clamp(features.historyCount/10,0,1),accuracy=Number(cal&&cal.test&&cal.test.accuracy);
+  const calibrationQuality=Number.isFinite(accuracy)?clamp((accuracy-.5)/.2,0,1):.35;
+  return{probability:clamp(probability,.03,.97),reliability:reliability,calibrationQuality:calibrationQuality,features:features};
+}
+function usageStability(player){
+  const rows=playedHistory(player).slice(-5);if(rows.length<2)return .5;
+  const values=rows.map(g=>num(g.receivingTargets)+num(g.rushingAttempts)),m=avg(values);if(!m)return .5;
+  const variance=values.reduce((s,v)=>s+(v-m)*(v-m),0)/(values.length-1),cv=Math.sqrt(variance)/(m+1);
+  return clamp(1-cv,0,1);
 }
 
 function controls(){
