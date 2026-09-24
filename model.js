@@ -795,18 +795,26 @@ function modelPlayedLogs(player){
 function modelSplitLabel(split){
   return {l5:"Last 5",l10:"Last 10",h2h:"Head-to-Head",current:String(state.season||2026),previous:String((state.season||2026)-1)}[split]||split;
 }
+function modelCompareGamesChronologically(a,b){
+  const at=Date.parse(a&&a.date||"");
+  const bt=Date.parse(b&&b.date||"");
+  if(Number.isFinite(at)&&Number.isFinite(bt)&&at!==bt)return at-bt;
+  const as=Number(a&&a._season||state.season||0),bs=Number(b&&b._season||state.season||0);
+  if(as!==bs)return as-bs;
+  return num(a&&a.week)-num(b&&b.week);
+}
 function modelSplitGames(row,split){
   const player=modelPlayerForRow(row);if(!player)return[];
   const currentYear=Number(state.season||2026),previousYear=currentYear-1,all=modelPlayedLogs(player);
-  let games=[],newestFirst=false;
-  if(split==="l5"){games=all.slice(0,5);newestFirst=true}
-  else if(split==="l10"){games=all.slice(0,10);newestFirst=true}
-  else if(split==="h2h"){const opponent=nextOpponent(row);games=opponent?all.filter(g=>String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase()===opponent):[];newestFirst=true}
+  let games=[];
+  if(split==="l5")games=all.slice(0,5);
+  else if(split==="l10")games=all.slice(0,10);
+  else if(split==="h2h"){const opponent=nextOpponent(row);games=opponent?all.filter(g=>String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase()===opponent):[]}
   else if(split==="current")games=all.filter(g=>g._season===currentYear);
   else if(split==="previous")games=all.filter(g=>g._season===previousYear);
   const spec=metricSpec(row);
   const applicable=games.filter(g=>spec&&isHit(g,row,spec)!==null);
-  return newestFirst?applicable.reverse():applicable;
+  return applicable.sort(modelCompareGamesChronologically);
 }
 function modelLineForRow(row){
   const spec=metricSpec(row);
