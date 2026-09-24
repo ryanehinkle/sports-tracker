@@ -5,7 +5,8 @@ const fmt=new Intl.NumberFormat("en-US");
 const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map()};
+const state={season:null,players:[],odds:[],teams:[],playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map()};
+const SLIPS_PER_PAGE=6;
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
 function norm(v){return String(v||"").toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\.?\b/g,"").replace(/[^a-z0-9]/g,"")}
@@ -605,7 +606,28 @@ function slipHtml(s,i){
   const priceLabel=s.sameGamePairs>0?"EST. SGP ODDS":"PARLAY ODDS";
   return '<article class="slip-card"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+' • '+priceLabel+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score"><b>'+s.score.toFixed(1)+'</b><small>AVG GRADE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Est. hit prob</span><strong>'+pct(s.modelProb*100,1)+'</strong></div><div><span>Slip edge</span><strong>'+(s.slipEdge>=0?"+":"")+pct(s.slipEdge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
 }
-function renderSlips(){$("slipCount").textContent=fmt.format(state.slips.length);$("recommendedSlips").innerHTML=state.slips.length?state.slips.slice(0,6).map(slipHtml).join(""):'<div class="model-empty">No parlay combination lands inside the requested final-odds range. Adjust final odds or leg count.</div>'}
+function renderSlips(direction){
+  const total=state.slips.length,pages=Math.max(1,Math.ceil(total/SLIPS_PER_PAGE));
+  state.slipPage=clamp(state.slipPage,0,pages-1);
+  const start=state.slipPage*SLIPS_PER_PAGE,end=Math.min(start+SLIPS_PER_PAGE,total);
+  $("slipCount").textContent=fmt.format(total);
+  $("slipSub").textContent=total?(total>SLIPS_PER_PAGE?fmt.format(total)+" generated • "+SLIPS_PER_PAGE+" per page":"all shown below"):"within requested odds";
+  $("slipPager").hidden=total<=SLIPS_PER_PAGE;
+  $("slipPrev").disabled=state.slipPage===0;
+  $("slipNext").disabled=state.slipPage>=pages-1;
+  $("slipPageStatus").textContent=total
+    ? (total>SLIPS_PER_PAGE?"Showing "+(start+1)+"–"+end+" of "+total:"Showing all "+total+" slips")
+    : "No slips in current range";
+  const container=$("recommendedSlips");
+  if(!total){
+    container.innerHTML='<div class="model-empty">No parlay combination lands inside the requested final-odds range. Adjust final odds or leg count.</div>';
+    return;
+  }
+  container.classList.remove("page-next","page-prev");
+  void container.offsetWidth;
+  if(direction)container.classList.add(direction>0?"page-next":"page-prev");
+  container.innerHTML=state.slips.slice(start,end).map((s,i)=>slipHtml(s,start+i)).join("");
+}
 function renderSummary(){$("eligibleCount").textContent=fmt.format(state.eligible.length);$("eligibleSub").textContent=state.odds.length?"of "+fmt.format(state.odds.length)+" current props":"after filters";$("bestScore").textContent=state.eligible.length?state.eligible[0].score.toFixed(1):"—";const m=median(state.eligible.map(x=>x.edge*100));$("medianEdge").textContent=Number.isFinite(m)?(m>=0?"+":"")+m.toFixed(1)+"%":"—"}
 function renderFormula(){
   const cal=state.calibration&&state.calibration.all&&state.calibration.all.test;
@@ -631,7 +653,7 @@ function renderCharts(){
 }
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
-  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg);renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();
+  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg);state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
@@ -791,6 +813,19 @@ function bind(){
   $("hitRateClose").addEventListener("click",()=>$("hitRateModal").close());
   $("hitRateModal").addEventListener("click",e=>{if(e.target===$("hitRateModal"))$("hitRateModal").close()});
   $("hitRateBreakdown").addEventListener("click",e=>{const button=e.target.closest("[data-chart-split]");if(!button||button.disabled||!state.hitRateActiveRow)return;renderModelHitRateChart(state.hitRateActiveRow,button.dataset.chartSplit)});
+  $("slipPrev").addEventListener("click",()=>{if(state.slipPage<=0)return;state.slipPage--;renderSlips(-1)});
+  $("slipNext").addEventListener("click",()=>{const pages=Math.ceil(state.slips.length/SLIPS_PER_PAGE);if(state.slipPage>=pages-1)return;state.slipPage++;renderSlips(1)});
+  let slipTouchStartX=null;
+  $("recommendedSlips").addEventListener("touchstart",e=>{slipTouchStartX=e.touches&&e.touches[0]?e.touches[0].clientX:null},{passive:true});
+  $("recommendedSlips").addEventListener("touchend",e=>{
+    if(slipTouchStartX===null||state.slips.length<=SLIPS_PER_PAGE)return;
+    const endX=e.changedTouches&&e.changedTouches[0]?e.changedTouches[0].clientX:slipTouchStartX,delta=endX-slipTouchStartX;
+    slipTouchStartX=null;
+    if(Math.abs(delta)<55)return;
+    const pages=Math.ceil(state.slips.length/SLIPS_PER_PAGE);
+    if(delta<0&&state.slipPage<pages-1){state.slipPage++;renderSlips(1)}
+    else if(delta>0&&state.slipPage>0){state.slipPage--;renderSlips(-1)}
+  },{passive:true});
   document.querySelectorAll(".model-controls input,.model-controls select").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
   $("weightControls").addEventListener("click",e=>{const b=e.target.closest("[data-weight]");if(!b)return;const k=b.dataset.weight,levels=[0,8,14,22,30,40],cur=state.weights[k],next=levels[(levels.indexOf(cur)+1)%levels.length];state.weights[k]=next;b.querySelector("strong").textContent=next;b.classList.toggle("active",next>0);schedule()});
   $("resetModel").addEventListener("click",()=>{for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;for(const id of ["positionFilter","marketFilter","sideFilter","teamFilter","opponentFilter","gameFilter","playerFilter"])$(id).value="";for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
