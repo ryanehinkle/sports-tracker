@@ -751,22 +751,51 @@ function generateSlips(candidates,cfg){
 function metricClass(v){if(!Number.isFinite(v))return"metric-na";if(v>=70)return"metric-good";if(v>=50)return"metric-mid";return"metric-low"}
 function rateTd(r){return r?'<td class="'+metricClass(r.pct)+'">'+Math.round(r.pct)+'% <small class="cell-sample">'+r.hits+'/'+r.total+'</small></td>':'<td class="metric-na">—</td>'}
 function usageText(x){const a=[];if(x.usage.target)a.push("T "+Math.round(x.usage.target)+"%");if(x.usage.carry)a.push("C "+Math.round(x.usage.carry)+"%");return a.length?a.join(" • "):"—"}
+function modelEntityName(row){
+  if(row.scope==="team")return row.teamName||row.team||"Team";
+  if(row.scope==="game")return row.matchup||"Game";
+  return cleanDisplayPlayerName(row.player)||"Player";
+}
+function modelEntityVisual(row,player){
+  if(row.scope==="team")return '<img src="'+esc(modelTeamLogo(row.team))+'" alt="" loading="lazy">';
+  if(row.scope==="game")return '<span class="signal-game-logos"><img src="'+esc(modelTeamLogo(row.awayAbbr))+'" alt=""><img src="'+esc(modelTeamLogo(row.homeAbbr))+'" alt=""></span>';
+  return '<img src="'+esc(row.headshot||player&&player.headshot||fallbackHeadshot())+'" alt="" loading="lazy">';
+}
+function modelProfileText(x){
+  if(["team","game"].includes(x.row.scope)){
+    const count=x.teamProfile&&x.teamProfile.breadth?Math.round(x.teamProfile.breadth*100):0;
+    return "All stats "+count+"%";
+  }
+  return usageText(x);
+}
 function renderSignals(){
   const rows=state.eligible.slice(0,60);$("legBoardCount").textContent=fmt.format(rows.length);
   if(!rows.length){
     const unavailable=[...state.selectedMarkets].filter(m=>!state.odds.some(row=>(row._modelMarketLabel||modelSupportedMarketLabel(row))===m));
     const message=unavailable.length===1
       ?"FanDuel has not posted "+unavailable[0]+" for the current slate yet. The model will populate it automatically as soon as a live line is available."
-      :"No props satisfy every active constraint. Loosen one or more filters.";
+      :"No markets satisfy every active constraint. Loosen one or more filters.";
     $("signalBody").innerHTML='<tr><td colspan="10" class="model-empty">'+esc(message)+'</td></tr>';return
   }
   $("signalBody").innerHTML=rows.map(x=>{
-    const r=x.row,head=r.headshot||x.player.headshot||fallbackHeadshot();
-    return '<tr><td><button type="button" class="signal-player model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(r))+'"><img src="'+esc(head)+'" alt="" loading="lazy"><div class="signal-copy"><strong>'+esc(r.player)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(x.team)+' vs '+esc(x.opp||"—")+' • '+esc(x.pos||"—")+'</small></div></button></td><td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+'<td class="'+metricClass(Math.max(x.usage.target,x.usage.carry))+'">'+esc(usageText(x))+'</td><td class="'+metricClass(x.dvpPct)+'">'+(Number.isFinite(x.dvpPct)?Math.round(x.dvpPct)+"th":"—")+(x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
+    const r=x.row,entity=modelEntityName(r),isPlayer=r.scope!=="team"&&r.scope!=="game";
+    const trigger=isPlayer?' model-player-trigger':'';
+    const triggerAttrs=isPlayer?' data-player-id="'+esc(x.player&&x.player.id||"")+'" data-prop-key="'+esc(modelPropKey(r))+'"':'';
+    return '<tr><td><button type="button" class="signal-player'+trigger+'"'+triggerAttrs+'>'+
+      modelEntityVisual(r,x.player)+'<div class="signal-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(r.scope==="game"?r.matchup:(x.team||"NFL")+" vs "+(x.opp||"—"))+' • '+esc(x.pos||"—")+'</small></div></button></td>'+
+      '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+
+      rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+
+      '<td class="'+metricClass(x.usageSignal*100)+'">'+esc(modelProfileText(x))+'</td>'+
+      '<td class="'+metricClass(x.matchupSignal*100)+'">'+Math.round(x.matchupSignal*100)+'th'+(["team","game"].includes(r.scope)?' <small>all-team model</small>':x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
   }).join("");
 }
 function slipHtml(s,i){
-  let legs="";for(const x of s.legs){legs+='<div class="slip-leg model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(x.row))+'" tabindex="0" role="button" aria-label="Open '+esc(x.row.player)+' prop chart"><img src="'+esc(x.row.headshot||x.player.headshot||fallbackHeadshot())+'" alt=""><div class="slip-leg-copy"><strong>'+esc(x.row.player)+'</strong><span>'+esc(cleanDisplayProposition(x.row))+' • '+esc(x.opp||"")+'</span></div><strong>'+formatOdds(x.row.odds)+'</strong></div>'}
+  let legs="";
+  for(const x of s.legs){
+    const r=x.row,isPlayer=r.scope!=="team"&&r.scope!=="game",entity=modelEntityName(r);
+    const trigger=isPlayer?' model-player-trigger':'',attrs=isPlayer?' data-player-id="'+esc(x.player&&x.player.id||"")+'" data-prop-key="'+esc(modelPropKey(r))+'" tabindex="0" role="button" aria-label="Open '+esc(entity)+' prop chart"':'';
+    legs+='<div class="slip-leg'+trigger+'"'+attrs+'>'+modelEntityVisual(r,x.player)+'<div class="slip-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r))+' • '+esc(r.scope==="game"?r.matchup:(x.opp||""))+'</span></div><strong>'+formatOdds(r.odds)+'</strong></div>';
+  }
   const priceLabel=s.sameGamePairs>0?"EST. SGP ODDS":"PARLAY ODDS";
   return '<article class="slip-card"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+' • '+priceLabel+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score"><b>'+s.score.toFixed(1)+'</b><small>AVG GRADE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Est. hit prob</span><strong>'+pct(s.modelProb*100,1)+'</strong></div><div><span>Slip edge</span><strong>'+(s.slipEdge>=0?"+":"")+pct(s.slipEdge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
 }
@@ -813,7 +842,7 @@ function renderCharts(){
   if(!top){$("signalProfileChart").innerHTML='<div class="model-empty">No eligible leg</div>';$("scoreChart").innerHTML='<div class="model-empty">No eligible candidates</div>';return}
   const signals=[["Recent",top.recentSignal],["Season",top.seasonSignal],["H2H",top.h2hSignal],["Usage",top.usageSignal],["Opponent",top.matchupSignal],["Value",top.valueSignal]];
   $("signalProfileChart").innerHTML=signals.map(x=>'<div class="bar-row"><span>'+x[0]+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(clamp(x[1],0,1)*100)+'%"></div></div><strong>'+Math.round(clamp(x[1],0,1)*100)+'</strong></div>').join("");
-  $("scoreChart").innerHTML=state.eligible.slice(0,8).map(x=>'<div class="bar-row"><span>'+esc(x.row.player)+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(x.score)+'%"></div></div><strong>'+x.score.toFixed(1)+'</strong></div>').join("");
+  $("scoreChart").innerHTML=state.eligible.slice(0,8).map(x=>'<div class="bar-row"><span>'+esc(modelEntityName(x.row))+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(x.score)+'%"></div></div><strong>'+x.score.toFixed(1)+'</strong></div>').join("");
 }
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
