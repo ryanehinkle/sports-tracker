@@ -459,57 +459,95 @@ function analyze(row,cfg){
   };
 }
 function generateSlips(candidates,cfg){
-  const top=candidates.slice(0,34),slips=[],minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax),minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
+  const top=candidates.slice(0,40);
+  const minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax);
+  const minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
+  const recommendations=[];
 
-  // Alternate thresholds of the exact same player prop cannot be combined into one slip.
-  // Example: Chase Brown O63.5 rushing yards + Chase Brown O69.5 rushing yards.
   function propFamilyKey(x){
     const row=x.row||{};
-    return [
+    return[
       String(row.eventId||""),
       norm(row.player||""),
       String(x.market||row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase()
     ].join("|");
   }
-  function hasSamePropFamily(combo,next){
-    const key=propFamilyKey(next);
-    return combo.some(x=>propFamilyKey(x)===key);
+  function compatible(combo,next){
+    if(combo.some(x=>propFamilyKey(x)===propFamilyKey(next)))return false;
+    if(cfg.uniquePlayers&&combo.some(x=>norm(x.row.player)===norm(next.row.player)))return false;
+    if(cfg.avoidSameGame&&combo.some(x=>x.row.eventId&&x.row.eventId===next.row.eventId))return false;
+    const values=combo.map(x=>Number(x.row.odds)).concat(Number(next.row.odds)).filter(Number.isFinite);
+    if(values.length>1&&Math.max(...values)-Math.min(...values)>cfg.oddsSpread)return false;
+    return true;
   }
-  function spreadOk(combo,next){
-    const values=combo.map(x=>Number(x.row.odds));
-    if(next) values.push(Number(next.row.odds));
-    const clean=values.filter(Number.isFinite);
-    if(clean.length<2) return true;
-    return Math.max(...clean)-Math.min(...clean)<=cfg.oddsSpread;
-  }
-  function add(combo){
-    if(!spreadOk(combo))return;
-    const families=new Set(combo.map(propFamilyKey));
-    if(families.size!==combo.length)return;
-    let d=1;
-    for(const x of combo){const leg=americanToDecimal(x.row.odds);if(!leg)return;d*=leg}
-    if(minD&&d<minD)return;if(maxD&&d>maxD)return;
-    slips.push({legs:combo.slice(),decimal:d,odds:decimalToAmerican(d),score:avg(combo.map(x=>x.score))||0,edge:avg(combo.map(x=>x.edge))||0,spread:Math.max(...combo.map(x=>Number(x.row.odds)))-Math.min(...combo.map(x=>Number(x.row.odds)))});
-  }
-  function walk(start,combo,target){
-    if(slips.length>1600)return;
-    if(combo.length===target){add(combo);return}
-    for(let i=start;i<top.length;i++){
-      const x=top[i];
-      if(hasSamePropFamily(combo,x))continue;
-      if(cfg.uniquePlayers&&combo.some(y=>norm(y.row.player)===norm(x.row.player)))continue;
-      if(cfg.avoidSameGame&&combo.some(y=>y.row.eventId&&y.row.eventId===x.row.eventId))continue;
-      if(!spreadOk(combo,x))continue;
-      combo.push(x);walk(i+1,combo,target);combo.pop();
+  function statsFor(legs){
+    let decimal=1,joint=1,sameGamePairs=0;
+    for(let i=0;i<legs.length;i++){
+      const d=americanToDecimal(legs[i].row.odds);if(!d)return null;
+      decimal*=d;joint*=legs[i].modelProb;
+      for(let j=0;j<i;j++)if(legs[i].row.eventId&&legs[i].row.eventId===legs[j].row.eventId)sameGamePairs++;
     }
+    // We do not have historical SGP correlation matrices. Apply a small
+    // conservative ranking haircut instead of pretending the legs are independent.
+    const conservativeProb=clamp(joint*Math.pow(.97,sameGamePairs),.0001,.9999);
+    const bookProb=1/decimal;
+    const slipEdge=conservativeProb-bookProb;
+    return{
+      decimal:decimal,odds:decimalToAmerican(decimal),modelProb:conservativeProb,
+      bookProb:bookProb,slipEdge:slipEdge,edge:avg(legs.map(x=>x.edge))||0,
+      score:avg(legs.map(x=>x.score))||0,sameGamePairs:sameGamePairs
+    };
   }
-  for(let size=minLegs;size<=maxLegs;size++){walk(0,[],size);if(slips.length>1600)break}
-  slips.sort((a,b)=>(b.score+Math.max(0,b.edge*100)*.35)-(a.score+Math.max(0,a.edge*100)*.35));
+  function partialRank(node){
+    // Probability is primary. Model grade and positive edge are small tie-breakers.
+    const probability=node.legs.reduce((p,x)=>p*x.modelProb,1);
+    const quality=avg(node.legs.map(x=>x.score))||0;
+    const edge=avg(node.legs.map(x=>Math.max(-.05,x.edge)))||0;
+    return Math.log(Math.max(probability,1e-8))+quality*.004+edge*.8;
+  }
+
+  // Bounded beam search prevents large leg ranges from creating combinatorial UI lag.
+  let beam=[{legs:[],start:0}];
+  const beamWidth=420;
+  for(let size=1;size<=maxLegs;size++){
+    const nextBeam=[];
+    for(const node of beam){
+      for(let i=node.start;i<top.length;i++){
+        const candidate=top[i];
+        if(!compatible(node.legs,candidate))continue;
+        const legs=node.legs.concat(candidate);
+        const stats=statsFor(legs);if(!stats)continue;
+        if(maxD&&stats.decimal>maxD)continue; // decimal odds can only increase with more legs
+        nextBeam.push({legs:legs,start:i+1,rank:0,stats:stats});
+      }
+    }
+    for(const node of nextBeam)node.rank=partialRank(node);
+    nextBeam.sort((a,b)=>b.rank-a.rank);
+    beam=nextBeam.slice(0,beamWidth);
+
+    if(size>=minLegs){
+      for(const node of beam){
+        const st=node.stats;
+        if(minD&&st.decimal<minD)continue;
+        if(maxD&&st.decimal>maxD)continue;
+        recommendations.push(Object.assign({legs:node.legs},st));
+      }
+    }
+    if(!beam.length)break;
+  }
+
+  recommendations.sort((a,b)=>
+    b.modelProb-a.modelProb||
+    b.score-a.score||
+    b.slipEdge-a.slipEdge
+  );
+
   const out=[],seen=new Set();
-  for(const s of slips){
-    const sig=s.legs.map(x=>norm(x.row.player)+"|"+x.market).sort().join("~");
+  for(const slip of recommendations){
+    const sig=slip.legs.map(x=>modelPropKey(x.row)).sort().join("~");
     if(seen.has(sig))continue;
-    seen.add(sig);out.push(s);if(out.length>=9)break;
+    seen.add(sig);out.push(slip);
+    if(out.length>=9)break;
   }
   return out;
 }
@@ -526,8 +564,7 @@ function renderSignals(){
 }
 function slipHtml(s,i){
   let legs="";for(const x of s.legs){legs+='<div class="slip-leg model-player-trigger" data-player-id="'+esc(x.player.id)+'" data-prop-key="'+esc(modelPropKey(x.row))+'" tabindex="0" role="button" aria-label="Open '+esc(x.row.player)+' prop chart"><img src="'+esc(x.row.headshot||x.player.headshot||fallbackHeadshot())+'" alt=""><div class="slip-leg-copy"><strong>'+esc(x.row.player)+'</strong><span>'+esc(x.row.proposition||x.row.market)+' • '+esc(x.opp||"")+'</span></div><strong>'+formatOdds(x.row.odds)+'</strong></div>'}
-  const product=s.legs.reduce((p,x)=>p*x.modelProb,1);
-  return '<article class="slip-card"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score"><b>'+s.score.toFixed(1)+'</b><small>AVG SCORE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Model prob*</span><strong>'+pct(product*100,1)+'</strong></div><div><span>Avg edge</span><strong>'+(s.edge>=0?"+":"")+pct(s.edge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
+  return '<article class="slip-card"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score"><b>'+s.score.toFixed(1)+'</b><small>AVG GRADE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Est. hit prob</span><strong>'+pct(s.modelProb*100,1)+'</strong></div><div><span>Slip edge</span><strong>'+(s.slipEdge>=0?"+":"")+pct(s.slipEdge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
 }
 function renderSlips(){$("slipCount").textContent=fmt.format(state.slips.length);$("recommendedSlips").innerHTML=state.slips.length?state.slips.slice(0,6).map(slipHtml).join(""):'<div class="model-empty">No parlay combination lands inside the requested final-odds range. Adjust final odds or leg count.</div>'}
 function renderSummary(){$("eligibleCount").textContent=fmt.format(state.eligible.length);$("eligibleSub").textContent=state.odds.length?"of "+fmt.format(state.odds.length)+" current props":"after filters";$("bestScore").textContent=state.eligible.length?state.eligible[0].score.toFixed(1):"—";const m=median(state.eligible.map(x=>x.edge*100));$("medianEdge").textContent=Number.isFinite(m)?(m>=0?"+":"")+m.toFixed(1)+"%":"—"}
