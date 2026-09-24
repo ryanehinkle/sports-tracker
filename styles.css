@@ -1321,3 +1321,35 @@ html[data-theme="buzzer"] .fanduel-pill{background:rgba(239,63,67,.08);border-co
   border:1px solid rgba(var(--accent-rgb),.22);background:rgba(var(--accent-rgb),.08);
   color:var(--accent);font-weight:850;font-size:.7rem;vertical-align:1px
 }
+
+/* =========================================================
+   TEAM / GAME MARKETS + ODDS HISTORY
+   ========================================================= */
+.odds-date-control{position:relative}
+.odds-date-button{min-width:112px;justify-content:center}
+.odds-date-popover{min-width:260px;max-height:min(480px,70vh);overflow:auto}
+.date-option .filter-option-label{display:grid;gap:3px;text-align:left}
+.date-option .filter-option-label strong{font-size:.76rem;color:var(--text)}
+.date-option .filter-option-label small{font-size:.61rem;color:var(--muted);font-weight:600}
+.scope-filter-popover{min-width:220px}
+.market-scope-badge{display:inline-flex;align-items:center;height:18px;padding:0 6px;margin-left:6px;border-radius:999px;font-size:.52rem;font-weight:900;letter-spacing:.055em;vertical-align:1px}
+.market-scope-badge.team{color:#bff0dd;background:rgba(102,217,168,.10);border:1px solid rgba(102,217,168,.22)}
+.market-scope-badge.game{color:#c9e4ff;background:rgba(107,183,255,.10);border:1px solid rgba(107,183,255,.22)}
+.team-market-visual{display:grid;place-items:center;background:#121923}
+.team-market-logo{object-fit:contain!important;padding:4px}
+.game-market-visual{position:relative;overflow:visible!important;background:#121923}
+.game-market-logo{position:absolute;width:31px;height:31px;object-fit:contain;border-radius:50%;background:#171c26;border:2px solid #171c26}
+.game-market-logo.away{left:0;bottom:0}.game-market-logo.home{right:0;top:0}
+.result-head{text-align:center!important}
+.odds-result{text-align:center!important;min-width:96px;font-weight:850}
+.odds-result .result-icon{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;margin-right:6px;font-size:.8rem}
+.odds-result strong{font-size:.72rem}
+.odds-result small{display:block;margin-top:3px;color:var(--muted);font-size:.57rem}
+.odds-result.result-hit{color:var(--win);background:rgba(103,221,169,.07)}
+.odds-result.result-hit .result-icon{background:rgba(103,221,169,.13);border:1px solid rgba(103,221,169,.3)}
+.odds-result.result-miss{color:var(--loss);background:rgba(255,123,134,.07)}
+.odds-result.result-miss .result-icon{background:rgba(255,123,134,.13);border:1px solid rgba(255,123,134,.3)}
+.odds-result.result-push{color:#e3bf64;background:rgba(227,191,100,.06)}
+.odds-result.result-pending{color:var(--muted)}
+.scope-team .prop-player-name,.scope-game .prop-player-name{font-weight:800}
+@media(max-width:900px){.odds-date-button{min-width:96px}.odds-right-actions{flex-wrap:wrap}}
