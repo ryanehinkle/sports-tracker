@@ -368,8 +368,37 @@ function teamMarketSignal(row){
   return{signal,breadth,components};
 }
 function normalizedRate(rate){return rate&&Number.isFinite(Number(rate.pct))?Number(rate.pct)/100:null}
+function modelTeamLogs(abbr){
+  const team=state.teams.find(t=>String(t.abbreviation||"").toUpperCase()===String(abbr||"").toUpperCase());
+  if(!team)return[];
+  const rows=[],by=team.gameLogsBySeason||{};
+  for(const [season,games] of Object.entries(by))for(const game of games||[])rows.push(Object.assign({_season:Number(season)},game));
+  if(!Object.keys(by).length)for(const game of team.gameLog||[])rows.push(Object.assign({_season:Number(state.season)},game));
+  return rows.sort((a,b)=>(a._season-b._season)||num(a.week)-num(b.week));
+}
+function modelTeamPropHit(row,game){
+  const stats=game&&game.stats||{},pf=num(stats["derived.pointsFor"]),pa=num(stats["derived.pointsAgainst"]),kind=row.teamMarketType;
+  if(kind==="moneyline")return pf===pa?null:pf>pa;
+  const line=Number(row.line);if(!Number.isFinite(line))return null;
+  if(kind==="spread"){const adjusted=pf-pa+line;return Math.abs(adjusted)<1e-9?null:adjusted>0}
+  const actual=kind==="teamTotal"?pf:kind==="gameTotal"?pf+pa:null;if(actual===null)return null;
+  if(Math.abs(actual-line)<1e-9)return null;
+  return String(row.selection||"")==="Under"?actual<line:actual>line;
+}
+function modelTeamRate(games,row){
+  let hits=0,total=0;for(const game of games||[]){const hit=modelTeamPropHit(row,game);if(hit===null)continue;total++;if(hit)hits++}
+  return total?{hits,total,pct:Math.round(hits/total*1000)/10}:null;
+}
+function recomputeTeamRates(row){
+  const all=modelTeamLogs(row.team||row.homeAbbr),cutoff=Date.parse(row.commenceTime||""),opp=nextOpponent(row);
+  const eligible=all.filter(game=>{const t=Date.parse(game.date||"");return !Number.isFinite(cutoff)||!Number.isFinite(t)||t<cutoff});
+  const newest=[...eligible].reverse(),current=eligible.filter(g=>g._season===Number(state.season)),previous=eligible.filter(g=>g._season===Number(state.season)-1);
+  const h2h=eligible.filter(g=>String(g.opponent&&g.opponent.abbreviation||"").toUpperCase()===opp);
+  return{l5:modelTeamRate(newest.slice(0,5),row),l10:modelTeamRate(newest.slice(0,10),row),h2h:modelTeamRate(h2h,row),current:modelTeamRate(current,row),previous:modelTeamRate(previous,row)};
+}
 function teamRates(row){
-  const r=row.hitRates||{};return{l5:normalizeSplit(r.l5),l10:normalizeSplit(r.l10),h2h:normalizeSplit(r.h2h),current:normalizeSplit(r.current),previous:normalizeSplit(r.previous)};
+  const r=row._recomputeTeamRates?recomputeTeamRates(row):(row.hitRates||{});
+  return{l5:normalizeSplit(r.l5),l10:normalizeSplit(r.l10),h2h:normalizeSplit(r.h2h),current:normalizeSplit(r.current),previous:normalizeSplit(r.previous)};
 }
 
 const DVP_KEYS=["receivingYards","receptions","receivingTargets","rushingYards","rushingAttempts","passingYards","passingTouchdowns","rushingTouchdowns","receivingTouchdowns","touchdowns","allPurposeYards"];
@@ -651,16 +680,35 @@ function modelSupportedMarketLabel(row){
   return labels[spec.metric]||"";
 }
 
+function normalizedTeamMarketKey(value){return String(value||"").toUpperCase().replace(/[^A-Z0-9]+/g,"_").replace(/^_+|_+$/g,"")}
+function normalizeLegacyTeamMarket(row,event){
+  const key=normalizedTeamMarketKey(row.marketKey);
+  const away=event.awayAbbr||"",home=event.homeAbbr||"";
+  if(key.includes("AWAY_TEAM_TOTAL")||key.includes("HOME_TEAM_TOTAL")){
+    const isAway=key.includes("AWAY_TEAM_TOTAL"),team=isAway?away:home,teamName=isAway?event.awayTeam:event.homeTeam;
+    row.scope="team";row.teamMarketType="teamTotal";row.team=team;row.teamName=teamName||team;row.position="TEAM";
+    row.market=row.alternate?"Alt Team Total":"Team Total";
+    row.proposition=(row.selection||"")+" "+Number(row.line).toString()+" "+team+" "+row.market;
+    row._recomputeTeamRates=true;
+  }
+  if(key==="ALTERNATE_HANDICAP"&&Number(row.line)===0){
+    row._invalidTeamMarket=true;
+  }
+  return row;
+}
 function flattenOdds(raw){
   const out=[];
   for(const event of raw.events||[]){
     const away=event.awayAbbr||event.awayTeam||"AWAY",home=event.homeAbbr||event.homeTeam||"HOME";
     for(const prop of event.props||[]){
-      const scope=prop.scope||"player",player=scope==="player"?state.playerByName.get(norm(prop.player)):null;
-      const row=Object.assign({},prop,{scope,eventId:String(event.id||""),awayAbbr:event.awayAbbr||"",homeAbbr:event.homeAbbr||"",awayTeam:event.awayTeam||"",homeTeam:event.homeTeam||"",matchup:away+" @ "+home,commenceTime:event.commenceTime||""});
+      let scope=prop.scope||"player",player=scope==="player"?state.playerByName.get(norm(prop.player)):null;
+      const row=normalizeLegacyTeamMarket(Object.assign({},prop,{scope,eventId:String(event.id||""),awayAbbr:event.awayAbbr||"",homeAbbr:event.homeAbbr||"",awayTeam:event.awayTeam||"",homeTeam:event.homeTeam||"",matchup:away+" @ "+home,commenceTime:event.commenceTime||""}),event);
+      if(row._invalidTeamMarket)continue;
+      scope=row.scope||scope;
+      player=scope==="player"?state.playerByName.get(norm(prop.player)):null;
       row.player=scope==="player"?clean(prop.player):"";
-      row.team=prop.team||player&&player.team||"";
-      row.position=prop.position||player&&player.position||(scope==="team"?"TEAM":scope==="game"?"GAME":"");
+      row.team=row.team||player&&player.team||"";
+      row.position=row.position||player&&player.position||(scope==="team"?"TEAM":scope==="game"?"GAME":"");
       row._marketLabel=generalizedMarketLabel(row);
       row._modelMarketLabel=modelSupportedMarketLabel(row);
       out.push(row);
