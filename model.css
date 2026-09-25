@@ -227,3 +227,67 @@
 .ladder-awaiting strong{display:block;color:#dce5ec;font-size:.75rem}.ladder-awaiting span:not(.today-pick-dot){display:block;margin-top:4px;font-size:.62rem;line-height:1.45}
 .signal-game-logos{position:relative;width:42px;height:42px;flex:0 0 42px}.signal-game-logos img{position:absolute!important;width:29px!important;height:29px!important;object-fit:contain!important;background:#1b222d!important}.signal-game-logos img:first-child{left:0;bottom:0}.signal-game-logos img:last-child{right:0;top:0}
 @media(max-width:980px){.ladder-launch-row{justify-content:flex-start;flex-wrap:wrap}.ladder-slip-summary{grid-template-columns:1fr 1fr}.ladder-slip-summary>div:nth-child(2){border-right:0}.ladder-leg{grid-template-columns:38px minmax(0,1fr) 92px}.model-control-actions{gap:5px}}
+
+
+/* =========================================================
+   MODEL DATE ARCHIVES + GRADING
+   ========================================================= */
+.model-top-toolbar{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.model-date-control{position:relative;flex:0 0 auto}
+.model-date-button{height:42px;min-width:150px;justify-content:center;border-color:rgba(107,183,255,.20);background:rgba(107,183,255,.055)}
+.model-date-button:hover,.model-date-button.open{border-color:rgba(107,183,255,.42);background:rgba(107,183,255,.095)}
+.model-date-popover{position:fixed;z-index:2600;width:min(310px,calc(100vw - 20px));max-height:min(470px,calc(100vh - 20px));overflow:hidden;background:#151c25}
+.model-date-popover .filter-options{max-height:390px;overflow-y:auto}
+.model-date-option .filter-option-label{display:grid;gap:3px;text-align:left}
+.model-date-option .filter-option-label strong{font-size:.72rem;color:#e2e8ee}
+.model-date-option .filter-option-label small{font-size:.58rem;color:#718095;font-weight:600}
+.model-history-mode .model-kicker{letter-spacing:.07em}
+.model-history-mode .status-pill{border-color:rgba(107,183,255,.22);background:rgba(107,183,255,.07)}
+.model-history-mode .status-dot{background:#6bb7ff;box-shadow:0 0 0 5px rgba(107,183,255,.08)}
+.model-result-head{text-align:center!important;min-width:100px}
+.model-result-cell{text-align:center;min-width:108px}
+.historical-result-badge{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:26px;padding:4px 8px;border-radius:999px;border:1px solid #354151;background:#202833;color:#9aa7b7;font-size:.58rem;font-weight:850;white-space:nowrap}
+.historical-result-badge b{display:grid;place-items:center;width:17px;height:17px;border-radius:50%;font-size:.68rem}
+.historical-result-badge small{font-size:.5rem;color:inherit;opacity:.8;margin-left:1px}
+.historical-result-badge.compact{min-height:23px;padding:3px 7px;font-size:.54rem}
+.historical-result-badge.result-hit{color:#72dfb3;border-color:rgba(103,221,169,.28);background:rgba(103,221,169,.09)}
+.historical-result-badge.result-hit b{background:rgba(103,221,169,.14)}
+.historical-result-badge.result-miss{color:#ff8791;border-color:rgba(255,123,134,.28);background:rgba(255,123,134,.08)}
+.historical-result-badge.result-miss b{background:rgba(255,123,134,.13)}
+.historical-result-badge.result-push{color:#e6c36d;border-color:rgba(230,195,109,.28);background:rgba(230,195,109,.08)}
+.historical-result-badge.result-pending{color:#8b98a9}
+.slip-membership{display:block;margin-top:5px;color:#657487;font-size:.49rem;font-weight:750}
+.historical-row.result-hit{box-shadow:inset 3px 0 0 rgba(103,221,169,.35)}
+.historical-row.result-miss{box-shadow:inset 3px 0 0 rgba(255,123,134,.32)}
+.historical-row.result-push{box-shadow:inset 3px 0 0 rgba(230,195,109,.28)}
+.slip-leg-right{display:grid;justify-items:end;gap:5px}
+.slip-leg-right>strong{font-size:.69rem;color:#a8b4c1}
+.historical-slip{position:relative}
+.historical-slip.result-hit{border-color:rgba(103,221,169,.40);box-shadow:inset 0 0 0 1px rgba(103,221,169,.06)}
+.historical-slip.result-miss{border-color:rgba(255,123,134,.38);box-shadow:inset 0 0 0 1px rgba(255,123,134,.05)}
+.historical-slip.result-push{border-color:rgba(230,195,109,.34)}
+.historical-slip-leg.result-hit{background:linear-gradient(90deg,transparent,rgba(103,221,169,.025))}
+.historical-slip-leg.result-miss{background:linear-gradient(90deg,transparent,rgba(255,123,134,.025))}
+.slip-overall-result{margin-bottom:5px}
+.slip-overall-result .historical-result-badge{min-height:22px;padding:3px 7px}
+.chart-title .historical-result-badge{margin-left:7px;vertical-align:middle;text-transform:none;letter-spacing:0}
+.score-bar-label{display:flex!important;align-items:center;gap:6px}
+.mini-result{display:inline-grid;place-items:center;flex:0 0 18px;width:18px;height:18px;border-radius:50%;font-size:.62rem;font-style:normal}
+.mini-result.result-hit{color:#72dfb3;background:rgba(103,221,169,.12)}
+.mini-result.result-miss{color:#ff8791;background:rgba(255,123,134,.11)}
+.mini-result.result-push{color:#e6c36d;background:rgba(230,195,109,.11)}
+.mini-result.result-pending{color:#7c899a;background:#202936}
+.modal-result-badge{margin-top:8px;width:max-content}
+.modal-result-badge[hidden]{display:none!important}
+.model-history-mode .recommended-card .model-kicker::after{content:" • ARCHIVED";color:#6bb7ff}
+.model-history-mode .model-footer::before{content:"Historical view: every score, split, line, chart, and slip is calculated from the frozen pregame datasets. Current stats are used only for result grading.";display:block;color:#71869a;margin-right:auto}
+.model-history-mode .model-footer{gap:12px;flex-wrap:wrap}
+@media(max-width:980px){
+  .model-top-toolbar{align-items:flex-start;flex-wrap:wrap}
+  .model-top-toolbar .ladder-launch-row{min-height:42px}
+}
+@media(max-width:620px){
+  .model-date-button{width:100%}
+  .model-date-control{width:100%}
+  .model-result-cell{min-width:92px}
+}
