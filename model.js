@@ -230,7 +230,7 @@ function applyModelBundle(bundle,{historical=false,date="live",manifest=null}={}
   state.season=stats.season||new Date().getFullYear();state.players=stats.players||[];state.teams=teams.teams||[];state.teamRaw=teams;state.calibration=bundle.calibration||null;
   state.playerByName=new Map(state.players.map(p=>[norm(p.name),p]));state.odds=flattenOdds(odds);
   state.ladderData=archivedLadderData(bundle.ladder||{picks:[]});
-  resetModelCaches();buildPricePairs();buildUsage();buildDvp();buildTeamProfiles();fillSelects();renderLadderLaunch();renderModelDateOptions();
+  resetModelCaches();buildPricePairs();buildUsage();buildDvp();buildTeamProfiles();fillSelects();renderLadderLaunch();if(!$("ladderChallengePanel").hidden)renderLadderPick();renderModelDateOptions();
   $("modelResultHead").hidden=!historical;
   document.body.classList.toggle("model-history-mode",historical);
   $("modelSeason").textContent=historical
