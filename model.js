@@ -11,9 +11,10 @@ const PRESETS={
 };
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,learning:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),ladderData:{picks:[]},ladderIndex:0,modelDate:"live",modelHistorical:false,modelHistoryIndex:{days:[]},modelHistoryManifest:null,resultPlayers:[],resultTeams:[],resultPlayerByName:new Map(),resultTeamByAbbr:new Map(),resultSeason:null,liveLadderData:{picks:[]},resultCache:new Map(),slipMembership:new Map(),loadingDate:false,signalSortKey:"score",signalSortDir:"desc"};
+const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,learning:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),modelScope:"",entityRules:new Map(),ladderData:{picks:[]},ladderIndex:0,modelDate:"live",modelHistorical:false,modelHistoryIndex:{days:[]},modelHistoryManifest:null,resultPlayers:[],resultTeams:[],resultPlayerByName:new Map(),resultTeamByAbbr:new Map(),resultSeason:null,liveLadderData:{picks:[]},resultCache:new Map(),slipMembership:new Map(),loadingDate:false,signalSortKey:"score",signalSortDir:"desc"};
 const SLIPS_PER_PAGE=6;
 const MODEL_RAW_BASE="https://raw.githubusercontent.com/ryanehinkle/sports-tracker/";
+const ENTITY_RULE_STORAGE_KEY="nflModelEntityRulesV1";
 
 function modelArchiveUrl(commit,path){
   return MODEL_RAW_BASE+encodeURIComponent(String(commit||""))+"/"+String(path||"").replace(/^\/+/, "");
@@ -581,8 +582,8 @@ function cleanDisplayPlayerName(value){
 
 function cleanDisplayProposition(row){
   if(row&&row.teamMarketType==="spread"){
-    const label=row.alternate?"Alt Spread":"Spread",meaning=spreadMeaning(row);
-    return label+" "+formatSpreadLine(row.line)+(meaning?" • "+meaning:"");
+    const label=row.alternate?"Alt Spread":"Spread";
+    return label+" "+formatSpreadLine(row.line);
   }
   if(row&&row.teamMarketType==="moneyline")return"Moneyline";
   if(row&&row.teamMarketType==="teamTotal")return String(row.selection||"")+" "+modelFormatLine(row.line)+" "+(row.alternate?"Alt Team Total":"Team Total");
@@ -869,6 +870,97 @@ function usageStability(player){
   state.usageStabilityCache.set(key,value);return value;
 }
 
+function modelEntityRuleKey(type,value){
+  return type+":"+(type==="team"?String(value||"").toUpperCase():norm(value));
+}
+function saveModelEntityRules(){
+  try{localStorage.setItem(ENTITY_RULE_STORAGE_KEY,JSON.stringify([...state.entityRules.values()]))}catch(_){}
+}
+function loadModelEntityRules(){
+  try{
+    const rows=JSON.parse(localStorage.getItem(ENTITY_RULE_STORAGE_KEY)||"[]");
+    state.entityRules=new Map();
+    if(Array.isArray(rows))for(const rule of rows){
+      if(!rule||!["player","team"].includes(rule.type)||!["lock","ban"].includes(rule.mode))continue;
+      const key=modelEntityRuleKey(rule.type,rule.value);
+      state.entityRules.set(key,Object.assign({},rule,{key:key}));
+    }
+  }catch(_){state.entityRules=new Map()}
+}
+function modelEntityCatalog(){
+  const players=state.players.map(player=>({
+    key:modelEntityRuleKey("player",player.name),type:"player",value:player.name,label:player.name,
+    sub:[player.position,player.team].filter(Boolean).join(" • "),image:player.headshot||fallbackHeadshot()
+  }));
+  const teams=state.teams.map(team=>{
+    const abbr=String(team.abbreviation||"").toUpperCase();
+    return{key:modelEntityRuleKey("team",abbr),type:"team",value:abbr,label:team.name||abbr,sub:abbr,image:team.logo||modelTeamLogo(abbr)};
+  }).filter(item=>item.value);
+  return players.concat(teams);
+}
+function modelRuleMatchesRow(rule,row,forBan=false){
+  if(!rule||!row)return false;
+  if(rule.type==="player")return row.scope==="player"&&norm(row.player)===norm(rule.value);
+  const abbr=String(rule.value||"").toUpperCase();
+  if(String(row.team||"").toUpperCase()===abbr)return true;
+  if(forBan&&row.scope==="game"){
+    return String(row.homeAbbr||"").toUpperCase()===abbr||String(row.awayAbbr||"").toUpperCase()===abbr;
+  }
+  return false;
+}
+function modelLockedRules(){return[...state.entityRules.values()].filter(rule=>rule.mode==="lock")}
+function modelBannedRules(){return[...state.entityRules.values()].filter(rule=>rule.mode==="ban")}
+function modelRowIsBanned(row){return modelBannedRules().some(rule=>modelRuleMatchesRow(rule,row,true))}
+function modelSlipSatisfiesLocks(legs,locks=modelLockedRules()){
+  return locks.every(rule=>(legs||[]).some(item=>modelRuleMatchesRow(rule,item.row||item,false)));
+}
+function renderModelEntitySearchResults(){
+  const input=$("modelEntitySearch"),box=$("modelEntitySearchResults");if(!input||!box)return;
+  const q=String(input.value||"").trim().toLowerCase();
+  if(!q){box.hidden=true;box.innerHTML="";return}
+  const results=modelEntityCatalog().filter(item=>{
+    if(state.entityRules.has(item.key))return false;
+    return (item.label+" "+item.sub+" "+item.value).toLowerCase().includes(q);
+  }).slice(0,12);
+  box.innerHTML=results.length?results.map(item=>
+    '<button type="button" class="model-entity-result '+esc(item.type)+'" data-entity-add="'+esc(item.key)+'">'+
+    '<img src="'+esc(item.image)+'" alt="" loading="lazy"><span><strong>'+esc(item.label)+'</strong><small>'+esc(item.type==="team"?"TEAM • "+item.sub:(item.sub||"PLAYER"))+'</small></span><span>Add</span></button>'
+  ).join(""):'<div class="model-entity-rule-empty">No matching player or team.</div>';
+  box.hidden=false;
+}
+function renderModelEntityRules(){
+  const list=$("modelEntityRuleList"),count=$("modelEntityRuleCount"),details=$("modelEntityRuleDetails");if(!list||!count)return;
+  const rules=[...state.entityRules.values()];
+  count.textContent=String(rules.length);
+  if(!rules.length){
+    list.innerHTML='<div class="model-entity-rule-empty">Search above to add a player or team.</div>';
+    return;
+  }
+  if(details)details.open=true;
+  const catalog=new Map(modelEntityCatalog().map(item=>[item.key,item]));
+  list.innerHTML=rules.map(rule=>{
+    const item=catalog.get(rule.key)||{label:rule.label||rule.value,sub:rule.type==="team"?rule.value:"PLAYER",image:rule.type==="team"?modelTeamLogo(rule.value):fallbackHeadshot()};
+    return'<div class="model-entity-rule '+esc(rule.type)+'" data-entity-rule="'+esc(rule.key)+'">'+
+      '<img src="'+esc(item.image)+'" alt="" loading="lazy"><div class="model-entity-rule-copy"><strong>'+esc(item.label)+'</strong><small>'+esc(item.sub||rule.type)+'</small></div>'+
+      '<button type="button" class="model-rule-mode lock '+(rule.mode==="lock"?"active":"")+'" data-rule-mode="lock" title="Force this player/team into every generated slip">Lock</button>'+
+      '<button type="button" class="model-rule-mode ban '+(rule.mode==="ban"?"active":"")+'" data-rule-mode="ban" title="Exclude this player/team from the model">Ban</button>'+
+      '<button type="button" class="model-rule-remove" data-rule-remove aria-label="Remove '+esc(item.label)+' rule">×</button></div>';
+  }).join("");
+}
+function addModelEntityRule(key){
+  const item=modelEntityCatalog().find(candidate=>candidate.key===key);if(!item)return;
+  state.entityRules.set(key,{key:key,type:item.type,value:item.value,label:item.label,mode:"lock"});
+  saveModelEntityRules();renderModelEntityRules();
+  $("modelEntitySearch").value="";renderModelEntitySearchResults();recalc();
+}
+function setModelEntityRuleMode(key,mode){
+  const rule=state.entityRules.get(key);if(!rule||!["lock","ban"].includes(mode))return;
+  rule.mode=mode;state.entityRules.set(key,rule);saveModelEntityRules();renderModelEntityRules();recalc();
+}
+function removeModelEntityRule(key){
+  state.entityRules.delete(key);saveModelEntityRules();renderModelEntityRules();recalc();
+}
+
 function controls(){
   const hit={};for(const [k] of HIT_LABELS)hit[k]=Number($(k+"Min").value)||0;
   return{
@@ -876,7 +968,7 @@ function controls(){
     targetsPerGameMin:Number($("targetsPerGameMin").value)||0,carriesPerGameMin:Number($("carriesPerGameMin").value)||0,
     dvpMin:Number($("dvpMin").value)||0,dvpSample:Number($("dvpSample").value)||1,teamMatchupMin:Number($("teamMatchupMin").value)||0,
     edgeMin:Number($("edgeMin").value),oddsSpread:Number($("oddsSpread").value)||600,requireOpponentData:$("requireOpponentData").checked,
-    positions:state.selectedPositions,markets:state.selectedMarkets,sides:state.selectedSides,games:state.selectedGames,player:$("playerFilter").value.trim().toLowerCase(),
+    positions:state.selectedPositions,markets:state.selectedMarkets,sides:state.selectedSides,games:state.selectedGames,scope:state.modelScope,
     lineMin:$("lineMin").value===""?null:Number($("lineMin").value),lineMax:$("lineMax").value===""?null:Number($("lineMax").value),
     legOddsMin:Number($("legOddsMin").value),legOddsMax:Number($("legOddsMax").value),parlayOddsMin:Number($("parlayOddsMin").value),parlayOddsMax:Number($("parlayOddsMax").value),
     legsMin:clamp(Number($("legsMin").value)||1,1,10),legsMax:clamp(Number($("legsMax").value)||1,1,10),uniquePlayers:$("uniquePlayers").checked,avoidSameGame:$("avoidSameGame").checked,weights:Object.assign({},state.weights)
@@ -894,9 +986,6 @@ function analyzeTeamMarket(row,cfg){
   if(cfg.markets.size&&!cfg.markets.has(market))return null;
   if(cfg.sides.size&&!cfg.sides.has(String(row.selection||"")))return null;
   if(cfg.games.size&&!cfg.games.has(String(row.eventId)))return null;
-  const identity=[row.teamName,row.team,row.matchup,row.proposition,market].join(" ").toLowerCase();
-  if(cfg.player&&!identity.includes(cfg.player))return null;
-
   const rates=teamRates(row);
   for(const k of Object.keys(cfg.hit)){
     if(cfg.hit[k]>0&&(!rates[k]||rates[k].pct<cfg.hit[k]))return null;
@@ -938,7 +1027,10 @@ function analyzeTeamMarket(row,cfg){
     modelProb,impliedProb:book,edge,score,reliability,calibrationQuality:statModel.breadth,teamProfile:statModel};
 }
 function analyze(row,cfg){
-  if(["team","game"].includes(row&&row.scope))return analyzeTeamMarket(row,cfg);
+  const scope=String(row&&row.scope||"player");
+  if(cfg.scope&&scope!==cfg.scope)return null;
+  if(modelRowIsBanned(row))return null;
+  if(["team","game"].includes(scope))return analyzeTeamMarket(row,cfg);
   const player=state.playerByName.get(norm(row.player));if(!player)return null;
   const odds=Number(row.odds);
   const hasLine=row.line!==null&&row.line!==undefined&&row.line!=="",line=hasLine?Number(row.line):null;
@@ -955,7 +1047,6 @@ function analyze(row,cfg){
   if(cfg.markets.size&&!cfg.markets.has(market))return null;
   if(cfg.sides.size&&!cfg.sides.has(String(row.selection||"")))return null;
   if(cfg.games.size&&!cfg.games.has(String(row.eventId)))return null;
-  if(cfg.player&&!String(row.player||"").toLowerCase().includes(cfg.player))return null;
 
   const spec=metricSpec(row);if(!spec)return null;
   const rates=ratesFor(row,player);
@@ -1034,7 +1125,17 @@ function analyze(row,cfg){
   };
 }
 function generateSlips(candidates,cfg){
-  const top=candidates.slice(0,80);
+  const locks=modelLockedRules();
+  // Keep the normal best 80, but always inject a useful slice of candidates
+  // for every lock so a lower-ranked locked player/team cannot disappear from
+  // the beam before the constraint is evaluated.
+  const pool=[],seenPool=new Set();
+  const addCandidate=item=>{const key=modelPropKey(item.row);if(!seenPool.has(key)){seenPool.add(key);pool.push(item)}};
+  candidates.slice(0,80).forEach(addCandidate);
+  for(const rule of locks)candidates.filter(item=>modelRuleMatchesRow(rule,item.row,false)).slice(0,24).forEach(addCandidate);
+  if(locks.some(rule=>!candidates.some(item=>modelRuleMatchesRow(rule,item.row,false))))return[];
+  pool.sort((a,b)=>b.score-a.score||b.edge-a.edge);
+  const top=pool.slice(0,Math.max(80,Math.min(150,pool.length)));
   const minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax);
   const minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
   const recommendations=[];
@@ -1062,67 +1163,49 @@ function generateSlips(candidates,cfg){
       decimal*=d;joint*=legs[i].modelProb;
       for(let j=0;j<i;j++)if(legs[i].row.eventId&&legs[i].row.eventId===legs[j].row.eventId)sameGamePairs++;
     }
-    // We do not have historical SGP correlation matrices. Apply a small
-    // conservative ranking haircut instead of pretending the legs are independent.
     const conservativeProb=clamp(joint*Math.pow(.97,sameGamePairs),.0001,.9999);
-    const bookProb=1/decimal;
-    const slipEdge=conservativeProb-bookProb;
-    return{
-      decimal:decimal,odds:decimalToAmerican(decimal),modelProb:conservativeProb,
-      bookProb:bookProb,slipEdge:slipEdge,edge:avg(legs.map(x=>x.edge))||0,
-      score:avg(legs.map(x=>x.score))||0,sameGamePairs:sameGamePairs
-    };
+    const bookProb=1/decimal,slipEdge=conservativeProb-bookProb;
+    return{decimal:decimal,odds:decimalToAmerican(decimal),modelProb:conservativeProb,bookProb:bookProb,slipEdge:slipEdge,edge:avg(legs.map(x=>x.edge))||0,score:avg(legs.map(x=>x.score))||0,sameGamePairs:sameGamePairs};
   }
   function partialRank(node){
-    // Probability is primary. Model grade and positive edge are small tie-breakers.
     const probability=node.legs.reduce((p,x)=>p*x.modelProb,1);
-    const quality=avg(node.legs.map(x=>x.score))||0;
-    const edge=avg(node.legs.map(x=>Math.max(-.05,x.edge)))||0;
-    return Math.log(Math.max(probability,1e-8))+quality*.004+edge*.8;
+    const quality=avg(node.legs.map(x=>x.score))||0,edge=avg(node.legs.map(x=>Math.max(-.05,x.edge)))||0;
+    const coverage=locks.length?locks.filter(rule=>node.legs.some(item=>modelRuleMatchesRow(rule,item.row,false))).length/locks.length:1;
+    // Strong coverage bonus keeps lock-satisfying paths alive in a bounded beam.
+    return Math.log(Math.max(probability,1e-8))+quality*.004+edge*.8+coverage*2.4;
   }
 
-  // Bounded beam search prevents large leg ranges from creating combinatorial UI lag.
-  let beam=[{legs:[],start:0}];
-  const beamWidth=900;
+  let beam=[{legs:[],start:0}],beamWidth=1100;
   for(let size=1;size<=maxLegs;size++){
     const nextBeam=[];
     for(const node of beam){
       for(let i=node.start;i<top.length;i++){
-        const candidate=top[i];
-        if(!compatible(node.legs,candidate))continue;
-        const legs=node.legs.concat(candidate);
-        const stats=statsFor(legs);if(!stats)continue;
-        if(maxD&&stats.decimal>maxD)continue; // decimal odds can only increase with more legs
+        const candidate=top[i];if(!compatible(node.legs,candidate))continue;
+        const legs=node.legs.concat(candidate),stats=statsFor(legs);if(!stats)continue;
+        if(maxD&&stats.decimal>maxD)continue;
         nextBeam.push({legs:legs,start:i+1,rank:0,stats:stats});
       }
     }
     for(const node of nextBeam)node.rank=partialRank(node);
-    nextBeam.sort((a,b)=>b.rank-a.rank);
-    beam=nextBeam.slice(0,beamWidth);
+    nextBeam.sort((a,b)=>b.rank-a.rank);beam=nextBeam.slice(0,beamWidth);
 
     if(size>=minLegs){
       for(const node of beam){
         const st=node.stats;
         if(minD&&st.decimal<minD)continue;
         if(maxD&&st.decimal>maxD)continue;
+        if(!modelSlipSatisfiesLocks(node.legs,locks))continue;
         recommendations.push(Object.assign({legs:node.legs},st));
       }
     }
     if(!beam.length)break;
   }
 
-  recommendations.sort((a,b)=>
-    b.modelProb-a.modelProb||
-    b.score-a.score||
-    b.slipEdge-a.slipEdge
-  );
-
+  recommendations.sort((a,b)=>b.modelProb-a.modelProb||b.score-a.score||b.slipEdge-a.slipEdge);
   const out=[],seen=new Set();
   for(const slip of recommendations){
     const sig=slip.legs.map(x=>modelPropKey(x.row)).sort().join("~");
-    if(seen.has(sig))continue;
-    seen.add(sig);out.push(slip);
-    if(out.length>=9)break;
+    if(seen.has(sig))continue;seen.add(sig);out.push(slip);if(out.length>=9)break;
   }
   return out;
 }
@@ -1211,9 +1294,9 @@ function renderSignals(){
     $("signalBody").innerHTML='<tr><td colspan="'+colspan+'" class="model-empty">'+esc(message)+'</td></tr>';return
   }
   $("signalBody").innerHTML=rows.map(x=>{
-    const r=x.row,entity=modelEntityName(r),isPlayer=r.scope!=="team"&&r.scope!=="game";
-    const trigger=isPlayer?' model-player-trigger':'';
-    const triggerAttrs=isPlayer?' data-player-id="'+esc(x.player&&x.player.id||"")+'" data-prop-key="'+esc(modelPropKey(r))+'"':'';
+    const r=x.row,entity=modelEntityName(r);
+    const trigger=' model-prop-trigger';
+    const triggerAttrs=' data-prop-key="'+esc(modelPropKey(r))+'" aria-label="Open '+esc(entity)+' prop history chart"';
     const result=historicalResultForRow(r),memberships=slipMembershipFor(r);
     const resultCell=state.modelHistorical?'<td class="model-result-cell">'+modelResultBadge(result,true)+(memberships.length?'<small class="slip-membership">Slip '+memberships.join(" • ")+'</small>':"")+'</td>':"";
     return '<tr class="'+(state.modelHistorical?'historical-row result-'+esc(result.status):"")+'"><td><button type="button" class="signal-player'+trigger+'"'+triggerAttrs+'>'+
@@ -1227,8 +1310,8 @@ function renderSignals(){
 function slipHtml(s,i){
   let legs="";const legResults=[];
   for(const x of s.legs){
-    const r=x.row,isPlayer=r.scope!=="team"&&r.scope!=="game",entity=modelEntityName(r);
-    const trigger=isPlayer?' model-player-trigger':'',attrs=isPlayer?' data-player-id="'+esc(x.player&&x.player.id||"")+'" data-prop-key="'+esc(modelPropKey(r))+'" tabindex="0" role="button" aria-label="Open '+esc(entity)+' prop chart"':'';
+    const r=x.row,entity=modelEntityName(r);
+    const trigger=' model-prop-trigger',attrs=' data-prop-key="'+esc(modelPropKey(r))+'" tabindex="0" role="button" aria-label="Open '+esc(entity)+' prop history chart"';
     const result=historicalResultForRow(r);if(state.modelHistorical)legResults.push(result);
     const grade=state.modelHistorical?modelResultBadge(result,true):"";
     legs+='<div class="slip-leg '+(state.modelHistorical?'historical-slip-leg result-'+esc(result.status):"")+trigger+'"'+attrs+'>'+modelEntityVisual(r,x.player)+'<div class="slip-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r))+' • '+esc(r.scope==="game"?r.matchup:(x.opp||""))+'</span></div><div class="slip-leg-right"><strong>'+formatOdds(r.odds)+'</strong>'+grade+'</div></div>';
@@ -1251,7 +1334,7 @@ function renderSlips(direction){
     : "No slips in current range";
   const container=$("recommendedSlips");
   if(!total){
-    container.innerHTML='<div class="model-empty">No parlay combination lands inside the requested final-odds range. Adjust final odds or leg count.</div>';
+    container.innerHTML='<div class="model-empty">'+(modelLockedRules().length?'No parlay satisfies every active lock with the current filters, odds range and leg count. Loosen a constraint or remove a lock.':'No parlay combination lands inside the requested final-odds range. Adjust final odds or leg count.')+'</div>';
     return;
   }
   container.classList.remove("page-next","page-prev");
@@ -1348,11 +1431,11 @@ function applyPreset(key){
   $("edgeMin").value=preset.edgeMin??DEFAULTS.edgeMin;
   $("oddsSpread").value=preset.oddsSpread??DEFAULTS.oddsSpread;
   for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=preset[id]??DEFAULTS[id];
-  $("lineMin").value="";$("lineMax").value="";$("playerFilter").value="";
+  $("lineMin").value="";$("lineMax").value="";
   $("uniquePlayers").checked=preset.uniquePlayers!==false;
   $("avoidSameGame").checked=Boolean(preset.avoidSameGame);
-  state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();
-  renderModelFilters();syncLabels();recalc();
+  state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();state.modelScope="";state.entityRules.clear();saveModelEntityRules();
+  $("modelEntitySearch").value="";renderModelEntityRules();renderModelEntitySearchResults();renderModelFilters();syncLabels();recalc();
   $("modelPresetButton").querySelector("span").textContent=preset.label;
 }
 function closePresetPopover(){
@@ -1376,6 +1459,14 @@ function modelRenderOption(value,label,selectedSet,kind){
   return '<button type="button" class="filter-option '+(selected?"selected":"")+'" data-model-kind="'+kind+'" data-model-value="'+esc(value)+'"><span class="filter-option-label">'+esc(label)+'</span><span class="option-checkbox">'+(selected?"✓":"")+'</span></button>';
 }
 function renderModelFilters(){
+  const scopeLabels={player:"Player Props",team:"Team Props",game:"Game Props","":"All Props"};
+  $("modelScopeLabel").textContent=scopeLabels[state.modelScope]||"All Props";
+  document.querySelectorAll("[data-model-scope]").forEach(button=>{
+    const active=String(button.dataset.modelScope||"")===String(state.modelScope||"");
+    button.classList.toggle("selected",active);
+    const mark=button.querySelector(".option-checkbox");if(mark)mark.textContent=active?"✓":"";
+  });
+
   const positions=[...new Set([...state.players.map(p=>String(p.position||"").toUpperCase()),...state.odds.map(r=>String(r.position||"").toUpperCase())].filter(Boolean))].sort();
   $("modelPositionOptions").innerHTML=positions.map(x=>modelRenderOption(x,x,state.selectedPositions,"positions")).join("");
   $("modelAllPositionsMark").textContent=state.selectedPositions.size?"":"✓";
@@ -1439,6 +1530,7 @@ function toggleModelFilter(button,popover){
 }
 function bindModelFilters(){
   const pairs=[
+    ["modelScopeButton","modelScopePopover"],
     ["modelPositionButton","modelPositionPopover"],
     ["modelMarketButton","modelMarketPopover"],
     ["modelSideButton","modelSidePopover"],
@@ -1451,6 +1543,11 @@ function bindModelFilters(){
     button.addEventListener("click",e=>{e.stopPropagation();toggleModelFilter(button,popover)});
   }
   document.addEventListener("click",e=>{
+    const scopeOption=e.target.closest("[data-model-scope]");
+    if(scopeOption){
+      state.modelScope=String(scopeOption.dataset.modelScope||"");
+      renderModelFilters();closeModelFilterPopovers();schedule();return;
+    }
     const option=e.target.closest("[data-model-kind][data-model-value]");
     if(option){
       const set=state["selected"+option.dataset.modelKind[0].toUpperCase()+option.dataset.modelKind.slice(1)];
@@ -1718,8 +1815,8 @@ function bind(){
     if(!e.target.closest("#modelPresetPopover")&&!e.target.closest("#modelPresetButton"))closePresetPopover();
     if(!e.target.closest("#modelDatePopover")&&!e.target.closest("#modelDateButton"))closeModelDatePopover();
   });
-  document.addEventListener("click",e=>{const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
-  document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;e.preventDefault();const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
+  document.addEventListener("click",e=>{const trigger=e.target.closest(".model-prop-trigger");if(!trigger)return;const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
+  document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-prop-trigger");if(!trigger)return;e.preventDefault();const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
   $("hitRateClose").addEventListener("click",()=>$("hitRateModal").close());
   $("hitRateModal").addEventListener("click",e=>{if(e.target===$("hitRateModal"))$("hitRateModal").close()});
   $("hitRateBreakdown").addEventListener("click",e=>{const button=e.target.closest("[data-chart-split]");if(!button||button.disabled||!state.hitRateActiveRow)return;renderModelHitRateChart(state.hitRateActiveRow,button.dataset.chartSplit)});
@@ -1736,12 +1833,21 @@ function bind(){
     if(delta<0&&state.slipPage<pages-1){state.slipPage++;renderSlips(1)}
     else if(delta>0&&state.slipPage>0){state.slipPage--;renderSlips(-1)}
   },{passive:true});
-  document.querySelectorAll(".model-controls input").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
+  document.querySelectorAll(".model-controls input:not(#modelEntitySearch)").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
+  $("modelEntitySearch").addEventListener("input",renderModelEntitySearchResults);
+  $("modelEntitySearch").addEventListener("focus",renderModelEntitySearchResults);
+  $("modelEntitySearchResults").addEventListener("click",e=>{const button=e.target.closest("[data-entity-add]");if(button)addModelEntityRule(button.dataset.entityAdd)});
+  $("modelEntityRuleList").addEventListener("click",e=>{
+    const row=e.target.closest("[data-entity-rule]");if(!row)return;
+    const key=row.dataset.entityRule,mode=e.target.closest("[data-rule-mode]"),remove=e.target.closest("[data-rule-remove]");
+    if(mode)setModelEntityRuleMode(key,mode.dataset.ruleMode);else if(remove)removeModelEntityRule(key);
+  });
+  document.addEventListener("click",e=>{if(!e.target.closest(".model-entity-picker"))$("modelEntitySearchResults").hidden=true});
   $("weightControls").addEventListener("click",e=>{const b=e.target.closest("[data-weight]");if(!b)return;const k=b.dataset.weight,levels=[0,8,14,22,30,40],cur=state.weights[k],next=levels[(levels.indexOf(cur)+1)%levels.length];state.weights[k]=next;b.querySelector("strong").textContent=next;b.classList.toggle("active",next>0);schedule()});
-  $("resetModel").addEventListener("click",()=>{$("modelPresetButton").querySelector("span").textContent="Presets";for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();$("playerFilter").value="";renderModelFilters();for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
+  $("resetModel").addEventListener("click",()=>{$("modelPresetButton").querySelector("span").textContent="Presets";for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();state.modelScope="";state.entityRules.clear();saveModelEntityRules();$("modelEntitySearch").value="";renderModelEntityRules();renderModelEntitySearchResults();renderModelFilters();for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
 }
 async function init(){
-  buildControls();bind();syncLabels();
+  loadModelEntityRules();buildControls();bind();syncLabels();renderModelEntityRules();
   try{
     await loadModelHistoryIndex();
     const bundle=await fetchLiveModelBundle();
