@@ -277,8 +277,8 @@
 .mini-result.result-miss{color:#ff8791;background:rgba(255,123,134,.11)}
 .mini-result.result-push{color:#e6c36d;background:rgba(230,195,109,.11)}
 .mini-result.result-pending{color:#7c899a;background:#202936}
-.modal-result-badge{margin-top:8px;width:max-content}
-.modal-result-badge[hidden]{display:none!important}
+.modal-result-wrap{margin-top:8px;width:max-content}
+.modal-result-wrap[hidden]{display:none!important}
 .model-history-mode .recommended-card .model-kicker::after{content:" • ARCHIVED";color:#6bb7ff}
 .model-history-mode .model-footer::before{content:"Historical view: every score, split, line, chart, and slip is calculated from the frozen pregame datasets. Current stats are used only for result grading.";display:block;color:#71869a;margin-right:auto}
 .model-history-mode .model-footer{gap:12px;flex-wrap:wrap}
