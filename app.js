@@ -1108,6 +1108,19 @@ function parlayKeyFor(row){
   ].join("¦");
 }
 function getHitRates(row){
+  if(row?._recomputeTeamRates){
+    const key="team|"+parlayKeyFor(row);
+    if(state.hitRateCache.has(key)) return state.hitRateCache.get(key);
+    const rates={
+      l5:rateForGames(row,splitGamesForRow(row,"l5")),
+      l10:rateForGames(row,splitGamesForRow(row,"l10")),
+      h2h:rateForGames(row,splitGamesForRow(row,"h2h")),
+      current:rateForGames(row,splitGamesForRow(row,"current")),
+      previous:rateForGames(row,splitGamesForRow(row,"previous"))
+    };
+    state.hitRateCache.set(key,rates);
+    return rates;
+  }
   if(row?.hitRates) return row.hitRates;
   if(!metricSpec(row)) return {l5:null,l10:null,h2h:null,current:null,previous:null};
   const key=parlayKeyFor(row);
@@ -1837,6 +1850,22 @@ async function loadStats(){
   }
 }
 
+function normalizeOddsTeamMarket(row,event){
+  const key=String(row.marketKey||"").toUpperCase().replace(/[^A-Z0-9]+/g,"_").replace(/^_+|_+$/g,"");
+  if(key.includes("AWAY_TEAM_TOTAL")||key.includes("HOME_TEAM_TOTAL")){
+    const away=key.includes("AWAY_TEAM_TOTAL");
+    row.scope="team";
+    row.teamMarketType="teamTotal";
+    row.team=away?(event.awayAbbr||""):(event.homeAbbr||"");
+    row.teamName=away?(event.awayTeam||row.team):(event.homeTeam||row.team);
+    row.position="TEAM";
+    row.market=row.alternate?"Alt Team Total":"Team Total";
+    row.proposition=(row.selection||"")+" "+Number(row.line).toString()+" "+row.team+" "+row.market;
+    row._recomputeTeamRates=true;
+  }
+  if(key==="ALTERNATE_HANDICAP"&&Number(row.line)===0) row._invalidTeamMarket=true;
+  return row;
+}
 function flattenOddsPayload(data){
   const flattened=[];
   for(const event of data.events||[]){
@@ -1844,13 +1873,13 @@ function flattenOddsPayload(data){
     const home=event.homeAbbr||event.homeTeam||"HOME";
     const matchup=away+" @ "+home;
     for(const prop of event.props||[]){
-      const scope=prop.scope||"player";
-      const cleanedPlayer=scope==="player"?cleanDisplayPlayerName(prop.player):"";
-      const profile=scope==="player"?findPlayer(cleanedPlayer):null;
-      const row={
+      let scope=prop.scope||"player";
+      const firstPlayer=scope==="player"?cleanDisplayPlayerName(prop.player):"";
+      let profile=scope==="player"?findPlayer(firstPlayer):null;
+      const row=normalizeOddsTeamMarket({
         ...prop,
         scope,
-        player:cleanedPlayer,
+        player:firstPlayer,
         team:prop.team||profile?.team||"",
         position:prop.position||profile?.position||(scope==="team"?"TEAM":scope==="game"?"GAME":""),
         headshot:prop.headshot||profile?.headshot||"",
@@ -1862,7 +1891,14 @@ function flattenOddsPayload(data){
         homeAbbr:event.homeAbbr||"",
         awayAbbr:event.awayAbbr||"",
         matchup
-      };
+      },event);
+      if(row._invalidTeamMarket) continue;
+      scope=row.scope||scope;
+      const cleanedPlayer=scope==="player"?cleanDisplayPlayerName(prop.player):"";
+      profile=scope==="player"?findPlayer(cleanedPlayer):null;
+      row.player=cleanedPlayer;
+      row.team=row.team||profile?.team||"";
+      row.position=row.position||profile?.position||(scope==="team"?"TEAM":scope==="game"?"GAME":"");
       row._displayPlayer=cleanedPlayer;
       row._marketLabel=canonicalPropCategory(row);
       row._displayProposition=cleanDisplayProposition(row);
