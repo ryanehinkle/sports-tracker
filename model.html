@@ -97,6 +97,7 @@
 <p><strong>Line-aware form</strong> uses L10/season hit history, recent mean versus the current line, and short-term trend instead of rewarding a position just for getting lots of touches.</p>
 <p><strong>Opponent DvP</strong> uses team production allowed by position, with a lighter prior-season blend early in the year so two current games do not dominate the grade.</p>
 <p><strong>Market anchoring</strong> removes overround when both sides are available, then shrinks the historical estimate toward FanDuel when the 2025 calibration was weak. This specifically prevents weak rushing-yard history from flooding the top results.</p>
+<p><strong>Spread math</strong> is always from the selected team’s perspective: <b>+</b> points are received, <b>−</b> points are given, and a spread covers when the team’s actual scoring margin plus its signed spread is above zero.</p>
 </div><div id="modelFormula" class="formula-box"></div></div>
 <section class="learning-lab" aria-labelledby="learningLabTitle">
   <div class="learning-header"><div><span class="model-kicker">POSTGAME SELF-LEARNING</span><h3 id="learningLabTitle">What the model learned from finished games</h3><p>Every frozen pregame leg is graded after the game. New weights are trained, challengers are tested on whole games they did not train on, and only validated improvements earn more influence.</p></div><span id="learningStatus" class="learning-status status-waiting">AWAITING RESULTS</span></div>
