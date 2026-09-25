@@ -656,7 +656,7 @@ def _normalize_team_market_record(event, prop):
         # legacy row's numeric line disagrees. The sign always belongs to the
         # selected team, not the opponent.
         text = str(prop.get("proposition") or "").replace("−", "-")
-        signed = re.search(r"(?<!\\d)([+-]\\s*\\d+(?:\\.\\d+)?)\\b", text)
+        signed = re.search(r"(?<!\d)([+-]\s*\d+(?:\.\d+)?)\b", text)
         if signed:
             parsed = float(signed.group(1).replace(" ", ""))
             if line is None or abs(parsed - line) > 1e-9:
