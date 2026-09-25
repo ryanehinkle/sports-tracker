@@ -1578,7 +1578,7 @@ function bindModelFilters(){
   const controls=document.querySelector(".model-controls");
   if(controls)controls.addEventListener("scroll",()=>closeModelFilterPopovers(),{passive:true});
 }
-function fillSelects(){renderModelFilters()}
+function fillSelects(){renderModelFilters();renderModelEntityRules()}
 function modelPlayerForRow(row){return state.playerByName.get(norm(row&&row.player))}
 function modelPlayedLogs(player){
   return logs(player,false).filter(g=>g&&g.played).sort((a,b)=>(b._season-a._season)||num(b.week)-num(a.week));
