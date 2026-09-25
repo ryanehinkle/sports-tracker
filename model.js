@@ -963,6 +963,12 @@ function removeModelEntityRule(key){
 
 function controls(){
   const hit={};for(const [k] of HIT_LABELS)hit[k]=Number($(k+"Min").value)||0;
+  const rawLegMin=Number($("legOddsMin").value),rawLegMax=Number($("legOddsMax").value);
+  const legOddsMin=Math.min(rawLegMin,rawLegMax),legOddsMax=Math.max(rawLegMin,rawLegMax);
+  const rawParlayMin=Number($("parlayOddsMin").value),rawParlayMax=Number($("parlayOddsMax").value);
+  let parlayOddsMin=rawParlayMin,parlayOddsMax=rawParlayMax;
+  const parlayMinD=americanToDecimal(rawParlayMin),parlayMaxD=americanToDecimal(rawParlayMax);
+  if(Number.isFinite(parlayMinD)&&Number.isFinite(parlayMaxD)&&parlayMinD>parlayMaxD)[parlayOddsMin,parlayOddsMax]=[rawParlayMax,rawParlayMin];
   return{
     hit:hit,targetShare:Number($("targetShare").value)||0,carryShare:Number($("carryShare").value)||0,opportunityShare:Number($("opportunityShare").value)||0,
     targetsPerGameMin:Number($("targetsPerGameMin").value)||0,carriesPerGameMin:Number($("carriesPerGameMin").value)||0,
@@ -970,7 +976,7 @@ function controls(){
     edgeMin:Number($("edgeMin").value),oddsSpread:Number($("oddsSpread").value)||600,requireOpponentData:$("requireOpponentData").checked,
     positions:state.selectedPositions,markets:state.selectedMarkets,sides:state.selectedSides,games:state.selectedGames,scope:state.modelScope,
     lineMin:$("lineMin").value===""?null:Number($("lineMin").value),lineMax:$("lineMax").value===""?null:Number($("lineMax").value),
-    legOddsMin:Number($("legOddsMin").value),legOddsMax:Number($("legOddsMax").value),parlayOddsMin:Number($("parlayOddsMin").value),parlayOddsMax:Number($("parlayOddsMax").value),
+    legOddsMin:legOddsMin,legOddsMax:legOddsMax,parlayOddsMin:parlayOddsMin,parlayOddsMax:parlayOddsMax,
     legsMin:clamp(Number($("legsMin").value)||1,1,10),legsMax:clamp(Number($("legsMax").value)||1,1,10),uniquePlayers:$("uniquePlayers").checked,avoidSameGame:$("avoidSameGame").checked,weights:Object.assign({},state.weights)
   };
 }
@@ -1124,84 +1130,172 @@ function analyze(row,cfg){
     reliability:calibrated.reliability,calibrationQuality:calibrated.calibrationQuality
   };
 }
-function generateSlips(candidates,cfg){
-  const locks=modelLockedRules();
-  // Keep the normal best 80, but always inject a useful slice of candidates
-  // for every lock so a lower-ranked locked player/team cannot disappear from
-  // the beam before the constraint is evaluated.
-  const pool=[],seenPool=new Set();
-  const addCandidate=item=>{const key=modelPropKey(item.row);if(!seenPool.has(key)){seenPool.add(key);pool.push(item)}};
-  candidates.slice(0,80).forEach(addCandidate);
-  for(const rule of locks)candidates.filter(item=>modelRuleMatchesRow(rule,item.row,false)).slice(0,24).forEach(addCandidate);
-  if(locks.some(rule=>!candidates.some(item=>modelRuleMatchesRow(rule,item.row,false))))return[];
-  pool.sort((a,b)=>b.score-a.score||b.edge-a.edge);
-  const top=pool.slice(0,Math.max(80,Math.min(150,pool.length)));
+function modelSlipPropFamilyKey(x){
+  const row=x.row||{};
+  return[
+    String(row.eventId||""),
+    norm(row.player||row.team||row.scope||""),
+    String(x.market||row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase()
+  ].join("|");
+}
+function modelSlipLegsCompatible(combo,next,cfg){
+  if(combo.some(x=>modelSlipPropFamilyKey(x)===modelSlipPropFamilyKey(next)))return false;
+  const nextPlayer=norm(next.row.player);
+  if(cfg.uniquePlayers&&nextPlayer&&combo.some(x=>norm(x.row.player)===nextPlayer))return false;
+  if(cfg.avoidSameGame&&combo.some(x=>x.row.eventId&&x.row.eventId===next.row.eventId))return false;
+  const values=combo.map(x=>Number(x.row.odds)).concat(Number(next.row.odds)).filter(Number.isFinite);
+  if(values.length>1&&Math.max(...values)-Math.min(...values)>cfg.oddsSpread)return false;
+  return true;
+}
+function modelSlipStats(legs){
+  let decimal=1,joint=1,sameGamePairs=0;
+  for(let i=0;i<legs.length;i++){
+    const d=rowDecimalOdds(legs[i].row);if(!d)return null;
+    decimal*=d;joint*=legs[i].modelProb;
+    for(let j=0;j<i;j++)if(legs[i].row.eventId&&legs[i].row.eventId===legs[j].row.eventId)sameGamePairs++;
+  }
+  const conservativeProb=clamp(joint*Math.pow(.97,sameGamePairs),.0001,.9999);
+  const bookProb=1/decimal,slipEdge=conservativeProb-bookProb;
+  return{
+    decimal:decimal,odds:decimalToAmerican(decimal),modelProb:conservativeProb,bookProb:bookProb,slipEdge:slipEdge,
+    edge:avg(legs.map(x=>x.edge))||0,score:avg(legs.map(x=>x.score))||0,sameGamePairs:sameGamePairs
+  };
+}
+function modelParlayDecimalRange(cfg){
+  let minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
+  if(Number.isFinite(minD)&&Number.isFinite(maxD)&&minD>maxD)[minD,maxD]=[maxD,minD];
+  return{minD:Number.isFinite(minD)?minD:null,maxD:Number.isFinite(maxD)?maxD:null};
+}
+function modelSlipWithinRange(stats,cfg){
+  if(!stats)return false;
+  const range=modelParlayDecimalRange(cfg);
+  if(range.minD&&stats.decimal<range.minD-1e-9)return false;
+  if(range.maxD&&stats.decimal>range.maxD+1e-9)return false;
+  return true;
+}
+function refreshStillValidSlips(previous,candidates,cfg){
+  if(!previous||!previous.length)return[];
+  const current=new Map(candidates.map(item=>[modelPropKey(item.row),item])),locks=modelLockedRules(),out=[];
   const minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax);
-  const minD=americanToDecimal(cfg.parlayOddsMin),maxD=americanToDecimal(cfg.parlayOddsMax);
-  const recommendations=[];
+  for(const slip of previous){
+    const legs=(slip.legs||[]).map(old=>current.get(modelPropKey(old.row))).filter(Boolean);
+    if(legs.length!==(slip.legs||[]).length||legs.length<minLegs||legs.length>maxLegs)continue;
+    let compatible=true;
+    for(let i=0;i<legs.length&&compatible;i++)if(!modelSlipLegsCompatible(legs.slice(0,i),legs[i],cfg))compatible=false;
+    if(!compatible||!modelSlipSatisfiesLocks(legs,locks))continue;
+    const stats=modelSlipStats(legs);if(!modelSlipWithinRange(stats,cfg))continue;
+    out.push(Object.assign({legs:legs},stats));
+  }
+  return out;
+}
+function generateSlips(candidates,cfg,previousSlips=[]){
+  const locks=modelLockedRules(),range=modelParlayDecimalRange(cfg),minD=range.minD,maxD=range.maxD;
+  const minLegs=Math.min(cfg.legsMin,cfg.legsMax),maxLegs=Math.max(cfg.legsMin,cfg.legsMax);
+  if(locks.some(rule=>!candidates.some(item=>modelRuleMatchesRow(rule,item.row,false))))return[];
 
-  function propFamilyKey(x){
-    const row=x.row||{};
-    return[
-      String(row.eventId||""),
-      norm(row.player||row.team||row.scope||""),
-      String(x.market||row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase()
-    ].join("|");
-  }
-  function compatible(combo,next){
-    if(combo.some(x=>propFamilyKey(x)===propFamilyKey(next)))return false;
-    const nextPlayer=norm(next.row.player);if(cfg.uniquePlayers&&nextPlayer&&combo.some(x=>norm(x.row.player)===nextPlayer))return false;
-    if(cfg.avoidSameGame&&combo.some(x=>x.row.eventId&&x.row.eventId===next.row.eventId))return false;
-    const values=combo.map(x=>Number(x.row.odds)).concat(Number(next.row.odds)).filter(Number.isFinite);
-    if(values.length>1&&Math.max(...values)-Math.min(...values)>cfg.oddsSpread)return false;
-    return true;
-  }
-  function statsFor(legs){
-    let decimal=1,joint=1,sameGamePairs=0;
-    for(let i=0;i<legs.length;i++){
-      const d=rowDecimalOdds(legs[i].row);if(!d)return null;
-      decimal*=d;joint*=legs[i].modelProb;
-      for(let j=0;j<i;j++)if(legs[i].row.eventId&&legs[i].row.eventId===legs[j].row.eventId)sameGamePairs++;
+  // A relaxed eligibility filter must never let newly-added heavy favorites
+  // crowd every previously-useful leg out of the search. Build the search pool
+  // from fixed price bands plus the highest-ranked legs overall. This preserves
+  // strong candidates across the entire allowed payout spectrum.
+  const pool=[],seenPool=new Set();
+  const addCandidate=item=>{
+    if(!item||!rowDecimalOdds(item.row))return;
+    const key=modelPropKey(item.row);
+    if(!seenPool.has(key)){seenPool.add(key);pool.push(item)}
+  };
+  candidates.slice(0,56).forEach(addCandidate);
+
+  const priceBands=[
+    [1,1.08],[1.08,1.15],[1.15,1.25],[1.25,1.4],[1.4,1.6],[1.6,1.85],
+    [1.85,2.1],[2.1,2.5],[2.5,3.25],[3.25,4.5],[4.5,7],[7,12],[12,Infinity]
+  ];
+  for(const [low,high] of priceBands){
+    let kept=0;
+    for(const item of candidates){
+      const d=rowDecimalOdds(item.row);
+      if(!d||d<low||d>=high)continue;
+      addCandidate(item);
+      if(++kept>=14)break;
     }
-    const conservativeProb=clamp(joint*Math.pow(.97,sameGamePairs),.0001,.9999);
-    const bookProb=1/decimal,slipEdge=conservativeProb-bookProb;
-    return{decimal:decimal,odds:decimalToAmerican(decimal),modelProb:conservativeProb,bookProb:bookProb,slipEdge:slipEdge,edge:avg(legs.map(x=>x.edge))||0,score:avg(legs.map(x=>x.score))||0,sameGamePairs:sameGamePairs};
   }
-  function partialRank(node){
+  for(const rule of locks)candidates.filter(item=>modelRuleMatchesRow(rule,item.row,false)).slice(0,28).forEach(addCandidate);
+
+  // Pull in candidates closest to the payout pace needed to reach the user's
+  // minimum total odds by the maximum leg count. This prevents a board full of
+  // -500/-1000 favorites from starving +money targets.
+  if(minD&&maxLegs>0){
+    const ideal=Math.pow(minD,1/maxLegs);
+    [...candidates]
+      .filter(item=>rowDecimalOdds(item.row))
+      .sort((a,b)=>Math.abs(Math.log(rowDecimalOdds(a.row)/ideal))-Math.abs(Math.log(rowDecimalOdds(b.row)/ideal))||b.score-a.score)
+      .slice(0,36).forEach(addCandidate);
+  }
+
+  pool.sort((a,b)=>b.score-a.score||b.edge-a.edge);
+  const top=pool.slice(0,260),recommendations=[];
+  function addRecommendation(node){
+    if(!modelSlipWithinRange(node.stats,cfg)||!modelSlipSatisfiesLocks(node.legs,locks))return;
+    recommendations.push(Object.assign({legs:node.legs},node.stats));
+  }
+  function partialRank(node,size){
     const probability=node.legs.reduce((p,x)=>p*x.modelProb,1);
     const quality=avg(node.legs.map(x=>x.score))||0,edge=avg(node.legs.map(x=>Math.max(-.05,x.edge)))||0;
     const coverage=locks.length?locks.filter(rule=>node.legs.some(item=>modelRuleMatchesRow(rule,item.row,false))).length/locks.length:1;
-    // Strong coverage bonus keeps lock-satisfying paths alive in a bounded beam.
-    return Math.log(Math.max(probability,1e-8))+quality*.004+edge*.8+coverage*2.4;
+    const desiredFinal=minD||Math.min(maxD||2,2);
+    const desiredNow=Math.pow(Math.max(1.0001,desiredFinal),size/Math.max(1,maxLegs));
+    const payoutDistance=Math.abs(Math.log(Math.max(1.0001,node.stats.decimal)/desiredNow));
+    return Math.log(Math.max(probability,1e-8))+quality*.004+edge*.8+coverage*2.4-payoutDistance*.42;
+  }
+  function pruneBeam(nodes,size){
+    // Preserve partial parlays at many payout levels instead of allowing the
+    // highest-probability/favorite-heavy states to monopolize the beam.
+    const bins=new Map(),upper=Math.log(Math.max(2,maxD||minD||20)),binCount=22;
+    for(const node of nodes){
+      node.rank=partialRank(node,size);
+      const pos=Math.log(Math.max(1.0001,node.stats.decimal))/Math.max(.01,upper);
+      const key=Math.max(0,Math.min(binCount-1,Math.floor(pos*binCount)));
+      if(!bins.has(key))bins.set(key,[]);
+      bins.get(key).push(node);
+    }
+    const kept=[];
+    for(const rows of bins.values()){
+      rows.sort((a,b)=>b.rank-a.rank);
+      kept.push(...rows.slice(0,54));
+    }
+    kept.sort((a,b)=>b.rank-a.rank);
+    return kept.slice(0,1250);
   }
 
-  let beam=[{legs:[],start:0}],beamWidth=1100;
+  let beam=[{legs:[],start:0,stats:null,rank:0}];
   for(let size=1;size<=maxLegs;size++){
     const nextBeam=[];
     for(const node of beam){
       for(let i=node.start;i<top.length;i++){
-        const candidate=top[i];if(!compatible(node.legs,candidate))continue;
-        const legs=node.legs.concat(candidate),stats=statsFor(legs);if(!stats)continue;
-        if(maxD&&stats.decimal>maxD)continue;
-        nextBeam.push({legs:legs,start:i+1,rank:0,stats:stats});
+        const candidate=top[i];if(!modelSlipLegsCompatible(node.legs,candidate,cfg))continue;
+        const legs=node.legs.concat(candidate),stats=modelSlipStats(legs);if(!stats)continue;
+        if(maxD&&stats.decimal>maxD+1e-9)continue;
+        const next={legs:legs,start:i+1,rank:0,stats:stats};
+        nextBeam.push(next);
+        // Capture valid slips BEFORE beam pruning. Previously a perfectly valid
+        // combination could be generated and then discarded simply because a
+        // looser leg-odds filter introduced more high-confidence favorites.
+        if(size>=minLegs)addRecommendation(next);
       }
     }
-    for(const node of nextBeam)node.rank=partialRank(node);
-    nextBeam.sort((a,b)=>b.rank-a.rank);beam=nextBeam.slice(0,beamWidth);
-
-    if(size>=minLegs){
-      for(const node of beam){
-        const st=node.stats;
-        if(minD&&st.decimal<minD)continue;
-        if(maxD&&st.decimal>maxD)continue;
-        if(!modelSlipSatisfiesLocks(node.legs,locks))continue;
-        recommendations.push(Object.assign({legs:node.legs},st));
-      }
+    beam=pruneBeam(nextBeam,size);
+    if(recommendations.length>5000){
+      recommendations.sort((a,b)=>b.modelProb-a.modelProb||b.score-a.score||b.slipEdge-a.slipEdge);
+      recommendations.length=2500;
     }
     if(!beam.length)break;
   }
 
+  // Preserve previously displayed slips whenever the new controls still allow
+  // them. This makes all pure relaxations monotonic in the UI: lowering a min
+  // or raising a max can add options, but cannot erase an already-valid slip.
+  recommendations.push(...refreshStillValidSlips(previousSlips,candidates,cfg));
   recommendations.sort((a,b)=>b.modelProb-a.modelProb||b.score-a.score||b.slipEdge-a.slipEdge);
+
   const out=[],seen=new Set();
   for(const slip of recommendations){
     const sig=slip.legs.map(x=>modelPropKey(x.row)).sort().join("~");
@@ -1411,7 +1505,8 @@ function renderCharts(){
 }
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
-  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();
+  const previousSlips=state.slips||[];
+  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg,previousSlips);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
