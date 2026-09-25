@@ -1491,9 +1491,9 @@ function renderOdds(){
   if(!rows.length){
     const requiredMarkets=new Set(["Passing + Rushing Yards","Kicking Points","Field Goals"]);
     const selectedUnavailable=[...state.selectedMarkets].filter(m=>requiredMarkets.has(m)&&!state.odds.some(row=>(row._marketLabel||canonicalPropCategory(row))===m));
-    let message=state.odds.length?"No FanDuel markets match those filters.":"No FanDuel NFL markets are currently available in this board.";
+    let message=state.odds.length?"No markets match these filters.":"No FanDuel markets available.";
     if(selectedUnavailable.length===1){
-      message="FanDuel has not posted "+selectedUnavailable[0]+" for the current slate yet. This category will populate automatically as soon as the market is available.";
+      message=selectedUnavailable[0]+" isn't posted yet.";
     }
     oddsBody.innerHTML='<tr><td colspan="'+(state.oddsHistorical?9:8)+'" class="odds-empty">'+esc(message)+'</td></tr>';
     return;
