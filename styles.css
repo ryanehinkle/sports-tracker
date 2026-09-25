@@ -1392,10 +1392,10 @@ html[data-theme] .scope-option:hover{background:color-mix(in srgb,var(--surface-
 .hit-rate-chart,.team-stat-chart{width:100%;min-width:0}
 .hit-chart-plot,.team-trend-plot{max-width:100%!important;width:100%!important;min-width:0!important}
 .hit-bar-track,.team-trend-track{min-width:0}
-.hit-bar-label span,.team-trend-label span{display:block;width:100%;overflow-wrap:anywhere}
+.hit-bar-label span,.team-trend-label span{display:block;width:100%}
 @media(max-width:760px){
   .hit-rate-chart-scroll,.team-chart-scroll{overflow:hidden}
-  .hit-bars,.team-trend-bars{inset-left:4px;inset-right:4px;gap:2px}
+  .hit-bars,.team-trend-bars{inset:0 4px;gap:2px}
   .hit-bar-value,.team-trend-value{font-size:.58rem}
   .hit-bar-detail{display:none}
   .hit-bar-label,.team-trend-label{font-size:.45rem;gap:2px}
