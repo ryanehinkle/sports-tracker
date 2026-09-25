@@ -996,7 +996,6 @@ function renderHitRateChart(row,split){
   const chartMin=Math.min(0,minValue);
   const chartSpan=Math.max(1,chartMax-chartMin);
   const linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100));
-  const plotWidth=Math.max(680,games.length*92);
   const stageHeight=286;
   const thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
 
@@ -1022,7 +1021,7 @@ function renderHitRateChart(row,split){
   }).join("");
 
   const threshold=thresholdBottom===null?"":'<div class="hit-threshold" style="bottom:'+thresholdBottom+'px"><span>'+esc(formatLine(line))+'</span></div>';
-  hitRateChart.innerHTML='<div class="hit-chart-plot" style="width:'+plotWidth+'px">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
+  hitRateChart.innerHTML='<div class="hit-chart-plot">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
 }
 function openHitRateChart(row,split){
   state.hitRateActiveRow=row;
@@ -1741,7 +1740,6 @@ function renderTeamTrendChart(team,stat){
   const floor=Math.min(0,min);
   const ceiling=Math.max(1,max)*1.12;
   const chartSpan=Math.max(1,ceiling-floor);
-  const width=Math.max(700,points.length*96);
   const seasonAvg=values.reduce((a,b)=>a+b,0)/values.length;
   const avgPct=Math.max(0,Math.min(100,((seasonAvg-floor)/chartSpan)*100));
   const stageHeight=286;
@@ -1759,7 +1757,7 @@ function renderTeamTrendChart(team,stat){
     '</div>';
   }).join("");
 
-  teamStatChart.innerHTML='<div class="team-trend-plot" style="width:'+width+'px">'+
+  teamStatChart.innerHTML='<div class="team-trend-plot">'+
     '<div class="team-trend-average" style="bottom:'+avgBottom+'px"><span>AVG '+esc(formatTeamNumber(seasonAvg,stat.format))+'</span></div>'+
     '<div class="team-trend-bars">'+bars+'</div>'+
   '</div>';
