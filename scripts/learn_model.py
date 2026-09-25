@@ -484,36 +484,75 @@ def main():
 
     previous_compatible = compatible_previous_model(previous)
     previous_champion = previous.get("champion") if previous_compatible else None
-    previous_validation = evaluate(previous_champion, validation_rows) if previous_champion and validation_rows else None
+    previous_config = (previous_champion or {}).get("config") if previous_champion else None
+    if not isinstance(previous_config, dict):
+        previous_config = None
+
+    # Compare SETUPS fairly on the same game-level split. We intentionally do
+    # not score the old fitted weights directly because those weights may have
+    # already seen games that are now in the validation window. The incumbent
+    # configuration is refit on train-only rows before the head-to-head test.
+    previous_validation = None
+    if previous_config and validation_rows:
+        incumbent_train_model = fit(train_rows, previous_config)
+        previous_validation = evaluate(incumbent_train_model, validation_rows)
 
     promoted = not previous_champion
     reason = "Initial adaptive model"
-    champion = candidate
+    winning_config = chosen_config
+    selected_validation = candidate_validation if validation_rows else None
 
     if previous_champion:
         if validation_rows:
             candidate_objective = safe_num(candidate_validation.get("objective"), -1.0)
             previous_objective = safe_num((previous_validation or {}).get("objective"), -1.0)
-            if candidate_objective is not None and previous_objective is not None and candidate_objective + 0.001 >= previous_objective:
+            same_setup = previous_config and previous_config.get("name") == chosen_config.get("name")
+            if same_setup:
+                promoted = False
+                winning_config = previous_config
+                selected_validation = previous_validation
+                reason = (
+                    f"Champion setup held ({previous_config.get('name')}); "
+                    f"weights refit with {len(samples):,} graded legs"
+                )
+            elif candidate_objective is not None and previous_objective is not None and candidate_objective > previous_objective + 0.001:
                 promoted = True
-                reason = f"Challenger validation objective {candidate_objective:.3f} >= champion {previous_objective:.3f}"
-                champion = candidate
+                winning_config = chosen_config
+                selected_validation = candidate_validation
+                reason = (
+                    f"Challenger promoted: validation objective {candidate_objective:.3f} "
+                    f"> incumbent {previous_objective:.3f}"
+                )
             else:
                 promoted = False
-                reason = f"Champion held: {previous_objective:.3f} validation objective vs challenger {candidate_objective:.3f}"
-                champion = previous_champion
+                winning_config = previous_config or chosen_config
+                selected_validation = previous_validation or candidate_validation
+                reason = (
+                    f"Champion setup held: incumbent {previous_objective:.3f} "
+                    f"vs challenger {candidate_objective:.3f}; weights still refit on every graded leg"
+                )
         else:
             # With fewer than four completed games there is no honest game-level
-            # holdout. Refit cautiously so each new game can still teach the
-            # model, but the live blend remains deliberately small.
-            promoted = True
-            reason = "Provisional refit; waiting for four completed games before game-level promotion tests"
-            champion = candidate
+            # holdout. Keep learning from every result, but let the adaptive
+            # layer have only a small influence until validation is possible.
+            promoted = False
+            winning_config = previous_config or chosen_config
+            selected_validation = None
+            reason = (
+                "Provisional refit after new game results; waiting for four completed "
+                "games before champion/challenger promotion tests"
+            )
+
+    # The winning SETUP is always refit on every graded leg. That means even a
+    # held champion updates its weights after every completed game; the gate
+    # controls which hyperparameter setup is allowed to drive those weights.
+    champion = fit(samples, winning_config)
+    champion["features"] = FEATURES
+    champion["trainedSamples"] = len(samples)
+    champion["trainedGames"] = len(events)
 
     full_metrics = evaluate(champion, samples)
-    live_blend = choose_blend(len(events), candidate_validation if validation_rows else None)
-    if previous_champion and not promoted:
-        live_blend = safe_num(previous.get("liveBlend"), live_blend) or live_blend
+    live_blend = choose_blend(len(events), selected_validation)
 
     now = datetime.now(timezone.utc).isoformat()
     run = {
