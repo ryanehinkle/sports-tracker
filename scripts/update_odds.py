@@ -438,10 +438,38 @@ def _team_from_text(text, away_team, home_team):
     return "", ""
 
 
+def _market_type_key(value):
+    return re.sub(r"[^A-Z0-9]+", "_", str(value or "").upper()).strip("_")
+
+
+def _team_total_side(market_type):
+    key = _market_type_key(market_type)
+    if "AWAY_TEAM_TOTAL" in key:
+        return "away"
+    if "HOME_TEAM_TOTAL" in key:
+        return "home"
+    return None
+
+
 def _full_game_team_market(market_name, market_type):
+    key = _market_type_key(market_type)
     text = f"{market_name} {market_type}".lower()
+
     if re.search(r"\b(?:1q|2q|3q|4q|1h|2h)\b|quarter|half|drive|race to|first to", text):
         return None
+
+    # FanDuel's canonical market-type IDs are more reliable than display names.
+    # HOME/AWAY_TEAM_TOTAL_POINTS used to be mislabeled as a full-game total
+    # because the visible market name is often just "Total Points".
+    if "TEAM_TOTAL" in key:
+        return "teamTotal"
+    if key in {"MONEY_LINE", "MONEYLINE"} or "MONEY_LINE" in key:
+        return "moneyline"
+    if "HANDICAP" in key or "SPREAD" in key:
+        return "spread"
+    if "TOTAL_POINTS" in key or "OVER_UNDER" in key:
+        return "gameTotal"
+
     if "team total" in text or "team points" in text:
         return "teamTotal"
     if "moneyline" in text or "money line" in text or "match winner" in text or "money_line" in text:
@@ -453,19 +481,28 @@ def _full_game_team_market(market_name, market_type):
     return None
 
 
-def _signed_handicap(runner, fallback=None):
+def _signed_handicap(runner, market_name="", fallback=None):
+    text = " ".join(str(value or "") for value in (
+        runner.get("runnerName"),
+        runner.get("name"),
+        runner.get("selectionName"),
+        market_name,
+    ))
+    match = re.search(r"(?<!\d)([+-]\d+(?:\.\d+)?)\b", text)
+    if match:
+        return float(match.group(1))
+
+    # FanDuel sometimes includes a zero-valued placeholder handicap even when
+    # the real alternate line lives in the selection text. Never promote that
+    # placeholder to a real +0 spread.
     for key in ("handicap", "line", "points"):
         raw = runner.get(key)
         try:
             value = float(raw)
-            if abs(value) < 1000:
+            if abs(value) < 1000 and value != 0:
                 return value
         except (TypeError, ValueError):
             pass
-    text = str(runner.get("runnerName") or "")
-    match = re.search(r"(?<!\d)([+-]\d+(?:\.\d+)?)\b", text)
-    if match:
-        return float(match.group(1))
     return fallback
 
 
@@ -483,6 +520,11 @@ def _team_prop_record(event, market, market_id, runner, tab, away_team, home_tea
 
     runner_name = str(runner.get("runnerName") or runner.get("name") or runner.get("selectionName") or "").strip()
     team_name, team_abbr = _team_from_text(f"{market_name} {runner_name}", away_team, home_team)
+    total_side = _team_total_side(market_type)
+    if kind == "teamTotal" and total_side == "away":
+        team_name, team_abbr = away_team, TEAM_ABBR.get(away_team, "")
+    elif kind == "teamTotal" and total_side == "home":
+        team_name, team_abbr = home_team, TEAM_ABBR.get(home_team, "")
     selection = selection_from_runner(runner_name, market_name)
     alternate = bool("ALT" in market_type.upper() or "alt" in market_name.lower() or "alternate" in market_name.lower())
 
@@ -497,7 +539,7 @@ def _team_prop_record(event, market, market_id, runner, tab, away_team, home_tea
     elif kind == "spread":
         if not team_abbr:
             return None
-        line = _signed_handicap(runner, infer_line(market_name, runner))
+        line = _signed_handicap(runner, market_name, infer_line(market_name, runner))
         if line is None:
             return None
         selection = "Cover"
@@ -550,6 +592,56 @@ def _team_prop_record(event, market, market_id, runner, tab, away_team, home_tea
         "marketId": str(market.get("marketId") or market_id),
         "selectionId": str(runner.get("selectionId") or ""),
     }
+
+
+def _normalize_team_market_record(event, prop):
+    """Repair legacy parsed team/game rows using FanDuel's stable marketType ID."""
+    key = _market_type_key(prop.get("marketKey"))
+    changed = False
+
+    if "AWAY_TEAM_TOTAL" in key or "HOME_TEAM_TOTAL" in key:
+        away = "AWAY_TEAM_TOTAL" in key
+        team_name = event.get("awayTeam") if away else event.get("homeTeam")
+        team_abbr = event.get("awayAbbr") if away else event.get("homeAbbr")
+        if prop.get("scope") != "team" or prop.get("teamMarketType") != "teamTotal" or prop.get("team") != team_abbr:
+            prop["scope"] = "team"
+            prop["teamMarketType"] = "teamTotal"
+            prop["team"] = team_abbr or ""
+            prop["teamName"] = team_name or ""
+            prop["position"] = "TEAM"
+            prop["market"] = "Alt Team Total" if prop.get("alternate") else "Team Total"
+            line = prop.get("line")
+            selection = prop.get("selection") or ""
+            if line is not None:
+                prop["proposition"] = f"{selection} {float(line):g} {team_abbr} {prop['market']}"
+            changed = True
+
+    # Old parser promoted FanDuel's zero placeholder handicap to a real +0
+    # alternate spread. There is no safe way to reconstruct the omitted line
+    # from the parsed row, so remove it rather than model/display false data.
+    invalid = (
+        key == "ALTERNATE_HANDICAP"
+        and prop.get("teamMarketType") == "spread"
+        and float(prop.get("line") or 0) == 0
+    )
+    return changed, invalid
+
+
+def normalize_team_market_records(payload):
+    changed = 0
+    removed = 0
+    for event in payload.get("events") or []:
+        cleaned = []
+        for prop in event.get("props") or []:
+            did_change, invalid = _normalize_team_market_record(event, prop)
+            if invalid:
+                removed += 1
+                continue
+            if did_change:
+                changed += 1
+            cleaned.append(prop)
+        event["props"] = cleaned
+    return changed, removed
 
 
 def parse_event_props(event, pages, by_norm, profiles):
