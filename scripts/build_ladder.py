@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 
 ODDS = Path("data/nfl-odds.json")
 TEAM_STATS = Path("data/nfl-team-stats.json")
+LEARNING = Path("data/model-learning.json")
 HISTORY = Path("data/odds-history")
 OUT = Path("data/ladder-picks.json")
 CENTRAL = ZoneInfo("America/Chicago")
@@ -171,7 +172,19 @@ def team_market_signal(row, profiles):
             + 0.08 * group(opponent, "specialTeams")
             + 0.07 * opponent.get("all", 0.5)
         )
-        return max(0.05, min(0.95, 0.5 + (selected_strength - opponent_strength) * 0.75))
+        expected_margin = (selected_strength - opponent_strength) * 17.0
+        if kind == "spread":
+            try:
+                line = float(row.get("line") or 0)
+            except (TypeError, ValueError):
+                line = 0.0
+            # +N receives points; -N gives points. Cover signal evaluates the
+            # selected team's expected scoring margin after applying its line.
+            z = (expected_margin + line) / 6.5
+        else:
+            z = expected_margin / 7.0
+        z = max(-20.0, min(20.0, z))
+        return max(0.05, min(0.95, 1.0 / (1.0 + math.exp(-z))))
 
     # Totals still include every team-stat category through the "all" term,
     # with offense/scoring/defense/situational given more influence.
@@ -203,9 +216,97 @@ def rate_pct(row, key):
         return None
 
 
-def estimated_probability(row, profiles):
+def _pair_key(row):
+    kind = str(row.get("teamMarketType") or "")
+    try:
+        line = abs(float(row.get("line"))) if row.get("line") is not None else None
+    except (TypeError, ValueError):
+        line = None
+    line_key = "" if line is None else f"{line:.4f}"
+    event_id = str(row.get("eventId") or "")
+    if kind == "moneyline":
+        return (event_id, "team", "moneyline")
+    if kind == "spread":
+        return (event_id, "team", "spread", line_key)
+    if kind == "gameTotal":
+        return (event_id, "game", "total", line_key)
+    if kind == "teamTotal":
+        return (event_id, "team", str(row.get("team") or ""), "total", line_key)
+    return (event_id, "player", norm(row.get("player")), norm(row.get("market")), line_key)
+
+
+def attach_no_vig_probabilities(rows):
+    groups = {}
+    for row in rows:
+        groups.setdefault(_pair_key(row), []).append(row)
+    for members in groups.values():
+        implied = []
+        for row in members:
+            decimal = row.get("decimalOdds") or american_to_decimal(row.get("odds"))
+            probability = 1 / float(decimal) if decimal and float(decimal) > 1 else 0.5
+            implied.append((row, probability))
+        total = sum(probability for _, probability in implied)
+        for row, probability in implied:
+            row["_bookProb"] = probability / total if len(implied) == 2 and total > 0 else probability
+
+
+def _rate_or_half(row, key):
+    value = rate_pct(row, key)
+    return value if value is not None else 0.5
+
+
+def adaptive_probability(row, book, learning):
+    champion = (learning or {}).get("champion") or {}
+    coefficients = champion.get("coefficients") or []
+    features = champion.get("features") or (learning or {}).get("features") or []
+    means = champion.get("means") or []
+    stds = champion.get("stds") or []
+    if len(coefficients) != 12 or len(features) != 12:
+        return None
+
+    rates = row.get("hitRates") or {}
+    def total(key):
+        try:
+            return max(0.0, float((rates.get(key) or {}).get("total") or 0))
+        except (TypeError, ValueError):
+            return 0.0
+
+    try:
+        line = float(row.get("line") or 0)
+    except (TypeError, ValueError):
+        line = 0.0
+    spread_line = max(-1.0, min(1.0, line / 14.0)) if row.get("teamMarketType") == "spread" else 0.0
+    sample = min(1.0, (total("l10") + total("current") + 0.35 * total("previous")) / 28.0)
+    side = str(row.get("selection") or "")
+    scope = str(row.get("scope") or "player")
+    vector = [
+        max(0.02, min(0.98, book)),
+        _rate_or_half(row, "l5"),
+        _rate_or_half(row, "l10"),
+        _rate_or_half(row, "current"),
+        _rate_or_half(row, "previous"),
+        _rate_or_half(row, "h2h"),
+        sample,
+        1.0 if row.get("alternate") else 0.0,
+        spread_line,
+        1.0 if side in {"Under", "No"} else 0.0,
+        1.0 if scope == "team" else 0.0,
+        1.0 if scope == "game" else 0.0,
+    ]
+    score = float(champion.get("intercept") or 0)
+    for index, coefficient in enumerate(coefficients):
+        mean = float(means[index] if index < len(means) else 0)
+        std = float(stds[index] if index < len(stds) else 1) or 1.0
+        score += float(coefficient or 0) * ((vector[index] - mean) / std)
+    score = max(-20.0, min(20.0, score))
+    return max(0.02, min(0.98, 1.0 / (1.0 + math.exp(-score))))
+
+
+def estimated_probability(row, profiles, learning=None):
     decimal = row.get("decimalOdds") or american_to_decimal(row.get("odds"))
-    book = 1 / float(decimal) if decimal and float(decimal) > 1 else 0.5
+    book = row.get("_bookProb")
+    if book is None:
+        book = 1 / float(decimal) if decimal and float(decimal) > 1 else 0.5
 
     parts = []
     weights = []
@@ -221,6 +322,14 @@ def estimated_probability(row, profiles):
         probability = 0.38 * book + 0.62 * history
     else:
         probability = 0.28 * book + 0.37 * history + 0.35 * team_signal
+
+    learned = adaptive_probability(row, book, learning)
+    try:
+        blend = max(0.0, min(0.55, float((learning or {}).get("liveBlend") or 0)))
+    except (TypeError, ValueError):
+        blend = 0.0
+    if learned is not None and blend > 0:
+        probability = probability * (1 - blend) + learned * blend
 
     return max(0.03, min(0.97, probability))
 
@@ -263,7 +372,9 @@ def parlay_decimal(combo):
     return value
 
 
-def choose_slip(rows, date_key, profiles):
+def choose_slip(rows, date_key, profiles, learning=None):
+    rows = [dict(row) for row in rows]
+    attach_no_vig_probabilities(rows)
     scored = []
     for row in rows:
         try:
@@ -271,7 +382,7 @@ def choose_slip(rows, date_key, profiles):
         except (TypeError, ValueError):
             continue
         row = dict(row)
-        row["_prob"] = estimated_probability(row, profiles)
+        row["_prob"] = estimated_probability(row, profiles, learning)
         row["_confidence"] = 100 * row["_prob"]
         scored.append(row)
 
@@ -449,6 +560,7 @@ def main():
     local_now = now.astimezone(CENTRAL)
     odds_payload = load_json(ODDS, {})
     team_payload = load_json(TEAM_STATS, {})
+    learning = load_json(LEARNING, {})
     payload = load_json(OUT, {"version": 1, "picks": []})
     payload.setdefault("version", 1)
     payload.setdefault("picks", [])
@@ -475,7 +587,7 @@ def main():
             eligible_event_ids = {str(event.get("id") or "") for event in events}
             rows = [row for row in flatten(odds_payload) if row.get("eventId") in eligible_event_ids]
             profiles = build_team_profiles(team_payload)
-            chosen = choose_slip(rows, date_key, profiles)
+            chosen = choose_slip(rows, date_key, profiles, learning)
             if chosen:
                 combo, meta, simulations = chosen
                 pick = {
