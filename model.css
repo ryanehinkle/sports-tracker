@@ -291,3 +291,21 @@
   .model-date-control{width:100%}
   .model-result-cell{min-width:92px}
 }
+
+
+/* Signal Board sortable headers */
+.signal-table th[data-signal-sort]{padding:0}
+.signal-sort-button{
+  width:100%;min-height:43px;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 12px;border:0;background:transparent;color:inherit;
+  font:inherit;font-weight:850;text-transform:uppercase;letter-spacing:inherit;cursor:pointer;
+  white-space:nowrap;transition:color .14s,background .14s
+}
+.signal-table th:first-child .signal-sort-button{justify-content:flex-start}
+.signal-sort-button:hover{color:var(--text);background:rgba(var(--accent-rgb),.045)}
+.signal-table th.active-sort .signal-sort-button{color:var(--accent);background:rgba(var(--accent-rgb),.055)}
+.signal-sort-indicator{
+  display:inline-flex;align-items:center;justify-content:center;width:13px;min-width:13px;
+  color:var(--accent);font-size:.72rem;font-weight:950;line-height:1
+}
+.signal-table th:not(.active-sort) .signal-sort-indicator{opacity:.35}
