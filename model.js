@@ -1418,7 +1418,7 @@ function renderSlips(direction){
   state.slipPage=clamp(state.slipPage,0,pages-1);
   const start=state.slipPage*SLIPS_PER_PAGE,end=Math.min(start+SLIPS_PER_PAGE,total);
   $("slipCount").textContent=fmt.format(total);
-  $("slipSub").textContent=total?(total>SLIPS_PER_PAGE?fmt.format(total)+" generated • "+SLIPS_PER_PAGE+" per page":"all shown below"):"within requested odds";
+  $("slipSub").textContent="";
   $("slipPager").hidden=total<=SLIPS_PER_PAGE;
   $("slipPrev").disabled=state.slipPage===0;
   $("slipNext").disabled=state.slipPage>=pages-1;
@@ -1435,7 +1435,7 @@ function renderSlips(direction){
   if(direction)container.classList.add(direction>0?"page-next":"page-prev");
   container.innerHTML=state.slips.slice(start,end).map((s,i)=>slipHtml(s,start+i)).join("");
 }
-function renderSummary(){$("eligibleCount").textContent=fmt.format(state.eligible.length);$("eligibleSub").textContent=state.odds.length?"of "+fmt.format(state.odds.length)+(state.modelHistorical?" frozen markets":" current markets"):"after filters";$("bestScore").textContent=state.eligible.length?state.eligible[0].score.toFixed(1):"—";const m=median(state.eligible.map(x=>x.edge*100));$("medianEdge").textContent=Number.isFinite(m)?(m>=0?"+":"")+m.toFixed(1)+"%":"—"}
+function renderSummary(){$("eligibleCount").textContent=fmt.format(state.eligible.length);$("eligibleSub").textContent="";$("bestScore").textContent=state.eligible.length?state.eligible[0].score.toFixed(1):"—";const m=median(state.eligible.map(x=>x.edge*100));$("medianEdge").textContent=Number.isFinite(m)?(m>=0?"+":"")+m.toFixed(1)+"%":"—"}
 function renderLearning(){
   const learning=state.learning||{},perf=learning.performance||{},all=perf.all||{},games=Number(learning.completedGames)||0,samples=Number(learning.samples)||0;
   const status=$("learningStatus"),summary=$("learningSummary"),buckets=$("learningBucketChart"),weights=$("learningWeightChart"),runs=$("learningRunChart"),markets=$("learningMarketTable");
@@ -1446,10 +1446,10 @@ function renderLearning(){
   const top=Number(validated?validation.topHitRate:all.topHitRate),brier=Number(validated?validation.brier:all.brier),blend=adaptiveBlend();
   const threshold=Number(validated?validation.topThreshold:all.topThreshold);
   summary.innerHTML=[
-    ["Completed games",fmt.format(games),games<4?"Whole-game validation unlocks at 4":"Whole-game holdout validation active"],
-    ["Graded legs",fmt.format(samples),"Every frozen hit / miss refits the weights"],
-    [validated?"Validated high-score hit rate":"Observed high-score hit rate",Number.isFinite(top)?pct(top*100,1):"—",validated?(Number.isFinite(threshold)?"Holdout top 20% • "+pct(threshold*100,1)+"+ adaptive score":"Whole-game holdout"):"Training-only diagnostic until 4 completed games"],
-    ["Adaptive influence",pct(blend*100,0),Number.isFinite(brier)?(validated?"Holdout Brier ":"Training Brier ")+brier.toFixed(3):"Earns more weight with validation"]
+    ["Completed games",fmt.format(games),games<4?"Validation at 4":"Holdout active"],
+    ["Graded legs",fmt.format(samples),"Final legs"],
+    [validated?"Validated high-score hit rate":"Observed high-score hit rate",Number.isFinite(top)?pct(top*100,1):"—",validated?"Holdout top 20%":"Training only"],
+    ["Adaptive influence",pct(blend*100,0),Number.isFinite(brier)?"Brier "+brier.toFixed(3):""]
   ].map(x=>'<article class="learning-stat"><span>'+x[0]+'</span><strong>'+x[1]+'</strong><small>'+x[2]+'</small></article>').join("");
 
   const bucketRows=perf.scoreBuckets||[];
@@ -1510,7 +1510,7 @@ function recalc(){
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
-  $("hitRateControls").innerHTML=HIT_LABELS.map(pair=>'<label class="range-row"><span><b>'+pair[1]+' minimum</b><small>Required hit rate</small></span><output id="'+pair[0]+'Value">'+DEFAULTS[pair[0]]+'%</output><input id="'+pair[0]+'Min" type="range" min="0" max="100" step="5" value="'+DEFAULTS[pair[0]]+'"></label>').join("");
+  $("hitRateControls").innerHTML=HIT_LABELS.map(pair=>'<label class="range-row"><span><b>'+pair[1]+' minimum</b></span><output id="'+pair[0]+'Value">'+DEFAULTS[pair[0]]+'%</output><input id="'+pair[0]+'Min" type="range" min="0" max="100" step="5" value="'+DEFAULTS[pair[0]]+'"></label>').join("");
   $("weightControls").innerHTML=WEIGHT_LABELS.map(pair=>'<button type="button" class="weight-button active" data-weight="'+pair[0]+'">'+pair[1]+'<strong>'+DEFAULTS.weights[pair[0]]+'</strong></button>').join("");
 }
 function applyPreset(key){
@@ -1920,15 +1920,15 @@ function renderLadderPick(){
   $("ladderNext").disabled=!picks.length||state.ladderIndex>=picks.length-1;
   if(!picks.length){
     $("ladderPickTitle").textContent="Today's ladder is queued";
-    $("ladderPickMeta").textContent="The first challenge entry is generated from the final pregame board roughly one hour before kickoff.";
+    $("ladderPickMeta").textContent="Publishes near kickoff.";
     $("ladderHistoryStatus").textContent="Day 1";
-    $("ladderPickBody").innerHTML='<div class="ladder-awaiting"><span class="today-pick-dot"></span><div><strong>Day 1 is preparing</strong><span>The engine will run tens of thousands of combinations and publish the closest, highest-confidence even-money ladder automatically.</span></div></div>';
+    $("ladderPickBody").innerHTML='<div class="ladder-awaiting"><span class="today-pick-dot"></span><div><strong>Day 1 is preparing</strong></div></div>';
     return;
   }
   state.ladderIndex=clamp(state.ladderIndex,0,picks.length-1);
   const pick=picks[state.ladderIndex],status=String(pick.status||"pending"),runMax=ladderRunMaxDay(picks,pick);
   $("ladderPickTitle").textContent="Day "+pick._ladderDay+" • "+ladderDateLabel(pick.date);
-  $("ladderPickMeta").textContent=(pick.selectionTier||"Even Ladder")+" • "+fmt.format(pick.simulations||0)+" combinations searched";
+  $("ladderPickMeta").textContent=pick.selectionTier||"Even Ladder";
   $("ladderHistoryStatus").textContent="Day "+pick._ladderDay+" of "+runMax;
   const statusLabel=status==="hit"?"WIN":status==="miss"?"LOSS":status==="push"?"PUSH":"LIVE / PENDING";
   $("ladderPickBody").innerHTML='<article class="ladder-slip ladder-slip-'+esc(status)+'">'+
