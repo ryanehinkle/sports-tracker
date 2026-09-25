@@ -555,6 +555,63 @@ def refresh_pick_results(payload):
     return changed
 
 
+def ladder_sort_key(pick):
+    return (str(pick.get("date") or ""), str(pick.get("createdAt") or ""))
+
+
+def normalize_ladder_runs(payload):
+    """Assign day numbers within winning streaks instead of globally.
+
+    A win advances to the next rung, a loss starts a fresh run at Day 1, and a
+    push replays the same rung. This also migrates older picks that used a
+    monotonically increasing day counter.
+    """
+    picks = sorted(payload.get("picks") or [], key=ladder_sort_key)
+    run = 1
+    day = 1
+    changed = False
+    for pick in picks:
+        if int(pick.get("run") or 0) != run:
+            pick["run"] = run
+            changed = True
+        if int(pick.get("day") or 0) != day:
+            pick["day"] = day
+            changed = True
+
+        status = str(pick.get("status") or "pending")
+        if status == "hit":
+            day += 1
+        elif status == "miss":
+            run += 1
+            day = 1
+        elif status == "push":
+            pass
+        # Pending never advances the ladder. A new pick should not be created
+        # until this one has a final result.
+
+    if payload.get("picks") != picks:
+        payload["picks"] = picks
+        changed = True
+    return changed
+
+
+def next_ladder_position(picks):
+    ordered = sorted(picks or [], key=ladder_sort_key)
+    if not ordered:
+        return 1, 1
+    latest = ordered[-1]
+    status = str(latest.get("status") or "pending")
+    run = max(1, int(latest.get("run") or 1))
+    day = max(1, int(latest.get("day") or 1))
+    if status == "hit":
+        return run, day + 1
+    if status == "miss":
+        return run + 1, 1
+    if status == "push":
+        return run, day
+    return None
+
+
 def main():
     now = datetime.now(timezone.utc)
     local_now = now.astimezone(CENTRAL)
@@ -566,6 +623,7 @@ def main():
     payload.setdefault("picks", [])
 
     refresh_pick_results(payload)
+    normalize_ladder_runs(payload)
 
     events = []
     for event in odds_payload.get("events") or []:
@@ -587,11 +645,14 @@ def main():
             eligible_event_ids = {str(event.get("id") or "") for event in events}
             rows = [row for row in flatten(odds_payload) if row.get("eventId") in eligible_event_ids]
             profiles = build_team_profiles(team_payload)
-            chosen = choose_slip(rows, date_key, profiles, learning)
-            if chosen:
+            next_position = next_ladder_position(payload["picks"])
+            chosen = choose_slip(rows, date_key, profiles, learning) if next_position else None
+            if chosen and next_position:
                 combo, meta, simulations = chosen
+                run_number, day_number = next_position
                 pick = {
-                    "day": max([int(item.get("day") or 0) for item in payload["picks"]] or [0]) + 1,
+                    "run": run_number,
+                    "day": day_number,
                     "date": date_key,
                     "createdAt": now.isoformat(),
                     "target": "Even Money Ladder",
@@ -606,8 +667,11 @@ def main():
                     "legs": [snapshot_leg(row) for row in combo],
                 }
                 payload["picks"].append(pick)
-                payload["picks"].sort(key=lambda item: int(item.get("day") or 0))
-                print(f"Created ladder Day {pick['day']} at {pick['odds']:+d} after {simulations:,} simulations ({meta['tier']}).")
+                payload["picks"].sort(key=ladder_sort_key)
+                print(
+                    f"Created ladder Run {pick['run']} Day {pick['day']} at {pick['odds']:+d} "
+                    f"after {simulations:,} simulations ({meta['tier']})."
+                )
 
     payload["updatedAt"] = now.isoformat()
     OUT.parent.mkdir(parents=True, exist_ok=True)
