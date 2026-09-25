@@ -3,8 +3,8 @@ name: Update NFL Stats
 on:
   workflow_dispatch:
   schedule:
-    # Refresh the entire stats/model pipeline every two hours.
-    - cron: "17 */2 * * *"
+    # Refresh completed-game stats and retrain the model every hour.
+    - cron: "17 * * * *"
   push:
     branches: ["main"]
     paths:
