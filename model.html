@@ -103,7 +103,7 @@
   <div class="learning-header"><div><span class="model-kicker">POSTGAME SELF-LEARNING</span><h3 id="learningLabTitle">What the model learned from finished games</h3><p>Every frozen pregame leg is graded after the game. New weights are trained, challengers are tested on whole games they did not train on, and only validated improvements earn more influence.</p></div><span id="learningStatus" class="learning-status status-waiting">AWAITING RESULTS</span></div>
   <div id="learningSummary" class="learning-summary"></div>
   <div class="learning-grid">
-    <article class="learning-panel"><div class="learning-panel-title"><strong>Score → actual hit rate</strong><span>Are high model scores really hitting more?</span></div><div id="learningBucketChart" class="learning-bars"></div></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Adaptive score → actual hit rate</strong><span>Observed calibration; whole-game holdout validation takes over after 4 completed games</span></div><div id="learningBucketChart" class="learning-bars"></div></article>
     <article class="learning-panel"><div class="learning-panel-title"><strong>Learned feature influence</strong><span>Weights change from real graded outcomes</span></div><div id="learningWeightChart" class="learning-bars"></div></article>
   </div>
   <div class="learning-grid secondary">
