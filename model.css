@@ -474,9 +474,6 @@ html[data-theme] .model-date-button.open{
 
 @media(max-width:520px){
   .model-game-filter-control{grid-column:auto}
-  .model-entity-rule{grid-template-columns:28px minmax(0,1fr) auto auto}
-  .model-rule-remove{grid-column:4}
-  .model-entity-rule>button.model-rule-mode.ban{grid-column:3}
-  .model-entity-rule>button.model-rule-remove{grid-column:4}
-  .model-entity-rule>button.model-rule-mode.lock{grid-column:3}
+  .model-entity-rule{grid-template-columns:28px minmax(0,1fr) auto auto auto;gap:5px}
+  .model-rule-mode{padding:0 6px}
 }
