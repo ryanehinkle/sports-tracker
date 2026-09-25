@@ -11,7 +11,7 @@ const PRESETS={
 };
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),ladderData:{picks:[]},ladderIndex:0,modelDate:"live",modelHistorical:false,modelHistoryIndex:{days:[]},modelHistoryManifest:null,resultPlayers:[],resultTeams:[],resultPlayerByName:new Map(),resultTeamByAbbr:new Map(),resultSeason:null,liveLadderData:{picks:[]},resultCache:new Map(),slipMembership:new Map(),loadingDate:false,signalSortKey:"score",signalSortDir:"desc"};
+const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,learning:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),ladderData:{picks:[]},ladderIndex:0,modelDate:"live",modelHistorical:false,modelHistoryIndex:{days:[]},modelHistoryManifest:null,resultPlayers:[],resultTeams:[],resultPlayerByName:new Map(),resultTeamByAbbr:new Map(),resultSeason:null,liveLadderData:{picks:[]},resultCache:new Map(),slipMembership:new Map(),loadingDate:false,signalSortKey:"score",signalSortDir:"desc"};
 const SLIPS_PER_PAGE=6;
 const MODEL_RAW_BASE="https://raw.githubusercontent.com/ryanehinkle/sports-tracker/";
 
@@ -203,31 +203,33 @@ async function loadModelHistoryIndex(){
   renderModelDateOptions();
 }
 async function fetchLiveModelBundle(){
-  const [stats,odds,teams,calibration,ladder]=await Promise.all([
+  const [stats,odds,teams,calibration,learning,ladder]=await Promise.all([
     fetchModelJson("data/nfl-stats.json?v="+Date.now()),
     fetchModelJson("data/nfl-odds.json?v="+Date.now()),
     fetchModelJson("data/nfl-team-stats.json?v="+Date.now()),
     fetchModelJson("data/model-calibration.json?v="+Date.now()).catch(()=>null),
+    fetchModelJson("data/model-learning.json?v="+Date.now()).catch(()=>null),
     fetchModelJson("data/ladder-picks.json?v="+Date.now()).catch(()=>({picks:[]}))
   ]);
-  return{stats,odds,teams,calibration,ladder};
+  return{stats,odds,teams,calibration,learning,ladder};
 }
 async function fetchHistoricalModelBundle(manifest){
   const commit=manifest&&manifest.sourceCommit,files=manifest&&manifest.files||{};
   if(!commit)throw new Error("Historical model commit missing");
-  const [stats,odds,teams,calibration,ladder]=await Promise.all([
+  const [stats,odds,teams,calibration,learning,ladder]=await Promise.all([
     fetchModelJson(modelArchiveUrl(commit,files.stats||"data/nfl-stats.json"),"force-cache"),
     fetchModelJson(modelArchiveUrl(commit,files.odds||"data/nfl-odds.json"),"force-cache"),
     fetchModelJson(modelArchiveUrl(commit,files.teamStats||"data/nfl-team-stats.json"),"force-cache"),
     fetchModelJson(modelArchiveUrl(commit,files.calibration||"data/model-calibration.json"),"force-cache").catch(()=>null),
+    fetchModelJson(modelArchiveUrl(commit,files.learning||"data/model-learning.json"),"force-cache").catch(()=>null),
     fetchModelJson(modelArchiveUrl(commit,files.ladder||"data/ladder-picks.json"),"force-cache").catch(()=>({picks:[]}))
   ]);
-  return{stats,odds,teams,calibration,ladder};
+  return{stats,odds,teams,calibration,learning,ladder};
 }
 function applyModelBundle(bundle,{historical=false,date="live",manifest=null}={}){
   const stats=bundle.stats||{},odds=bundle.odds||{},teams=bundle.teams||{teams:[]};
   state.modelHistorical=historical;state.modelDate=historical?date:"live";state.modelHistoryManifest=manifest;
-  state.season=stats.season||new Date().getFullYear();state.players=stats.players||[];state.teams=teams.teams||[];state.teamRaw=teams;state.calibration=bundle.calibration||null;
+  state.season=stats.season||new Date().getFullYear();state.players=stats.players||[];state.teams=teams.teams||[];state.teamRaw=teams;state.calibration=bundle.calibration||null;state.learning=bundle.learning||null;
   state.playerByName=new Map(state.players.map(p=>[norm(p.name),p]));state.odds=flattenOdds(odds);
   state.ladderData=archivedLadderData(bundle.ladder||{picks:[]});
   resetModelCaches();buildPricePairs();buildUsage();buildDvp();buildTeamProfiles();fillSelects();renderLadderLaunch();if(!$("ladderChallengePanel").hidden)renderLadderPick();renderModelDateOptions();
@@ -282,6 +284,8 @@ function decimalToAmerican(d){d=Number(d);if(!Number.isFinite(d)||d<=1)return nu
 function implied(o){const d=americanToDecimal(o);return d?1/d:null}
 function rowDecimalOdds(row){const exact=Number(row&&row.decimalOdds);return Number.isFinite(exact)&&exact>1?exact:americanToDecimal(row&&row.odds)}
 function formatOdds(o){o=Number(o);return Number.isFinite(o)?(o>0?"+":"")+Math.round(o):"—"}
+function formatSpreadLine(v){const x=Number(v);if(!Number.isFinite(x))return"—";if(Math.abs(x)<1e-9)return"PK";return(x>0?"+":"")+String(x)}
+function spreadMeaning(row){if(!row||row.teamMarketType!=="spread")return"";const x=Number(row.line);if(!Number.isFinite(x))return"";if(Math.abs(x)<1e-9)return"pick'em";return x>0?"gets "+Math.abs(x)+" pts":"gives "+Math.abs(x)+" pts"}
 function fallbackHeadshot(){return "https://a.espncdn.com/i/headshots/nfl/players/full/0.png"}
 function modelTeamLogo(abbr){return abbr?"https://a.espncdn.com/i/teamlogos/nfl/500/"+String(abbr).toLowerCase()+".png":fallbackHeadshot()}
 function modelShortTeam(name){const parts=String(name||"").trim().split(/\s+/);return parts.length?parts[parts.length-1]:"Team"}
@@ -353,8 +357,15 @@ function teamMarketSignal(row){
   let signal=.5,components={};
   if((kind==="moneyline"||kind==="spread")&&selected&&opponent){
     const strength=p=>.22*teamGroup(p,"offense")+.22*teamGroup(p,"defense")+.17*teamGroup(p,"scoring")+.13*teamGroup(p,"situational")+.11*teamGroup(p,"turnovers")+.08*teamGroup(p,"specialTeams")+.07*p.all;
-    const own=strength(selected),opp=strength(opponent);signal=clamp(.5+(own-opp)*.75,.05,.95);
-    components={offense:teamGroup(selected,"offense"),defense:teamGroup(selected,"defense"),scoring:teamGroup(selected,"scoring"),situational:teamGroup(selected,"situational"),turnovers:teamGroup(selected,"turnovers"),specialTeams:teamGroup(selected,"specialTeams"),all:selected.all};
+    const own=strength(selected),opp=strength(opponent),expectedMargin=(own-opp)*17;
+    // Spread lines are always from the selected team's perspective:
+    // +7.5 means the team receives 7.5 points; -7.5 means it gives 7.5.
+    // The matchup signal therefore evaluates expectedMargin + spreadLine.
+    signal=kind==="spread"
+      ? logistic((expectedMargin+(Number(row.line)||0))/6.5)
+      : logistic(expectedMargin/7);
+    signal=clamp(signal,.05,.95);
+    components={offense:teamGroup(selected,"offense"),defense:teamGroup(selected,"defense"),scoring:teamGroup(selected,"scoring"),situational:teamGroup(selected,"situational"),turnovers:teamGroup(selected,"turnovers"),specialTeams:teamGroup(selected,"specialTeams"),all:selected.all,expectedMargin:expectedMargin,spreadLine:kind==="spread"?(Number(row.line)||0):0};
   }else{
     const scoringEnv=.20*teamGroup(home,"offense")+.20*teamGroup(away,"offense")+.17*teamGroup(home,"scoring")+.17*teamGroup(away,"scoring")+.08*(1-teamGroup(home,"defense"))+.08*(1-teamGroup(away,"defense"))+.04*teamGroup(home,"situational")+.04*teamGroup(away,"situational")+.01*home.all+.01*away.all;
     signal=clamp(scoringEnv,.05,.95);
@@ -569,6 +580,13 @@ function cleanDisplayPlayerName(value){
 }
 
 function cleanDisplayProposition(row){
+  if(row&&row.teamMarketType==="spread"){
+    const label=row.alternate?"Alt Spread":"Spread",meaning=spreadMeaning(row);
+    return label+" "+formatSpreadLine(row.line)+(meaning?" • "+meaning:"");
+  }
+  if(row&&row.teamMarketType==="moneyline")return"Moneyline";
+  if(row&&row.teamMarketType==="teamTotal")return String(row.selection||"")+" "+modelFormatLine(row.line)+" "+(row.alternate?"Alt Team Total":"Team Total");
+  if(row&&row.teamMarketType==="gameTotal")return String(row.selection||"")+" "+modelFormatLine(row.line)+" "+(row.alternate?"Alt Game Total":"Game Total");
   const player=cleanDisplayPlayerName(row.player);
   let prop=String(row.proposition||row.market||"Player Prop").trim();
 
@@ -746,6 +764,50 @@ function marketProbability(row){
   const otherDecimal=otherRow?rowDecimalOdds(otherRow):null,other=otherDecimal?1/otherDecimal:null;
   return Number.isFinite(other)?raw/(raw+other):raw;
 }
+function learningRateValue(rate){
+  if(rate&&Number.isFinite(Number(rate.pct)))return clamp(Number(rate.pct)/100,0,1);
+  const hits=Number(rate&&rate.hits),total=Number(rate&&rate.total);
+  return Number.isFinite(hits)&&Number.isFinite(total)&&total>0?clamp(hits/total,0,1):.5;
+}
+function adaptiveFeatureVector(row,rates,book){
+  const total=key=>Math.max(0,Number(rates&&rates[key]&&rates[key].total)||0);
+  const sample=Math.min(1,(total("l10")+total("current")+.35*total("previous"))/28);
+  const spreadLine=row&&row.teamMarketType==="spread"?clamp((Number(row.line)||0)/14,-1,1):0;
+  const side=String(row&&row.selection||""),scope=String(row&&row.scope||"player");
+  return[
+    clamp(Number(book)||.5,.02,.98),
+    learningRateValue(rates&&rates.l5),
+    learningRateValue(rates&&rates.l10),
+    learningRateValue(rates&&rates.current),
+    learningRateValue(rates&&rates.previous),
+    learningRateValue(rates&&rates.h2h),
+    sample,
+    row&&row.alternate?1:0,
+    spreadLine,
+    side==="Under"||side==="No"?1:0,
+    scope==="team"?1:0,
+    scope==="game"?1:0
+  ];
+}
+function adaptiveHitProbability(row,rates,book){
+  const learning=state.learning||{},champion=learning.champion||{};
+  const features=champion.features||learning.features||[];
+  if(!Array.isArray(champion.coefficients)||features.length!==champion.coefficients.length||features.length!==12)return null;
+  const vector=adaptiveFeatureVector(row,rates,book),means=champion.means||[],stds=champion.stds||[];
+  let score=Number(champion.intercept)||0;
+  for(let i=0;i<champion.coefficients.length;i++){
+    const mean=Number(means[i]||0),std=Number(stds[i])||1;
+    score+=(Number(champion.coefficients[i])||0)*((vector[i]-mean)/std);
+  }
+  return clamp(logistic(score),.02,.98);
+}
+function adaptiveBlend(){
+  return clamp(Number(state.learning&&state.learning.liveBlend)||0,0,.55);
+}
+function blendAdaptiveProbability(base,row,rates,book){
+  const learned=adaptiveHitProbability(row,rates,book),blend=adaptiveBlend();
+  return Number.isFinite(learned)&&blend>0?clamp(base*(1-blend)+learned*blend,.03,.97):base;
+}
 function calibrationForMetric(metric){
   return state.calibration&&state.calibration.metrics&&state.calibration.metrics[metric]||null;
 }
@@ -857,6 +919,7 @@ function analyzeTeamMarket(row,cfg){
   let modelProb=.30*book+.38*history+.32*statModel.signal;
   const shrink=.50+.32*reliability+.18*statModel.breadth;
   modelProb=clamp(book+(modelProb-book)*shrink,.03,.97);
+  modelProb=blendAdaptiveProbability(modelProb,row,rates,book);
   const edge=modelProb-book;if(edge*100<cfg.edgeMin)return null;
 
   const recent=avg([normalizedRate(rates.l5),normalizedRate(rates.l10)].filter(Number.isFinite))??modelProb;
@@ -933,6 +996,7 @@ function analyze(row,cfg){
     modelProb=modelProb*(1-h2hWeight)+h2h*h2hWeight;
   }
   modelProb=clamp(modelProb,.03,.97);
+  modelProb=blendAdaptiveProbability(modelProb,row,rates,book);
 
   const edge=modelProb-book;
   if(edge*100<cfg.edgeMin)return null;
@@ -1196,19 +1260,58 @@ function renderSlips(direction){
   container.innerHTML=state.slips.slice(start,end).map((s,i)=>slipHtml(s,start+i)).join("");
 }
 function renderSummary(){$("eligibleCount").textContent=fmt.format(state.eligible.length);$("eligibleSub").textContent=state.odds.length?"of "+fmt.format(state.odds.length)+(state.modelHistorical?" frozen markets":" current markets"):"after filters";$("bestScore").textContent=state.eligible.length?state.eligible[0].score.toFixed(1):"—";const m=median(state.eligible.map(x=>x.edge*100));$("medianEdge").textContent=Number.isFinite(m)?(m>=0?"+":"")+m.toFixed(1)+"%":"—"}
+function renderLearning(){
+  const learning=state.learning||{},perf=learning.performance||{},all=perf.all||{},games=Number(learning.completedGames)||0,samples=Number(learning.samples)||0;
+  const status=$("learningStatus"),summary=$("learningSummary"),buckets=$("learningBucketChart"),weights=$("learningWeightChart"),runs=$("learningRunChart"),markets=$("learningMarketTable");
+  if(!status||!summary||!buckets||!weights||!runs||!markets)return;
+  const stateLabel=learning.status==="promoted"?"CHALLENGER PROMOTED":learning.status==="held"?"CHAMPION HELD":learning.status==="provisional"?"PROVISIONAL LEARNING":"AWAITING RESULTS";
+  status.textContent=stateLabel;status.className="learning-status status-"+esc(learning.status||"waiting");
+  const top=Number(all.topHitRate),brier=Number(all.brier),blend=adaptiveBlend();
+  summary.innerHTML=[
+    ["Completed games",fmt.format(games),games<4?"Game-level validation unlocks at 4":"Whole-game validation active"],
+    ["Graded legs",fmt.format(samples),"Every frozen hit / miss trains"],
+    ["High-score hit rate",Number.isFinite(top)?pct(top*100,1):"—",Number.isFinite(Number(all.topThreshold))?"Top 20% • "+pct(Number(all.topThreshold)*100,1)+"+ model probability":"Waiting for grades"],
+    ["Adaptive influence",pct(blend*100,0),Number.isFinite(brier)?"Brier "+brier.toFixed(3):"Earns more weight with validation"]
+  ].map(x=>'<article class="learning-stat"><span>'+x[0]+'</span><strong>'+x[1]+'</strong><small>'+x[2]+'</small></article>').join("");
+
+  const bucketRows=perf.scoreBuckets||[];
+  buckets.innerHTML=bucketRows.length?bucketRows.map(bucket=>{
+    const hit=Number(bucket.hitRate),width=Number.isFinite(hit)?Math.round(hit*100):0;
+    return'<div class="learning-bar-row"><span>'+esc(bucket.label)+'</span><div class="learning-bar-track"><div class="learning-bar-fill" style="width:'+width+'%"></div></div><strong>'+(Number.isFinite(hit)?pct(hit*100,1):"—")+'</strong><small>'+fmt.format(Number(bucket.total)||0)+' legs</small></div>';
+  }).join(""):'<div class="learning-empty">Score buckets appear after the first completed frozen board.</div>';
+
+  const importance=(learning.featureImportance||[]).slice(0,8);
+  weights.innerHTML=importance.length?importance.map(item=>{
+    const width=Math.max(2,Math.round(Number(item.importancePct)||0)),direction=item.direction==="down"?"↓":item.direction==="up"?"↑":"•";
+    return'<div class="learning-bar-row feature"><span>'+esc(item.label||item.feature)+'</span><div class="learning-bar-track"><div class="learning-bar-fill" style="width:'+width+'%"></div></div><strong>'+direction+' '+Number(item.importancePct||0).toFixed(1)+'%</strong></div>';
+  }).join(""):'<div class="learning-empty">Learned feature weights will appear here.</div>';
+
+  const training=(learning.trainingRuns||[]).slice(-10);
+  runs.innerHTML=training.length?training.map(run=>{
+    const hit=Number(run.topHitRate),height=Number.isFinite(hit)?Math.max(5,Math.round(hit*100)):5;
+    return'<div class="learning-run"><div class="learning-run-bar" style="height:'+height+'%"><span>'+(Number.isFinite(hit)?pct(hit*100,0):"—")+'</span></div><small>'+fmt.format(Number(run.completedGames)||0)+'G</small></div>';
+  }).join(""):'<div class="learning-empty">Each new set of graded game results adds a training run.</div>';
+
+  const marketRows=(perf.marketPerformance||[]).slice(0,8);
+  markets.innerHTML=marketRows.length?'<div class="learning-market-head"><span>Market</span><span>Top-leg hit</span><span>Samples</span></div>'+marketRows.map(item=>'<div class="learning-market-row"><strong>'+esc(item.market)+'</strong><span>'+pct(Number(item.topHitRate)*100,1)+'</span><span>'+fmt.format(Number(item.samples)||0)+'</span></div>').join(""):'<div class="learning-empty">Market-by-market results appear once enough legs have graded.</div>';
+
+  const reason=$("learningReason");if(reason)reason.textContent=learning.promotionReason||"The learner will compare challenger setups after completed games.";
+}
 function renderFormula(){
   const cal=state.calibration&&state.calibration.all&&state.calibration.all.test;
   const sample=state.calibration&&state.calibration.samples;
   $("modelFormula").innerHTML=
     '<strong>Calibrated mixed-market probability model</strong><br>'+
     '<code>Players: shrink(2025 walk-forward logistic estimate → current FanDuel no-vig probability)</code><br>'+
-    '<code>Teams: book probability + historical cover/hit rates + full team-stat profile</code><br><br>'+
+    '<code>Teams: book probability + historical cover/hit rates + full team-stat profile</code><br>'+
+    '<code>Adaptive layer: every graded frozen leg retrains a champion/challenger model</code><br><br>'+
     'Player history: <strong>L10 + season-to-date + line distance + trend</strong><br>'+
     'Player matchup: <strong>defense-vs-position percentile</strong><br>'+
     'Team matchup: <strong>every numeric ESPN team-stat category normalized league-wide</strong><br>'+
     'Team weighting: <strong>offense, defense, scoring, situational, turnovers, special teams + all-stat composite</strong><br>'+
     'Reliability: <strong>sample size + calibration/stat breadth</strong><br>'+
-    'Final grade: <strong>estimated hit probability</strong> + reliability + matchup/profile signals'+
+    'Final grade: <strong>estimated hit probability</strong> + reliability + matchup/profile signals<br>'+
+    'Postgame learner: <strong>'+fmt.format(Number(state.learning&&state.learning.samples)||0)+' graded legs • '+fmt.format(Number(state.learning&&state.learning.completedGames)||0)+' completed games • '+pct(adaptiveBlend()*100,0)+' live influence</strong>'+
     (sample?'<br><br><span>2025 walk-forward samples: '+fmt.format(sample)+(cal&&Number.isFinite(Number(cal.brier))?' • holdout Brier '+Number(cal.brier).toFixed(3):'')+'. Historical sportsbook closing lines are not stored, so training uses pregame trailing-five median + 0.5 lines.</span>':'')+
     '<br><span>Same-game parlay prices are estimates unless “Different games only” is enabled.</span>';
 }
@@ -1224,7 +1327,7 @@ function renderCharts(){
 }
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
-  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();
+  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
