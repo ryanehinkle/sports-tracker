@@ -519,7 +519,8 @@ def _signed_handicap(runner, market_name="", fallback=None, allow_zero=False):
 
 
 def _spread_role(line):
-    line = safe_num(line, 0.0)
+    line = numeric_line(line)
+    line = line if line is not None else 0.0
     if line > 0:
         return "receiving"
     if line < 0:
@@ -528,7 +529,8 @@ def _spread_role(line):
 
 
 def _spread_pretty(line):
-    line = safe_num(line, 0.0)
+    line = numeric_line(line)
+    line = line if line is not None else 0.0
     return "PK" if abs(line) < 1e-9 else f"{line:+g}"
 
 
@@ -649,7 +651,7 @@ def _normalize_team_market_record(event, prop):
             changed = True
 
     if prop.get("teamMarketType") == "spread":
-        line = safe_num(prop.get("line"), None)
+        line = numeric_line(prop.get("line"))
         # Prefer an explicit signed line preserved in the proposition when a
         # legacy row's numeric line disagrees. The sign always belongs to the
         # selected team, not the opponent.
