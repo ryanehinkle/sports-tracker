@@ -1384,7 +1384,7 @@ function renderSignals(){
     const unavailable=[...state.selectedMarkets].filter(m=>!state.odds.some(row=>(row._modelMarketLabel||modelSupportedMarketLabel(row))===m));
     const message=unavailable.length===1
       ?"FanDuel has not posted "+unavailable[0]+" for this board."
-      :"No markets satisfy every active constraint. Loosen one or more filters.";
+      :"No markets match the current filters.";
     $("signalBody").innerHTML='<tr><td colspan="'+colspan+'" class="model-empty">'+esc(message)+'</td></tr>';return
   }
   $("signalBody").innerHTML=rows.map(x=>{
@@ -1427,7 +1427,7 @@ function renderSlips(direction){
     : "No slips in current range";
   const container=$("recommendedSlips");
   if(!total){
-    container.innerHTML='<div class="model-empty">'+(modelLockedRules().length?'No parlay satisfies every active lock with the current filters, odds range and leg count. Loosen a constraint or remove a lock.':'No parlay combination lands inside the requested final-odds range. Adjust final odds or leg count.')+'</div>';
+    container.innerHTML='<div class="model-empty">'+(modelLockedRules().length?'No slips satisfy the active locks.':'No slips match this range.')+'</div>';
     return;
   }
   container.classList.remove("page-next","page-prev");
