@@ -484,3 +484,8 @@ html[data-theme] .model-date-button.open{
 .signal-table tbody tr.model-board-row:hover{background:rgba(255,255,255,.035)}
 .signal-table tbody tr.model-board-row:focus-visible{outline:1px solid rgba(var(--accent-rgb),.45);outline-offset:-1px;background:rgba(255,255,255,.045)}
 .signal-table tbody tr.model-board-row .signal-player{cursor:pointer}
+
+
+/* Keep concise cards/controls tight when optional helper copy is empty. */
+.summary-card small:empty{display:none}
+.control-heading>div>span:empty,.range-row small:empty,.check-row small:empty{display:none}
