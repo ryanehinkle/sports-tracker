@@ -13,21 +13,21 @@
       "lastUpdate": "2026-09-24T23:43:14.516949+00:00",
       "props": [
         {
-          "scope": "game",
+          "scope": "team",
           "player": "",
-          "team": "",
-          "teamName": "",
-          "position": "GAME",
+          "team": "ATL",
+          "teamName": "Atlanta Falcons",
+          "position": "TEAM",
           "headshot": "",
           "marketKey": "AWAY_TEAM_TOTAL_POINTS",
-          "market": "Game Total",
-          "teamMarketType": "gameTotal",
+          "market": "Team Total",
+          "teamMarketType": "teamTotal",
           "alternate": false,
           "selection": "Over",
           "line": 19.5,
           "odds": -106,
           "decimalOdds": 1.943396226415094,
-          "proposition": "Over 19.5 Game Total",
+          "proposition": "Over 19.5 ATL Team Total",
           "lastUpdate": "2026-09-24T23:43:14.436989+00:00",
           "link": "",
           "sourceTab": "popular",
@@ -35,49 +35,53 @@
           "selectionId": "7017916",
           "hitRates": {
             "l5": {
-              "hits": 4,
+              "hits": 2,
               "total": 5,
-              "pct": 80.0
+              "pct": 40.0
             },
             "l10": {
-              "hits": 9,
+              "hits": 6,
               "total": 10,
-              "pct": 90.0
+              "pct": 60.0
             },
-            "h2h": null,
-            "current": {
-              "hits": 2,
-              "total": 2,
+            "h2h": {
+              "hits": 1,
+              "total": 1,
               "pct": 100.0
             },
+            "current": {
+              "hits": 1,
+              "total": 3,
+              "pct": 33.3
+            },
             "previous": {
-              "hits": 15,
+              "hits": 12,
               "total": 17,
-              "pct": 88.2
+              "pct": 70.6
             }
           },
           "result": {
             "status": "hit",
-            "actual": 49.0,
-            "gradedAt": "2026-09-25T04:01:16.351961+00:00"
+            "actual": 35.0,
+            "gradedAt": "2026-09-25T04:42:33.342337+00:00"
           }
         },
         {
-          "scope": "game",
+          "scope": "team",
           "player": "",
-          "team": "",
-          "teamName": "",
-          "position": "GAME",
+          "team": "ATL",
+          "teamName": "Atlanta Falcons",
+          "position": "TEAM",
           "headshot": "",
           "marketKey": "AWAY_TEAM_TOTAL_POINTS",
-          "market": "Game Total",
-          "teamMarketType": "gameTotal",
+          "market": "Team Total",
+          "teamMarketType": "teamTotal",
           "alternate": false,
           "selection": "Under",
           "line": 19.5,
           "odds": -120,
           "decimalOdds": 1.833333333333333,
-          "proposition": "Under 19.5 Game Total",
+          "proposition": "Under 19.5 ATL Team Total",
           "lastUpdate": "2026-09-24T23:43:14.437003+00:00",
           "link": "",
           "sourceTab": "popular",
@@ -85,49 +89,53 @@
           "selectionId": "7017917",
           "hitRates": {
             "l5": {
-              "hits": 1,
+              "hits": 3,
               "total": 5,
-              "pct": 20.0
+              "pct": 60.0
             },
             "l10": {
-              "hits": 1,
+              "hits": 4,
               "total": 10,
-              "pct": 10.0
+              "pct": 40.0
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "hits": 0,
-              "total": 2,
+              "total": 1,
               "pct": 0.0
             },
-            "previous": {
+            "current": {
               "hits": 2,
+              "total": 3,
+              "pct": 66.7
+            },
+            "previous": {
+              "hits": 5,
               "total": 17,
-              "pct": 11.8
+              "pct": 29.4
             }
           },
           "result": {
             "status": "miss",
-            "actual": 49.0,
-            "gradedAt": "2026-09-25T04:01:16.351992+00:00"
+            "actual": 35.0,
+            "gradedAt": "2026-09-25T04:42:33.342361+00:00"
           }
         },
         {
-          "scope": "game",
+          "scope": "team",
           "player": "",
-          "team": "",
-          "teamName": "",
-          "position": "GAME",
+          "team": "GB",
+          "teamName": "Green Bay Packers",
+          "position": "TEAM",
           "headshot": "",
           "marketKey": "HOME_TEAM_TOTAL_POINTS",
-          "market": "Game Total",
-          "teamMarketType": "gameTotal",
+          "market": "Team Total",
+          "teamMarketType": "teamTotal",
           "alternate": false,
           "selection": "Over",
           "line": 23.5,
           "odds": -130,
           "decimalOdds": 1.769230769230769,
-          "proposition": "Over 23.5 Game Total",
+          "proposition": "Over 23.5 GB Team Total",
           "lastUpdate": "2026-09-24T23:43:14.458521+00:00",
           "link": "",
           "sourceTab": "popular",
@@ -135,49 +143,53 @@
           "selectionId": "7017916",
           "hitRates": {
             "l5": {
-              "hits": 4,
+              "hits": 1,
               "total": 5,
-              "pct": 80.0
+              "pct": 20.0
             },
             "l10": {
-              "hits": 9,
+              "hits": 4,
               "total": 10,
-              "pct": 90.0
+              "pct": 40.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 0,
+              "total": 1,
+              "pct": 0.0
+            },
             "current": {
-              "hits": 2,
-              "total": 2,
-              "pct": 100.0
+              "hits": 0,
+              "total": 3,
+              "pct": 0.0
             },
             "previous": {
-              "hits": 14,
+              "hits": 11,
               "total": 17,
-              "pct": 82.4
+              "pct": 64.7
             }
           },
           "result": {
-            "status": "hit",
-            "actual": 49.0,
-            "gradedAt": "2026-09-25T04:01:16.352009+00:00"
+            "status": "miss",
+            "actual": 14.0,
+            "gradedAt": "2026-09-25T04:42:33.342375+00:00"
           }
         },
         {
-          "scope": "game",
+          "scope": "team",
           "player": "",
-          "team": "",
-          "teamName": "",
-          "position": "GAME",
+          "team": "GB",
+          "teamName": "Green Bay Packers",
+          "position": "TEAM",
           "headshot": "",
           "marketKey": "HOME_TEAM_TOTAL_POINTS",
-          "market": "Game Total",
-          "teamMarketType": "gameTotal",
+          "market": "Team Total",
+          "teamMarketType": "teamTotal",
           "alternate": false,
           "selection": "Under",
           "line": 23.5,
           "odds": 102,
           "decimalOdds": 2.02,
-          "proposition": "Under 23.5 Game Total",
+          "proposition": "Under 23.5 GB Team Total",
           "lastUpdate": "2026-09-24T23:43:14.458536+00:00",
           "link": "",
           "sourceTab": "popular",
@@ -185,31 +197,35 @@
           "selectionId": "7017917",
           "hitRates": {
             "l5": {
-              "hits": 1,
+              "hits": 4,
               "total": 5,
-              "pct": 20.0
+              "pct": 80.0
             },
             "l10": {
-              "hits": 1,
+              "hits": 6,
               "total": 10,
-              "pct": 10.0
+              "pct": 60.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
             "current": {
-              "hits": 0,
-              "total": 2,
-              "pct": 0.0
+              "hits": 3,
+              "total": 3,
+              "pct": 100.0
             },
             "previous": {
-              "hits": 3,
+              "hits": 6,
               "total": 17,
-              "pct": 17.6
+              "pct": 35.3
             }
           },
           "result": {
-            "status": "miss",
-            "actual": 49.0,
-            "gradedAt": "2026-09-25T04:01:16.352022+00:00"
+            "status": "hit",
+            "actual": 14.0,
+            "gradedAt": "2026-09-25T04:42:33.342386+00:00"
           }
         },
         {
@@ -30879,56 +30895,6 @@
           "teamName": "Atlanta Falcons",
           "position": "TEAM",
           "headshot": "",
-          "marketKey": "ALTERNATE_HANDICAP",
-          "market": "Alt Spread",
-          "teamMarketType": "spread",
-          "alternate": true,
-          "selection": "Cover",
-          "line": 0.0,
-          "odds": 2000,
-          "decimalOdds": 21.0,
-          "proposition": "ATL +0 Alt Spread",
-          "lastUpdate": "2026-09-24T23:43:14.445457+00:00",
-          "link": "",
-          "sourceTab": "popular",
-          "marketId": "734.187454337",
-          "selectionId": "12247091",
-          "hitRates": {
-            "l5": {
-              "hits": 3,
-              "total": 5,
-              "pct": 60.0
-            },
-            "l10": {
-              "hits": 5,
-              "total": 10,
-              "pct": 50.0
-            },
-            "h2h": null,
-            "current": {
-              "hits": 0,
-              "total": 2,
-              "pct": 0.0
-            },
-            "previous": {
-              "hits": 8,
-              "total": 17,
-              "pct": 47.1
-            }
-          },
-          "result": {
-            "status": "hit",
-            "actual": 21.0,
-            "gradedAt": "2026-09-25T04:01:16.373676+00:00"
-          }
-        },
-        {
-          "scope": "team",
-          "player": "",
-          "team": "ATL",
-          "teamName": "Atlanta Falcons",
-          "position": "TEAM",
-          "headshot": "",
           "marketKey": "MONEY_LINE",
           "market": "Moneyline",
           "teamMarketType": "moneyline",
@@ -31020,56 +30986,6 @@
             "status": "hit",
             "actual": 21.0,
             "gradedAt": "2026-09-25T04:01:16.373715+00:00"
-          }
-        },
-        {
-          "scope": "team",
-          "player": "",
-          "team": "GB",
-          "teamName": "Green Bay Packers",
-          "position": "TEAM",
-          "headshot": "",
-          "marketKey": "ALTERNATE_HANDICAP",
-          "market": "Alt Spread",
-          "teamMarketType": "spread",
-          "alternate": true,
-          "selection": "Cover",
-          "line": 0.0,
-          "odds": -20000,
-          "decimalOdds": 1.005,
-          "proposition": "GB +0 Alt Spread",
-          "lastUpdate": "2026-09-24T23:43:14.446143+00:00",
-          "link": "",
-          "sourceTab": "popular",
-          "marketId": "734.187454337",
-          "selectionId": "15864825",
-          "hitRates": {
-            "l5": {
-              "hits": 1,
-              "total": 5,
-              "pct": 20.0
-            },
-            "l10": {
-              "hits": 5,
-              "total": 10,
-              "pct": 50.0
-            },
-            "h2h": null,
-            "current": {
-              "hits": 1,
-              "total": 2,
-              "pct": 50.0
-            },
-            "previous": {
-              "hits": 9,
-              "total": 16,
-              "pct": 56.2
-            }
-          },
-          "result": {
-            "status": "miss",
-            "actual": -21.0,
-            "gradedAt": "2026-09-25T04:01:16.373730+00:00"
           }
         },
         {
@@ -31177,5 +31093,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-09-25T04:40:59.341325+00:00"
+  "updatedAt": "2026-09-25T04:42:33.349986+00:00"
 }
