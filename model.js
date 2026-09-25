@@ -1748,7 +1748,7 @@ function renderModelHitRateChart(row,split){
     modelPctMarkup(rates.previous,py,"previous",split==="previous")
   ].join("");
   if(!games.length||!spec||!values.length){$("hitRateChart").innerHTML='<div class="hit-chart-empty">No applicable game-by-game data is available for this prop.</div>';return}
-  const maxValue=Math.max(...values,0),minValue=Math.min(...values,0),positiveLine=line===null?0:Math.max(line,0),chartMax=Math.max(1,maxValue,positiveLine)*1.16,chartMin=Math.min(0,minValue,line===null?0:line),chartSpan=Math.max(1,chartMax-chartMin),linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100)),plotWidth=Math.max(680,games.length*92),stageHeight=286,thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
+  const maxValue=Math.max(...values,0),minValue=Math.min(...values,0),positiveLine=line===null?0:Math.max(line,0),chartMax=Math.max(1,maxValue,positiveLine)*1.16,chartMin=Math.min(0,minValue,line===null?0:line),chartSpan=Math.max(1,chartMax-chartMin),linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100)),stageHeight=286,thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
   const bars=games.map((game,index)=>{
     const value=valueFor(game),hit=hitFor(game),height=Math.max(2,((value-chartMin)/chartSpan)*100),valueBottom=48+(height/100)*stageHeight;
     const breakdown=teamScope?[]:modelMetricBreakdown(game,spec).filter(([,v])=>v!==0);
@@ -1757,7 +1757,7 @@ function renderModelHitRateChart(row,split){
     return'<div class="hit-bar-column" tabindex="0"><div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div><div class="hit-bar-track"><div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div></div><div class="hit-bar-label"><span>'+esc(modelChartDateLabel(game))+'</span><span>'+esc(modelChartOpponentLabel(game))+'</span>'+rankBadge+'</div>'+modelHitBarTooltip(game,row,value,rankInfo,teamScope)+'</div>';
   }).join("");
   const threshold=thresholdBottom===null?"":'<div class="hit-threshold" style="bottom:'+thresholdBottom+'px"><span>'+esc(row.teamMarketType==="spread"?formatSpreadLine(row.line):modelFormatLine(line))+'</span></div>';
-  $("hitRateChart").innerHTML='<div class="hit-chart-plot" style="width:'+plotWidth+'px">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
+  $("hitRateChart").innerHTML='<div class="hit-chart-plot">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
 }
 function openModelHitRateChart(row){
   if(!row)return;
