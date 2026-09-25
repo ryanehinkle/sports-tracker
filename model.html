@@ -6,7 +6,7 @@
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=team-market-fix-2"><link rel="stylesheet" href="model.css?v=team-market-fix-3">
+<link rel="stylesheet" href="styles.css?v=spread-clean-1"><link rel="stylesheet" href="model.css?v=team-charts-entity-rules-1">
 </head>
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -35,6 +35,19 @@
 <section class="control-section model-filter-section">
 <div class="model-filter-grid">
   <div class="model-filter-control">
+    <span class="model-filter-label">Prop Type</span>
+    <button id="modelScopeButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">◎</span><span id="modelScopeLabel">All props</span><span class="filter-caret">⌄</span></button>
+    <div id="modelScopePopover" class="filter-popover model-filter-popover model-scope-popover" hidden>
+      <div class="filter-popover-title">Market Type</div>
+      <div class="filter-options">
+        <button type="button" class="filter-option model-scope-option selected" data-model-scope=""><span class="filter-option-label">All Props</span><span class="option-checkbox">✓</span></button>
+        <button type="button" class="filter-option model-scope-option" data-model-scope="player"><span class="filter-option-label">Player Props</span><span class="option-checkbox"></span></button>
+        <button type="button" class="filter-option model-scope-option" data-model-scope="team"><span class="filter-option-label">Team Props</span><span class="option-checkbox"></span></button>
+        <button type="button" class="filter-option model-scope-option" data-model-scope="game"><span class="filter-option-label">Game Props</span><span class="option-checkbox"></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="model-filter-control">
     <span class="model-filter-label">Position / Type</span>
     <button id="modelPositionButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">↕</span><span id="modelPositionLabel">All positions</span><span class="filter-caret">⌄</span></button>
     <div id="modelPositionPopover" class="filter-popover model-filter-popover" hidden><div class="filter-popover-title">Positions</div><button class="filter-all-row" type="button" data-model-clear="positions"><span>All Positions</span><span class="selection-mark" id="modelAllPositionsMark">✓</span></button><div id="modelPositionOptions" class="filter-options"></div></div>
@@ -49,13 +62,23 @@
     <button id="modelSideButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">⇅</span><span id="modelSideLabel">All sides</span><span class="filter-caret">⌄</span></button>
     <div id="modelSidePopover" class="filter-popover model-filter-popover" hidden><div class="filter-popover-title">Side / Selection</div><button class="filter-all-row" type="button" data-model-clear="sides"><span>All Sides</span><span class="selection-mark" id="modelAllSidesMark">✓</span></button><div id="modelSideOptions" class="filter-options"></div></div>
   </div>
-  <div class="model-filter-control">
+  <div class="model-filter-control model-game-filter-control">
     <span class="model-filter-label">Games</span>
     <button id="modelGameButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">◫</span><span id="modelGameLabel">All games</span><span class="filter-caret">⌄</span></button>
     <div id="modelGamePopover" class="filter-popover model-filter-popover model-game-popover" hidden><div class="filter-popover-title">Games</div><button class="filter-all-row" type="button" data-model-clear="games"><span>All Games</span><span class="selection-mark" id="modelAllGamesMark">✓</span></button><div id="modelGameOptions" class="filter-options"></div></div>
   </div>
 </div>
-<label class="field model-player-search"><span>Player / team search</span><input id="playerFilter" type="search" placeholder="Player, team, matchup…"></label>
+<div class="model-entity-picker">
+  <span class="model-filter-label">Player / Team Rules</span>
+  <div class="model-entity-search-wrap">
+    <input id="modelEntitySearch" type="search" autocomplete="off" placeholder="Search any player or team…">
+    <div id="modelEntitySearchResults" class="model-entity-search-results" hidden></div>
+  </div>
+  <details id="modelEntityRuleDetails" class="model-entity-rule-details">
+    <summary><span>Locks & bans <b id="modelEntityRuleCount">0</b></span><small>Lock = must appear • Ban = excluded</small><i>⌄</i></summary>
+    <div id="modelEntityRuleList" class="model-entity-rule-list"><div class="model-entity-rule-empty">Search above to add a player or team.</div></div>
+  </details>
+</div>
 </section>
 <section class="control-section"><div class="control-heading"><div><strong>Line & parlay shape</strong><span>Fine-tune stat lines, model edge, leg similarity, and slip size.</span></div></div>
 <div class="number-pair"><label class="field"><span>Stat line min</span><input id="lineMin" type="number" step=".5" placeholder="Any"></label><label class="field"><span>Stat line max</span><input id="lineMax" type="number" step=".5" placeholder="Any"></label></div><label class="range-row"><span><b>Minimum model edge</b><small>Estimated probability minus implied probability</small></span><output id="edgeValue">-20%+</output><input id="edgeMin" type="range" min="-20" max="30" step="1" value="-20"></label>
@@ -119,7 +142,7 @@
   <div class="hit-rate-panel">
     <div class="hit-rate-header">
       <div>
-        <div class="hit-rate-eyebrow">PROP HIT RATE</div>
+        <div class="hit-rate-eyebrow">PROP HISTORY</div>
         <h2 id="hitRateTitle">Player Prop</h2>
         <div id="hitRateSubtitle" class="hit-rate-subtitle"></div><div id="hitRateResultBadge" class="modal-result-wrap" hidden></div>
       </div>
@@ -140,5 +163,5 @@
     </div>
     <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="theme.js?v=1"></script><script src="model.js?v=adaptive-learning-spreads-1"></script>
+</dialog><script src="theme.js?v=1"></script><script src="model.js?v=team-charts-entity-rules-1"></script>
 </body></html>
