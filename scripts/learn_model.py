@@ -86,6 +86,48 @@ def normalize(value):
     return re.sub(r"[^a-z0-9]+", "", str(value or "").lower())
 
 
+def market_family(prop):
+    text = re.sub(
+        r"\s+",
+        " ",
+        f"{prop.get('market') or ''} {prop.get('proposition') or ''}".lower(),
+    )
+    kind = str(prop.get("teamMarketType") or "")
+    if kind == "moneyline":
+        return "Moneyline"
+    if kind == "spread":
+        return "Spread"
+    if kind == "teamTotal":
+        return "Team Total"
+    if kind == "gameTotal":
+        return "Game Total"
+    if "passing + rushing" in text or ("passing" in text and "rushing" in text and "yard" in text):
+        return "Passing + Rushing Yards"
+    if "receiving yards" in text:
+        return "Receiving Yards"
+    if "rushing yards" in text:
+        return "Rushing Yards"
+    if "passing yards" in text:
+        return "Passing Yards"
+    if "reception" in text and re.search(r"\d+(?:\.\d+)?\+\s*yard", text):
+        return "Reception Milestones"
+    if "reception" in text:
+        return "Receptions"
+    if "rushing attempts" in text or "rush attempts" in text:
+        return "Rushing Attempts"
+    if "passing attempts" in text or "pass attempts" in text:
+        return "Passing Attempts"
+    if "passing completions" in text or "pass completions" in text:
+        return "Passing Completions"
+    if "kicking points" in text:
+        return "Kicking Points"
+    if "field goal" in text:
+        return "Field Goals"
+    if "touchdown" in text or re.search(r"\btds?\b", text):
+        return "Touchdowns"
+    return str(prop.get("market") or "Other")
+
+
 def american_to_decimal(value):
     odds = safe_num(value)
     if odds is None or odds == 0:
@@ -225,7 +267,7 @@ def collect_samples():
                         "time": event_time,
                         "y": 1.0 if status == "hit" else 0.0,
                         "x": feature_vector(prop, no_vig.get(index, implied_probability(prop))),
-                        "market": str(prop.get("market") or "Other"),
+                        "market": market_family(prop),
                         "position": str(prop.get("position") or prop.get("scope") or "").upper(),
                         "scope": str(prop.get("scope") or "player"),
                     }
@@ -378,7 +420,11 @@ def feature_importance(model):
     for index, feature in enumerate(FEATURES):
         coefficient = safe_num(coefficients[index] if index < len(coefficients) else 0.0, 0.0) or 0.0
         std = safe_num(stds[index] if index < len(stds) else 1.0, 1.0) or 1.0
-        effect = coefficient / std
+        # Coefficients are already learned on standardized features, so their
+        # absolute values are directly comparable. Dividing by raw feature std
+        # again would wildly overstate rare features (for example a spread flag
+        # after only one completed game).
+        effect = coefficient
         rows.append(
             {
                 "feature": feature,
