@@ -197,6 +197,22 @@ function formatLine(value){
   if(!Number.isFinite(n)) return String(value);
   return Number.isInteger(n)?String(n):String(n);
 }
+function formatSpreadLine(value){
+  const n=Number(value);
+  if(!Number.isFinite(n)) return "—";
+  if(Math.abs(n)<1e-9) return "PK";
+  return (n>0?"+":"")+String(n);
+}
+function formatMarketLine(row){
+  return row?.teamMarketType==="spread"?formatSpreadLine(row.line):formatLine(row?.line);
+}
+function spreadMeaning(row){
+  if(row?.teamMarketType!=="spread") return "";
+  const n=Number(row.line);
+  if(!Number.isFinite(n)) return "";
+  if(Math.abs(n)<1e-9) return "pick'em";
+  return n>0?"gets "+Math.abs(n)+" pts":"gives "+Math.abs(n)+" pts";
+}
 function shortTeamName(name){
   const parts=String(name||"").trim().split(/\s+/);
   return parts.length?parts[parts.length-1]:"Team";
@@ -229,6 +245,13 @@ function cleanDisplayPlayerName(value){
 }
 
 function cleanDisplayProposition(row){
+  if(row?.teamMarketType==="spread"){
+    const meaning=spreadMeaning(row);
+    return (row.alternate?"Alt Spread ":"Spread ")+formatSpreadLine(row.line)+(meaning?" • "+meaning:"");
+  }
+  if(row?.teamMarketType==="moneyline") return "Moneyline";
+  if(row?.teamMarketType==="teamTotal") return String(row.selection||"")+" "+formatLine(row.line)+" "+(row.alternate?"Alt Team Total":"Team Total");
+  if(row?.teamMarketType==="gameTotal") return String(row.selection||"")+" "+formatLine(row.line)+" "+(row.alternate?"Alt Game Total":"Game Total");
   const player=cleanDisplayPlayerName(row.player);
   let prop=String(row.proposition||row.market||"Player Prop").trim();
 
@@ -699,6 +722,8 @@ function teamPropHit(row,game){
   const line=Number(row.line);
   if(!Number.isFinite(line)) return null;
   if(row.teamMarketType==="spread"){
+    // The line is from this team's perspective: +N receives points and -N
+    // gives points. Covering therefore means actual scoring margin + line > 0.
     const adjusted=value+line;
     if(Math.abs(adjusted)<1e-9) return null;
     return adjusted>0;
@@ -1384,7 +1409,7 @@ function oddsRowHtml(row,index){
 
   return '<tr class="odds-row scope-'+esc(scope)+' '+(selectedInParlay?"parlay-selected":"")+'">'+
     '<td class="prop-cell'+triggerAttrs+'">'+content+'</td>'+
-    '<td class="odds-line">'+esc(formatLine(row.line))+'</td>'+
+    '<td class="odds-line '+(row.teamMarketType==="spread"?"spread-market-line":"")+'"><strong>'+esc(formatMarketLine(row))+'</strong>'+(row.teamMarketType==="spread"?'<small>'+esc(spreadMeaning(row))+'</small>':"")+'</td>'+
     '<td class="odds-price"><span class="fd-mini">FD</span>'+esc(formatAmerican(row.odds))+'</td>'+
     resultCell+
     hitCell(rates.l5,hitRowKey,"l5")+
@@ -1862,6 +1887,19 @@ function normalizeOddsTeamMarket(row,event){
     row.market=row.alternate?"Alt Team Total":"Team Total";
     row.proposition=(row.selection||"")+" "+Number(row.line).toString()+" "+row.team+" "+row.market;
     row._recomputeTeamRates=true;
+  }
+  if(row.teamMarketType==="spread"){
+    const explicit=String(row.proposition||"").replace("−","-").match(/(?<!\d)([+-]\s*\d+(?:\.\d+)?)\b/);
+    if(explicit){
+      const parsed=Number(explicit[1].replace(/\s/g,""));
+      if(Number.isFinite(parsed)) row.line=parsed;
+    }
+    const line=Number(row.line);
+    if(Number.isFinite(line)){
+      row.spreadRole=line>0?"receiving":line<0?"giving":"pickem";
+      const label=row.alternate?"Alt Spread":"Spread";
+      row.proposition=(row.team||"")+" "+formatSpreadLine(line)+" "+label;
+    }
   }
   if(key==="ALTERNATE_HANDICAP"&&Number(row.line)===0) row._invalidTeamMarket=true;
   return row;

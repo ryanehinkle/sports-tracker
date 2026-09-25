@@ -93,8 +93,26 @@
 <th data-signal-sort="matchup"><button type="button" class="signal-sort-button">Matchup <span class="signal-sort-indicator"></span></button></th>
 </tr></thead><tbody id="signalBody"><tr><td colspan="10" class="model-loading">Analyzing props…</td></tr></tbody></table></div></section>
 <details class="model-card analysis-card model-explainer"><summary class="model-card-header"><div><span class="model-kicker">MODEL EXPLAINER</span><h2>How each leg is scored</h2></div><span class="model-card-meta">View details</span></summary><div class="analysis-grid"><div class="analysis-copy">
-<p><strong>2025 walk-forward calibration</strong> tests the historical signals using only information that existed before each game, with late-season weeks held out from fitting.</p>\n<p><strong>Line-aware form</strong> uses L10/season hit history, recent mean versus the current line, and short-term trend instead of rewarding a position just for getting lots of touches.</p>\n<p><strong>Opponent DvP</strong> uses team production allowed by position, with a lighter prior-season blend early in the year so two current games do not dominate the grade.</p>\n<p><strong>Market anchoring</strong> removes overround when both sides are available, then shrinks the historical estimate toward FanDuel when the 2025 calibration was weak. This specifically prevents weak rushing-yard history from flooding the top results.</p>
-</div><div id="modelFormula" class="formula-box"></div></div></details>
+<p><strong>2025 walk-forward calibration</strong> tests the historical signals using only information that existed before each game, with late-season weeks held out from fitting.</p>
+<p><strong>Line-aware form</strong> uses L10/season hit history, recent mean versus the current line, and short-term trend instead of rewarding a position just for getting lots of touches.</p>
+<p><strong>Opponent DvP</strong> uses team production allowed by position, with a lighter prior-season blend early in the year so two current games do not dominate the grade.</p>
+<p><strong>Market anchoring</strong> removes overround when both sides are available, then shrinks the historical estimate toward FanDuel when the 2025 calibration was weak. This specifically prevents weak rushing-yard history from flooding the top results.</p>
+<p><strong>Spread math</strong> is always from the selected team’s perspective: <b>+</b> points are received, <b>−</b> points are given, and a spread covers when the team’s actual scoring margin plus its signed spread is above zero.</p>
+</div><div id="modelFormula" class="formula-box"></div></div>
+<section class="learning-lab" aria-labelledby="learningLabTitle">
+  <div class="learning-header"><div><span class="model-kicker">POSTGAME SELF-LEARNING</span><h3 id="learningLabTitle">What the model learned from finished games</h3><p>Every frozen pregame leg is graded after the game. New weights are trained, challengers are tested on whole games they did not train on, and only validated improvements earn more influence.</p></div><span id="learningStatus" class="learning-status status-waiting">AWAITING RESULTS</span></div>
+  <div id="learningSummary" class="learning-summary"></div>
+  <div class="learning-grid">
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Score → actual hit rate</strong><span>Are high model scores really hitting more?</span></div><div id="learningBucketChart" class="learning-bars"></div></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Learned feature influence</strong><span>Weights change from real graded outcomes</span></div><div id="learningWeightChart" class="learning-bars"></div></article>
+  </div>
+  <div class="learning-grid secondary">
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Learning progress</strong><span>High-score hit rate after each new result set</span></div><div id="learningRunChart" class="learning-run-chart"></div><p id="learningReason" class="learning-reason"></p></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Markets the learner has seen</strong><span>Top-scored 20% within each market</span></div><div id="learningMarketTable" class="learning-market-table"></div></article>
+  </div>
+  <div class="learning-method"><strong>Promotion gate</strong><span>Training and validation are split by whole games, not random legs. This prevents alternate lines from the same game leaking into both sides of the test. Before four completed games, the adaptive layer stays provisional and deliberately small.</span></div>
+</section>
+</details>
 </section></section>
 <footer class="model-footer"><span>Inputs: ESPN full-game player/team logs + current FanDuel player, team and game markets.</span><span>Drive/quarter/half props are excluded until drive-level data is available. Cross-game parlay totals use exact American-odds multiplication; FanDuel can reprice SGPs.</span></footer>
 </main><dialog id="hitRateModal" class="hit-rate-modal" aria-labelledby="hitRateTitle">
@@ -122,5 +140,5 @@
     </div>
     <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="theme.js?v=1"></script><script src="model.js?v=team-market-fix-3"></script>
+</dialog><script src="theme.js?v=1"></script><script src="model.js?v=adaptive-learning-spreads-1"></script>
 </body></html>

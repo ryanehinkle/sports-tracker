@@ -8,6 +8,8 @@ from update_odds import (
     _metric_spec,
     _metric_value,
     _prop_hit,
+    _spread_role,
+    _team_prop_outcome,
     _team_prop_record,
 )
 
@@ -122,6 +124,29 @@ def main():
     )
     assert alt_spread and alt_spread["line"] == 7.5, alt_spread
     assert alt_spread["market"] == "Alt Spread"
+    assert alt_spread["spreadRole"] == "receiving"
+
+    favorite = _team_prop_record(
+        event,
+        {"marketName": "Match Handicap", "marketType": "MATCH_HANDICAP_(2-WAY)", "marketId": "4"},
+        "4",
+        {"runnerName": "Green Bay Packers -3.5", "handicap": -3.5, "winRunnerOdds": {"americanDisplayOdds": {"americanOdds": -110}}},
+        "popular",
+        away,
+        home,
+    )
+    assert favorite and favorite["line"] == -3.5
+    assert favorite["spreadRole"] == "giving"
+    assert _spread_role(0) == "pickem"
+
+    # Spread math is always from the selected team's perspective:
+    # +7.5 covers a 7-point loss; -3.5 requires a win by at least 4.
+    loss_by_seven = {"stats": {"derived.pointsFor": 20, "derived.pointsAgainst": 27}}
+    win_by_three = {"stats": {"derived.pointsFor": 27, "derived.pointsAgainst": 24}}
+    win_by_four = {"stats": {"derived.pointsFor": 28, "derived.pointsAgainst": 24}}
+    assert _team_prop_outcome({"teamMarketType": "spread", "line": 7.5}, loss_by_seven) is True
+    assert _team_prop_outcome({"teamMarketType": "spread", "line": -3.5}, win_by_three) is False
+    assert _team_prop_outcome({"teamMarketType": "spread", "line": -3.5}, win_by_four) is True
 
     print("Prop tracking validation passed.")
 

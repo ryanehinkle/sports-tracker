@@ -95,6 +95,7 @@ def main():
             "teamStats": "data/nfl-team-stats.json",
             "odds": "data/nfl-odds.json",
             "calibration": "data/model-calibration.json",
+            "learning": "data/model-learning.json",
             "ladder": "data/ladder-picks.json",
         },
     }

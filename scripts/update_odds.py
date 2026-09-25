@@ -481,29 +481,57 @@ def _full_game_team_market(market_name, market_type):
     return None
 
 
-def _signed_handicap(runner, market_name="", fallback=None):
+def _signed_handicap(runner, market_name="", fallback=None, allow_zero=False):
+    """Return the spread from the selected team's perspective.
+
+    Positive means the selected team receives points; negative means it gives
+    points. FanDuel occasionally uses a numeric zero as an alternate-market
+    placeholder, so zero is accepted only for a normal spread unless +0/-0 is
+    explicitly present in the runner text.
+    """
     text = " ".join(str(value or "") for value in (
         runner.get("runnerName"),
         runner.get("name"),
         runner.get("selectionName"),
         market_name,
-    ))
-    match = re.search(r"(?<!\d)([+-]\d+(?:\.\d+)?)\b", text)
+    )).replace("−", "-")
+    match = re.search(r"(?<!\d)([+-]\s*\d+(?:\.\d+)?)\b", text)
     if match:
-        return float(match.group(1))
+        return float(match.group(1).replace(" ", ""))
 
-    # FanDuel sometimes includes a zero-valued placeholder handicap even when
-    # the real alternate line lives in the selection text. Never promote that
-    # placeholder to a real +0 spread.
     for key in ("handicap", "line", "points"):
         raw = runner.get(key)
         try:
             value = float(raw)
-            if abs(value) < 1000 and value != 0:
+            if abs(value) < 1000 and (value != 0 or allow_zero):
                 return value
         except (TypeError, ValueError):
             pass
-    return fallback
+
+    if fallback is not None:
+        try:
+            value = float(fallback)
+            if value != 0 or allow_zero:
+                return value
+        except (TypeError, ValueError):
+            pass
+    return None
+
+
+def _spread_role(line):
+    line = numeric_line(line)
+    line = line if line is not None else 0.0
+    if line > 0:
+        return "receiving"
+    if line < 0:
+        return "giving"
+    return "pickem"
+
+
+def _spread_pretty(line):
+    line = numeric_line(line)
+    line = line if line is not None else 0.0
+    return "PK" if abs(line) < 1e-9 else f"{line:+g}"
 
 
 def _team_prop_record(event, market, market_id, runner, tab, away_team, home_team):
@@ -539,12 +567,17 @@ def _team_prop_record(event, market, market_id, runner, tab, away_team, home_tea
     elif kind == "spread":
         if not team_abbr:
             return None
-        line = _signed_handicap(runner, market_name, infer_line(market_name, runner))
+        line = _signed_handicap(
+            runner,
+            market_name,
+            infer_line(market_name, runner),
+            allow_zero=not alternate,
+        )
         if line is None:
             return None
         selection = "Cover"
         label = "Alt Spread" if alternate else "Spread"
-        pretty = f"{line:+g}"
+        pretty = _spread_pretty(line)
         proposition = f"{team_abbr} {pretty} {label}"
         scope = "team"
     elif kind == "teamTotal":
@@ -580,6 +613,7 @@ def _team_prop_record(event, market, market_id, runner, tab, away_team, home_tea
         "marketKey": market_type or market_name,
         "market": label,
         "teamMarketType": kind,
+        "spreadRole": _spread_role(line) if kind == "spread" else None,
         "alternate": alternate,
         "selection": selection,
         "line": line,
@@ -615,6 +649,31 @@ def _normalize_team_market_record(event, prop):
             if line is not None:
                 prop["proposition"] = f"{selection} {float(line):g} {team_abbr} {prop['market']}"
             changed = True
+
+    if prop.get("teamMarketType") == "spread":
+        line = numeric_line(prop.get("line"))
+        # Prefer an explicit signed line preserved in the proposition when a
+        # legacy row's numeric line disagrees. The sign always belongs to the
+        # selected team, not the opponent.
+        text = str(prop.get("proposition") or "").replace("−", "-")
+        signed = re.search(r"(?<!\d)([+-]\s*\d+(?:\.\d+)?)\b", text)
+        if signed:
+            parsed = float(signed.group(1).replace(" ", ""))
+            if line is None or abs(parsed - line) > 1e-9:
+                line = parsed
+                prop["line"] = parsed
+                changed = True
+        if line is not None:
+            role = _spread_role(line)
+            if prop.get("spreadRole") != role:
+                prop["spreadRole"] = role
+                changed = True
+            team_abbr = str(prop.get("team") or "")
+            label = "Alt Spread" if prop.get("alternate") else "Spread"
+            proposition = f"{team_abbr} {_spread_pretty(line)} {label}".strip()
+            if prop.get("proposition") != proposition:
+                prop["proposition"] = proposition
+                changed = True
 
     # Old parser promoted FanDuel's zero placeholder handicap to a real +0
     # alternate spread. There is no safe way to reconstruct the omitted line

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "updatedAt": null,
+  "source": "Frozen pregame FanDuel boards graded from completed ESPN game logs",
+  "objective": "Maximize out-of-sample hit rate among the highest-scored legs while preserving probability calibration",
+  "samples": 0,
+  "completedGames": 0,
+  "status": "awaiting-results",
+  "promotionReason": "Waiting for the first graded frozen pregame board.",
+  "liveBlend": 0.0,
+  "features": [
+    "book",
+    "l5",
+    "l10",
+    "current",
+    "previous",
+    "h2h",
+    "sample",
+    "alternate",
+    "spreadLine",
+    "under",
+    "team",
+    "game"
+  ],
+  "champion": null,
+  "candidate": null,
+  "performance": {
+    "all": null,
+    "validation": null,
+    "previousChampionValidation": null,
+    "scoreBuckets": [],
+    "marketPerformance": []
+  },
+  "featureImportance": [],
+  "trainingRuns": [],
+  "notes": [
+    "The learner populates automatically after archived pregame legs receive final hit/miss grades."
+  ]
+}
