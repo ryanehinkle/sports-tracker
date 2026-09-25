@@ -1379,6 +1379,9 @@ function renderModelHitRateChart(row,split){
   const average=values.length?values.reduce((s,v)=>s+v,0)/values.length:null,med=median(values);
   $("hitRateTitle").textContent=cleanDisplayPlayerName(row.player)+" - "+generalizedMarketLabel(row);
   $("hitRateSubtitle").innerHTML=esc(cleanDisplayProposition(row))+" • "+esc(row.matchup)+" <span class=\"hit-rate-odds\">"+formatOdds(row.odds)+"</span>";
+  const modalResult=historicalResultForRow(row);
+  $("hitRateResultBadge").hidden=!state.modelHistorical;
+  $("hitRateResultBadge").innerHTML=state.modelHistorical?modelResultBadge(modalResult,false):"";
   $("hitRateSplitLabel").textContent=modelSplitLabel(split);
   $("hitRateSelectedPct").textContent=selected?Math.round(selected.pct)+"%":"—";
   $("hitRateSelectedPct").className=!selected?"":selected.pct>=70?"hit-good-text":selected.pct>=50?"hit-mid-text":"hit-low-text";
@@ -1423,10 +1426,13 @@ function ladderDateLabel(value){
 function ladderStatusIcon(status){return status==="hit"?"✓":status==="miss"?"×":status==="push"?"↔":"•"}
 function renderLadderLaunch(){
   const picks=[...(state.ladderData&&state.ladderData.picks||[])].sort((a,b)=>num(a.day)-num(b.day));
-  const today=picks.find(p=>p.date===localDateKey());
-  const last=picks[picks.length-1],day=today?num(today.day):(num(last&&last.day)+1||1);
-  $("todayPickButtonLabel").textContent="See today's pick (Day "+day+")";
-  if(today)state.ladderIndex=Math.max(0,picks.findIndex(p=>p===today));
+  const targetDate=state.modelHistorical?state.modelDate:localDateKey();
+  const selected=picks.find(p=>p.date===targetDate);
+  const last=picks[picks.length-1],day=selected?num(selected.day):(num(last&&last.day)+1||1);
+  $("todayPickButtonLabel").textContent=state.modelHistorical
+    ? (selected?"See archived pick (Day "+day+")":"Archived ladder • Day "+day)
+    : "See today's pick (Day "+day+")";
+  if(selected)state.ladderIndex=Math.max(0,picks.findIndex(p=>p===selected));
   else if(picks.length)state.ladderIndex=picks.length-1;
 }
 function ladderLegHtml(leg){
@@ -1470,6 +1476,13 @@ function toggleLadderPanel(){
 
 function bind(){
   bindModelFilters();
+  $("modelDateButton").addEventListener("click",e=>{e.stopPropagation();toggleModelDatePopover()});
+  $("modelDateOptions").addEventListener("click",async e=>{
+    const option=e.target.closest("[data-model-date]");if(!option)return;
+    const date=option.dataset.modelDate||"live",file=option.dataset.modelHistoryFile||null;
+    if(date===state.modelDate){closeModelDatePopover();return}
+    await loadModelDate(date,file);
+  });
   $("todayPickButton").addEventListener("click",toggleLadderPanel);
   $("ladderPrev").addEventListener("click",()=>{if(state.ladderIndex<=0)return;state.ladderIndex--;renderLadderPick()});
   $("ladderNext").addEventListener("click",()=>{const n=(state.ladderData&&state.ladderData.picks||[]).length;if(state.ladderIndex>=n-1)return;state.ladderIndex++;renderLadderPick()});
@@ -1478,7 +1491,10 @@ function bind(){
     const option=e.target.closest("[data-preset]");if(!option)return;
     applyPreset(option.dataset.preset);closePresetPopover();
   });
-  document.addEventListener("click",e=>{if(!e.target.closest("#modelPresetPopover")&&!e.target.closest("#modelPresetButton"))closePresetPopover()});
+  document.addEventListener("click",e=>{
+    if(!e.target.closest("#modelPresetPopover")&&!e.target.closest("#modelPresetButton"))closePresetPopover();
+    if(!e.target.closest("#modelDatePopover")&&!e.target.closest("#modelDateButton"))closeModelDatePopover();
+  });
   document.addEventListener("click",e=>{const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
   document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-player-trigger");if(!trigger)return;e.preventDefault();const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
   $("hitRateClose").addEventListener("click",()=>$("hitRateModal").close());
@@ -1504,43 +1520,10 @@ function bind(){
 async function init(){
   buildControls();bind();syncLabels();
   try{
-    const responses=await Promise.all([
-      fetch("data/nfl-stats.json",{cache:"default"}),
-      fetch("data/nfl-odds.json?v="+Date.now(),{cache:"no-store"}),
-      fetch("data/nfl-team-stats.json",{cache:"default"}),
-      fetch("data/model-calibration.json",{cache:"default"}),
-      fetch("data/ladder-picks.json?v="+Date.now(),{cache:"no-store"})
-    ]);
-    if(!responses[0].ok||!responses[1].ok)throw new Error("Model data unavailable");
-
-    const stats=await responses[0].json();
-    const odds=await responses[1].json();
-    const teams=responses[2].ok?await responses[2].json():{teams:[]};
-    const calibration=responses[3].ok?await responses[3].json():null;
-    const ladder=responses[4]&&responses[4].ok?await responses[4].json():{picks:[]};
-
-    state.season=stats.season||new Date().getFullYear();
-    state.players=stats.players||[];
-    state.teams=teams.teams||[];
-    state.teamRaw=teams;
-    state.calibration=calibration;
-    state.ladderData=ladder||{picks:[]};
-    state.playerByName=new Map(state.players.map(p=>[norm(p.name),p]));
-    state.odds=flattenOdds(odds);
-
-    // Precompute indexes once on load. Slider/filter changes only score in-memory
-    // rows; they never refetch ESPN/FanDuel or rebuild historical datasets.
-    buildPricePairs();
-    buildUsage();
-    buildDvp();
-    buildTeamProfiles();
-    fillSelects();
-    renderLadderLaunch();
-
-    $("modelSeason").textContent=state.season+" Model • "+fmt.format(state.odds.length)+" markets";
-    const updated=odds.updatedAt||stats.updatedAt;
-    $("modelUpdated").textContent=updated?"Updated "+new Date(updated).toLocaleString([],{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"Live analytical model";
-    recalc();
+    await loadModelHistoryIndex();
+    const bundle=await fetchLiveModelBundle();
+    setResultSources(bundle.stats,bundle.teams,bundle.ladder);
+    applyModelBundle(bundle,{historical:false,date:"live"});
   }catch(err){
     console.error(err);
     $("recommendedSlips").innerHTML='<div class="model-empty">The model could not load the current stats/odds datasets. Refresh after the next data update.</div>';
