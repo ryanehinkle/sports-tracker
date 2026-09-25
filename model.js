@@ -718,21 +718,32 @@ function flattenOdds(raw){
 }
 
 function pricePairKey(row){
-  return[String(row.eventId||""),norm(row.player||row.team||row.scope||""),String(row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase(),String(row.line??"")].join("|");
+  const event=String(row.eventId||""),kind=String(row.teamMarketType||"");
+  if(kind==="moneyline")return[event,"team","moneyline"].join("|");
+  if(kind==="spread")return[event,"team","spread",String(Math.abs(Number(row.line)||0))].join("|");
+  if(kind==="gameTotal")return[event,"game","total",String(row.line??"")].join("|");
+  if(kind==="teamTotal")return[event,"team",String(row.team||""),"total",String(row.line??"")].join("|");
+  return[event,norm(row.player||row.team||row.scope||""),String(row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase(),String(row.line??"")].join("|");
 }
 function buildPricePairs(){
   state.pricePairs=new Map();
   for(const row of state.odds){
-    const key=pricePairKey(row),pair=state.pricePairs.get(key)||{};
-    pair[String(row.selection||"")]=row;state.pricePairs.set(key,pair);
+    const key=pricePairKey(row),pair=state.pricePairs.get(key)||[];
+    pair.push(row);state.pricePairs.set(key,pair);
   }
 }
 function marketProbability(row){
   const decimal=rowDecimalOdds(row),raw=decimal?1/decimal:null;
   if(!Number.isFinite(raw))return .5;
-  const pair=state.pricePairs.get(pricePairKey(row));
-  const side=String(row.selection||""),opposite=side==="Over"?"Under":side==="Under"?"Over":side==="Yes"?"No":side==="No"?"Yes":"";
-  const otherRow=opposite&&pair&&pair[opposite],otherDecimal=otherRow?rowDecimalOdds(otherRow):null,other=otherDecimal?1/otherDecimal:null;
+  const pair=state.pricePairs.get(pricePairKey(row))||[],side=String(row.selection||""),kind=String(row.teamMarketType||"");
+  let otherRow=null;
+  if(kind==="moneyline"||kind==="spread"){
+    otherRow=pair.find(candidate=>candidate!==row&&String(candidate.team||"")!==String(row.team||""));
+  }else{
+    const opposite=side==="Over"?"Under":side==="Under"?"Over":side==="Yes"?"No":side==="No"?"Yes":"";
+    otherRow=opposite?pair.find(candidate=>String(candidate.selection||"")===opposite):null;
+  }
+  const otherDecimal=otherRow?rowDecimalOdds(otherRow):null,other=otherDecimal?1/otherDecimal:null;
   return Number.isFinite(other)?raw/(raw+other):raw;
 }
 function calibrationForMetric(metric){
