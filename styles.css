@@ -345,7 +345,7 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
   box-shadow:0 30px 90px rgba(0,0,0,.62);overflow:hidden
 }
 .hit-rate-modal::backdrop{background:rgba(5,8,12,.76);backdrop-filter:blur(7px)}
-.hit-rate-panel{max-height:min(88vh,900px);overflow:auto}
+.hit-rate-panel{max-height:min(88vh,900px);overflow-y:auto;overflow-x:hidden}
 .hit-rate-header{
   display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
   padding:22px 24px 17px;border-bottom:1px solid #252d38;background:#141922
@@ -372,7 +372,7 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 .hit-good-text{color:#3dde9f!important}.hit-mid-text{color:#ffc62b!important}.hit-low-text{color:#ff7d88!important}.hit-na-text{color:#707b8b!important}
 .hit-rate-stats{display:flex;gap:22px;padding:13px 24px 15px;color:#7d8795;font-size:.78rem;border-bottom:1px solid #252d38}
 .hit-rate-stats strong{color:#e9edf3;font-size:.9rem;margin-left:4px}
-.hit-rate-chart-scroll{overflow:hidden;padding:20px 18px 16px}
+.hit-rate-chart-scroll{overflow-x:hidden;overflow-y:visible;padding:20px 18px 16px}
 .hit-rate-chart{min-height:370px}
 .hit-chart-empty{height:320px;display:grid;place-items:center;color:#7f8998;font-size:.82rem}
 .hit-chart-plot{
@@ -601,7 +601,7 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
   box-shadow:0 30px 90px rgba(0,0,0,.62);overflow:hidden
 }
 .team-stat-modal::backdrop{background:rgba(5,8,12,.76);backdrop-filter:blur(7px)}
-.team-stat-modal-panel{max-height:min(90vh,920px);overflow:auto}
+.team-stat-modal-panel{max-height:min(90vh,920px);overflow-y:auto;overflow-x:hidden}
 .team-stat-modal-header{
   display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 22px;
   border-bottom:1px solid #26303d;background:linear-gradient(180deg,#1a212c,#161c25)
@@ -632,7 +632,7 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 .team-chart-tab:hover{color:#dfe6ee}
 .team-chart-tab.active{color:#dff7ee;border-bottom-color:var(--accent)}
 .team-chart-tab:disabled{opacity:.35;cursor:not-allowed}
-.team-chart-scroll{overflow:hidden;padding:18px}
+.team-chart-scroll{overflow-x:hidden;overflow-y:auto;padding:18px}
 .team-stat-chart{min-height:370px}
 .team-chart-empty{height:330px;display:grid;place-items:center;color:#7e8998;font-size:.8rem;text-align:center;padding:20px}
 
@@ -1394,7 +1394,7 @@ html[data-theme] .scope-option:hover{background:color-mix(in srgb,var(--surface-
 .hit-bar-track,.team-trend-track{min-width:0}
 .hit-bar-label span,.team-trend-label span{display:block;width:100%}
 @media(max-width:760px){
-  .hit-rate-chart-scroll,.team-chart-scroll{overflow:hidden}
+  .hit-rate-chart-scroll{overflow-x:hidden;overflow-y:visible}.team-chart-scroll{overflow-x:hidden;overflow-y:auto}
   .hit-bars,.team-trend-bars{inset:0 4px;gap:2px}
   .hit-bar-value,.team-trend-value{font-size:.58rem}
   .hit-bar-detail{display:none}
