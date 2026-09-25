@@ -12,6 +12,7 @@ on:
       - "scripts/update_team_stats.py"
       - "scripts/update_odds.py"
       - "scripts/build_model_calibration.py"
+      - "scripts/learn_model.py"
       - "scripts/validate_prop_tracking.py"
       - "scripts/build_ladder.py"
       - "requirements.txt"
@@ -61,13 +62,16 @@ jobs:
       - name: Precompute prop hit rates and grade archived boards
         run: python scripts/update_odds.py --history-only
 
+      - name: Learn from every newly graded leg
+        run: python scripts/learn_model.py
+
       - name: Grade daily ladder challenge
         run: python scripts/build_ladder.py
 
       - name: Commit refreshed stats and grades
         shell: bash
         run: |
-          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/odds-history data/ladder-picks.json; then
+          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/model-learning.json data/odds-history data/ladder-picks.json; then
             echo "No player/team/history changes."
             exit 0
           fi
@@ -76,6 +80,7 @@ jobs:
           cp data/nfl-team-stats.json /tmp/nfl-team-stats.json
           cp data/nfl-odds.json /tmp/nfl-odds.json
           cp data/model-calibration.json /tmp/model-calibration.json
+          cp data/model-learning.json /tmp/model-learning.json
           [ -f data/ladder-picks.json ] && cp data/ladder-picks.json /tmp/ladder-picks.json || true
           [ -d data/odds-history ] && cp -R data/odds-history /tmp/odds-history || true
 
@@ -86,19 +91,20 @@ jobs:
           cp /tmp/nfl-team-stats.json data/nfl-team-stats.json
           cp /tmp/nfl-odds.json data/nfl-odds.json
           cp /tmp/model-calibration.json data/model-calibration.json
+          cp /tmp/model-learning.json data/model-learning.json
           [ -f /tmp/ladder-picks.json ] && cp /tmp/ladder-picks.json data/ladder-picks.json || true
           if [ -d /tmp/odds-history ]; then
             rm -rf data/odds-history
             cp -R /tmp/odds-history data/odds-history
           fi
 
-          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/odds-history data/ladder-picks.json; then
+          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/model-learning.json data/odds-history data/ladder-picks.json; then
             echo "Remote already has these generated updates."
             exit 0
           fi
 
           git config user.name "sports-tracker-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/odds-history data/ladder-picks.json
+          git add data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/model-learning.json data/odds-history data/ladder-picks.json
           git commit -m "Update NFL stats, history and ladder grades"
           git push
