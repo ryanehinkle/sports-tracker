@@ -1,8 +1,8 @@
 {
   "bookmaker": "FanDuel",
   "source": "FanDuel public sportsbook web feed",
-  "updatedAt": "2026-09-25T15:23:35.396055+00:00",
-  "lookaheadHours": 168,
+  "updatedAt": "2026-09-25T18:33:11.000215+00:00",
+  "lookaheadHours": 36,
   "freeFeed": true,
   "events": [
     {
