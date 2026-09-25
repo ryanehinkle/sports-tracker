@@ -136,7 +136,8 @@ function combinedHistoricalStatus(results){
 function currentLadderResultForLeg(leg){
   for(const pick of state.liveLadderData&&state.liveLadderData.picks||[]){
     const found=(pick.legs||[]).find(x=>String(x.key||"")===String(leg.key||""));
-    if(found&&found.result&&found.result.status)return found.result;
+    const status=String(found&&found.result&&found.result.status||"");
+    if(["hit","miss","push"].includes(status))return found.result;
   }
   return null;
 }
