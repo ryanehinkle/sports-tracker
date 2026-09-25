@@ -309,3 +309,38 @@
   color:var(--accent);font-size:.72rem;font-weight:950;line-height:1
 }
 .signal-table th:not(.active-sort) .signal-sort-indicator{opacity:.35}
+
+
+/* Team/game signal rows use the same transparent row treatment as player rows. */
+button.signal-player,
+.signal-player{
+  width:100%;display:flex;align-items:center;gap:9px;min-width:270px;
+  padding:0;border:0;border-radius:0;background:transparent;color:inherit;
+  font:inherit;text-align:left;box-shadow:none;appearance:none;-webkit-appearance:none
+}
+button.signal-player:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.signal-player>img{flex:0 0 38px;object-fit:contain}
+.signal-game-logos{background:transparent}
+.signal-game-logos img{background:var(--surface-2)!important;border:1px solid var(--line)}
+html[data-theme] .model-filter-popover,
+html[data-theme] .model-preset-popover,
+html[data-theme] .model-date-popover{
+  background:var(--surface-3);border-color:var(--line);color:var(--text)
+}
+html[data-theme] .model-preset-button{
+  background:var(--control);border-color:var(--line);color:var(--text)
+}
+html[data-theme] .model-preset-button:hover,
+html[data-theme] .model-preset-button.open{
+  background:var(--control-hover);border-color:color-mix(in srgb,var(--line) 55%,var(--accent));color:var(--text)
+}
+html[data-theme] .preset-option{color:var(--text)}
+html[data-theme] .preset-option:hover{background:var(--surface-2)}
+html[data-theme] .preset-option span{color:var(--muted)}
+html[data-theme] .model-date-button{
+  background:var(--control);border-color:var(--line);color:var(--text)
+}
+html[data-theme] .model-date-button:hover,
+html[data-theme] .model-date-button.open{
+  background:var(--control-hover);border-color:color-mix(in srgb,var(--line) 55%,var(--accent))
+}
