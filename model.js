@@ -1295,12 +1295,11 @@ function renderSignals(){
   }
   $("signalBody").innerHTML=rows.map(x=>{
     const r=x.row,entity=modelEntityName(r);
-    const trigger=' model-prop-trigger';
-    const triggerAttrs=' data-prop-key="'+esc(modelPropKey(r))+'" aria-label="Open '+esc(entity)+' prop history chart"';
+    const rowAttrs=' data-prop-key="'+esc(modelPropKey(r))+'" tabindex="0" role="button" aria-label="Open '+esc(entity)+' prop history chart"';
     const result=historicalResultForRow(r),memberships=slipMembershipFor(r);
     const resultCell=state.modelHistorical?'<td class="model-result-cell">'+modelResultBadge(result,true)+(memberships.length?'<small class="slip-membership">Slip '+memberships.join(" • ")+'</small>':"")+'</td>':"";
-    return '<tr class="'+(state.modelHistorical?'historical-row result-'+esc(result.status):"")+'"><td><button type="button" class="signal-player'+trigger+'"'+triggerAttrs+'>'+
-      modelEntityVisual(r,x.player)+'<div class="signal-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(r.scope==="game"?r.matchup:(x.team||"NFL")+" vs "+(x.opp||"—"))+' • '+esc(x.pos||"—")+'</small></div></button></td>'+
+    return '<tr class="model-board-row model-prop-trigger '+(state.modelHistorical?'historical-row result-'+esc(result.status):"")+'"'+rowAttrs+'><td><div class="signal-player">'+
+      modelEntityVisual(r,x.player)+'<div class="signal-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(r.scope==="game"?r.matchup:(x.team||"NFL")+" vs "+(x.opp||"—"))+' • '+esc(x.pos||"—")+'</small></div></div></td>'+
       '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+resultCell+
       rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+
       '<td class="'+metricClass(x.usageSignal*100)+'">'+esc(modelProfileText(x))+'</td>'+
