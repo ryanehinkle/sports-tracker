@@ -1264,14 +1264,16 @@ function renderLearning(){
   const learning=state.learning||{},perf=learning.performance||{},all=perf.all||{},games=Number(learning.completedGames)||0,samples=Number(learning.samples)||0;
   const status=$("learningStatus"),summary=$("learningSummary"),buckets=$("learningBucketChart"),weights=$("learningWeightChart"),runs=$("learningRunChart"),markets=$("learningMarketTable");
   if(!status||!summary||!buckets||!weights||!runs||!markets)return;
-  const stateLabel=learning.status==="promoted"?"CHALLENGER PROMOTED":learning.status==="held"?"CHAMPION HELD":learning.status==="provisional"?"PROVISIONAL LEARNING":"AWAITING RESULTS";
+  const stateLabel=learning.status==="promoted"?"CHALLENGER PROMOTED":learning.status==="held"?"CHAMPION REFIT":learning.status==="provisional"?"PROVISIONAL LEARNING":"AWAITING RESULTS";
   status.textContent=stateLabel;status.className="learning-status status-"+esc(learning.status||"waiting");
-  const top=Number(all.topHitRate),brier=Number(all.brier),blend=adaptiveBlend();
+  const validation=perf.validation||{},validated=games>=4&&Number(validation.n)>0;
+  const top=Number(validated?validation.topHitRate:all.topHitRate),brier=Number(validated?validation.brier:all.brier),blend=adaptiveBlend();
+  const threshold=Number(validated?validation.topThreshold:all.topThreshold);
   summary.innerHTML=[
-    ["Completed games",fmt.format(games),games<4?"Game-level validation unlocks at 4":"Whole-game validation active"],
-    ["Graded legs",fmt.format(samples),"Every frozen hit / miss trains"],
-    ["High-score hit rate",Number.isFinite(top)?pct(top*100,1):"—",Number.isFinite(Number(all.topThreshold))?"Top 20% • "+pct(Number(all.topThreshold)*100,1)+"+ model probability":"Waiting for grades"],
-    ["Adaptive influence",pct(blend*100,0),Number.isFinite(brier)?"Brier "+brier.toFixed(3):"Earns more weight with validation"]
+    ["Completed games",fmt.format(games),games<4?"Whole-game validation unlocks at 4":"Whole-game holdout validation active"],
+    ["Graded legs",fmt.format(samples),"Every frozen hit / miss refits the weights"],
+    [validated?"Validated high-score hit rate":"Observed high-score hit rate",Number.isFinite(top)?pct(top*100,1):"—",validated?(Number.isFinite(threshold)?"Holdout top 20% • "+pct(threshold*100,1)+"+ adaptive score":"Whole-game holdout"):"Training-only diagnostic until 4 completed games"],
+    ["Adaptive influence",pct(blend*100,0),Number.isFinite(brier)?(validated?"Holdout Brier ":"Training Brier ")+brier.toFixed(3):"Earns more weight with validation"]
   ].map(x=>'<article class="learning-stat"><span>'+x[0]+'</span><strong>'+x[1]+'</strong><small>'+x[2]+'</small></article>').join("");
 
   const bucketRows=perf.scoreBuckets||[];
