@@ -11,8 +11,262 @@ const PRESETS={
 };
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),ladderData:{picks:[]},ladderIndex:0};
+const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),ladderData:{picks:[]},ladderIndex:0,modelDate:"live",modelHistorical:false,modelHistoryIndex:{days:[]},modelHistoryManifest:null,resultPlayers:[],resultTeams:[],resultPlayerByName:new Map(),resultTeamByAbbr:new Map(),resultSeason:null,liveLadderData:{picks:[]},resultCache:new Map(),slipMembership:new Map(),loadingDate:false};
 const SLIPS_PER_PAGE=6;
+const MODEL_RAW_BASE="https://raw.githubusercontent.com/ryanehinkle/sports-tracker/";
+
+function modelArchiveUrl(commit,path){
+  return MODEL_RAW_BASE+encodeURIComponent(String(commit||""))+"/"+String(path||"").replace(/^\/+/, "");
+}
+function formatModelHistoryDate(value){
+  if(!value||value==="live")return"Live Model";
+  const d=new Date(String(value)+"T12:00:00");
+  return Number.isNaN(d.getTime())?String(value):new Intl.DateTimeFormat("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"}).format(d);
+}
+function resultIcon(status){return status==="hit"?"✓":status==="miss"?"×":status==="push"?"↔":"•"}
+function resultLabel(status){return status==="hit"?"Hit":status==="miss"?"Miss":status==="push"?"Push":"Pending"}
+function modelResultBadge(result,small=false){
+  if(!state.modelHistorical)return"";
+  const status=String(result&&result.status||"pending");
+  const actual=result&&result.actual!==undefined&&result.actual!==null?'<small>'+esc(String(result.actual))+'</small>':"";
+  return'<span class="historical-result-badge result-'+esc(status)+(small?" compact":"")+'"><b>'+resultIcon(status)+'</b><span>'+resultLabel(status)+'</span>'+actual+'</span>';
+}
+function setResultSources(stats,teams,ladder){
+  state.resultPlayers=stats&&stats.players||[];
+  state.resultTeams=teams&&teams.teams||[];
+  state.resultSeason=Number(stats&&stats.season||teams&&teams.season||new Date().getFullYear());
+  state.resultPlayerByName=new Map(state.resultPlayers.map(p=>[norm(p.name),p]));
+  state.resultTeamByAbbr=new Map(state.resultTeams.map(t=>[String(t.abbreviation||"").toUpperCase(),t]).filter(([k])=>k));
+  state.liveLadderData=ladder||{picks:[]};
+  state.resultCache.clear();
+}
+function resultPlayerLogs(player){
+  const out=[],by=player&&player.gameLogsBySeason||{};
+  for(const [season,games] of Object.entries(by)){
+    for(const game of games||[])if(game&&game.played)out.push(Object.assign({_season:Number(season)},game));
+  }
+  if(!Object.keys(by).length){
+    for(const game of player&&player.gameLog||[])if(game&&game.played)out.push(Object.assign({_season:state.resultSeason},game));
+  }
+  return out;
+}
+function resultTeamLogs(team){
+  const out=[],by=team&&team.gameLogsBySeason||{};
+  for(const [season,games] of Object.entries(by)){
+    for(const game of games||[])if(game)out.push(Object.assign({_season:Number(season)},game));
+  }
+  if(!Object.keys(by).length){
+    for(const game of team&&team.gameLog||[])if(game)out.push(Object.assign({_season:state.resultSeason},game));
+  }
+  return out;
+}
+function resultGameMatch(g,row,opponent){
+  const gameOpp=String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase();
+  if(opponent&&gameOpp!==String(opponent).toUpperCase())return false;
+  const eventTime=Date.parse(row&&row.commenceTime||""),gameTime=Date.parse(g&&g.date||"");
+  if(Number.isFinite(eventTime)&&Number.isFinite(gameTime)&&Math.abs(gameTime-eventTime)>60*60*1000*60)return false;
+  return true;
+}
+function closestResultGame(games,row,opponent){
+  const eventTime=Date.parse(row&&row.commenceTime||"");
+  const candidates=(games||[]).filter(g=>resultGameMatch(g,row,opponent));
+  candidates.sort((a,b)=>{
+    if(!Number.isFinite(eventTime))return num(b&&b.week)-num(a&&a.week);
+    const at=Date.parse(a&&a.date||""),bt=Date.parse(b&&b.date||"");
+    return Math.abs((Number.isFinite(at)?at:eventTime)-eventTime)-Math.abs((Number.isFinite(bt)?bt:eventTime)-eventTime);
+  });
+  return candidates[0]||null;
+}
+function historicalPlayerResult(row){
+  const player=state.resultPlayerByName.get(norm(row&&row.player));if(!player)return{status:"pending"};
+  const opponent=nextOpponent(row),game=closestResultGame(resultPlayerLogs(player),row,opponent),spec=metricSpec(row);
+  if(!game||!spec)return{status:"pending"};
+  const value=metricValue(game,spec.metric);if(!Number.isFinite(value))return{status:"pending"};
+  const threshold=Number.isFinite(Number(spec.threshold))?Number(spec.threshold):Number(row.line);
+  if(!Number.isFinite(threshold))return{status:"pending"};
+  let hit;
+  if(spec.comparison==="gte"){
+    const base=value>=threshold;hit=String(row.selection||"").toLowerCase()==="no"?!base:base;
+  }else if(String(row.selection||"")==="Under")hit=value<threshold;
+  else if(String(row.selection||"")==="No")hit=value<=threshold;
+  else hit=value>threshold;
+  const push=spec.comparison!=="gte"&&["Over","Under"].includes(String(row.selection||""))&&Math.abs(value-threshold)<1e-9;
+  return{status:push?"push":hit?"hit":"miss",actual:value};
+}
+function teamResultValue(row,game){
+  const stats=game&&game.stats||{},pf=num(stats["derived.pointsFor"]),pa=num(stats["derived.pointsAgainst"]);
+  if(row.teamMarketType==="moneyline"||row.teamMarketType==="spread")return pf-pa;
+  if(row.teamMarketType==="teamTotal")return pf;
+  if(row.teamMarketType==="gameTotal")return pf+pa;
+  return null;
+}
+function historicalTeamResult(row){
+  const selected=String(row.team||row.homeAbbr||"").toUpperCase(),team=state.resultTeamByAbbr.get(selected);if(!team)return{status:"pending"};
+  const opponent=selected===String(row.homeAbbr||"").toUpperCase()?String(row.awayAbbr||"").toUpperCase():String(row.homeAbbr||"").toUpperCase();
+  const game=closestResultGame(resultTeamLogs(team),row,opponent);if(!game)return{status:"pending"};
+  const value=teamResultValue(row,game);if(!Number.isFinite(value))return{status:"pending"};
+  if(row.teamMarketType==="moneyline"){
+    if(value===0)return{status:"push",actual:value};
+    return{status:value>0?"hit":"miss",actual:value};
+  }
+  const line=Number(row.line);if(!Number.isFinite(line))return{status:"pending"};
+  if(row.teamMarketType==="spread"){
+    const adjusted=value+line;
+    if(Math.abs(adjusted)<1e-9)return{status:"push",actual:value};
+    return{status:adjusted>0?"hit":"miss",actual:value};
+  }
+  if(Math.abs(value-line)<1e-9)return{status:"push",actual:value};
+  const hit=String(row.selection||"")==="Under"?value<line:value>line;
+  return{status:hit?"hit":"miss",actual:value};
+}
+function historicalResultForRow(row){
+  if(!state.modelHistorical)return{status:"live"};
+  const key=modelPropKey(row);
+  if(state.resultCache.has(key))return state.resultCache.get(key);
+  const result=["team","game"].includes(row&&row.scope)?historicalTeamResult(row):historicalPlayerResult(row);
+  state.resultCache.set(key,result);return result;
+}
+function combinedHistoricalStatus(results){
+  const statuses=(results||[]).map(r=>String(r&&r.status||"pending"));
+  if(!statuses.length||statuses.includes("pending"))return"pending";
+  if(statuses.includes("miss"))return"miss";
+  if(statuses.includes("push"))return"push";
+  return"hit";
+}
+function currentLadderResultForLeg(leg){
+  for(const pick of state.liveLadderData&&state.liveLadderData.picks||[]){
+    const found=(pick.legs||[]).find(x=>String(x.key||"")===String(leg.key||""));
+    if(found&&found.result&&found.result.status)return found.result;
+  }
+  return null;
+}
+function resolvedLadderLegResult(leg){
+  if(!state.modelHistorical)return leg.result||{status:"pending"};
+  return currentLadderResultForLeg(leg)||historicalResultForRow(leg);
+}
+function archivedLadderData(frozen){
+  if(!state.modelHistorical)return frozen||{picks:[]};
+  const copy=JSON.parse(JSON.stringify(frozen||{picks:[]}));
+  for(const pick of copy.picks||[]){
+    for(const leg of pick.legs||[])leg.result=resolvedLadderLegResult(leg);
+    pick.status=combinedHistoricalStatus((pick.legs||[]).map(leg=>leg.result));
+  }
+  return copy;
+}
+function slipMembershipFor(row){
+  return state.slipMembership.get(modelPropKey(row))||[];
+}
+function buildSlipMembership(){
+  state.slipMembership=new Map();
+  state.slips.forEach((slip,index)=>{
+    for(const leg of slip.legs||[]){
+      const key=modelPropKey(leg.row);
+      if(!state.slipMembership.has(key))state.slipMembership.set(key,[]);
+      state.slipMembership.get(key).push(index+1);
+    }
+  });
+}
+function resetModelCaches(){
+  state.pricePairs=new Map();state.usage=new Map();state.dvp=new Map();state.teamProfiles=new Map();state.teamStatMeta=new Map();
+  state.historyCache.clear();state.forecastCache.clear();state.usageStabilityCache.clear();state.teamDefenseCache.clear();state.opponentRankCache.clear();state.resultCache.clear();
+}
+function renderModelDateOptions(){
+  const days=state.modelHistoryIndex&&state.modelHistoryIndex.days||[];
+  $("modelDateOptions").innerHTML=
+    '<button type="button" class="filter-option model-date-option '+(state.modelDate==="live"?"selected":"")+'" data-model-date="live"><span class="filter-option-label"><strong>Live Model</strong><small>Current stats, lines and predictions</small></span><span class="option-checkbox">'+(state.modelDate==="live"?"✓":"")+'</span></button>'+
+    days.map(day=>{
+      const active=state.modelDate===day.date;
+      return'<button type="button" class="filter-option model-date-option '+(active?"selected":"")+'" data-model-date="'+esc(day.date)+'" data-model-history-file="'+esc(day.file||day.date+".json")+'"><span class="filter-option-label"><strong>'+esc(formatModelHistoryDate(day.date))+'</strong><small>Frozen pregame model</small></span><span class="option-checkbox">'+(active?"✓":"")+'</span></button>';
+    }).join("");
+  $("modelDateLabel").textContent=state.modelDate==="live"?"Live Model":formatModelHistoryDate(state.modelDate);
+}
+function closeModelDatePopover(){
+  const pop=$("modelDatePopover"),button=$("modelDateButton");if(!pop||!button)return;
+  pop.hidden=true;button.setAttribute("aria-expanded","false");button.classList.remove("open");
+}
+function toggleModelDatePopover(){
+  const pop=$("modelDatePopover"),button=$("modelDateButton"),opening=pop.hidden;
+  closeModelDatePopover();if(!opening)return;
+  document.body.appendChild(pop);pop.hidden=false;
+  const rect=button.getBoundingClientRect(),width=pop.offsetWidth||290;
+  pop.style.left=Math.max(10,Math.min(rect.left,window.innerWidth-width-10))+"px";
+  let top=rect.bottom+8;if(top+(pop.offsetHeight||320)>window.innerHeight-10)top=Math.max(10,rect.top-(pop.offsetHeight||320)-8);
+  pop.style.top=top+"px";button.setAttribute("aria-expanded","true");button.classList.add("open");
+}
+async function fetchModelJson(url,cache="no-store"){
+  const res=await fetch(url,{cache});if(!res.ok)throw new Error("HTTP "+res.status+" for "+url);return res.json();
+}
+async function loadModelHistoryIndex(){
+  try{state.modelHistoryIndex=await fetchModelJson("data/model-history/index.json?v="+Date.now())}
+  catch(_){state.modelHistoryIndex={days:[]}}
+  renderModelDateOptions();
+}
+async function fetchLiveModelBundle(){
+  const [stats,odds,teams,calibration,ladder]=await Promise.all([
+    fetchModelJson("data/nfl-stats.json?v="+Date.now()),
+    fetchModelJson("data/nfl-odds.json?v="+Date.now()),
+    fetchModelJson("data/nfl-team-stats.json?v="+Date.now()),
+    fetchModelJson("data/model-calibration.json?v="+Date.now()).catch(()=>null),
+    fetchModelJson("data/ladder-picks.json?v="+Date.now()).catch(()=>({picks:[]}))
+  ]);
+  return{stats,odds,teams,calibration,ladder};
+}
+async function fetchHistoricalModelBundle(manifest){
+  const commit=manifest&&manifest.sourceCommit,files=manifest&&manifest.files||{};
+  if(!commit)throw new Error("Historical model commit missing");
+  const [stats,odds,teams,calibration,ladder]=await Promise.all([
+    fetchModelJson(modelArchiveUrl(commit,files.stats||"data/nfl-stats.json"),"force-cache"),
+    fetchModelJson(modelArchiveUrl(commit,files.odds||"data/nfl-odds.json"),"force-cache"),
+    fetchModelJson(modelArchiveUrl(commit,files.teamStats||"data/nfl-team-stats.json"),"force-cache"),
+    fetchModelJson(modelArchiveUrl(commit,files.calibration||"data/model-calibration.json"),"force-cache").catch(()=>null),
+    fetchModelJson(modelArchiveUrl(commit,files.ladder||"data/ladder-picks.json"),"force-cache").catch(()=>({picks:[]}))
+  ]);
+  return{stats,odds,teams,calibration,ladder};
+}
+function applyModelBundle(bundle,{historical=false,date="live",manifest=null}={}){
+  const stats=bundle.stats||{},odds=bundle.odds||{},teams=bundle.teams||{teams:[]};
+  state.modelHistorical=historical;state.modelDate=historical?date:"live";state.modelHistoryManifest=manifest;
+  state.season=stats.season||new Date().getFullYear();state.players=stats.players||[];state.teams=teams.teams||[];state.teamRaw=teams;state.calibration=bundle.calibration||null;
+  state.playerByName=new Map(state.players.map(p=>[norm(p.name),p]));state.odds=flattenOdds(odds);
+  state.ladderData=archivedLadderData(bundle.ladder||{picks:[]});
+  resetModelCaches();buildPricePairs();buildUsage();buildDvp();buildTeamProfiles();fillSelects();renderLadderLaunch();renderModelDateOptions();
+  $("modelResultHead").hidden=!historical;
+  document.body.classList.toggle("model-history-mode",historical);
+  $("modelSeason").textContent=historical
+    ? (state.season+" Archive • "+fmt.format(state.odds.length)+" markets")
+    : (state.season+" Model • "+fmt.format(state.odds.length)+" markets");
+  const updated=odds.updatedAt||stats.updatedAt||manifest&&manifest.capturedAt;
+  $("modelUpdated").textContent=historical
+    ? ("Frozen "+formatModelHistoryDate(date)+(updated?" • "+new Date(updated).toLocaleString([],{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):""))
+    : (updated?"Updated "+new Date(updated).toLocaleString([],{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"Live analytical model");
+  recalc();
+}
+async function loadModelDate(date,file){
+  if(state.loadingDate||date===state.modelDate)return;
+  state.loadingDate=true;closeModelDatePopover();
+  $("modelUpdated").textContent=date==="live"?"Refreshing live model…":"Loading frozen model…";
+  $("recommendedSlips").innerHTML='<div class="model-loading"><span class="spinner"></span>Loading '+(date==="live"?"live":"archived")+' model data…</div>';
+  try{
+    if(date==="live"){
+      const bundle=await fetchLiveModelBundle();
+      setResultSources(bundle.stats,bundle.teams,bundle.ladder);
+      applyModelBundle(bundle,{historical:false,date:"live"});
+    }else{
+      const historyFile=file||date+".json";
+      const manifest=await fetchModelJson("data/model-history/"+encodeURIComponent(historyFile)+"?v="+Date.now());
+      const bundle=await fetchHistoricalModelBundle(manifest);
+      // Current completed-game data is used only for grading; the model itself
+      // continues to run entirely on the frozen bundle above.
+      const live=await fetchLiveModelBundle();
+      setResultSources(live.stats,live.teams,live.ladder);
+      state.liveLadderData=live.ladder||{picks:[]};
+      applyModelBundle(bundle,{historical:true,date,manifest});
+    }
+  }catch(err){
+    console.error(err);$("modelUpdated").textContent="Historical model load failed";
+    $("recommendedSlips").innerHTML='<div class="model-empty">That frozen Model archive could not be loaded.</div>';
+  }finally{state.loadingDate=false}
+}
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
 function norm(v){return String(v||"").toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\.?\b/g,"").replace(/[^a-z0-9]/g,"")}
