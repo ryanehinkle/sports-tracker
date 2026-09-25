@@ -3,7 +3,13 @@
 The site only has ESPN full-game game logs. This validator makes sure period/drive
 markets can never silently fall through to full-game totals.
 """
-from update_odds import _metric_spec, _metric_value, _prop_hit
+from update_odds import (
+    _full_game_team_market,
+    _metric_spec,
+    _metric_value,
+    _prop_hit,
+    _team_prop_record,
+)
 
 
 def prop(market, proposition=None, line=50.5, selection="Over"):
@@ -68,6 +74,54 @@ def main():
     assert _prop_hit(prop("Rushing Yards", line=61.5), game) is False
     sack_game = {"sacks": 1}
     assert _prop_hit(prop("Player To Record A Sack", line=None, selection="Yes"), sack_game) is True
+
+    # FanDuel team/game market taxonomy guardrails.
+    assert _full_game_team_market("Total Points", "AWAY_TEAM_TOTAL_POINTS") == "teamTotal"
+    assert _full_game_team_market("Total Points", "HOME_TEAM_TOTAL_POINTS") == "teamTotal"
+    assert _full_game_team_market("Total Points", "TOTAL_POINTS_(OVER/UNDER)") == "gameTotal"
+    assert _full_game_team_market("Money Line", "MONEY_LINE") == "moneyline"
+    assert _full_game_team_market("Match Handicap", "MATCH_HANDICAP_(2-WAY)") == "spread"
+
+    event = {"eventId": "test"}
+    away, home = "Atlanta Falcons", "Green Bay Packers"
+    away_total = _team_prop_record(
+        event,
+        {"marketName": "Total Points", "marketType": "AWAY_TEAM_TOTAL_POINTS", "marketId": "1"},
+        "1",
+        {"runnerName": "Over 24.5", "handicap": 24.5, "winRunnerOdds": {"americanDisplayOdds": {"americanOdds": -110}}},
+        "popular",
+        away,
+        home,
+    )
+    assert away_total and away_total["scope"] == "team"
+    assert away_total["team"] == "ATL"
+    assert away_total["teamMarketType"] == "teamTotal"
+    assert away_total["market"] == "Team Total"
+    assert "ATL" in away_total["proposition"]
+
+    home_total = _team_prop_record(
+        event,
+        {"marketName": "Total Points", "marketType": "HOME_TEAM_TOTAL_POINTS", "marketId": "2"},
+        "2",
+        {"runnerName": "Under 20.5", "handicap": 20.5, "winRunnerOdds": {"americanDisplayOdds": {"americanOdds": -110}}},
+        "popular",
+        away,
+        home,
+    )
+    assert home_total and home_total["team"] == "GB"
+    assert home_total["teamMarketType"] == "teamTotal"
+
+    alt_spread = _team_prop_record(
+        event,
+        {"marketName": "Alternate Handicap", "marketType": "ALTERNATE_HANDICAP", "marketId": "3"},
+        "3",
+        {"runnerName": "Atlanta Falcons +7.5", "handicap": 0, "winRunnerOdds": {"americanDisplayOdds": {"americanOdds": -300}}},
+        "popular",
+        away,
+        home,
+    )
+    assert alt_spread and alt_spread["line"] == 7.5, alt_spread
+    assert alt_spread["market"] == "Alt Spread"
 
     print("Prop tracking validation passed.")
 
