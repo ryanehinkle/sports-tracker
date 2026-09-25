@@ -566,6 +566,7 @@ def main():
         "accuracy": full_metrics.get("accuracy"),
         "brier": full_metrics.get("brier"),
         "liveBlend": live_blend,
+        "setup": str((winning_config or {}).get("name") or "unknown"),
     }
     runs = list(previous.get("trainingRuns") or [])
     last = runs[-1] if runs else None
@@ -594,7 +595,7 @@ def main():
         },
         "performance": {
             "all": full_metrics,
-            "validation": candidate_validation if validation_rows else None,
+            "validation": selected_validation if validation_rows else None,
             "previousChampionValidation": previous_validation,
             "scoreBuckets": confidence_buckets(champion, samples),
             "marketPerformance": market_performance(champion, samples),
@@ -604,7 +605,7 @@ def main():
         "notes": [
             "Every graded hit/miss leg from frozen pregame boards is included; pushes and pending outcomes are excluded.",
             "Validation splits by whole games so alternate lines and opposite sides from one game cannot leak into both train and test.",
-            "A challenger is promoted only when its game-level holdout objective is at least as good as the current champion.",
+            "A challenger setup is promoted only when its game-level holdout objective beats the incumbent by a small guardrail margin.",
             "Before four completed games, updates are provisional and intentionally receive only a small live-model blend.",
         ],
     }
