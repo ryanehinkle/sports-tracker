@@ -6,7 +6,7 @@
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fit-charts-2"><link rel="stylesheet" href="model.css?v=fit-charts-2">
+<link rel="stylesheet" href="styles.css?v=fit-charts-2"><link rel="stylesheet" href="model.css?v=copy-clean-1">
 </head>
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -15,23 +15,23 @@
 <nav class="main-tabs model-nav" aria-label="NFL tracker sections"><a class="main-tab" href="index.html#stats">Player Stats</a><a class="main-tab" href="index.html#teams">Team Stats</a><a class="main-tab" href="index.html#odds">Odds</a><a class="main-tab active" href="model.html" aria-current="page">Model</a></nav>
 <section class="model-layout">
 <aside class="model-controls">
-<div class="model-control-header"><div><span class="model-kicker">LIVE CRITERIA</span><h2>Build constraints</h2></div><div class="model-control-actions"><div class="preset-control"><button id="modelPresetButton" class="model-preset-button" type="button" aria-expanded="false"><span>Presets</span><span class="filter-caret">⌄</span></button><div id="modelPresetPopover" class="model-preset-popover" hidden><div class="preset-popover-title">Model presets</div><button type="button" class="preset-option" data-preset="even-ladder"><strong>Even Ladder</strong><span>Strict +100 ladder challenge criteria</span></button><button type="button" class="preset-option" data-preset="ten-x"><strong>+1000 Sharp</strong><span>3–5 legs • strong form + value</span></button><button type="button" class="preset-option" data-preset="high-confidence"><strong>High Confidence</strong><span>Conservative legs with elite consistency</span></button><button type="button" class="preset-option" data-preset="balanced-value"><strong>Balanced Value</strong><span>Moderate plus-money with positive edge</span></button></div></div><button id="resetModel" class="model-reset" type="button">Reset</button></div></div>
+<div class="model-control-header"><div><span class="model-kicker">LIVE CRITERIA</span><h2>Build constraints</h2></div><div class="model-control-actions"><div class="preset-control"><button id="modelPresetButton" class="model-preset-button" type="button" aria-expanded="false"><span>Presets</span><span class="filter-caret">⌄</span></button><div id="modelPresetPopover" class="model-preset-popover" hidden><div class="preset-popover-title">Model presets</div><button type="button" class="preset-option" data-preset="even-ladder"><strong>Even Ladder</strong><span>~+100</span></button><button type="button" class="preset-option" data-preset="ten-x"><strong>+1000 Sharp</strong><span>3–5 legs</span></button><button type="button" class="preset-option" data-preset="high-confidence"><strong>High Confidence</strong><span>Conservative</span></button><button type="button" class="preset-option" data-preset="balanced-value"><strong>Balanced Value</strong><span>Value focused</span></button></div></div><button id="resetModel" class="model-reset" type="button">Reset</button></div></div>
 <section class="control-section odds-range-section">
-<div class="control-heading"><div><strong>Odds range</strong><span>Set the allowed price for each leg and the finished parlay.</span></div></div>
+<div class="control-heading"><div><strong>Odds range</strong></div></div>
 <div class="number-pair"><label class="field"><span>Per-leg odds min</span><input id="legOddsMin" type="number" value="-500"></label><label class="field"><span>Per-leg odds max</span><input id="legOddsMax" type="number" value="500"></label></div>
 <div class="number-pair"><label class="field"><span>Total odds min</span><input id="parlayOddsMin" type="number" value="100"></label><label class="field"><span>Total odds max</span><input id="parlayOddsMax" type="number" value="350"></label></div>
 <div class="number-pair"><label class="field"><span>Minimum legs</span><input id="legsMin" type="number" min="1" max="10" value="2"></label><label class="field"><span>Maximum legs</span><input id="legsMax" type="number" min="1" max="10" value="4"></label></div>
 
 </section>
-<section class="control-section"><div class="control-heading"><div><strong>Historical hit rate</strong><span>Minimum required hit rate for every eligible leg.</span></div></div><div id="hitRateControls" class="slider-stack"></div></section>
-<section class="control-section"><div class="control-heading"><div><strong>Usage & opportunity</strong><span>Player involvement based on targets and carries.</span></div></div>
-<label class="range-row"><span><b>Target share</b><small>Receiving opportunities</small></span><output id="targetShareValue">0%</output><input id="targetShare" type="range" min="0" max="70" step="1" value="0"></label>
-<label class="range-row"><span><b>Carry share</b><small>Team rushing attempts</small></span><output id="carryShareValue">0%</output><input id="carryShare" type="range" min="0" max="90" step="1" value="0"></label>
-<label class="range-row"><span><b>Opportunity share</b><small>Targets + carries</small></span><output id="opportunityShareValue">0%</output><input id="opportunityShare" type="range" min="0" max="80" step="1" value="0"></label><div class="number-pair"><label class="field"><span>Min targets / game</span><input id="targetsPerGameMin" type="number" min="0" step=".5" value="0"></label><label class="field"><span>Min carries / game</span><input id="carriesPerGameMin" type="number" min="0" step=".5" value="0"></label></div></section>
-<section class="control-section"><div class="control-heading"><div><strong>Opponent matchup</strong><span>Defense-vs-position profile rebuilt from player game logs.</span></div></div>
-<label class="range-row"><span><b>Matchup percentile</b><small>Higher = more favorable</small></span><output id="dvpValue">0th+</output><input id="dvpMin" type="range" min="0" max="95" step="5" value="0"></label>
-<label class="check-row"><input id="requireOpponentData" type="checkbox"><span><b>Require opponent sample</b><small>Exclude legs without position-specific matchup data</small></span></label>
-<label class="range-row"><span><b>Opponent sample</b><small>Minimum player-games</small></span><output id="dvpSampleValue">2+</output><input id="dvpSample" type="range" min="1" max="16" step="1" value="2"></label><label class="range-row"><span><b>Team defense percentile</b><small>Relevant yards/points allowed</small></span><output id="teamMatchupValue">0th+</output><input id="teamMatchupMin" type="range" min="0" max="95" step="5" value="0"></label></section>
+<section class="control-section"><div class="control-heading"><div><strong>Historical hit rate</strong></div></div><div id="hitRateControls" class="slider-stack"></div></section>
+<section class="control-section"><div class="control-heading"><div><strong>Usage & opportunity</strong></div></div>
+<label class="range-row"><span><b>Target share</b></span><output id="targetShareValue">0%</output><input id="targetShare" type="range" min="0" max="70" step="1" value="0"></label>
+<label class="range-row"><span><b>Carry share</b></span><output id="carryShareValue">0%</output><input id="carryShare" type="range" min="0" max="90" step="1" value="0"></label>
+<label class="range-row"><span><b>Opportunity share</b></span><output id="opportunityShareValue">0%</output><input id="opportunityShare" type="range" min="0" max="80" step="1" value="0"></label><div class="number-pair"><label class="field"><span>Min targets / game</span><input id="targetsPerGameMin" type="number" min="0" step=".5" value="0"></label><label class="field"><span>Min carries / game</span><input id="carriesPerGameMin" type="number" min="0" step=".5" value="0"></label></div></section>
+<section class="control-section"><div class="control-heading"><div><strong>Opponent matchup</strong></div></div>
+<label class="range-row"><span><b>Matchup percentile</b></span><output id="dvpValue">0th+</output><input id="dvpMin" type="range" min="0" max="95" step="5" value="0"></label>
+<label class="check-row"><input id="requireOpponentData" type="checkbox"><span><b>Require opponent sample</b></span></label>
+<label class="range-row"><span><b>Opponent sample</b></span><output id="dvpSampleValue">2+</output><input id="dvpSample" type="range" min="1" max="16" step="1" value="2"></label><label class="range-row"><span><b>Team defense percentile</b></span><output id="teamMatchupValue">0th+</output><input id="teamMatchupMin" type="range" min="0" max="95" step="5" value="0"></label></section>
 <section class="control-section model-filter-section">
 <div class="model-filter-grid">
   <div class="model-filter-control">
@@ -80,13 +80,13 @@
   </details>
 </div>
 </section>
-<section class="control-section"><div class="control-heading"><div><strong>Line & parlay shape</strong><span>Fine-tune stat lines, model edge, leg similarity, and slip size.</span></div></div>
-<div class="number-pair"><label class="field"><span>Stat line min</span><input id="lineMin" type="number" step=".5" placeholder="Any"></label><label class="field"><span>Stat line max</span><input id="lineMax" type="number" step=".5" placeholder="Any"></label></div><label class="range-row"><span><b>Minimum model edge</b><small>Estimated probability minus implied probability</small></span><output id="edgeValue">-20%+</output><input id="edgeMin" type="range" min="-20" max="30" step="1" value="-20"></label>
-<label class="range-row odds-spread-row"><span><b>Max leg odds spread</b><small>Keeps legs in a similar price range</small></span><output id="oddsSpreadValue">600</output><input id="oddsSpread" type="range" min="100" max="2500" step="100" value="600"></label>
+<section class="control-section"><div class="control-heading"><div><strong>Line & parlay shape</strong></div></div>
+<div class="number-pair"><label class="field"><span>Stat line min</span><input id="lineMin" type="number" step=".5" placeholder="Any"></label><label class="field"><span>Stat line max</span><input id="lineMax" type="number" step=".5" placeholder="Any"></label></div><label class="range-row"><span><b>Minimum model edge</b><small>Model − implied</small></span><output id="edgeValue">-20%+</output><input id="edgeMin" type="range" min="-20" max="30" step="1" value="-20"></label>
+<label class="range-row odds-spread-row"><span><b>Max leg odds spread</b></span><output id="oddsSpreadValue">600</output><input id="oddsSpread" type="range" min="100" max="2500" step="100" value="600"></label>
 
-<label class="check-row"><input id="uniquePlayers" type="checkbox" checked><span><b>Unique players</b><small>Avoid multiple legs from the same player</small></span></label>
-<label class="check-row"><input id="avoidSameGame" type="checkbox" checked><span><b>Different games only</b><small>Keeps parlay odds exact from the listed leg prices; FanDuel can reprice same-game parlays</small></span></label></section>
-<details class="control-disclosure"><summary><span><strong>Advanced model weights</strong><small>Optional scoring controls</small></span><b>+</b></summary><section class="control-section compact-advanced"><div id="weightControls" class="weight-grid"></div></section></details>
+<label class="check-row"><input id="uniquePlayers" type="checkbox" checked><span><b>Unique players</b></span></label>
+<label class="check-row"><input id="avoidSameGame" type="checkbox" checked><span><b>Different games only</b></span></label></section>
+<details class="control-disclosure"><summary><span><strong>Advanced model weights</strong></span><b>+</b></summary><section class="control-section compact-advanced"><div id="weightControls" class="weight-grid"></div></section></details>
 </aside>
 <section class="model-results">
 <div class="model-top-toolbar">
@@ -94,15 +94,15 @@
     <button id="modelDateButton" class="filter-button model-date-button" type="button" aria-expanded="false"><span class="filter-icon">◷</span><span id="modelDateLabel">Live Model</span><span class="filter-caret">⌄</span></button>
     <div id="modelDatePopover" class="filter-popover model-date-popover" hidden><div class="filter-popover-title">Model Date</div><div id="modelDateOptions" class="filter-options"></div></div>
   </div>
-  <div class="ladder-launch-row"><button id="todayPickButton" class="today-pick-button" type="button" aria-expanded="false"><span class="today-pick-dot"></span><span id="todayPickButtonLabel">See today's pick (Day #)</span><span class="today-pick-arrow">→</span></button><span class="ladder-launch-note">Even-money ladder • generated from tens of thousands of combinations</span></div>
+  <div class="ladder-launch-row"><button id="todayPickButton" class="today-pick-button" type="button" aria-expanded="false"><span class="today-pick-dot"></span><span id="todayPickButtonLabel">See today's pick (Day #)</span><span class="today-pick-arrow">→</span></button></div>
 </div>
 <section id="ladderChallengePanel" class="ladder-challenge-panel" hidden>
   <div class="ladder-challenge-header"><div><span class="model-kicker">DAILY LADDER CHALLENGE</span><h2 id="ladderPickTitle">Today's Pick</h2><div id="ladderPickMeta" class="ladder-pick-meta"></div></div><div class="ladder-history-nav"><button id="ladderPrev" type="button" aria-label="Previous ladder day">‹</button><span id="ladderHistoryStatus">Day —</span><button id="ladderNext" type="button" aria-label="Next ladder day">›</button></div></div>
   <div id="ladderPickBody" class="ladder-pick-body"><div class="model-loading"><span class="spinner"></span>Loading ladder challenge…</div></div>
 </section>
-<div class="model-summary-grid"><article class="summary-card"><span>Eligible props</span><strong id="eligibleCount">—</strong><small id="eligibleSub">after filters</small></article><article class="summary-card"><span>Best leg score</span><strong id="bestScore">—</strong><small>highest-scored individual prop</small></article><article class="summary-card"><span>Generated slips</span><strong id="slipCount">—</strong><small id="slipSub">within requested odds</small></article><article class="summary-card"><span>Median edge</span><strong id="medianEdge">—</strong><small>model vs implied</small></article></div>
+<div class="model-summary-grid"><article class="summary-card"><span>Eligible props</span><strong id="eligibleCount">—</strong><small id="eligibleSub"></small></article><article class="summary-card"><span>Best leg score</span><strong id="bestScore">—</strong></article><article class="summary-card"><span>Generated slips</span><strong id="slipCount">—</strong><small id="slipSub"></small></article><article class="summary-card"><span>Median edge</span><strong id="medianEdge">—</strong></article></div>
 <section class="model-card recommended-card"><div class="model-card-header recommended-header"><div><span class="model-kicker">AUTO-GENERATED</span><h2>Recommended slips</h2></div><div class="slip-pager-wrap"><div class="model-card-meta"><span id="slipPageStatus">Showing top slips</span></div><div id="slipPager" class="slip-pager" hidden><button id="slipPrev" type="button" aria-label="Previous recommended slips">‹</button><button id="slipNext" type="button" aria-label="Next recommended slips">›</button></div></div></div><div id="recommendedSlips" class="recommended-slips"><div class="model-loading"><span class="spinner"></span>Loading model data…</div></div></section>
-<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">LIVE ANALYTICS</span><h2>Top-pick signal profile</h2></div><div class="model-card-meta">Updates with every filter change</div></div><div class="chart-grid"><div><div id="signalStrengthTitle" class="chart-title">Signal strength</div><div id="signalProfileChart" class="bar-chart"></div></div><div><div id="candidateScoresTitle" class="chart-title">Top candidate scores</div><div id="scoreChart" class="bar-chart score-chart"></div></div></div></section><section class="model-card"><div class="model-card-header"><div><span class="model-kicker">SIGNAL BOARD</span><h2>Best individual legs</h2></div><div class="model-card-meta"><span id="legBoardCount">—</span> shown</div></div><div class="signal-table-wrap"><table class="signal-table"><thead id="signalTableHead"><tr>
+<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">LIVE ANALYTICS</span><h2>Top-pick signal profile</h2></div></div><div class="chart-grid"><div><div id="signalStrengthTitle" class="chart-title">Signal strength</div><div id="signalProfileChart" class="bar-chart"></div></div><div><div id="candidateScoresTitle" class="chart-title">Top candidate scores</div><div id="scoreChart" class="bar-chart score-chart"></div></div></div></section><section class="model-card"><div class="model-card-header"><div><span class="model-kicker">SIGNAL BOARD</span><h2>Best individual legs</h2></div><div class="model-card-meta"><span id="legBoardCount">—</span> shown</div></div><div class="signal-table-wrap"><table class="signal-table"><thead id="signalTableHead"><tr>
 <th data-signal-sort="pick"><button type="button" class="signal-sort-button">Pick / Market <span class="signal-sort-indicator"></span></button></th>
 <th data-signal-sort="score"><button type="button" class="signal-sort-button">Score <span class="signal-sort-indicator">↓</span></button></th>
 <th data-signal-sort="odds"><button type="button" class="signal-sort-button">Odds <span class="signal-sort-indicator"></span></button></th>
@@ -123,21 +123,21 @@
 <p><strong>Spread math</strong> is always from the selected team’s perspective: <b>+</b> points are received, <b>−</b> points are given, and a spread covers when the team’s actual scoring margin plus its signed spread is above zero.</p>
 </div><div id="modelFormula" class="formula-box"></div></div>
 <section class="learning-lab" aria-labelledby="learningLabTitle">
-  <div class="learning-header"><div><span class="model-kicker">POSTGAME SELF-LEARNING</span><h3 id="learningLabTitle">What the model learned from finished games</h3><p>Every frozen pregame leg is graded after the game. New weights are trained, challengers are tested on whole games they did not train on, and only validated improvements earn more influence.</p></div><span id="learningStatus" class="learning-status status-waiting">AWAITING RESULTS</span></div>
+  <div class="learning-header"><div><span class="model-kicker">POSTGAME SELF-LEARNING</span><h3 id="learningLabTitle">What the model learned from finished games</h3><p>Grades finished legs, retrains weights, and validates challengers on held-out games.</p></div><span id="learningStatus" class="learning-status status-waiting">AWAITING RESULTS</span></div>
   <div id="learningSummary" class="learning-summary"></div>
   <div class="learning-grid">
-    <article class="learning-panel"><div class="learning-panel-title"><strong>Adaptive score → actual hit rate</strong><span>Observed calibration; whole-game holdout validation takes over after 4 completed games</span></div><div id="learningBucketChart" class="learning-bars"></div></article>
-    <article class="learning-panel"><div class="learning-panel-title"><strong>Learned feature influence</strong><span>Weights change from real graded outcomes</span></div><div id="learningWeightChart" class="learning-bars"></div></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Adaptive score → actual hit rate</strong><span>Holdout after 4 games</span></div><div id="learningBucketChart" class="learning-bars"></div></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Learned feature influence</strong></div><div id="learningWeightChart" class="learning-bars"></div></article>
   </div>
   <div class="learning-grid secondary">
-    <article class="learning-panel"><div class="learning-panel-title"><strong>Learning progress</strong><span>High-score hit rate after each new result set</span></div><div id="learningRunChart" class="learning-run-chart"></div><p id="learningReason" class="learning-reason"></p></article>
-    <article class="learning-panel"><div class="learning-panel-title"><strong>Markets the learner has seen</strong><span>Top-scored 20% within each market</span></div><div id="learningMarketTable" class="learning-market-table"></div></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Learning progress</strong></div><div id="learningRunChart" class="learning-run-chart"></div><p id="learningReason" class="learning-reason"></p></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Market performance</strong></div><div id="learningMarketTable" class="learning-market-table"></div></article>
   </div>
-  <div class="learning-method"><strong>Promotion gate</strong><span>Training and validation are split by whole games, not random legs. This prevents alternate lines from the same game leaking into both sides of the test. Before four completed games, the adaptive layer stays provisional and deliberately small.</span></div>
+  <div class="learning-method"><strong>Promotion gate</strong><span>Whole-game holdout validation prevents same-game leakage. Before 4 games, updates stay provisional.</span></div>
 </section>
 </details>
 </section></section>
-<footer class="model-footer"><span>Inputs: ESPN full-game player/team logs + current FanDuel player, team and game markets.</span><span>Drive/quarter/half props are excluded until drive-level data is available. Cross-game parlay totals use exact American-odds multiplication; FanDuel can reprice SGPs.</span></footer>
+
 </main><dialog id="hitRateModal" class="hit-rate-modal" aria-labelledby="hitRateTitle">
   <div class="hit-rate-panel">
     <div class="hit-rate-header">
@@ -163,5 +163,5 @@
     </div>
     <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="theme.js?v=1"></script><script src="model.js?v=monotonic-odds-1"></script>
+</dialog><script src="theme.js?v=1"></script><script src="model.js?v=copy-clean-1"></script>
 </body></html>
