@@ -79,7 +79,6 @@ def main():
     target = HISTORY_DIR / f"{date_key}.json"
     if target.exists():
         print(f"Model archive already exists for {date_key}; leaving it immutable.")
-        rebuild_index()
         return
 
     date_obj = datetime.fromisoformat(date_key + "T12:00:00").replace(tzinfo=CENTRAL)
