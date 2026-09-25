@@ -344,3 +344,11 @@ html[data-theme] .model-date-button:hover,
 html[data-theme] .model-date-button.open{
   background:var(--control-hover);border-color:color-mix(in srgb,var(--line) 55%,var(--accent))
 }
+
+.model-team-visual{
+  width:38px;height:38px;flex:0 0 38px;display:grid;place-items:center;border-radius:50%;
+  background:var(--surface-2);border:1px solid var(--line);overflow:hidden
+}
+.model-team-visual img{width:32px!important;height:32px!important;object-fit:contain!important;border-radius:0!important;background:transparent!important}
+.slip-leg .model-team-visual{width:34px;height:34px;flex-basis:34px}
+.slip-leg .model-team-visual img{width:29px!important;height:29px!important}
