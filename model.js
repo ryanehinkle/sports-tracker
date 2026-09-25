@@ -1594,20 +1594,50 @@ function modelCompareGamesChronologically(a,b){
   if(as!==bs)return as-bs;
   return num(a&&a.week)-num(b&&b.week);
 }
+function modelTeamForRow(row){
+  const abbr=String(row&&row.team||row&&row.homeAbbr||"").toUpperCase();
+  return state.teams.find(team=>String(team&&team.abbreviation||"").toUpperCase()===abbr)||null;
+}
+function modelTeamPropValue(row,game){
+  const stats=game&&game.stats||{},pf=num(stats["derived.pointsFor"]),pa=num(stats["derived.pointsAgainst"]);
+  if(row.teamMarketType==="moneyline"||row.teamMarketType==="spread")return pf-pa;
+  if(row.teamMarketType==="teamTotal")return pf;
+  if(row.teamMarketType==="gameTotal")return pf+pa;
+  return null;
+}
 function modelSplitGames(row,split){
-  const player=modelPlayerForRow(row);if(!player)return[];
-  const currentYear=Number(state.season||2026),previousYear=currentYear-1,all=modelPlayedLogs(player);
+  const currentYear=Number(state.season||2026),previousYear=currentYear-1,cutoff=Date.parse(row&&row.commenceTime||"");
+  const beforeGame=game=>{const time=Date.parse(game&&game.date||"");return !Number.isFinite(cutoff)||!Number.isFinite(time)||time<cutoff};
   let games=[];
+  if(["team","game"].includes(row&&row.scope)){
+    const team=modelTeamForRow(row);if(!team)return[];
+    const all=modelTeamLogs(team.abbreviation).filter(beforeGame),newest=[...all].reverse(),opponent=nextOpponent(Object.assign({},row,{team:row.team||team.abbreviation}));
+    if(split==="l5")games=newest.slice(0,5);
+    else if(split==="l10")games=newest.slice(0,10);
+    else if(split==="h2h")games=opponent?all.filter(g=>String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase()===opponent):[];
+    else if(split==="current")games=all.filter(g=>Number(g._season)===currentYear);
+    else if(split==="previous")games=all.filter(g=>Number(g._season)===previousYear);
+    return games.filter(game=>modelTeamPropHit(row,game)!==null).sort(modelCompareGamesChronologically);
+  }
+
+  const player=modelPlayerForRow(row);if(!player)return[];
+  const all=modelPlayedLogs(player).filter(beforeGame);
   if(split==="l5")games=all.slice(0,5);
   else if(split==="l10")games=all.slice(0,10);
   else if(split==="h2h"){const opponent=nextOpponent(row);games=opponent?all.filter(g=>String(g&&g.opponent&&g.opponent.abbreviation||"").toUpperCase()===opponent):[]}
   else if(split==="current")games=all.filter(g=>g._season===currentYear);
   else if(split==="previous")games=all.filter(g=>g._season===previousYear);
   const spec=metricSpec(row);
-  const applicable=games.filter(g=>spec&&isHit(g,row,spec)!==null);
-  return applicable.sort(modelCompareGamesChronologically);
+  return games.filter(g=>spec&&isHit(g,row,spec)!==null).sort(modelCompareGamesChronologically);
 }
 function modelLineForRow(row){
+  if(row&&row.teamMarketType==="moneyline")return 0;
+  if(row&&row.teamMarketType==="spread"){
+    const spread=Number(row.line);return Number.isFinite(spread)?-spread:null;
+  }
+  if(row&&["teamTotal","gameTotal"].includes(row.teamMarketType)){
+    const total=Number(row.line);return Number.isFinite(total)?total:null;
+  }
   const spec=metricSpec(row);
   if(spec&&spec.comparison==="gte"&&Number.isFinite(Number(spec.threshold)))return Number(spec.threshold);
   const line=Number(row.line);return Number.isFinite(line)?line:null;
@@ -1681,19 +1711,24 @@ function modelOpponentRankForGame(player,game,spec){
   }
   return info;
 }
-function modelHitBarTooltip(game,row,value,rankInfo){
+function modelHitBarTooltip(game,row,value,rankInfo,teamScope=false){
   const opp=game&&game.opponent||{},abbr=opp.abbreviation||opp.name||"OPP";
   const logo=opp.logo||(abbr?"https://a.espncdn.com/i/teamlogos/nfl/500/"+String(abbr).toLowerCase()+".png":"");
-  const rank=rankInfo?"#"+rankInfo.rank:"—",allowed=rankInfo?(Math.round(rankInfo.value*10)/10).toLocaleString():"—";
   const season=game&&game._season||state.season||"";
-  return'<div class="hit-bar-tooltip"><div class="hit-tooltip-date">'+esc(modelChartDateLabel(game))+' • '+esc(season)+'</div><div class="hit-tooltip-matchup">'+(logo?'<img src="'+esc(logo)+'" alt="">':"")+'<span>'+esc(game&&game.isAway?"@ ":"vs ")+esc(abbr)+'</span><b>'+esc(game&&game.score||"")+'</b></div><div class="hit-tooltip-stat"><span>'+esc(generalizedMarketLabel(row))+'</span><strong>'+fmt.format(value)+'</strong></div><div class="hit-tooltip-rank"><span>Opp Rank</span><strong>'+rank+'</strong><small>'+allowed+' allowed / game'+(rankInfo&&rankInfo.priorSeason?" • prior season":"")+'</small></div></div>';
+  const rank=rankInfo?"#"+rankInfo.rank:"—",allowed=rankInfo?(Math.round(rankInfo.value*10)/10).toLocaleString():"—";
+  const rankBlock=teamScope?"":'<div class="hit-tooltip-rank"><span>Opp Rank</span><strong>'+rank+'</strong><small>'+allowed+' allowed / game'+(rankInfo&&rankInfo.priorSeason?" • prior season":"")+'</small></div>';
+  return'<div class="hit-bar-tooltip"><div class="hit-tooltip-date">'+esc(modelChartDateLabel(game))+' • '+esc(season)+'</div><div class="hit-tooltip-matchup">'+(logo?'<img src="'+esc(logo)+'" alt="">':"")+'<span>'+esc(game&&game.isAway?"@ ":"vs ")+esc(abbr)+'</span><b>'+esc(game&&game.score||"")+'</b></div><div class="hit-tooltip-stat"><span>'+esc(generalizedMarketLabel(row))+'</span><strong>'+fmt.format(value)+'</strong></div>'+rankBlock+'</div>';
 }
 function renderModelHitRateChart(row,split){
   state.hitRateActiveRow=row;state.hitRateActiveSplit=split;
-  const player=modelPlayerForRow(row),games=modelSplitGames(row,split),rates=ratesFor(row,player),selected=rates&&rates[split]||null,spec=metricSpec(row),line=modelLineForRow(row);
-  const values=games.map(g=>metricValue(g,spec.metric)).filter(Number.isFinite);
+  const teamScope=["team","game"].includes(row&&row.scope),player=modelPlayerForRow(row),games=modelSplitGames(row,split);
+  const rates=teamScope?teamRates(row):ratesFor(row,player),selected=rates&&rates[split]||null,spec=teamScope?{metric:"teamMarket"}:metricSpec(row),line=modelLineForRow(row);
+  const valueFor=game=>teamScope?modelTeamPropValue(row,game):metricValue(game,spec.metric);
+  const hitFor=game=>teamScope?modelTeamPropHit(row,game):isHit(game,row,spec);
+  const values=games.map(valueFor).filter(Number.isFinite);
   const average=values.length?values.reduce((s,v)=>s+v,0)/values.length:null,med=median(values);
-  $("hitRateTitle").textContent=cleanDisplayPlayerName(row.player)+" - "+generalizedMarketLabel(row);
+  const chartEntity=teamScope?(row.teamName||row.team||(row.scope==="game"?row.matchup:"Team")):cleanDisplayPlayerName(row.player);
+  $("hitRateTitle").textContent=chartEntity+" - "+generalizedMarketLabel(row);
   $("hitRateSubtitle").innerHTML=esc(cleanDisplayProposition(row))+" • "+esc(row.matchup)+" <span class=\"hit-rate-odds\">"+formatOdds(row.odds)+"</span>";
   const modalResult=historicalResultForRow(row);
   $("hitRateResultBadge").hidden=!state.modelHistorical;
@@ -1712,20 +1747,21 @@ function renderModelHitRateChart(row,split){
     modelPctMarkup(rates.current,cy,"current",split==="current"),
     modelPctMarkup(rates.previous,py,"previous",split==="previous")
   ].join("");
-  if(!games.length||!spec){$("hitRateChart").innerHTML='<div class="hit-chart-empty">No applicable game-by-game data is available for this prop.</div>';return}
-  const maxValue=Math.max(...values,0),minValue=Math.min(...values,0),positiveLine=line===null?0:Math.max(line,0),chartMax=Math.max(1,maxValue,positiveLine)*1.16,chartMin=Math.min(0,minValue),chartSpan=Math.max(1,chartMax-chartMin),linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100)),plotWidth=Math.max(680,games.length*92),stageHeight=286,thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
+  if(!games.length||!spec||!values.length){$("hitRateChart").innerHTML='<div class="hit-chart-empty">No applicable game-by-game data is available for this prop.</div>';return}
+  const maxValue=Math.max(...values,0),minValue=Math.min(...values,0),positiveLine=line===null?0:Math.max(line,0),chartMax=Math.max(1,maxValue,positiveLine)*1.16,chartMin=Math.min(0,minValue,line===null?0:line),chartSpan=Math.max(1,chartMax-chartMin),linePct=line===null?null:Math.max(0,Math.min(100,((line-chartMin)/chartSpan)*100)),plotWidth=Math.max(680,games.length*92),stageHeight=286,thresholdBottom=linePct===null?null:48+(linePct/100)*stageHeight;
   const bars=games.map((game,index)=>{
-    const value=metricValue(game,spec.metric),hit=isHit(game,row,spec),height=Math.max(2,((value-chartMin)/chartSpan)*100),valueBottom=48+(height/100)*stageHeight,breakdown=modelMetricBreakdown(game,spec).filter(([,v])=>v!==0);
+    const value=valueFor(game),hit=hitFor(game),height=Math.max(2,((value-chartMin)/chartSpan)*100),valueBottom=48+(height/100)*stageHeight;
+    const breakdown=teamScope?[]:modelMetricBreakdown(game,spec).filter(([,v])=>v!==0);
     const detail=breakdown.length?'<div class="hit-bar-detail">'+breakdown.map(([label,v])=>'<span><b>'+fmt.format(v)+'</b> '+label+'</span>').join("")+'</div>':"";
-    const rankInfo=modelOpponentRankForGame(player,game,spec),rankBadge=rankInfo?'<span class="hit-opp-rank">Opp #'+rankInfo.rank+'</span>':"";
-    return'<div class="hit-bar-column" tabindex="0"><div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div><div class="hit-bar-track"><div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div></div><div class="hit-bar-label"><span>'+esc(modelChartDateLabel(game))+'</span><span>'+esc(modelChartOpponentLabel(game))+'</span>'+rankBadge+'</div>'+modelHitBarTooltip(game,row,value,rankInfo)+'</div>';
+    const rankInfo=teamScope?null:modelOpponentRankForGame(player,game,spec),rankBadge=rankInfo?'<span class="hit-opp-rank">Opp #'+rankInfo.rank+'</span>':"";
+    return'<div class="hit-bar-column" tabindex="0"><div class="hit-bar-value '+(hit?"hit":"miss")+'" style="bottom:'+valueBottom+'px">'+fmt.format(value)+'</div><div class="hit-bar-track"><div class="hit-bar '+(hit?"hit":"miss")+'" style="height:'+height+'%;--bar-delay:'+(index*45)+'ms">'+detail+'</div></div><div class="hit-bar-label"><span>'+esc(modelChartDateLabel(game))+'</span><span>'+esc(modelChartOpponentLabel(game))+'</span>'+rankBadge+'</div>'+modelHitBarTooltip(game,row,value,rankInfo,teamScope)+'</div>';
   }).join("");
-  const threshold=thresholdBottom===null?"":'<div class="hit-threshold" style="bottom:'+thresholdBottom+'px"><span>'+esc(modelFormatLine(line))+'</span></div>';
+  const threshold=thresholdBottom===null?"":'<div class="hit-threshold" style="bottom:'+thresholdBottom+'px"><span>'+esc(row.teamMarketType==="spread"?formatSpreadLine(row.line):modelFormatLine(line))+'</span></div>';
   $("hitRateChart").innerHTML='<div class="hit-chart-plot" style="width:'+plotWidth+'px">'+threshold+'<div class="hit-bars">'+bars+'</div></div>';
 }
 function openModelHitRateChart(row){
   if(!row)return;
-  const rates=ratesFor(row,modelPlayerForRow(row));
+  const rates=["team","game"].includes(row.scope)?teamRates(row):ratesFor(row,modelPlayerForRow(row));
   const split=rates&&rates.l10?"l10":rates&&rates.current?"current":rates&&rates.l5?"l5":"current";
   renderModelHitRateChart(row,split);
   $("hitRateModal").showModal();
@@ -1740,15 +1776,38 @@ function ladderDateLabel(value){
   return Number.isNaN(d.getTime())?String(value||""):new Intl.DateTimeFormat("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"}).format(d);
 }
 function ladderStatusIcon(status){return status==="hit"?"✓":status==="miss"?"×":status==="push"?"↔":"•"}
+function ladderChronologicalPicks(){
+  const picks=[...(state.ladderData&&state.ladderData.picks||[])].sort((a,b)=>{
+    const ad=String(a.date||""),bd=String(b.date||"");if(ad!==bd)return ad.localeCompare(bd);
+    return String(a.createdAt||"").localeCompare(String(b.createdAt||""));
+  });
+  let run=1,day=1;
+  return picks.map((pick,index)=>{
+    const normalized=Object.assign({},pick,{_ladderRun:run,_ladderDay:day,_ladderIndex:index});
+    const status=String(pick.status||"pending");
+    if(status==="hit")day+=1;
+    else if(status==="miss"){run+=1;day=1}
+    // Push replays the same rung. Pending cannot advance until it grades.
+    return normalized;
+  });
+}
+function ladderRunMaxDay(picks,pick){
+  const members=picks.filter(item=>item._ladderRun===pick._ladderRun);
+  return Math.max(1,...members.map(item=>num(item._ladderDay)||1));
+}
 function renderLadderLaunch(){
-  const picks=[...(state.ladderData&&state.ladderData.picks||[])].sort((a,b)=>num(a.day)-num(b.day));
-  const targetDate=state.modelHistorical?state.modelDate:localDateKey();
-  const selected=picks.find(p=>p.date===targetDate);
-  const last=picks[picks.length-1],day=selected?num(selected.day):(num(last&&last.day)+1||1);
-  $("todayPickButtonLabel").textContent=state.modelHistorical
-    ? (selected?"See archived pick (Day "+day+")":"Archived ladder • Day "+day)
-    : "See today's pick (Day "+day+")";
-  if(selected)state.ladderIndex=Math.max(0,picks.findIndex(p=>p===selected));
+  const picks=ladderChronologicalPicks(),targetDate=state.modelHistorical?state.modelDate:localDateKey();
+  const selected=picks.find(p=>p.date===targetDate),last=picks[picks.length-1];
+  if(state.modelHistorical){
+    $("todayPickButtonLabel").textContent=selected?"See archived pick (Day "+selected._ladderDay+")":"No archived ladder pick";
+  }else if(selected){
+    $("todayPickButtonLabel").textContent="See today's pick (Day "+selected._ladderDay+")";
+  }else if(last){
+    $("todayPickButtonLabel").textContent="See latest pick (Day "+last._ladderDay+")";
+  }else{
+    $("todayPickButtonLabel").textContent="Today's ladder is queued";
+  }
+  if(selected)state.ladderIndex=selected._ladderIndex;
   else if(picks.length)state.ladderIndex=picks.length-1;
 }
 function ladderLegHtml(leg){
@@ -1762,7 +1821,7 @@ function ladderLegHtml(leg){
   return '<div class="ladder-leg ladder-'+esc(status)+'">'+visual+'<div class="ladder-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(leg))+'</span><small>'+formatOdds(leg.odds)+' • confidence '+pct(Number(leg.confidence),1)+'</small></div><div class="ladder-leg-result"><span>'+ladderStatusIcon(status)+'</span><strong>'+esc(status==="pending"?"Pending":status.charAt(0).toUpperCase()+status.slice(1))+'</strong>'+actual+'</div></div>';
 }
 function renderLadderPick(){
-  const picks=[...(state.ladderData&&state.ladderData.picks||[])].sort((a,b)=>num(a.day)-num(b.day));
+  const picks=ladderChronologicalPicks();
   $("ladderPrev").disabled=state.ladderIndex<=0;
   $("ladderNext").disabled=!picks.length||state.ladderIndex>=picks.length-1;
   if(!picks.length){
@@ -1773,10 +1832,10 @@ function renderLadderPick(){
     return;
   }
   state.ladderIndex=clamp(state.ladderIndex,0,picks.length-1);
-  const pick=picks[state.ladderIndex],status=String(pick.status||"pending");
-  $("ladderPickTitle").textContent="Day "+pick.day+" • "+ladderDateLabel(pick.date);
+  const pick=picks[state.ladderIndex],status=String(pick.status||"pending"),runMax=ladderRunMaxDay(picks,pick);
+  $("ladderPickTitle").textContent="Day "+pick._ladderDay+" • "+ladderDateLabel(pick.date);
   $("ladderPickMeta").textContent=(pick.selectionTier||"Even Ladder")+" • "+fmt.format(pick.simulations||0)+" combinations searched";
-  $("ladderHistoryStatus").textContent="Day "+pick.day+" of "+picks[picks.length-1].day;
+  $("ladderHistoryStatus").textContent="Day "+pick._ladderDay+" of "+runMax;
   const statusLabel=status==="hit"?"WIN":status==="miss"?"LOSS":status==="push"?"PUSH":"LIVE / PENDING";
   $("ladderPickBody").innerHTML='<article class="ladder-slip ladder-slip-'+esc(status)+'">'+
     '<div class="ladder-slip-summary"><div><span>PARLAY ODDS</span><strong>'+formatOdds(pick.odds)+'</strong></div><div><span>MODEL CONFIDENCE</span><strong>'+pct(Number(pick.confidence),1)+'</strong></div><div><span>EST. HIT PROB.</span><strong>'+pct(Number(pick.estimatedProbability)*100,1)+'</strong></div><div class="ladder-overall-status"><span>'+ladderStatusIcon(status)+'</span><strong>'+statusLabel+'</strong></div></div>'+
@@ -1805,7 +1864,7 @@ function bind(){
   });
   $("todayPickButton").addEventListener("click",toggleLadderPanel);
   $("ladderPrev").addEventListener("click",()=>{if(state.ladderIndex<=0)return;state.ladderIndex--;renderLadderPick()});
-  $("ladderNext").addEventListener("click",()=>{const n=(state.ladderData&&state.ladderData.picks||[]).length;if(state.ladderIndex>=n-1)return;state.ladderIndex++;renderLadderPick()});
+  $("ladderNext").addEventListener("click",()=>{const n=ladderChronologicalPicks().length;if(state.ladderIndex>=n-1)return;state.ladderIndex++;renderLadderPick()});
   $("modelPresetButton").addEventListener("click",e=>{e.stopPropagation();togglePresetPopover()});
   $("modelPresetPopover").addEventListener("click",e=>{
     const option=e.target.closest("[data-preset]");if(!option)return;
