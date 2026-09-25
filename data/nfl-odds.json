@@ -47,10 +47,14 @@
               "total": 10,
               "pct": 90.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
             "current": {
-              "hits": 2,
-              "total": 2,
+              "hits": 3,
+              "total": 3,
               "pct": 100.0
             },
             "previous": {
@@ -92,10 +96,14 @@
               "total": 10,
               "pct": 10.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 0,
+              "total": 1,
+              "pct": 0.0
+            },
             "current": {
               "hits": 0,
-              "total": 2,
+              "total": 3,
               "pct": 0.0
             },
             "previous": {
@@ -137,10 +145,14 @@
               "total": 10,
               "pct": 90.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
             "current": {
-              "hits": 2,
-              "total": 2,
+              "hits": 3,
+              "total": 3,
               "pct": 100.0
             },
             "previous": {
@@ -182,10 +194,14 @@
               "total": 10,
               "pct": 10.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 0,
+              "total": 1,
+              "pct": 0.0
+            },
             "current": {
               "hits": 0,
-              "total": 2,
+              "total": 3,
               "pct": 0.0
             },
             "previous": {
@@ -218,20 +234,24 @@
           "selectionId": "7017916",
           "hitRates": {
             "l5": {
-              "hits": 2,
+              "hits": 3,
               "total": 5,
-              "pct": 40.0
+              "pct": 60.0
             },
             "l10": {
               "hits": 6,
               "total": 10,
               "pct": 60.0
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "hits": 1,
-              "total": 2,
-              "pct": 50.0
+              "total": 1,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 2,
+              "total": 3,
+              "pct": 66.7
             },
             "previous": {
               "hits": 8,
@@ -263,20 +283,24 @@
           "selectionId": "7017917",
           "hitRates": {
             "l5": {
-              "hits": 3,
+              "hits": 2,
               "total": 5,
-              "pct": 60.0
+              "pct": 40.0
             },
             "l10": {
               "hits": 4,
               "total": 10,
               "pct": 40.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 0,
+              "total": 1,
+              "pct": 0.0
+            },
             "current": {
               "hits": 1,
-              "total": 2,
-              "pct": 50.0
+              "total": 3,
+              "pct": 33.3
             },
             "previous": {
               "hits": 9,
@@ -576,20 +600,24 @@
           "selectionId": "73882171",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 30,
+              "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 44,
@@ -619,20 +647,24 @@
           "selectionId": "73882183",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 30,
+              "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 44,
@@ -662,8 +694,8 @@
           "selectionId": "38178067",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 0,
+              "hits": 0,
               "total": 5
             },
             "l10": {
@@ -671,11 +703,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 31,
@@ -705,8 +741,8 @@
           "selectionId": "73882184",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 0,
+              "hits": 0,
               "total": 5
             },
             "l10": {
@@ -714,11 +750,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 25,
@@ -757,11 +797,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -1385,20 +1429,24 @@
           "selectionId": "73619457",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 70,
-              "hits": 7,
+              "pct": 60,
+              "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 82,
@@ -1428,20 +1476,24 @@
           "selectionId": "48309365",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 70,
-              "hits": 7,
+              "pct": 60,
+              "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 76,
@@ -1471,20 +1523,24 @@
           "selectionId": "41066843",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 70,
-              "hits": 7,
+              "pct": 60,
+              "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 71,
@@ -1514,20 +1570,24 @@
           "selectionId": "41066848",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 30,
-              "hits": 3,
+              "pct": 40,
+              "hits": 4,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 29,
@@ -1557,20 +1617,24 @@
           "selectionId": "73619432",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 70,
-              "hits": 7,
+              "pct": 60,
+              "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 71,
@@ -1600,8 +1664,8 @@
           "selectionId": "48309348",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -1609,11 +1673,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 47,
@@ -1643,8 +1711,8 @@
           "selectionId": "48309359",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -1652,11 +1720,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 47,
@@ -1686,8 +1758,8 @@
           "selectionId": "48309376",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -1695,11 +1767,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 29,
@@ -1729,8 +1805,8 @@
           "selectionId": "48309351",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -1738,11 +1814,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 24,
@@ -1781,11 +1861,15 @@
               "hits": 10,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 100,
@@ -1815,20 +1899,24 @@
           "selectionId": "61437975",
           "hitRates": {
             "l5": {
-              "pct": 100,
-              "hits": 5,
+              "pct": 80,
+              "hits": 4,
               "total": 5
             },
             "l10": {
-              "pct": 80,
-              "hits": 8,
+              "pct": 70,
+              "hits": 7,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 82,
@@ -1858,20 +1946,24 @@
           "selectionId": "61438002",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 60,
-              "hits": 6,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 65,
@@ -1901,8 +1993,8 @@
           "selectionId": "61438040",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -1910,11 +2002,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -1944,8 +2040,8 @@
           "selectionId": "61437980",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -1953,11 +2049,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 35,
@@ -1987,20 +2087,24 @@
           "selectionId": "48309372",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -2030,20 +2134,24 @@
           "selectionId": "41066843",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -2073,20 +2181,24 @@
           "selectionId": "41066848",
           "hitRates": {
             "l5": {
-              "pct": 80,
-              "hits": 4,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 90,
-              "hits": 9,
+              "pct": 80,
+              "hits": 8,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 88,
@@ -2116,20 +2228,24 @@
           "selectionId": "64189352",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -2168,11 +2284,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -2202,8 +2322,8 @@
           "selectionId": "38093938",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -2211,11 +2331,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -2254,11 +2378,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -2351,11 +2479,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -2520,8 +2652,8 @@
           "selectionId": "16602543",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -2529,11 +2661,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -2644,8 +2780,8 @@
           "selectionId": "73619390",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
@@ -2653,11 +2789,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 29,
@@ -2687,8 +2827,8 @@
           "selectionId": "42291301",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -2696,11 +2836,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -2730,20 +2874,24 @@
           "selectionId": "41172134",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -2773,20 +2921,24 @@
           "selectionId": "41172135",
           "hitRates": {
             "l5": {
-              "pct": 80,
-              "hits": 4,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 90,
-              "hits": 9,
+              "pct": 80,
+              "hits": 8,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 94,
@@ -2816,20 +2968,24 @@
           "selectionId": "42291304",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -2868,11 +3024,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -2911,11 +3071,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -2954,11 +3118,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -2997,11 +3165,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -3299,11 +3471,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -3504,11 +3680,15 @@
               "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 41,
@@ -3547,11 +3727,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 35,
@@ -3590,11 +3774,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 65,
@@ -3633,11 +3821,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -3676,11 +3868,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -3719,11 +3915,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -3762,11 +3962,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -3805,11 +4009,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -3839,20 +4047,24 @@
           "selectionId": "77136751",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 60,
-              "hits": 6,
+              "pct": 70,
+              "hits": 7,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -3891,11 +4103,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -3934,11 +4150,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -3977,11 +4197,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -4016,15 +4240,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 60,
-              "hits": 6,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 24,
@@ -4063,11 +4291,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -4106,11 +4338,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 82,
@@ -4149,11 +4385,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -4192,11 +4432,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -4235,11 +4479,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -4278,11 +4526,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -4321,11 +4573,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -4364,11 +4620,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -4407,11 +4667,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -4909,11 +5173,15 @@
               "hits": 10,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 100,
@@ -4952,11 +5220,15 @@
               "hits": 9,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 90,
@@ -4995,11 +5267,15 @@
               "hits": 9,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 90,
@@ -5029,8 +5305,8 @@
           "selectionId": "73484469",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 80,
+              "hits": 4,
               "total": 5
             },
             "l10": {
@@ -5038,11 +5314,15 @@
               "hits": 8,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 80,
@@ -5072,8 +5352,8 @@
           "selectionId": "48614479",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 80,
+              "hits": 4,
               "total": 5
             },
             "l10": {
@@ -5081,11 +5361,15 @@
               "hits": 8,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 80,
@@ -5115,8 +5399,8 @@
           "selectionId": "48400051",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
@@ -5124,11 +5408,15 @@
               "hits": 7,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 80,
@@ -5158,8 +5446,8 @@
           "selectionId": "48400052",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -5167,11 +5455,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 20,
@@ -5201,20 +5493,24 @@
           "selectionId": "48614471",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -5244,20 +5540,24 @@
           "selectionId": "48614475",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 40,
@@ -5287,20 +5587,24 @@
           "selectionId": "48614474",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 40,
@@ -5330,20 +5634,24 @@
           "selectionId": "48614473",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 40,
@@ -5373,20 +5681,24 @@
           "selectionId": "48614470",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 20,
-              "hits": 2,
+              "pct": 30,
+              "hits": 3,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 10,
@@ -5425,11 +5737,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 10,
@@ -5468,11 +5784,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 10,
@@ -5507,15 +5827,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 80,
-              "hits": 8,
+              "pct": 90,
+              "hits": 9,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 70,
@@ -5545,20 +5869,24 @@
           "selectionId": "61447939",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 80,
+              "hits": 4,
               "total": 5
             },
             "l10": {
-              "pct": 70,
-              "hits": 7,
+              "pct": 80,
+              "hits": 8,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 60,
@@ -5588,20 +5916,24 @@
           "selectionId": "61447972",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 30,
-              "hits": 3,
+              "pct": 40,
+              "hits": 4,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 20,
@@ -5631,20 +5963,24 @@
           "selectionId": "61447935",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -5674,20 +6010,24 @@
           "selectionId": "61447963",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -5726,11 +6066,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -5769,11 +6113,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 20,
@@ -5812,11 +6160,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -6013,15 +6365,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 30,
+              "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 42,
@@ -6294,8 +6650,8 @@
           "selectionId": "48388803",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -6303,11 +6659,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -6337,8 +6697,8 @@
           "selectionId": "48388795",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -6346,11 +6706,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -6380,8 +6744,8 @@
           "selectionId": "41172406",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -6389,11 +6753,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -6423,8 +6791,8 @@
           "selectionId": "41172405",
           "hitRates": {
             "l5": {
-              "pct": 80,
-              "hits": 4,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
@@ -6432,11 +6800,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -6466,8 +6838,8 @@
           "selectionId": "48388793",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6475,11 +6847,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 42,
@@ -6509,8 +6885,8 @@
           "selectionId": "48388798",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6518,11 +6894,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 42,
@@ -6552,8 +6932,8 @@
           "selectionId": "48388799",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6561,11 +6941,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 42,
@@ -6595,8 +6979,8 @@
           "selectionId": "48388796",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6604,11 +6988,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 33,
@@ -6638,8 +7026,8 @@
           "selectionId": "48388794",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6647,11 +7035,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 8,
@@ -6681,8 +7073,8 @@
           "selectionId": "61437954",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6690,11 +7082,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -6724,8 +7120,8 @@
           "selectionId": "61437982",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6733,11 +7129,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 42,
@@ -6767,8 +7167,8 @@
           "selectionId": "61438015",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6776,11 +7176,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 33,
@@ -6810,8 +7214,8 @@
           "selectionId": "61438024",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -6819,11 +7223,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 17,
@@ -6858,15 +7266,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 0,
+              "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 8,
@@ -6905,11 +7317,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -6948,11 +7364,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 8,
@@ -7119,18 +7539,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "pct": 0,
               "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
             },
             "previous": null
           }
@@ -7330,12 +7754,12 @@
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -7473,24 +7897,24 @@
           "selectionId": "41155779",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 50,
-              "hits": 5,
+              "pct": 40,
+              "hits": 4,
               "total": 10
             },
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 47,
@@ -7520,24 +7944,24 @@
           "selectionId": "41155780",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 50,
-              "hits": 5,
+              "pct": 60,
+              "hits": 6,
               "total": 10
             },
             "h2h": {
               "pct": 100,
-              "hits": 1,
-              "total": 1
+              "hits": 2,
+              "total": 2
             },
             "current": {
-              "pct": 50,
-              "hits": 1,
-              "total": 2
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -7572,19 +7996,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 30,
-              "hits": 3,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 35,
@@ -7619,19 +8043,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 20,
-              "hits": 2,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 29,
@@ -7666,19 +8090,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 20,
-              "hits": 2,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 24,
@@ -7713,19 +8137,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 20,
-              "hits": 2,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 24,
@@ -7760,19 +8184,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 20,
-              "hits": 2,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 24,
@@ -7802,24 +8226,24 @@
           "selectionId": "61364610",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 30,
+              "hits": 3,
               "total": 10
             },
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 24,
@@ -7849,8 +8273,8 @@
           "selectionId": "61364620",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -7861,12 +8285,12 @@
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -7959,11 +8383,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -8128,20 +8556,24 @@
           "selectionId": "20899329",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 80,
+              "hits": 4,
               "total": 5
             },
             "l10": {
-              "pct": 60,
-              "hits": 6,
+              "pct": 70,
+              "hits": 7,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 82,
@@ -8171,20 +8603,24 @@
           "selectionId": "20899330",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 30,
+              "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -8214,20 +8650,24 @@
           "selectionId": "73617856",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 50,
-              "hits": 5,
+              "pct": 60,
+              "hits": 6,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 71,
@@ -8257,20 +8697,24 @@
           "selectionId": "73617761",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 59,
@@ -8300,20 +8744,24 @@
           "selectionId": "73617840",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 30,
-              "hits": 3,
+              "pct": 40,
+              "hits": 4,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -8352,11 +8800,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 29,
@@ -8395,11 +8847,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -8429,20 +8885,24 @@
           "selectionId": "61437967",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 80,
+              "hits": 4,
               "total": 5
             },
             "l10": {
-              "pct": 60,
-              "hits": 6,
+              "pct": 70,
+              "hits": 7,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 82,
@@ -8472,20 +8932,24 @@
           "selectionId": "61438010",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 65,
@@ -8524,11 +8988,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 47,
@@ -8567,11 +9035,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -8664,11 +9136,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -8946,15 +9422,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 50,
-              "hits": 5,
+              "pct": 60,
+              "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 47,
@@ -8984,8 +9464,8 @@
           "selectionId": "60339720",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 0,
+              "hits": 0,
               "total": 5
             },
             "l10": {
@@ -8993,11 +9473,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 27,
@@ -9036,11 +9520,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 7,
@@ -9079,11 +9567,15 @@
               "hits": 6,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 80,
@@ -9122,11 +9614,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -9165,11 +9661,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -9199,8 +9699,8 @@
           "selectionId": "40916512",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
@@ -9208,11 +9708,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 40,
@@ -9242,8 +9746,8 @@
           "selectionId": "40916527",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -9251,11 +9755,15 @@
               "hits": 7,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 60,
@@ -9285,8 +9793,8 @@
           "selectionId": "41618200",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
@@ -9294,11 +9802,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 40,
@@ -9328,20 +9840,24 @@
           "selectionId": "41618201",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 20,
-              "hits": 2,
+              "pct": 30,
+              "hits": 3,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 27,
@@ -9371,20 +9887,24 @@
           "selectionId": "41618202",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 13,
@@ -9423,11 +9943,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 13,
@@ -9466,11 +9990,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 7,
@@ -9509,11 +10037,15 @@
               "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 80,
@@ -9552,11 +10084,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 20,
@@ -9595,11 +10131,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 67,
@@ -9638,11 +10178,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -9681,11 +10225,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 47,
@@ -9724,11 +10272,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 33,
@@ -9972,11 +10524,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "pct": 0,
               "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
             },
             "previous": {
               "pct": 0,
@@ -10141,8 +10697,8 @@
           "selectionId": "87859986",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -10150,11 +10706,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 1,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "previous": {
               "pct": 30,
@@ -10184,8 +10744,8 @@
           "selectionId": "87859987",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -10193,11 +10753,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 1,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "previous": {
               "pct": 30,
@@ -10236,11 +10800,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 1,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "previous": {
               "pct": 10,
@@ -10279,11 +10847,15 @@
               "hits": 8,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 0,
-              "hits": 0,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
               "total": 1
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "previous": {
               "pct": 90,
@@ -10322,11 +10894,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 1,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "previous": {
               "pct": 10,
@@ -10365,11 +10941,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 1,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "previous": {
               "pct": 0,
@@ -10408,11 +10988,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 1,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "previous": {
               "pct": 0,
@@ -10451,11 +11035,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "pct": 0,
               "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
             },
             "previous": {
               "pct": 0,
@@ -10494,11 +11082,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "pct": 0,
               "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
             },
             "previous": {
               "pct": 0,
@@ -10537,11 +11129,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "pct": 0,
               "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
             },
             "previous": {
               "pct": 0,
@@ -10580,11 +11176,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "pct": 0,
               "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
             },
             "previous": {
               "pct": 0,
@@ -10749,8 +11349,8 @@
           "selectionId": "36287746",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 0,
+              "hits": 0,
               "total": 5
             },
             "l10": {
@@ -10758,11 +11358,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 18,
@@ -10819,8 +11423,8 @@
           "selectionId": "40878305",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -10828,11 +11432,15 @@
               "hits": 7,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 94,
@@ -10862,8 +11470,8 @@
           "selectionId": "40878308",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
@@ -10871,11 +11479,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 6,
@@ -10986,20 +11598,24 @@
           "selectionId": "73619450",
           "hitRates": {
             "l5": {
-              "pct": 80,
-              "hits": 4,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 90,
-              "hits": 9,
+              "pct": 80,
+              "hits": 8,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 100,
@@ -11029,8 +11645,8 @@
           "selectionId": "73619493",
           "hitRates": {
             "l5": {
-              "pct": 80,
-              "hits": 4,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
@@ -11038,11 +11654,15 @@
               "hits": 8,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 94,
@@ -11072,8 +11692,8 @@
           "selectionId": "73619409",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -11081,11 +11701,15 @@
               "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 82,
@@ -11115,8 +11739,8 @@
           "selectionId": "40905884",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -11124,11 +11748,15 @@
               "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 82,
@@ -11158,8 +11786,8 @@
           "selectionId": "73619499",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -11167,11 +11795,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 76,
@@ -11201,8 +11833,8 @@
           "selectionId": "40905892",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -11210,11 +11842,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -11244,8 +11880,8 @@
           "selectionId": "40905894",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -11253,11 +11889,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -11296,11 +11936,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 29,
@@ -11330,20 +11974,24 @@
           "selectionId": "61438043",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 80,
-              "hits": 8,
+              "pct": 70,
+              "hits": 7,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 100,
@@ -11373,8 +12021,8 @@
           "selectionId": "61437972",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -11382,11 +12030,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 76,
@@ -11416,8 +12068,8 @@
           "selectionId": "61438025",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -11425,11 +12077,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 71,
@@ -11459,8 +12115,8 @@
           "selectionId": "61438038",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -11468,11 +12124,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 53,
@@ -11583,20 +12243,24 @@
           "selectionId": "42198378",
           "hitRates": {
             "l5": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "l10": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -11759,18 +12423,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -11797,19 +12465,23 @@
           "hitRates": {
             "l5": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "l10": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": null
           }
@@ -11837,18 +12509,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -11876,18 +12552,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -11915,18 +12595,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -11954,18 +12638,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -11993,18 +12681,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12032,18 +12724,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12071,18 +12767,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12109,19 +12809,23 @@
           "hitRates": {
             "l5": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "l10": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": null
           }
@@ -12147,20 +12851,24 @@
           "selectionId": "102305110",
           "hitRates": {
             "l5": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "l10": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12186,20 +12894,24 @@
           "selectionId": "48300723",
           "hitRates": {
             "l5": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "l10": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12225,20 +12937,24 @@
           "selectionId": "48300722",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "l10": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": null
           }
@@ -12264,20 +12980,24 @@
           "selectionId": "102305109",
           "hitRates": {
             "l5": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "l10": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12303,20 +13023,24 @@
           "selectionId": "48334420",
           "hitRates": {
             "l5": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "l10": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12342,20 +13066,24 @@
           "selectionId": "102305111",
           "hitRates": {
             "l5": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "l10": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12383,18 +13111,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12422,18 +13154,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12461,18 +13197,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12500,18 +13240,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": null
           }
@@ -12738,20 +13482,24 @@
           "selectionId": "48301335",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13132,20 +13880,24 @@
           "selectionId": "48582815",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 7,
@@ -13175,20 +13927,24 @@
           "selectionId": "48582817",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 7,
@@ -13218,20 +13974,24 @@
           "selectionId": "48582838",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 7,
@@ -13261,20 +14021,24 @@
           "selectionId": "48504748",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 7,
@@ -13304,20 +14068,24 @@
           "selectionId": "48504749",
           "hitRates": {
             "l5": {
-              "pct": 80,
-              "hits": 4,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 90,
-              "hits": 9,
+              "pct": 80,
+              "hits": 8,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 93,
@@ -13347,20 +14115,24 @@
           "selectionId": "48582795",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13390,20 +14162,24 @@
           "selectionId": "48582835",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13442,11 +14218,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13485,11 +14265,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13528,11 +14312,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13562,20 +14350,24 @@
           "selectionId": "87713733",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
-              "pct": 20,
-              "hits": 2,
+              "pct": 30,
+              "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
             },
             "previous": {
               "pct": 21,
@@ -13605,20 +14397,24 @@
           "selectionId": "87713726",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 7,
@@ -13657,11 +14453,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13700,11 +14500,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13743,11 +14547,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13786,11 +14594,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13829,11 +14641,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -13922,12 +14738,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 11,
+              "pct": 10,
               "hits": 1,
-              "total": 9
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": {
               "pct": 11,
               "hits": 1,
@@ -14339,12 +15163,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 22,
+              "pct": 20,
               "hits": 2,
-              "total": 9
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": {
               "pct": 22,
               "hits": 2,
@@ -14378,12 +15210,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 11,
+              "pct": 10,
               "hits": 1,
-              "total": 9
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": {
               "pct": 11,
               "hits": 1,
@@ -14417,12 +15257,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 89,
-              "hits": 8,
-              "total": 9
+              "pct": 90,
+              "hits": 9,
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "previous": {
               "pct": 89,
               "hits": 8,
@@ -14456,12 +15304,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 78,
-              "hits": 7,
-              "total": 9
+              "pct": 80,
+              "hits": 8,
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "previous": {
               "pct": 78,
               "hits": 7,
@@ -14495,12 +15351,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 56,
-              "hits": 5,
-              "total": 9
+              "pct": 60,
+              "hits": 6,
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "previous": {
               "pct": 56,
               "hits": 5,
@@ -14534,12 +15398,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 44,
+              "pct": 40,
               "hits": 4,
-              "total": 9
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": {
               "pct": 44,
               "hits": 4,
@@ -14573,12 +15445,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 56,
-              "hits": 5,
-              "total": 9
+              "pct": 60,
+              "hits": 6,
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "previous": {
               "pct": 56,
               "hits": 5,
@@ -14612,12 +15492,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 44,
-              "hits": 4,
-              "total": 9
+              "pct": 50,
+              "hits": 5,
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "previous": {
               "pct": 44,
               "hits": 4,
@@ -14651,12 +15539,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 33,
-              "hits": 3,
-              "total": 9
+              "pct": 40,
+              "hits": 4,
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "previous": {
               "pct": 33,
               "hits": 3,
@@ -14690,12 +15586,20 @@
               "total": 5
             },
             "l10": {
-              "pct": 22,
+              "pct": 20,
               "hits": 2,
-              "total": 9
+              "total": 10
             },
-            "h2h": null,
-            "current": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": {
               "pct": 22,
               "hits": 2,
@@ -14869,14 +15773,14 @@
               "total": 10
             },
             "h2h": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -15026,12 +15930,12 @@
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15261,13 +16165,13 @@
             },
             "h2h": {
               "pct": 100,
-              "hits": 1,
-              "total": 1
+              "hits": 2,
+              "total": 2
             },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 29,
@@ -15308,13 +16212,13 @@
             },
             "h2h": {
               "pct": 100,
-              "hits": 1,
-              "total": 1
+              "hits": 2,
+              "total": 2
             },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 24,
@@ -15349,19 +16253,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
             "h2h": {
-              "pct": 0,
-              "hits": 0,
-              "total": 1
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -15396,19 +16300,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 90,
-              "hits": 9,
+              "pct": 80,
+              "hits": 8,
               "total": 10
             },
             "h2h": {
-              "pct": 100,
+              "pct": 50,
               "hits": 1,
-              "total": 1
+              "total": 2
             },
             "current": {
-              "pct": 100,
+              "pct": 67,
               "hits": 2,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 88,
@@ -15443,19 +16347,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
             "h2h": {
-              "pct": 0,
-              "hits": 0,
-              "total": 1
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -15485,24 +16389,24 @@
           "selectionId": "48338320",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
             "h2h": {
-              "pct": 0,
-              "hits": 0,
-              "total": 1
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15532,24 +16436,24 @@
           "selectionId": "103137913",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
             "h2h": {
-              "pct": 0,
-              "hits": 0,
-              "total": 1
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15591,12 +16495,12 @@
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15638,12 +16542,12 @@
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15673,24 +16577,24 @@
           "selectionId": "61450179",
           "hitRates": {
             "l5": {
-              "pct": 20,
-              "hits": 1,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
-              "pct": 10,
-              "hits": 1,
+              "pct": 20,
+              "hits": 2,
               "total": 10
             },
             "h2h": {
-              "pct": 0,
-              "hits": 0,
-              "total": 1
-            },
-            "current": {
               "pct": 50,
               "hits": 1,
               "total": 2
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15720,24 +16624,24 @@
           "selectionId": "61450207",
           "hitRates": {
             "l5": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 0,
-              "hits": 0,
+              "pct": 10,
+              "hits": 1,
               "total": 10
             },
             "h2h": {
-              "pct": 0,
-              "hits": 0,
-              "total": 1
+              "pct": 50,
+              "hits": 1,
+              "total": 2
             },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15779,12 +16683,12 @@
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15826,12 +16730,12 @@
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15873,12 +16777,12 @@
             "h2h": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -15962,20 +16866,24 @@
           "selectionId": "53445708",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
-              "pct": 50,
-              "hits": 5,
+              "pct": 40,
+              "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 62,
@@ -16253,15 +17161,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 70,
-              "hits": 7,
+              "pct": 80,
+              "hits": 8,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 75,
@@ -16291,8 +17203,8 @@
           "selectionId": "73881030",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -16300,11 +17212,15 @@
               "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 62,
@@ -16334,8 +17250,8 @@
           "selectionId": "63122125",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -16343,11 +17259,15 @@
               "hits": 6,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 62,
@@ -16377,8 +17297,8 @@
           "selectionId": "63122131",
           "hitRates": {
             "l5": {
-              "pct": 60,
-              "hits": 3,
+              "pct": 40,
+              "hits": 2,
               "total": 5
             },
             "l10": {
@@ -16386,11 +17306,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -16420,8 +17344,8 @@
           "selectionId": "60409164",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 60,
+              "hits": 3,
               "total": 5
             },
             "l10": {
@@ -16429,11 +17353,15 @@
               "hits": 5,
               "total": 10
             },
-            "h2h": null,
-            "current": {
-              "pct": 50,
+            "h2h": {
+              "pct": 100,
               "hits": 1,
-              "total": 2
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -16472,11 +17400,15 @@
               "hits": 3,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
-              "pct": 50,
+              "pct": 33,
               "hits": 1,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 25,
@@ -16515,11 +17447,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 25,
@@ -16558,11 +17494,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 25,
@@ -16601,11 +17541,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 25,
@@ -16644,11 +17588,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 25,
@@ -16687,11 +17635,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 25,
@@ -16726,15 +17678,19 @@
               "total": 5
             },
             "l10": {
-              "pct": 40,
-              "hits": 4,
+              "pct": 50,
+              "hits": 5,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
-              "pct": 0,
-              "hits": 0,
-              "total": 2
+              "pct": 33,
+              "hits": 1,
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -16764,8 +17720,8 @@
           "selectionId": "63705965",
           "hitRates": {
             "l5": {
-              "pct": 40,
-              "hits": 2,
+              "pct": 20,
+              "hits": 1,
               "total": 5
             },
             "l10": {
@@ -16773,11 +17729,15 @@
               "hits": 4,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 50,
@@ -16816,11 +17776,15 @@
               "hits": 2,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 25,
@@ -16859,11 +17823,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -16902,11 +17870,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -16945,11 +17917,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 0,
@@ -16988,11 +17964,15 @@
               "hits": 1,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 3
             },
             "previous": {
               "pct": 12,
@@ -17078,18 +18058,22 @@
             "l5": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
             "l10": {
               "pct": 0,
               "hits": 0,
-              "total": 1
+              "total": 2
             },
-            "h2h": null,
-            "current": {
+            "h2h": {
               "pct": 0,
               "hits": 0,
               "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
             },
             "previous": null
           }
@@ -17149,15 +18133,19 @@
               "pct": 60.0
             },
             "l10": {
-              "hits": 5,
+              "hits": 6,
               "total": 10,
-              "pct": 50.0
+              "pct": 60.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
             "current": {
-              "hits": 0,
-              "total": 2,
-              "pct": 0.0
+              "hits": 1,
+              "total": 3,
+              "pct": 33.3
             },
             "previous": {
               "hits": 8,
@@ -17194,15 +18182,19 @@
               "pct": 60.0
             },
             "l10": {
-              "hits": 5,
+              "hits": 6,
               "total": 10,
-              "pct": 50.0
+              "pct": 60.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
             "current": {
-              "hits": 0,
-              "total": 2,
-              "pct": 0.0
+              "hits": 1,
+              "total": 3,
+              "pct": 33.3
             },
             "previous": {
               "hits": 8,
@@ -17239,15 +18231,19 @@
               "pct": 20.0
             },
             "l10": {
-              "hits": 2,
+              "hits": 3,
               "total": 10,
-              "pct": 20.0
+              "pct": 30.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
             "current": {
-              "hits": 0,
-              "total": 2,
-              "pct": 0.0
+              "hits": 1,
+              "total": 3,
+              "pct": 33.3
             },
             "previous": {
               "hits": 5,
@@ -17284,15 +18280,19 @@
               "pct": 20.0
             },
             "l10": {
-              "hits": 5,
+              "hits": 4,
               "total": 10,
-              "pct": 50.0
+              "pct": 40.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 0,
+              "total": 1,
+              "pct": 0.0
+            },
             "current": {
               "hits": 1,
-              "total": 2,
-              "pct": 50.0
+              "total": 3,
+              "pct": 33.3
             },
             "previous": {
               "hits": 9,
@@ -17329,15 +18329,19 @@
               "pct": 20.0
             },
             "l10": {
-              "hits": 5,
+              "hits": 4,
               "total": 10,
-              "pct": 50.0
+              "pct": 40.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 0,
+              "total": 1,
+              "pct": 0.0
+            },
             "current": {
               "hits": 1,
-              "total": 2,
-              "pct": 50.0
+              "total": 3,
+              "pct": 33.3
             },
             "previous": {
               "hits": 9,
@@ -17374,15 +18378,19 @@
               "pct": 20.0
             },
             "l10": {
-              "hits": 5,
+              "hits": 4,
               "total": 10,
-              "pct": 50.0
+              "pct": 40.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 0,
+              "total": 1,
+              "pct": 0.0
+            },
             "current": {
               "hits": 1,
-              "total": 2,
-              "pct": 50.0
+              "total": 3,
+              "pct": 33.3
             },
             "previous": {
               "hits": 13,

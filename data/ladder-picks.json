@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-25T03:55:21.096820+00:00",
+  "updatedAt": "2026-09-25T04:01:16.960340+00:00",
   "picks": [
     {
       "day": 1,
@@ -14,7 +14,7 @@
       "confidence": 88.2,
       "selectionTier": "Relaxed history",
       "simulations": 60000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "selection": "Over",
@@ -57,7 +57,9 @@
           "confidence": 90.0,
           "estimatedProbability": 0.90026,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 256.0,
+            "gradedAt": "2026-09-25T04:01:16.369963+00:00"
           }
         },
         {
@@ -105,7 +107,9 @@
           "confidence": 84.4,
           "estimatedProbability": 0.844495,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 194.0,
+            "gradedAt": "2026-09-25T04:01:16.354953+00:00"
           }
         },
         {
@@ -153,7 +157,9 @@
           "confidence": 81.9,
           "estimatedProbability": 0.819219,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 50.0,
+            "gradedAt": "2026-09-25T04:01:16.355982+00:00"
           }
         },
         {
@@ -201,7 +207,9 @@
           "confidence": 96.5,
           "estimatedProbability": 0.965455,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-09-25T04:01:16.372802+00:00"
           }
         }
       ]
