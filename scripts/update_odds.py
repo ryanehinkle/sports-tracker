@@ -1099,9 +1099,15 @@ def history_only():
         return
 
     original = json.loads(json.dumps(previous))
+    normalized, removed_bad = normalize_team_market_records(previous)
+    completed_removed = remove_completed_live_events(previous, team_by_abbr, team_payload)
     enriched = enrich_hit_rates(previous, by_norm, stats_payload, team_by_abbr, team_payload)
     graded = grade_history(by_norm, stats_payload, team_by_abbr, team_payload)
 
+    if normalized or removed_bad:
+        print(f"Normalized {normalized} legacy team-total row(s); removed {removed_bad} invalid alternate-spread row(s).")
+    if completed_removed:
+        print(f"Removed {completed_removed} completed game(s) from the live board.")
     if compact_for_compare(original) == compact_for_compare(previous):
         print(f"Historical hit rates already current for {enriched} live prop outcomes.")
     else:
@@ -1252,6 +1258,24 @@ def _match_team_game(event, prop, team_by_abbr, team_payload):
     return None
 
 
+def event_is_completed(event, team_by_abbr, team_payload):
+    """Return True only when ESPN's completed-game log contains this matchup/date."""
+    home = str(event.get("homeAbbr") or "").upper()
+    away = str(event.get("awayAbbr") or "").upper()
+    if not home or not away:
+        return False
+    home_game = _match_team_game(event, {"team": home}, team_by_abbr, team_payload)
+    away_game = _match_team_game(event, {"team": away}, team_by_abbr, team_payload)
+    return bool(home_game and away_game)
+
+
+def remove_completed_live_events(payload, team_by_abbr, team_payload):
+    events = payload.get("events") or []
+    kept = [event for event in events if not event_is_completed(event, team_by_abbr, team_payload)]
+    payload["events"] = kept
+    return len(events) - len(kept)
+
+
 def _grade_player_prop(event, prop, profile, current_season):
     game = _match_player_game(event, prop, profile, current_season)
     spec = _metric_spec(prop)
@@ -1334,6 +1358,22 @@ def grade_history(by_norm, stats_payload, team_by_abbr, team_payload):
             commence = iso_dt(event.get("commenceTime"))
             if commence and commence > datetime.now(timezone.utc):
                 continue
+
+            cleaned = []
+            for prop in event.get("props") or []:
+                normalized, invalid = _normalize_team_market_record(event, prop)
+                if invalid:
+                    day_changed = True
+                    changed += 1
+                    continue
+                if normalized:
+                    prop["hitRates"] = _hit_rates_for_team_prop(event, prop, team_by_abbr, team_payload)
+                    prop["result"] = {"status": "pending"}
+                    day_changed = True
+                    changed += 1
+                cleaned.append(prop)
+            event["props"] = cleaned
+
             for prop in event.get("props") or []:
                 current = (prop.get("result") or {}).get("status")
                 if current in {"hit", "miss", "push"}:
@@ -1479,6 +1519,14 @@ def main():
         "freeFeed": True,
         "events": combined,
     }
+
+    normalized, removed_bad = normalize_team_market_records(payload)
+    completed_removed = remove_completed_live_events(payload, team_by_abbr, team_payload)
+    combined = payload["events"]
+    if normalized or removed_bad:
+        print(f"Normalized {normalized} team-total row(s); removed {removed_bad} invalid alternate-spread row(s).")
+    if completed_removed:
+        print(f"Removed {completed_removed} completed game(s) from the live board.")
 
     enriched = enrich_hit_rates(payload, by_norm, stats_payload, team_by_abbr, team_payload)
     print(f"Enriched {enriched} prop outcomes with historical hit rates.")
