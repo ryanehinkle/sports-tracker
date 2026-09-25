@@ -53,6 +53,12 @@ jobs:
       - name: Pull current + prior ESPN team stats
         run: python scripts/update_team_stats.py
 
+      - name: Validate generated model code
+        run: |
+          python -m py_compile scripts/update_odds.py scripts/build_ladder.py scripts/build_model_calibration.py scripts/learn_model.py scripts/archive_model.py scripts/validate_prop_tracking.py
+          node --check app.js
+          node --check model.js
+
       - name: Validate prop tracking mappings
         run: python scripts/validate_prop_tracking.py
 
@@ -106,5 +112,5 @@ jobs:
           git config user.name "sports-tracker-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/model-learning.json data/odds-history data/ladder-picks.json
-          git commit -m "Update NFL stats, history and ladder grades"
+          git commit -m "Update NFL stats, grades and adaptive model"
           git push
