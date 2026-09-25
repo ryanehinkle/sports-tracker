@@ -11,7 +11,7 @@ const PRESETS={
 };
 const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
-const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),ladderData:{picks:[]},ladderIndex:0,modelDate:"live",modelHistorical:false,modelHistoryIndex:{days:[]},modelHistoryManifest:null,resultPlayers:[],resultTeams:[],resultPlayerByName:new Map(),resultTeamByAbbr:new Map(),resultSeason:null,liveLadderData:{picks:[]},resultCache:new Map(),slipMembership:new Map(),loadingDate:false};
+const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,opponentRankCache:new Map(),calibration:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),ladderData:{picks:[]},ladderIndex:0,modelDate:"live",modelHistorical:false,modelHistoryIndex:{days:[]},modelHistoryManifest:null,resultPlayers:[],resultTeams:[],resultPlayerByName:new Map(),resultTeamByAbbr:new Map(),resultSeason:null,liveLadderData:{picks:[]},resultCache:new Map(),slipMembership:new Map(),loadingDate:false,signalSortKey:"score",signalSortDir:"desc"};
 const SLIPS_PER_PAGE=6;
 const MODEL_RAW_BASE="https://raw.githubusercontent.com/ryanehinkle/sports-tracker/";
 
@@ -1023,8 +1023,62 @@ function modelProfileText(x){
   }
   return usageText(x);
 }
+function signalSortValue(x,key){
+  const row=x.row||{};
+  if(key==="pick")return (modelEntityName(row)+" "+cleanDisplayProposition(row)).toLowerCase();
+  if(key==="score")return Number(x.score);
+  if(key==="odds")return Number(row.odds);
+  if(key==="result"){
+    const status=String(historicalResultForRow(row).status||"pending");
+    return({miss:0,pending:1,push:2,hit:3})[status]??1;
+  }
+  if(["l5","l10","h2h","current","previous"].includes(key)){
+    const rate=x.rates&&x.rates[key];
+    return rate&&Number.isFinite(Number(rate.pct))?Number(rate.pct):null;
+  }
+  if(key==="profile")return Number.isFinite(Number(x.usageSignal))?Number(x.usageSignal)*100:null;
+  if(key==="matchup")return Number.isFinite(Number(x.matchupSignal))?Number(x.matchupSignal)*100:null;
+  return null;
+}
+function compareSignalValues(a,b,key,dir){
+  const av=signalSortValue(a,key),bv=signalSortValue(b,key),mult=dir==="asc"?1:-1;
+  const aMissing=av===null||av===undefined||(typeof av==="number"&&!Number.isFinite(av));
+  const bMissing=bv===null||bv===undefined||(typeof bv==="number"&&!Number.isFinite(bv));
+  if(aMissing&&bMissing)return Number(b.score)-Number(a.score);
+  if(aMissing)return 1;
+  if(bMissing)return -1;
+  if(typeof av==="string"||typeof bv==="string"){
+    const result=String(av).localeCompare(String(bv),undefined,{numeric:true,sensitivity:"base"});
+    return result*mult||Number(b.score)-Number(a.score);
+  }
+  const result=(Number(av)-Number(bv))*mult;
+  return result||Number(b.score)-Number(a.score);
+}
+function sortedSignalRows(){
+  return [...state.eligible].sort((a,b)=>compareSignalValues(a,b,state.signalSortKey,state.signalSortDir));
+}
+function renderSignalSortHeaders(){
+  document.querySelectorAll("[data-signal-sort]").forEach(th=>{
+    const key=th.dataset.signalSort,active=key===state.signalSortKey;
+    th.classList.toggle("active-sort",active);
+    const indicator=th.querySelector(".signal-sort-indicator");
+    if(indicator)indicator.textContent=active?(state.signalSortDir==="asc"?"↑":"↓"):"";
+    const button=th.querySelector(".signal-sort-button");
+    if(button)button.setAttribute("aria-label",(button.textContent||key).trim()+", "+(active?(state.signalSortDir==="asc"?"ascending":"descending"):"not sorted"));
+  });
+}
+function setSignalSort(key){
+  if(!key)return;
+  if(state.signalSortKey===key)state.signalSortDir=state.signalSortDir==="asc"?"desc":"asc";
+  else{
+    state.signalSortKey=key;
+    state.signalSortDir=key==="pick"?"asc":"desc";
+  }
+  renderSignalSortHeaders();
+  renderSignals();
+}
 function renderSignals(){
-  const rows=state.eligible.slice(0,60);$("legBoardCount").textContent=fmt.format(rows.length);
+  const rows=sortedSignalRows().slice(0,60);$("legBoardCount").textContent=fmt.format(rows.length);renderSignalSortHeaders();
   const colspan=state.modelHistorical?11:10;
   if(!rows.length){
     const unavailable=[...state.selectedMarkets].filter(m=>!state.odds.some(row=>(row._modelMarketLabel||modelSupportedMarketLabel(row))===m));
@@ -1477,6 +1531,10 @@ function toggleLadderPanel(){
 
 function bind(){
   bindModelFilters();
+  $("signalTableHead").addEventListener("click",e=>{
+    const th=e.target.closest("[data-signal-sort]");if(!th||th.hidden)return;
+    setSignalSort(th.dataset.signalSort);
+  });
   $("modelDateButton").addEventListener("click",e=>{e.stopPropagation();toggleModelDatePopover()});
   $("modelDateOptions").addEventListener("click",async e=>{
     const option=e.target.closest("[data-model-date]");if(!option)return;
