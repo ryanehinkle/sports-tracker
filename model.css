@@ -477,3 +477,10 @@ html[data-theme] .model-date-button.open{
   .model-entity-rule{grid-template-columns:28px minmax(0,1fr) auto auto auto;gap:5px}
   .model-rule-mode{padding:0 6px}
 }
+
+
+/* Whole Signal Board row opens the prop-history chart. */
+.signal-table tbody tr.model-board-row{cursor:pointer;transition:background .14s ease,box-shadow .14s ease}
+.signal-table tbody tr.model-board-row:hover{background:rgba(255,255,255,.035)}
+.signal-table tbody tr.model-board-row:focus-visible{outline:1px solid rgba(var(--accent-rgb),.45);outline-offset:-1px;background:rgba(255,255,255,.045)}
+.signal-table tbody tr.model-board-row .signal-player{cursor:pointer}
