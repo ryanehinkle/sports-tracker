@@ -1024,34 +1024,40 @@ function modelProfileText(x){
 }
 function renderSignals(){
   const rows=state.eligible.slice(0,60);$("legBoardCount").textContent=fmt.format(rows.length);
+  const colspan=state.modelHistorical?11:10;
   if(!rows.length){
     const unavailable=[...state.selectedMarkets].filter(m=>!state.odds.some(row=>(row._modelMarketLabel||modelSupportedMarketLabel(row))===m));
     const message=unavailable.length===1
-      ?"FanDuel has not posted "+unavailable[0]+" for the current slate yet. The model will populate it automatically as soon as a live line is available."
+      ?"FanDuel has not posted "+unavailable[0]+" for this board."
       :"No markets satisfy every active constraint. Loosen one or more filters.";
-    $("signalBody").innerHTML='<tr><td colspan="10" class="model-empty">'+esc(message)+'</td></tr>';return
+    $("signalBody").innerHTML='<tr><td colspan="'+colspan+'" class="model-empty">'+esc(message)+'</td></tr>';return
   }
   $("signalBody").innerHTML=rows.map(x=>{
     const r=x.row,entity=modelEntityName(r),isPlayer=r.scope!=="team"&&r.scope!=="game";
     const trigger=isPlayer?' model-player-trigger':'';
     const triggerAttrs=isPlayer?' data-player-id="'+esc(x.player&&x.player.id||"")+'" data-prop-key="'+esc(modelPropKey(r))+'"':'';
-    return '<tr><td><button type="button" class="signal-player'+trigger+'"'+triggerAttrs+'>'+
+    const result=historicalResultForRow(r),memberships=slipMembershipFor(r);
+    const resultCell=state.modelHistorical?'<td class="model-result-cell">'+modelResultBadge(result,true)+(memberships.length?'<small class="slip-membership">Slip '+memberships.join(" • ")+'</small>':"")+'</td>':"";
+    return '<tr class="'+(state.modelHistorical?'historical-row result-'+esc(result.status):"")+'"><td><button type="button" class="signal-player'+trigger+'"'+triggerAttrs+'>'+
       modelEntityVisual(r,x.player)+'<div class="signal-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(r.scope==="game"?r.matchup:(x.team||"NFL")+" vs "+(x.opp||"—"))+' • '+esc(x.pos||"—")+'</small></div></button></td>'+
-      '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+
+      '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+resultCell+
       rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+
       '<td class="'+metricClass(x.usageSignal*100)+'">'+esc(modelProfileText(x))+'</td>'+
       '<td class="'+metricClass(x.matchupSignal*100)+'">'+Math.round(x.matchupSignal*100)+'th'+(["team","game"].includes(r.scope)?' <small>all-team model</small>':x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
   }).join("");
 }
 function slipHtml(s,i){
-  let legs="";
+  let legs="";const legResults=[];
   for(const x of s.legs){
     const r=x.row,isPlayer=r.scope!=="team"&&r.scope!=="game",entity=modelEntityName(r);
     const trigger=isPlayer?' model-player-trigger':'',attrs=isPlayer?' data-player-id="'+esc(x.player&&x.player.id||"")+'" data-prop-key="'+esc(modelPropKey(r))+'" tabindex="0" role="button" aria-label="Open '+esc(entity)+' prop chart"':'';
-    legs+='<div class="slip-leg'+trigger+'"'+attrs+'>'+modelEntityVisual(r,x.player)+'<div class="slip-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r))+' • '+esc(r.scope==="game"?r.matchup:(x.opp||""))+'</span></div><strong>'+formatOdds(r.odds)+'</strong></div>';
+    const result=historicalResultForRow(r);if(state.modelHistorical)legResults.push(result);
+    const grade=state.modelHistorical?modelResultBadge(result,true):"";
+    legs+='<div class="slip-leg '+(state.modelHistorical?'historical-slip-leg result-'+esc(result.status):"")+trigger+'"'+attrs+'>'+modelEntityVisual(r,x.player)+'<div class="slip-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r))+' • '+esc(r.scope==="game"?r.matchup:(x.opp||""))+'</span></div><div class="slip-leg-right"><strong>'+formatOdds(r.odds)+'</strong>'+grade+'</div></div>';
   }
-  const priceLabel=s.sameGamePairs>0?"EST. SGP ODDS":"PARLAY ODDS";
-  return '<article class="slip-card"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+' • '+priceLabel+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score"><b>'+s.score.toFixed(1)+'</b><small>AVG GRADE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Est. hit prob</span><strong>'+pct(s.modelProb*100,1)+'</strong></div><div><span>Slip edge</span><strong>'+(s.slipEdge>=0?"+":"")+pct(s.slipEdge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
+  const priceLabel=s.sameGamePairs>0?"EST. SGP ODDS":"PARLAY ODDS",status=state.modelHistorical?combinedHistoricalStatus(legResults):"live";
+  const overall=state.modelHistorical?'<div class="slip-overall-result">'+modelResultBadge({status},false)+'</div>':"";
+  return '<article class="slip-card '+(state.modelHistorical?'historical-slip result-'+status:"")+'"><div class="slip-top"><div><span>MODEL SLIP '+(i+1)+' • '+priceLabel+'</span><strong>'+formatOdds(s.odds)+'</strong></div><div class="slip-score">'+overall+'<b>'+s.score.toFixed(1)+'</b><small>AVG GRADE</small></div></div><div class="slip-legs">'+legs+'</div><div class="slip-footer"><div><span>Est. hit prob</span><strong>'+pct(s.modelProb*100,1)+'</strong></div><div><span>Slip edge</span><strong>'+(s.slipEdge>=0?"+":"")+pct(s.slipEdge*100,1)+'</strong></div><div><span>Legs</span><strong>'+s.legs.length+'</strong></div></div></article>';
 }
 function renderSlips(direction){
   const total=state.slips.length,pages=Math.max(1,Math.ceil(total/SLIPS_PER_PAGE));
@@ -1075,7 +1081,7 @@ function renderSlips(direction){
   if(direction)container.classList.add(direction>0?"page-next":"page-prev");
   container.innerHTML=state.slips.slice(start,end).map((s,i)=>slipHtml(s,start+i)).join("");
 }
-function renderSummary(){$("eligibleCount").textContent=fmt.format(state.eligible.length);$("eligibleSub").textContent=state.odds.length?"of "+fmt.format(state.odds.length)+" current props":"after filters";$("bestScore").textContent=state.eligible.length?state.eligible[0].score.toFixed(1):"—";const m=median(state.eligible.map(x=>x.edge*100));$("medianEdge").textContent=Number.isFinite(m)?(m>=0?"+":"")+m.toFixed(1)+"%":"—"}
+function renderSummary(){$("eligibleCount").textContent=fmt.format(state.eligible.length);$("eligibleSub").textContent=state.odds.length?"of "+fmt.format(state.odds.length)+(state.modelHistorical?" frozen markets":" current markets"):"after filters";$("bestScore").textContent=state.eligible.length?state.eligible[0].score.toFixed(1):"—";const m=median(state.eligible.map(x=>x.edge*100));$("medianEdge").textContent=Number.isFinite(m)?(m>=0?"+":"")+m.toFixed(1)+"%":"—"}
 function renderFormula(){
   const cal=state.calibration&&state.calibration.all&&state.calibration.all.test;
   const sample=state.calibration&&state.calibration.samples;
@@ -1094,14 +1100,17 @@ function renderFormula(){
 }
 function renderCharts(){
   const top=state.eligible[0];
-  if(!top){$("signalProfileChart").innerHTML='<div class="model-empty">No eligible leg</div>';$("scoreChart").innerHTML='<div class="model-empty">No eligible candidates</div>';return}
+  if(!top){$("signalStrengthTitle").textContent="Signal strength";$("candidateScoresTitle").textContent="Top candidate scores";$("signalProfileChart").innerHTML='<div class="model-empty">No eligible leg</div>';$("scoreChart").innerHTML='<div class="model-empty">No eligible candidates</div>';return}
+  const topResult=historicalResultForRow(top.row);
+  $("signalStrengthTitle").innerHTML='Signal strength'+(state.modelHistorical?' '+modelResultBadge(topResult,true):"");
+  $("candidateScoresTitle").textContent=state.modelHistorical?"Top candidate scores • graded":"Top candidate scores";
   const signals=[["Recent",top.recentSignal],["Season",top.seasonSignal],["H2H",top.h2hSignal],["Usage",top.usageSignal],["Opponent",top.matchupSignal],["Value",top.valueSignal]];
   $("signalProfileChart").innerHTML=signals.map(x=>'<div class="bar-row"><span>'+x[0]+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(clamp(x[1],0,1)*100)+'%"></div></div><strong>'+Math.round(clamp(x[1],0,1)*100)+'</strong></div>').join("");
-  $("scoreChart").innerHTML=state.eligible.slice(0,8).map(x=>'<div class="bar-row"><span>'+esc(modelEntityName(x.row))+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(x.score)+'%"></div></div><strong>'+x.score.toFixed(1)+'</strong></div>').join("");
+  $("scoreChart").innerHTML=state.eligible.slice(0,8).map(x=>{const result=historicalResultForRow(x.row);return'<div class="bar-row"><span class="score-bar-label">'+(state.modelHistorical?'<b class="mini-result result-'+esc(result.status)+'">'+resultIcon(result.status)+'</b>':"")+esc(modelEntityName(x.row))+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(x.score)+'%"></div></div><strong>'+x.score.toFixed(1)+'</strong></div>'}).join("");
 }
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
-  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg);state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();
+  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
