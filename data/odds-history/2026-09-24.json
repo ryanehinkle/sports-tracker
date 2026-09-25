@@ -30970,11 +30970,15 @@
               "total": 10,
               "pct": 70.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
             "current": {
-              "hits": 0,
-              "total": 2,
-              "pct": 0.0
+              "hits": 1,
+              "total": 3,
+              "pct": 33.3
             },
             "previous": {
               "hits": 12,
@@ -30985,8 +30989,9 @@
           "result": {
             "status": "hit",
             "actual": 21.0,
-            "gradedAt": "2026-09-25T04:01:16.373715+00:00"
-          }
+            "gradedAt": "2026-09-25T05:25:32.441329+00:00"
+          },
+          "spreadRole": "receiving"
         },
         {
           "scope": "team",
@@ -31066,14 +31071,18 @@
               "pct": 0.0
             },
             "l10": {
-              "hits": 4,
+              "hits": 3,
               "total": 10,
-              "pct": 40.0
+              "pct": 30.0
             },
-            "h2h": null,
+            "h2h": {
+              "hits": 0,
+              "total": 1,
+              "pct": 0.0
+            },
             "current": {
               "hits": 0,
-              "total": 2,
+              "total": 3,
               "pct": 0.0
             },
             "previous": {
@@ -31085,13 +31094,14 @@
           "result": {
             "status": "miss",
             "actual": -21.0,
-            "gradedAt": "2026-09-25T04:01:16.373750+00:00"
-          }
+            "gradedAt": "2026-09-25T05:25:32.441355+00:00"
+          },
+          "spreadRole": "giving"
         }
       ],
       "snapshotAt": "2026-09-24T23:43:08.298687+00:00",
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-09-25T04:42:33.349986+00:00"
+  "updatedAt": "2026-09-25T05:25:32.441389+00:00"
 }

@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "updatedAt": null,
+  "updatedAt": "2026-09-25T05:25:33.812910+00:00",
   "source": "Frozen pregame FanDuel boards graded from completed ESPN game logs",
   "objective": "Maximize out-of-sample hit rate among the highest-scored legs while preserving probability calibration",
-  "samples": 0,
-  "completedGames": 0,
-  "status": "awaiting-results",
-  "promotionReason": "Waiting for the first graded frozen pregame board.",
-  "liveBlend": 0.0,
+  "samples": 454,
+  "completedGames": 1,
+  "status": "provisional",
+  "promotionReason": "Initial adaptive model",
+  "liveBlend": 0.06,
   "features": [
     "book",
     "l5",
@@ -22,18 +22,351 @@
     "team",
     "game"
   ],
-  "champion": null,
-  "candidate": null,
+  "champion": {
+    "intercept": -0.4219308493401112,
+    "coefficients": [
+      0.3988967541938725,
+      0.06313210142325122,
+      0.20925646223747954,
+      0.32773571468014034,
+      0.1345989431418325,
+      0.2390259228135159,
+      0.11654011248186073,
+      -0.025752244608107676,
+      0.08108506119758047,
+      -0.1614431352042653,
+      0.00682032133424506,
+      0.0017752701020522608
+    ],
+    "means": [
+      0.40492750574586994,
+      0.31828193832599116,
+      0.3323568281938326,
+      0.33773788546255507,
+      0.3683259911894273,
+      0.4724669603524229,
+      0.5605412208936438,
+      0.7577092511013216,
+      0.0,
+      0.0947136563876652,
+      0.01762114537444934,
+      0.004405286343612335
+    ],
+    "stds": [
+      0.2584667836117298,
+      0.2811921165822802,
+      0.27697107456434117,
+      0.3527886503369353,
+      0.27728726807408793,
+      0.1783282498361838,
+      0.1397204152610134,
+      0.42894196446221095,
+      0.021357498027378068,
+      0.2931420436958614,
+      0.13171504828538796,
+      0.06629903204193162
+    ],
+    "config": {
+      "name": "steady",
+      "l2": 0.04,
+      "decay": 0.995,
+      "lr": 0.05
+    },
+    "features": [
+      "book",
+      "l5",
+      "l10",
+      "current",
+      "previous",
+      "h2h",
+      "sample",
+      "alternate",
+      "spreadLine",
+      "under",
+      "team",
+      "game"
+    ],
+    "trainedSamples": 454,
+    "trainedGames": 1
+  },
+  "candidate": {
+    "config": {
+      "name": "steady",
+      "l2": 0.04,
+      "decay": 0.995,
+      "lr": 0.05
+    },
+    "validation": {
+      "n": 0,
+      "accuracy": null,
+      "brier": null,
+      "hitRate": null,
+      "topHitRate": null,
+      "topThreshold": null,
+      "objective": null
+    },
+    "testedSetups": []
+  },
   "performance": {
-    "all": null,
+    "all": {
+      "n": 454,
+      "accuracy": 0.751101,
+      "brier": 0.178499,
+      "hitRate": 0.394273,
+      "topHitRate": 0.76087,
+      "topThreshold": 0.632879,
+      "objective": 0.765174
+    },
     "validation": null,
     "previousChampionValidation": null,
-    "scoreBuckets": [],
-    "marketPerformance": []
+    "scoreBuckets": [
+      {
+        "label": "<50",
+        "hits": 69,
+        "total": 300,
+        "hitRate": 0.23
+      },
+      {
+        "label": "50\u201359",
+        "hits": 32,
+        "total": 49,
+        "hitRate": 0.6531
+      },
+      {
+        "label": "60\u201369",
+        "hits": 26,
+        "total": 38,
+        "hitRate": 0.6842
+      },
+      {
+        "label": "70\u201379",
+        "hits": 28,
+        "total": 40,
+        "hitRate": 0.7
+      },
+      {
+        "label": "80+",
+        "hits": 24,
+        "total": 27,
+        "hitRate": 0.8889
+      }
+    ],
+    "marketPerformance": [
+      {
+        "market": "Receiving Yards",
+        "samples": 132,
+        "topSamples": 27,
+        "topHitRate": 0.8148,
+        "averageProbability": 0.7242
+      },
+      {
+        "market": "Rushing Yards",
+        "samples": 74,
+        "topSamples": 15,
+        "topHitRate": 0.6667,
+        "averageProbability": 0.7897
+      },
+      {
+        "market": "Receptions",
+        "samples": 68,
+        "topSamples": 14,
+        "topHitRate": 0.8571,
+        "averageProbability": 0.7672
+      },
+      {
+        "market": "Any Time Touchdown Scorer",
+        "samples": 25,
+        "topSamples": 5,
+        "topHitRate": 0.4,
+        "averageProbability": 0.4816
+      },
+      {
+        "market": "Total Receptions",
+        "samples": 24,
+        "topSamples": 5,
+        "topHitRate": 0.6,
+        "averageProbability": 0.6718
+      },
+      {
+        "market": "Passing Yards",
+        "samples": 22,
+        "topSamples": 5,
+        "topHitRate": 1.0,
+        "averageProbability": 0.7576
+      },
+      {
+        "market": "To Score 2+ Touchdowns",
+        "samples": 15,
+        "topSamples": 3,
+        "topHitRate": 0.3333,
+        "averageProbability": 0.2364
+      },
+      {
+        "market": "Kyle Pitts Receiving Yards",
+        "samples": 12,
+        "topSamples": 3,
+        "topHitRate": 0.0,
+        "averageProbability": 0.7414
+      },
+      {
+        "market": "Player to Record a 10+ Yard Reception",
+        "samples": 11,
+        "topSamples": 3,
+        "topHitRate": 0.6667,
+        "averageProbability": 0.8824
+      },
+      {
+        "market": "Player to Record a 15+ Yard Reception",
+        "samples": 11,
+        "topSamples": 3,
+        "topHitRate": 1.0,
+        "averageProbability": 0.8014
+      },
+      {
+        "market": "Player To Record a 20+ Yard Reception",
+        "samples": 10,
+        "topSamples": 2,
+        "topHitRate": 1.0,
+        "averageProbability": 0.6972
+      },
+      {
+        "market": "Passing TDs",
+        "samples": 9,
+        "topSamples": 2,
+        "topHitRate": 1.0,
+        "averageProbability": 0.7431
+      }
+    ]
   },
-  "featureImportance": [],
-  "trainingRuns": [],
+  "featureImportance": [
+    {
+      "feature": "spreadLine",
+      "label": "Spread points received / given",
+      "coefficient": 0.081085,
+      "effect": 3.796562,
+      "direction": "up",
+      "importance": 3.7965618020255905,
+      "importancePct": 35.8
+    },
+    {
+      "feature": "book",
+      "label": "FanDuel no-vig probability",
+      "coefficient": 0.398897,
+      "effect": 1.543319,
+      "direction": "up",
+      "importance": 1.5433192173470822,
+      "importancePct": 14.6
+    },
+    {
+      "feature": "h2h",
+      "label": "Head-to-head hit rate",
+      "coefficient": 0.239026,
+      "effect": 1.34037,
+      "direction": "up",
+      "importance": 1.3403704855124765,
+      "importancePct": 12.6
+    },
+    {
+      "feature": "current",
+      "label": "Current-season hit rate",
+      "coefficient": 0.327736,
+      "effect": 0.928986,
+      "direction": "up",
+      "importance": 0.9289859930786667,
+      "importancePct": 8.8
+    },
+    {
+      "feature": "sample",
+      "label": "History sample strength",
+      "coefficient": 0.11654,
+      "effect": 0.834095,
+      "direction": "up",
+      "importance": 0.8340950910012023,
+      "importancePct": 7.9
+    },
+    {
+      "feature": "l10",
+      "label": "Last 10 hit rate",
+      "coefficient": 0.209256,
+      "effect": 0.755517,
+      "direction": "up",
+      "importance": 0.7555173859459056,
+      "importancePct": 7.1
+    },
+    {
+      "feature": "under",
+      "label": "Under / No side",
+      "coefficient": -0.161443,
+      "effect": -0.550733,
+      "direction": "down",
+      "importance": 0.5507334709440881,
+      "importancePct": 5.2
+    },
+    {
+      "feature": "previous",
+      "label": "Prior-season hit rate",
+      "coefficient": 0.134599,
+      "effect": 0.485413,
+      "direction": "up",
+      "importance": 0.48541335517023887,
+      "importancePct": 4.6
+    },
+    {
+      "feature": "l5",
+      "label": "Last 5 hit rate",
+      "coefficient": 0.063132,
+      "effect": 0.224516,
+      "direction": "up",
+      "importance": 0.22451590105221889,
+      "importancePct": 2.1
+    },
+    {
+      "feature": "alternate",
+      "label": "Alternate-line flag",
+      "coefficient": -0.025752,
+      "effect": -0.060037,
+      "direction": "down",
+      "importance": 0.06003666402841871,
+      "importancePct": 0.6
+    },
+    {
+      "feature": "team",
+      "label": "Team-market flag",
+      "coefficient": 0.00682,
+      "effect": 0.051781,
+      "direction": "up",
+      "importance": 0.05178088170660212,
+      "importancePct": 0.5
+    },
+    {
+      "feature": "game",
+      "label": "Game-market flag",
+      "coefficient": 0.001775,
+      "effect": 0.026777,
+      "direction": "up",
+      "importance": 0.026776712229063464,
+      "importancePct": 0.3
+    }
+  ],
+  "trainingRuns": [
+    {
+      "updatedAt": "2026-09-25T05:25:33.812910+00:00",
+      "samples": 454,
+      "completedGames": 1,
+      "promoted": true,
+      "status": "provisional",
+      "topHitRate": 0.76087,
+      "topThreshold": 0.632879,
+      "accuracy": 0.751101,
+      "brier": 0.178499,
+      "liveBlend": 0.06,
+      "setup": "steady"
+    }
+  ],
   "notes": [
-    "The learner populates automatically after archived pregame legs receive final hit/miss grades."
+    "Every graded hit/miss leg from frozen pregame boards is included; pushes and pending outcomes are excluded.",
+    "Validation splits by whole games so alternate lines and opposite sides from one game cannot leak into both train and test.",
+    "A challenger setup is promoted only when its game-level holdout objective beats the incumbent by a small guardrail margin.",
+    "Before four completed games, updates are provisional and intentionally receive only a small live-model blend."
   ]
 }
