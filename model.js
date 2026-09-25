@@ -1071,7 +1071,7 @@ function modelEntityName(row){
   return cleanDisplayPlayerName(row.player)||"Player";
 }
 function modelEntityVisual(row,player){
-  if(row.scope==="team")return '<img src="'+esc(modelTeamLogo(row.team))+'" alt="" loading="lazy">';
+  if(row.scope==="team")return '<span class="model-team-visual"><img src="'+esc(modelTeamLogo(row.team))+'" alt="" loading="lazy"></span>';
   if(row.scope==="game")return '<span class="signal-game-logos"><img src="'+esc(modelTeamLogo(row.awayAbbr))+'" alt=""><img src="'+esc(modelTeamLogo(row.homeAbbr))+'" alt=""></span>';
   return '<img src="'+esc(row.headshot||player&&player.headshot||fallbackHeadshot())+'" alt="" loading="lazy">';
 }
