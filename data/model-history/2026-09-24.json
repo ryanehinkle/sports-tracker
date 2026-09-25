@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-24",
+  "label": "Thu, Sep 24, 2026",
+  "capturedAt": "2026-09-24T22:49:00-05:00",
+  "sourceCommit": "65a04d565c5d7278db823285adf5d321f6e4c6cb",
+  "kind": "pregame-model-freeze",
+  "note": "Frozen from the live Model state before the post-TNF stats refresh.",
+  "files": {
+    "stats": "data/nfl-stats.json",
+    "teamStats": "data/nfl-team-stats.json",
+    "odds": "data/nfl-odds.json",
+    "calibration": "data/model-calibration.json",
+    "ladder": "data/ladder-picks.json"
+  }
+}
