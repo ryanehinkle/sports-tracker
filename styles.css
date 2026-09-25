@@ -1358,3 +1358,27 @@ html[data-theme="buzzer"] .fanduel-pill{background:rgba(239,63,67,.08);border-co
 .parlay-leg-game-logos{position:relative;width:40px;height:40px;flex:0 0 40px}
 .parlay-leg-game-logos img{position:absolute;width:28px;height:28px;object-fit:contain;border-radius:50%;background:var(--panel);border:1px solid var(--line)}
 .parlay-leg-game-logos img:first-child{left:0;bottom:0}.parlay-leg-game-logos img:last-child{right:0;top:0}
+
+
+/* Keep every added market control inside the active site theme. */
+.scope-filter-popover{background:var(--surface-3);border-color:var(--line)}
+.scope-filter-popover .position-options{padding:2px 9px 8px}
+.scope-option{
+  width:100%;min-height:52px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 8px;border:0;border-bottom:1px solid color-mix(in srgb,var(--line) 58%,transparent);
+  background:transparent;color:var(--text);font:700 .8rem Inter,system-ui;text-align:left;cursor:pointer
+}
+.scope-option:last-child{border-bottom:0}
+.scope-option:hover{background:color-mix(in srgb,var(--surface-2) 72%,transparent)}
+.scope-option.active{background:rgba(var(--accent-rgb),.055)}
+.scope-option .selection-mark{border-color:var(--line)}
+.scope-option.active .selection-mark{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+html[data-theme] .filter-popover-title{color:var(--text)}
+html[data-theme] .filter-popover{background:var(--surface-3);border-color:var(--line)}
+html[data-theme] .filter-all-row{background:var(--surface);border-color:var(--line);color:var(--text)}
+html[data-theme] .filter-option,
+html[data-theme] .position-option,
+html[data-theme] .scope-option{color:var(--text);border-color:color-mix(in srgb,var(--line) 58%,transparent)}
+html[data-theme] .filter-option:hover,
+html[data-theme] .position-option:hover,
+html[data-theme] .scope-option:hover{background:color-mix(in srgb,var(--surface-2) 76%,transparent)}
