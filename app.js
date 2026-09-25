@@ -246,8 +246,7 @@ function cleanDisplayPlayerName(value){
 
 function cleanDisplayProposition(row){
   if(row?.teamMarketType==="spread"){
-    const meaning=spreadMeaning(row);
-    return (row.alternate?"Alt Spread ":"Spread ")+formatSpreadLine(row.line)+(meaning?" • "+meaning:"");
+    return (row.alternate?"Alt Spread ":"Spread ")+formatSpreadLine(row.line);
   }
   if(row?.teamMarketType==="moneyline") return "Moneyline";
   if(row?.teamMarketType==="teamTotal") return String(row.selection||"")+" "+formatLine(row.line)+" "+(row.alternate?"Alt Team Total":"Team Total");
@@ -1409,7 +1408,7 @@ function oddsRowHtml(row,index){
 
   return '<tr class="odds-row scope-'+esc(scope)+' '+(selectedInParlay?"parlay-selected":"")+'">'+
     '<td class="prop-cell'+triggerAttrs+'">'+content+'</td>'+
-    '<td class="odds-line '+(row.teamMarketType==="spread"?"spread-market-line":"")+'"><strong>'+esc(formatMarketLine(row))+'</strong>'+(row.teamMarketType==="spread"?'<small>'+esc(spreadMeaning(row))+'</small>':"")+'</td>'+
+    '<td class="odds-line '+(row.teamMarketType==="spread"?"spread-market-line":"")+'"><strong>'+esc(formatMarketLine(row))+'</strong></td>'+
     '<td class="odds-price"><span class="fd-mini">FD</span>'+esc(formatAmerican(row.odds))+'</td>'+
     resultCell+
     hitCell(rates.l5,hitRowKey,"l5")+
