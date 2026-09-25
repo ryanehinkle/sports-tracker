@@ -1386,3 +1386,9 @@ html[data-theme] .scope-option{color:var(--text);border-color:color-mix(in srgb,
 html[data-theme] .filter-option:hover,
 html[data-theme] .position-option:hover,
 html[data-theme] .scope-option:hover{background:color-mix(in srgb,var(--surface-2) 76%,transparent)}
+
+.spread-key{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:9px 16px;border-bottom:1px solid var(--line,#2a3544);background:rgba(255,255,255,.018);color:#7f8b9b;font-size:.67rem}
+.spread-key>strong{color:#b8c4d2;text-transform:uppercase;letter-spacing:.06em;font-size:.61rem}
+.spread-key span{display:inline-flex;align-items:center;gap:5px}
+.spread-key b{color:#e4ebf3;font-size:.72rem}
+@media(max-width:720px){.spread-key{gap:8px 13px;padding:9px 12px}.spread-key>strong{width:100%}}
