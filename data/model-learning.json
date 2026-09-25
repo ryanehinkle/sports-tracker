@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-25T05:25:33.812910+00:00",
+  "updatedAt": "2026-09-25T05:29:55.816310+00:00",
   "source": "Frozen pregame FanDuel boards graded from completed ESPN game logs",
   "objective": "Maximize out-of-sample hit rate among the highest-scored legs while preserving probability calibration",
   "samples": 454,
   "completedGames": 1,
   "status": "provisional",
-  "promotionReason": "Initial adaptive model",
+  "promotionReason": "Provisional refit after new game results; waiting for four completed games before champion/challenger promotion tests",
   "liveBlend": 0.06,
   "features": [
     "book",
@@ -23,20 +23,20 @@
     "game"
   ],
   "champion": {
-    "intercept": -0.4219308493401112,
+    "intercept": -0.42193084934011116,
     "coefficients": [
-      0.3988967541938725,
-      0.06313210142325122,
-      0.20925646223747954,
-      0.32773571468014034,
-      0.1345989431418325,
+      0.39889675419387255,
+      0.0631321014232512,
+      0.20925646223747965,
+      0.32773571468014023,
+      0.13459894314183246,
       0.2390259228135159,
       0.11654011248186073,
-      -0.025752244608107676,
+      -0.025752244608107686,
       0.08108506119758047,
-      -0.1614431352042653,
-      0.00682032133424506,
-      0.0017752701020522608
+      -0.16144313520426534,
+      0.006820321334245058,
+      0.0017752701020522631
     ],
     "means": [
       0.40492750574586994,
@@ -154,10 +154,17 @@
     "marketPerformance": [
       {
         "market": "Receiving Yards",
-        "samples": 132,
-        "topSamples": 27,
-        "topHitRate": 0.8148,
-        "averageProbability": 0.7242
+        "samples": 152,
+        "topSamples": 31,
+        "topHitRate": 0.7419,
+        "averageProbability": 0.7232
+      },
+      {
+        "market": "Receptions",
+        "samples": 101,
+        "topSamples": 21,
+        "topHitRate": 0.8095,
+        "averageProbability": 0.7383
       },
       {
         "market": "Rushing Yards",
@@ -167,25 +174,18 @@
         "averageProbability": 0.7897
       },
       {
-        "market": "Receptions",
-        "samples": 68,
-        "topSamples": 14,
-        "topHitRate": 0.8571,
-        "averageProbability": 0.7672
+        "market": "Touchdowns",
+        "samples": 56,
+        "topSamples": 12,
+        "topHitRate": 0.4167,
+        "averageProbability": 0.4832
       },
       {
-        "market": "Any Time Touchdown Scorer",
-        "samples": 25,
-        "topSamples": 5,
-        "topHitRate": 0.4,
-        "averageProbability": 0.4816
-      },
-      {
-        "market": "Total Receptions",
-        "samples": 24,
-        "topSamples": 5,
-        "topHitRate": 0.6,
-        "averageProbability": 0.6718
+        "market": "Reception Milestones",
+        "samples": 39,
+        "topSamples": 8,
+        "topHitRate": 0.75,
+        "averageProbability": 0.8346
       },
       {
         "market": "Passing Yards",
@@ -193,167 +193,125 @@
         "topSamples": 5,
         "topHitRate": 1.0,
         "averageProbability": 0.7576
-      },
-      {
-        "market": "To Score 2+ Touchdowns",
-        "samples": 15,
-        "topSamples": 3,
-        "topHitRate": 0.3333,
-        "averageProbability": 0.2364
-      },
-      {
-        "market": "Kyle Pitts Receiving Yards",
-        "samples": 12,
-        "topSamples": 3,
-        "topHitRate": 0.0,
-        "averageProbability": 0.7414
-      },
-      {
-        "market": "Player to Record a 10+ Yard Reception",
-        "samples": 11,
-        "topSamples": 3,
-        "topHitRate": 0.6667,
-        "averageProbability": 0.8824
-      },
-      {
-        "market": "Player to Record a 15+ Yard Reception",
-        "samples": 11,
-        "topSamples": 3,
-        "topHitRate": 1.0,
-        "averageProbability": 0.8014
-      },
-      {
-        "market": "Player To Record a 20+ Yard Reception",
-        "samples": 10,
-        "topSamples": 2,
-        "topHitRate": 1.0,
-        "averageProbability": 0.6972
-      },
-      {
-        "market": "Passing TDs",
-        "samples": 9,
-        "topSamples": 2,
-        "topHitRate": 1.0,
-        "averageProbability": 0.7431
       }
     ]
   },
   "featureImportance": [
     {
-      "feature": "spreadLine",
-      "label": "Spread points received / given",
-      "coefficient": 0.081085,
-      "effect": 3.796562,
-      "direction": "up",
-      "importance": 3.7965618020255905,
-      "importancePct": 35.8
-    },
-    {
       "feature": "book",
       "label": "FanDuel no-vig probability",
       "coefficient": 0.398897,
-      "effect": 1.543319,
+      "effect": 0.398897,
       "direction": "up",
-      "importance": 1.5433192173470822,
-      "importancePct": 14.6
-    },
-    {
-      "feature": "h2h",
-      "label": "Head-to-head hit rate",
-      "coefficient": 0.239026,
-      "effect": 1.34037,
-      "direction": "up",
-      "importance": 1.3403704855124765,
-      "importancePct": 12.6
+      "importance": 0.39889675419387255,
+      "importancePct": 22.6
     },
     {
       "feature": "current",
       "label": "Current-season hit rate",
       "coefficient": 0.327736,
-      "effect": 0.928986,
+      "effect": 0.327736,
       "direction": "up",
-      "importance": 0.9289859930786667,
-      "importancePct": 8.8
+      "importance": 0.32773571468014023,
+      "importancePct": 18.6
     },
     {
-      "feature": "sample",
-      "label": "History sample strength",
-      "coefficient": 0.11654,
-      "effect": 0.834095,
+      "feature": "h2h",
+      "label": "Head-to-head hit rate",
+      "coefficient": 0.239026,
+      "effect": 0.239026,
       "direction": "up",
-      "importance": 0.8340950910012023,
-      "importancePct": 7.9
+      "importance": 0.2390259228135159,
+      "importancePct": 13.5
     },
     {
       "feature": "l10",
       "label": "Last 10 hit rate",
       "coefficient": 0.209256,
-      "effect": 0.755517,
+      "effect": 0.209256,
       "direction": "up",
-      "importance": 0.7555173859459056,
-      "importancePct": 7.1
+      "importance": 0.20925646223747965,
+      "importancePct": 11.8
     },
     {
       "feature": "under",
       "label": "Under / No side",
       "coefficient": -0.161443,
-      "effect": -0.550733,
+      "effect": -0.161443,
       "direction": "down",
-      "importance": 0.5507334709440881,
-      "importancePct": 5.2
+      "importance": 0.16144313520426534,
+      "importancePct": 9.1
     },
     {
       "feature": "previous",
       "label": "Prior-season hit rate",
       "coefficient": 0.134599,
-      "effect": 0.485413,
+      "effect": 0.134599,
       "direction": "up",
-      "importance": 0.48541335517023887,
+      "importance": 0.13459894314183246,
+      "importancePct": 7.6
+    },
+    {
+      "feature": "sample",
+      "label": "History sample strength",
+      "coefficient": 0.11654,
+      "effect": 0.11654,
+      "direction": "up",
+      "importance": 0.11654011248186073,
+      "importancePct": 6.6
+    },
+    {
+      "feature": "spreadLine",
+      "label": "Spread points received / given",
+      "coefficient": 0.081085,
+      "effect": 0.081085,
+      "direction": "up",
+      "importance": 0.08108506119758047,
       "importancePct": 4.6
     },
     {
       "feature": "l5",
       "label": "Last 5 hit rate",
       "coefficient": 0.063132,
-      "effect": 0.224516,
+      "effect": 0.063132,
       "direction": "up",
-      "importance": 0.22451590105221889,
-      "importancePct": 2.1
+      "importance": 0.0631321014232512,
+      "importancePct": 3.6
     },
     {
       "feature": "alternate",
       "label": "Alternate-line flag",
       "coefficient": -0.025752,
-      "effect": -0.060037,
+      "effect": -0.025752,
       "direction": "down",
-      "importance": 0.06003666402841871,
-      "importancePct": 0.6
+      "importance": 0.025752244608107686,
+      "importancePct": 1.5
     },
     {
       "feature": "team",
       "label": "Team-market flag",
       "coefficient": 0.00682,
-      "effect": 0.051781,
+      "effect": 0.00682,
       "direction": "up",
-      "importance": 0.05178088170660212,
-      "importancePct": 0.5
+      "importance": 0.006820321334245058,
+      "importancePct": 0.4
     },
     {
       "feature": "game",
       "label": "Game-market flag",
       "coefficient": 0.001775,
-      "effect": 0.026777,
+      "effect": 0.001775,
       "direction": "up",
-      "importance": 0.026776712229063464,
-      "importancePct": 0.3
+      "importance": 0.0017752701020522631,
+      "importancePct": 0.1
     }
   ],
   "trainingRuns": [
     {
-      "updatedAt": "2026-09-25T05:25:33.812910+00:00",
+      "updatedAt": "2026-09-25T05:29:55.816310+00:00",
       "samples": 454,
       "completedGames": 1,
-      "promoted": true,
+      "promoted": false,
       "status": "provisional",
       "topHitRate": 0.76087,
       "topThreshold": 0.632879,
