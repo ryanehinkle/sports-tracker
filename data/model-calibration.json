@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourceSeason": 2025,
-  "statsUpdatedAt": "2026-09-26T21:59:07.664748+00:00",
+  "statsUpdatedAt": "2026-09-27T00:37:52.648073+00:00",
   "features": [
     "l5",
     "l10",
@@ -17,7 +17,7 @@
     "holdoutWeeks": "14-18",
     "note": "Historical sportsbook closing lines are not stored; calibration learns signal reliability from pregame game-log history, not historical betting ROI."
   },
-  "samples": 9228,
+  "samples": 9234,
   "all": {
     "intercept": -0.3991875843902305,
     "coefficients": [
@@ -51,10 +51,10 @@
       "hitRate": 0.408324
     },
     "test": {
-      "n": 3894,
-      "brier": 0.220565,
-      "accuracy": 0.636877,
-      "hitRate": 0.407293
+      "n": 3900,
+      "brier": 0.220716,
+      "accuracy": 0.635897,
+      "hitRate": 0.408205
     }
   },
   "metrics": {
@@ -130,10 +130,10 @@
         "hitRate": 0.419784
       },
       "test": {
-        "n": 1140,
-        "brier": 0.221591,
-        "accuracy": 0.630702,
-        "hitRate": 0.424561
+        "n": 1143,
+        "brier": 0.221758,
+        "accuracy": 0.629921,
+        "hitRate": 0.426072
       }
     },
     "receptions": {
@@ -169,10 +169,10 @@
         "hitRate": 0.347495
       },
       "test": {
-        "n": 1140,
-        "brier": 0.203822,
-        "accuracy": 0.674561,
-        "hitRate": 0.344737
+        "n": 1143,
+        "brier": 0.204231,
+        "accuracy": 0.672791,
+        "hitRate": 0.346457
       }
     },
     "rushingAttempts": {
