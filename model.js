@@ -813,6 +813,17 @@ function calibrationForMetric(metric){
   return state.calibration&&state.calibration.metrics&&state.calibration.metrics[metric]||null;
 }
 function logistic(value){return 1/(1+Math.exp(-Math.max(-20,Math.min(20,value))))}
+function averageVsLine(row,player){
+  const spec=metricSpec(row),threshold=Number.isFinite(Number(spec&&spec.threshold))?Number(spec.threshold):Number(row.line);
+  if(!spec||!Number.isFinite(threshold))return null;
+  const values=playedHistory(player).slice(-10).map(g=>metricValue(g,spec.metric)).filter(Number.isFinite);
+  if(!values.length)return null;
+  const mean=avg(values),variance=values.length>1?values.reduce((sum,v)=>sum+(v-mean)*(v-mean),0)/(values.length-1):0;
+  const sd=Math.sqrt(variance),under=String(row.selection||"")==="Under"||String(row.selection||"")==="No";
+  const raw=under?threshold-mean:mean-threshold;
+  const normalized=raw/Math.max(sd,Math.abs(threshold)*.18,1);
+  return{average:mean,line:threshold,margin:raw,normalized:normalized,sample:values.length};
+}
 function overForecastFeatures(row,player,dvpPct){
   const spec=metricSpec(row),threshold=Number.isFinite(Number(spec&&spec.threshold))?Number(spec.threshold):Number(row.line);
   if(!spec||!Number.isFinite(threshold))return null;
@@ -1107,6 +1118,12 @@ function analyze(row,cfg){
     Number.isFinite(favorableTeam)?favorableTeam/100:null
   ].filter(Number.isFinite))??.5;
   const valueSignal=clamp(.5+edge*3,0,1);
+  const lineMargin=averageVsLine(row,player);
+  const marginSignal=lineMargin?logistic(lineMargin.normalized*1.35):.5;
+  // Avg-vs-line is deliberately normalized by recent volatility/line scale.
+  // It is a meaningful independent signal, but capped so one extreme raw stat
+  // cannot overpower calibrated probability, matchup, price, and reliability.
+  modelProb=clamp(modelProb*.88+marginSignal*.12,.03,.97);
 
   const w=cfg.weights,total=Object.values(w).reduce((a,b)=>a+b,0)||1;
   const weightedSignal=(w.recent*recent+w.season*season+w.h2h*h2hSignal+w.usage*usageSignal+w.matchup*matchup+w.value*valueSignal)/total;
@@ -1114,10 +1131,11 @@ function analyze(row,cfg){
   // Success probability is the dominant grade. Reliability and historical
   // calibration quality matter more than raw volume, preventing position bias.
   const score=100*clamp(
-    .68*modelProb+
+    .64*modelProb+
     .10*calibrated.reliability+
-    .12*calibrated.calibrationQuality+
-    .10*weightedSignal,
+    .11*calibrated.calibrationQuality+
+    .09*weightedSignal+
+    .06*marginSignal,
     0,1
   );
 
@@ -1127,7 +1145,8 @@ function analyze(row,cfg){
     dvpMetric:metric,recentSignal:recent,seasonSignal:season,h2hSignal:h2hSignal,
     usageSignal:usageSignal,matchupSignal:matchup,valueSignal:valueSignal,
     modelProb:modelProb,impliedProb:book,edge:edge,score:score,
-    reliability:calibrated.reliability,calibrationQuality:calibrated.calibrationQuality
+    reliability:calibrated.reliability,calibrationQuality:calibrated.calibrationQuality,
+    lineMargin:lineMargin,marginSignal:marginSignal
   };
 }
 function modelSlipPropFamilyKey(x){
@@ -1328,6 +1347,7 @@ function signalSortValue(x,key){
   if(key==="pick")return (modelEntityName(row)+" "+cleanDisplayProposition(row)).toLowerCase();
   if(key==="score")return Number(x.score);
   if(key==="odds")return Number(row.odds);
+  if(key==="margin")return x.lineMargin&&Number.isFinite(x.lineMargin.margin)?x.lineMargin.margin:null;
   if(key==="result"){
     const status=String(historicalResultForRow(row).status||"pending");
     return({miss:0,pending:1,push:2,hit:3})[status]??1;
@@ -1379,7 +1399,7 @@ function setSignalSort(key){
 }
 function renderSignals(){
   const rows=sortedSignalRows().slice(0,60);$("legBoardCount").textContent=fmt.format(rows.length);renderSignalSortHeaders();
-  const colspan=state.modelHistorical?11:10;
+  const colspan=state.modelHistorical?12:11;
   if(!rows.length){
     const unavailable=[...state.selectedMarkets].filter(m=>!state.odds.some(row=>(row._modelMarketLabel||modelSupportedMarketLabel(row))===m));
     const message=unavailable.length===1
@@ -1394,7 +1414,7 @@ function renderSignals(){
     const resultCell=state.modelHistorical?'<td class="model-result-cell">'+modelResultBadge(result,true)+(memberships.length?'<small class="slip-membership">Slip '+memberships.join(" • ")+'</small>':"")+'</td>':"";
     return '<tr class="model-board-row model-prop-trigger '+(state.modelHistorical?'historical-row result-'+esc(result.status):"")+'"'+rowAttrs+'><td><div class="signal-player">'+
       modelEntityVisual(r,x.player)+'<div class="signal-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(r.scope==="game"?r.matchup:(x.team||"NFL")+" vs "+(x.opp||"—"))+' • '+esc(x.pos||"—")+'</small></div></div></td>'+
-      '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td>'+resultCell+
+      '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td><td class="signal-margin">'+(x.lineMargin?'<strong class="'+(x.lineMargin.margin>=0?'margin-good':'margin-bad')+'">'+(x.lineMargin.margin>=0?'+':'')+x.lineMargin.margin.toFixed(1)+'</strong><small>'+x.lineMargin.average.toFixed(1)+' avg</small>':'—')+'</td>'+resultCell+
       rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+
       '<td class="'+metricClass(x.usageSignal*100)+'">'+esc(modelProfileText(x))+'</td>'+
       '<td class="'+metricClass(x.matchupSignal*100)+'">'+Math.round(x.matchupSignal*100)+'th'+(["team","game"].includes(r.scope)?' <small>all-team model</small>':x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
@@ -1483,7 +1503,7 @@ function renderFormula(){
     '<code>Players: shrink(2025 walk-forward logistic estimate → current FanDuel no-vig probability)</code><br>'+
     '<code>Teams: book probability + historical cover/hit rates + full team-stat profile</code><br>'+
     '<code>Adaptive layer: every graded frozen leg retrains a champion/challenger model</code><br><br>'+
-    'Player history: <strong>L10 + season-to-date + line distance + trend</strong><br>'+
+    'Player history: <strong>L10 + season-to-date + Avg vs Line margin + trend</strong><br>'+
     'Player matchup: <strong>defense-vs-position percentile</strong><br>'+
     'Team matchup: <strong>every numeric ESPN team-stat category normalized league-wide</strong><br>'+
     'Team weighting: <strong>offense, defense, scoring, situational, turnovers, special teams + all-stat composite</strong><br>'+
@@ -1499,7 +1519,7 @@ function renderCharts(){
   const topResult=historicalResultForRow(top.row);
   $("signalStrengthTitle").innerHTML='Signal strength'+(state.modelHistorical?' '+modelResultBadge(topResult,true):"");
   $("candidateScoresTitle").textContent=state.modelHistorical?"Top candidate scores • graded":"Top candidate scores";
-  const signals=[["Recent",top.recentSignal],["Season",top.seasonSignal],["H2H",top.h2hSignal],["Usage",top.usageSignal],["Opponent",top.matchupSignal],["Value",top.valueSignal]];
+  const signals=[["Recent",top.recentSignal],["Season",top.seasonSignal],["H2H",top.h2hSignal],["Usage",top.usageSignal],["Opponent",top.matchupSignal],["Avg vs Line",top.marginSignal??.5],["Value",top.valueSignal]];
   $("signalProfileChart").innerHTML=signals.map(x=>'<div class="bar-row"><span>'+x[0]+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(clamp(x[1],0,1)*100)+'%"></div></div><strong>'+Math.round(clamp(x[1],0,1)*100)+'</strong></div>').join("");
   $("scoreChart").innerHTML=state.eligible.slice(0,8).map(x=>{const result=historicalResultForRow(x.row);return'<div class="bar-row"><span class="score-bar-label">'+(state.modelHistorical?'<b class="mini-result result-'+esc(result.status)+'">'+resultIcon(result.status)+'</b>':"")+esc(modelEntityName(x.row))+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(x.score)+'%"></div></div><strong>'+x.score.toFixed(1)+'</strong></div>'}).join("");
 }
