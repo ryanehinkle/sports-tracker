@@ -1898,11 +1898,11 @@ function ladderChronologicalPicks(){
   });
   let run=1,day=1,blocked=false;
   return picks.map((pick,index)=>{
-    const sameSundayPackage=Boolean(pick.slot&&pick.provisionalDay);
+    const sameSundayPackage=Boolean(pick.slot);
     const normalized=Object.assign({},pick,{_ladderRun:run,_ladderDay:day,_ladderIndex:index,_provisional:sameSundayPackage&&blocked});
     const status=String(pick.status||"pending");
     if(status==="hit"){day+=1;blocked=false}
-    else if(status==="miss"){run+=1;day=1;blocked=true}
+    else if(status==="miss"){run+=1;day=1;blocked=false}
     else if(status==="push"){blocked=false}
     else if(sameSundayPackage){day+=1;blocked=true}
     return normalized;
