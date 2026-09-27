@@ -15,11 +15,12 @@ on:
       - "scripts/build_ladder.py"
       - "scripts/archive_model.py"
       - "scripts/update_team_stats.py"
-      - ".github/workflows/update-odds.yml"\n      - ".github/force-odds-run"
+      - ".github/workflows/update-odds.yml"
+      - ".github/force-odds-run"
       - "requirements.txt"
   schedule:
-    # Refresh at :15/:45; builder publishes once kickoff is <=75 minutes away.
-    - cron: "15,45 * * * *"
+    # Check every 5 minutes so the first eligible run lands at the true 75-minute pre-kickoff threshold.
+    - cron: "*/5 * * * *"
     # Broader weekly refresh so newly posted future markets also get picked up.
     - cron: "41 15 * * 3,5"
 
