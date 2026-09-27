@@ -556,7 +556,19 @@ def refresh_pick_results(payload):
 
 
 def ladder_sort_key(pick):
-    return (str(pick.get("date") or ""), str(pick.get("createdAt") or ""))
+    return (str(pick.get("date") or ""), int(pick.get("slotOrder") or 0), str(pick.get("createdAt") or ""))
+
+
+def sunday_window(commence):
+    local = commence.astimezone(CENTRAL)
+    if local.weekday() != 6:
+        return None
+    minutes = local.hour * 60 + local.minute
+    if minutes < 14 * 60 + 30:
+        return {"key": "noon", "label": "Noon slate", "order": 1}
+    if minutes < 18 * 60:
+        return {"key": "mid", "label": "Mid-afternoon slate", "order": 2}
+    return {"key": "snf", "label": "Sunday Night Football", "order": 3}
 
 
 def normalize_ladder_runs(payload):
@@ -638,40 +650,92 @@ def main():
     if events:
         first_start = min(iso_dt(event.get("commenceTime")) for event in events)
         date_key = local_now.date().isoformat()
-        existing = next((pick for pick in payload["picks"] if pick.get("date") == date_key), None)
+        profiles = build_team_profiles(team_payload)
 
-        # Publish once the first kickoff of the local date is within ~90 minutes.
-        if not existing and first_start - timedelta(minutes=75) <= now < first_start:
-            eligible_event_ids = {str(event.get("id") or "") for event in events}
-            rows = [row for row in flatten(odds_payload) if row.get("eventId") in eligible_event_ids]
-            profiles = build_team_profiles(team_payload)
+        # Sundays are published as one three-window package about 75 minutes before
+        # the noon slate: noon-only, mid-afternoon-only, and SNF-only. Later rungs
+        # are provisional because their displayed Day number depends on prior hits.
+        sunday_groups = {}
+        if local_now.weekday() == 6:
+            for event in events:
+                commence = iso_dt(event.get("commenceTime"))
+                window = sunday_window(commence) if commence else None
+                if window:
+                    sunday_groups.setdefault(window["key"], {"meta": window, "events": []})["events"].append(event)
+
+        existing_today = [pick for pick in payload["picks"] if pick.get("date") == date_key]
+        if sunday_groups and not existing_today and first_start - timedelta(minutes=75) <= now < first_start:
             next_position = next_ladder_position(payload["picks"])
-            chosen = choose_slip(rows, date_key, profiles, learning) if next_position else None
-            if chosen and next_position:
-                combo, meta, simulations = chosen
-                run_number, day_number = next_position
-                pick = {
-                    "run": run_number,
-                    "day": day_number,
-                    "date": date_key,
-                    "createdAt": now.isoformat(),
-                    "target": "Even Money Ladder",
-                    "targetOdds": "+100",
-                    "odds": meta["odds"],
-                    "decimalOdds": round(meta["decimal"], 6),
-                    "estimatedProbability": round(meta["joint"], 6),
-                    "confidence": round(meta["avgConfidence"], 1),
-                    "selectionTier": meta["tier"],
-                    "simulations": simulations,
-                    "status": "pending",
-                    "legs": [snapshot_leg(row) for row in combo],
-                }
-                payload["picks"].append(pick)
+            if next_position:
+                run_number, base_day = next_position
+                all_rows = flatten(odds_payload)
+                for slot_key in ("noon", "mid", "snf"):
+                    group = sunday_groups.get(slot_key)
+                    if not group or not group["events"]:
+                        continue
+                    eligible_event_ids = {str(event.get("id") or "") for event in group["events"]}
+                    rows = [row for row in all_rows if row.get("eventId") in eligible_event_ids]
+                    chosen = choose_slip(rows, f"{date_key}:{slot_key}", profiles, learning)
+                    if not chosen:
+                        continue
+                    combo, meta, simulations = chosen
+                    order = group["meta"]["order"]
+                    pick = {
+                        "run": run_number,
+                        "day": base_day + order - 1,
+                        "provisionalDay": order > 1,
+                        "date": date_key,
+                        "slot": slot_key,
+                        "slotLabel": group["meta"]["label"],
+                        "slotOrder": order,
+                        "createdAt": now.isoformat(),
+                        "target": "Even Money Ladder",
+                        "targetOdds": "+100",
+                        "odds": meta["odds"],
+                        "decimalOdds": round(meta["decimal"], 6),
+                        "estimatedProbability": round(meta["joint"], 6),
+                        "confidence": round(meta["avgConfidence"], 1),
+                        "selectionTier": meta["tier"],
+                        "simulations": simulations,
+                        "status": "pending",
+                        "legs": [snapshot_leg(row) for row in combo],
+                    }
+                    payload["picks"].append(pick)
+                    print(
+                        f"Created Sunday {group['meta']['label']} provisional Day {pick['day']} "
+                        f"at {pick['odds']:+d} after {simulations:,} simulations ({meta['tier']})."
+                    )
                 payload["picks"].sort(key=ladder_sort_key)
-                print(
-                    f"Created ladder Run {pick['run']} Day {pick['day']} at {pick['odds']:+d} "
-                    f"after {simulations:,} simulations ({meta['tier']})."
-                )
+
+        # Non-Sunday dates keep the original single pre-kickoff ladder behavior.
+        elif not sunday_groups:
+            existing = next((pick for pick in payload["picks"] if pick.get("date") == date_key), None)
+            if not existing and first_start - timedelta(minutes=75) <= now < first_start:
+                eligible_event_ids = {str(event.get("id") or "") for event in events}
+                rows = [row for row in flatten(odds_payload) if row.get("eventId") in eligible_event_ids]
+                next_position = next_ladder_position(payload["picks"])
+                chosen = choose_slip(rows, date_key, profiles, learning) if next_position else None
+                if chosen and next_position:
+                    combo, meta, simulations = chosen
+                    run_number, day_number = next_position
+                    pick = {
+                        "run": run_number,
+                        "day": day_number,
+                        "date": date_key,
+                        "createdAt": now.isoformat(),
+                        "target": "Even Money Ladder",
+                        "targetOdds": "+100",
+                        "odds": meta["odds"],
+                        "decimalOdds": round(meta["decimal"], 6),
+                        "estimatedProbability": round(meta["joint"], 6),
+                        "confidence": round(meta["avgConfidence"], 1),
+                        "selectionTier": meta["tier"],
+                        "simulations": simulations,
+                        "status": "pending",
+                        "legs": [snapshot_leg(row) for row in combo],
+                    }
+                    payload["picks"].append(pick)
+                    payload["picks"].sort(key=ladder_sort_key)
 
     payload["updatedAt"] = now.isoformat()
     OUT.parent.mkdir(parents=True, exist_ok=True)
