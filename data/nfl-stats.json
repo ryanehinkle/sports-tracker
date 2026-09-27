@@ -6,7 +6,7 @@
     2026,
     2025
   ],
-  "updatedAt": "2026-09-27T13:03:13.218103+00:00",
+  "updatedAt": "2026-09-27T14:20:39.947450+00:00",
   "source": "ESPN",
   "definition": {
     "allPurposeYards": "rushing + receiving yards",
@@ -364137,38 +364137,6 @@
             "kickingPoints": 0
           }
         ]
-      }
-    },
-    {
-      "id": "4586138",
-      "name": "Marquise Brown",
-      "team": "",
-      "position": "",
-      "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4586138.png",
-      "touchdowns": 0,
-      "allPurposeYards": 0,
-      "receivingYards": 0,
-      "rushingYards": 0,
-      "receptions": 0,
-      "passingTouchdowns": 0,
-      "passingYards": 0,
-      "passRushYards": 0,
-      "fieldGoalsMade": 0,
-      "fieldGoalsAttempted": 0,
-      "fieldGoalPct": 0,
-      "fieldGoalsPerGame": 0,
-      "extraPointsMade": 0,
-      "extraPointsAttempted": 0,
-      "extraPointPct": 0,
-      "extraPointsPerGame": 0,
-      "longFieldGoal": 0,
-      "kickingPoints": 0,
-      "kickingPointsPerGame": 0,
-      "oddsOnly": true,
-      "gameLog": [],
-      "gameLogsBySeason": {
-        "2026": [],
-        "2025": []
       }
     },
     {
