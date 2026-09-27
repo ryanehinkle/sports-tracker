@@ -20,7 +20,7 @@ on:
       - "requirements.txt"
   schedule:
     # Check every 5 minutes so the first eligible run lands at the true 75-minute pre-kickoff threshold.
-    - cron: "*/5 * * * *"
+    - cron: "*/15 * * * *"
     # Broader weekly refresh so newly posted future markets also get picked up.
     - cron: "41 15 * * 3,5"
 
@@ -29,7 +29,7 @@ permissions:
 
 concurrency:
   group: nfl-data-update
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   update:
@@ -58,27 +58,75 @@ jobs:
         shell: bash
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
             echo "hours=${{ inputs.lookahead_hours }}" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.event.schedule }}" = "41 15 * * 3,5" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
             echo "hours=168" >> "$GITHUB_OUTPUT"
           elif [ "${{ github.event_name }}" = "push" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
             echo "hours=168" >> "$GITHUB_OUTPUT"
           else
+            SHOULD_RUN="$(python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+
+          central = ZoneInfo("America/Chicago")
+          now = datetime.now(timezone.utc)
+          today = now.astimezone(central).date().isoformat()
+
+          try:
+              odds = json.loads(Path("data/nfl-odds.json").read_text())
+          except Exception:
+              odds = {}
+          try:
+              ladder = json.loads(Path("data/ladder-picks.json").read_text())
+          except Exception:
+              ladder = {"picks": []}
+
+          starts = []
+          for event in odds.get("events") or []:
+              try:
+                  start = datetime.fromisoformat(str(event.get("commenceTime") or "").replace("Z", "+00:00"))
+              except ValueError:
+                  continue
+              if start > now and start.astimezone(central).date().isoformat() == today:
+                  starts.append(start)
+
+          due = bool(starts) and 0 < (min(starts) - now).total_seconds() <= 75 * 60
+          picks = [p for p in (ladder.get("picks") or []) if p.get("date") == today]
+          if now.astimezone(central).weekday() == 6:
+              slots = {p.get("slot") for p in picks if p.get("kind") != "longshot"}
+              package_complete = {"noon", "mid", "snf"}.issubset(slots) and any(p.get("kind") == "longshot" for p in picks)
+          else:
+              package_complete = any(p.get("kind") != "longshot" for p in picks)
+
+          archive_complete = Path(f"data/model-history/{today}.json").exists()
+          print("true" if due and not (package_complete and archive_complete) else "false")
+          PY
+          )"
+            echo "run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
             echo "hours=36" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Validate prop tracking mappings
+        if: steps.window.outputs.run == 'true'
         run: python scripts/validate_prop_tracking.py
 
       - name: Pull FanDuel NFL player + team/game markets
+        if: steps.window.outputs.run == 'true'
         env:
           ODDS_LOOKAHEAD_HOURS: ${{ steps.window.outputs.hours }}
         run: python scripts/update_odds.py
 
       - name: Build or grade daily ladder pick
+        if: steps.window.outputs.run == 'true'
         run: python scripts/build_ladder.py
 
       - name: Commit refreshed odds and history
+        if: steps.window.outputs.run == 'true'
         shell: bash
         run: |
           if git diff --quiet -- data/nfl-odds.json data/odds-history data/ladder-picks.json; then
@@ -112,6 +160,7 @@ jobs:
           git push
 
       - name: Freeze full Model state before kickoff
+        if: steps.window.outputs.run == 'true'
         shell: bash
         run: |
           git fetch origin main
