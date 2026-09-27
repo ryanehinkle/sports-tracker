@@ -372,6 +372,118 @@ def parlay_decimal(combo):
     return value
 
 
+
+def bounded_target_search(scored, target_min, target_max, min_legs, max_legs):
+    """Bounded deterministic target search that cannot explode combinatorially."""
+    longshot = target_min >= 1000
+    confidence_ranked = sorted(scored, key=lambda item: item["_confidence"], reverse=True)
+    price_target = -150 if longshot else -400
+    price_ranked = sorted(
+        scored,
+        key=lambda item: abs(float(item.get("odds") or 0) - price_target),
+    )
+    pool = []
+    seen = set()
+    confidence_cap = 320 if longshot else 200
+    price_cap = 240 if longshot else 120
+    for row in confidence_ranked[:confidence_cap] + price_ranked[:price_cap]:
+        key = (family_key(row), str(row.get("selection") or ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        pool.append(row)
+
+    beam = [{
+        "combo": [],
+        "last": -1,
+        "decimal": 1.0,
+        "log_joint": 0.0,
+        "conf_sum": 0.0,
+    }]
+    best = None
+    best_meta = None
+    target_decimal = 11.0 if longshot else 2.0
+
+    for depth in range(1, max_legs + 1):
+        expanded = []
+        for state in beam:
+            for index in range(state["last"] + 1, len(pool)):
+                row = pool[index]
+                if not compatible(
+                    state["combo"],
+                    row,
+                    max_spread=100000 if longshot else 700,
+                ):
+                    continue
+                row_decimal = row.get("decimalOdds") or american_to_decimal(row.get("odds"))
+                if not row_decimal:
+                    continue
+
+                combo = state["combo"] + [row]
+                decimal = state["decimal"] * float(row_decimal)
+                log_joint = state["log_joint"] + math.log(max(row["_prob"], 1e-9))
+                conf_sum = state["conf_sum"] + row["_confidence"]
+                avg_conf = conf_sum / depth
+                american = decimal_to_american(decimal)
+
+                if (
+                    depth >= min_legs
+                    and american is not None
+                    and target_min <= american <= target_max
+                ):
+                    score = math.log(max(math.exp(log_joint), 1e-9)) + avg_conf * 0.012
+                    if longshot:
+                        score -= max(0, american - target_min) * 0.00003
+                    else:
+                        score -= abs(decimal - 2.0) * 3.8
+                    if best_meta is None or score > best_meta["score"]:
+                        best = combo
+                        best_meta = {
+                            "score": score,
+                            "tier": "Best available +1000" if longshot else "Best available ladder",
+                            "decimal": decimal,
+                            "odds": american,
+                            "joint": math.exp(log_joint),
+                            "avgConfidence": avg_conf,
+                        }
+
+                shortfall = max(0.0, math.log(target_decimal) - math.log(decimal))
+                region = min(16, int(max(0.0, math.log(decimal)) * 5))
+                priority = (
+                    log_joint
+                    + avg_conf * 0.008
+                    - shortfall * (0.55 if longshot else 1.8)
+                )
+                expanded.append({
+                    "combo": combo,
+                    "last": index,
+                    "decimal": decimal,
+                    "log_joint": log_joint,
+                    "conf_sum": conf_sum,
+                    "priority": priority,
+                    "region": region,
+                })
+
+        expanded.sort(key=lambda state: state["priority"], reverse=True)
+        per_region = 1200 if longshot else 850
+        counts = {}
+        beam = []
+        for state in expanded:
+            region = state["region"]
+            count = counts.get(region, 0)
+            if count >= per_region:
+                continue
+            counts[region] = count + 1
+            beam.append(state)
+            if len(beam) >= 15000:
+                break
+
+        if best is not None and not longshot:
+            break
+
+    return (best, best_meta) if best is not None else None
+
+
 def choose_slip(rows, date_key, profiles, learning=None, target_min=-110, target_max=110, min_legs=3, max_legs=6):
     rows = [dict(row) for row in rows]
     attach_no_vig_probabilities(rows)
@@ -464,70 +576,20 @@ def choose_slip(rows, date_key, profiles, learning=None, target_min=-110, target
             break
 
     if target_min >= 1000 and (not best or best_meta["odds"] < target_min):
-        # Guaranteed long-shot fallback. Exhaustively combine the strongest
-        # model-rated outcomes, progressively relaxing only diversification
-        # constraints. +1000 and the 3-6 leg shape remain hard requirements.
-        import itertools
-        ranked = sorted(scored, key=lambda item: item["_confidence"], reverse=True)
-        search_pools = [ranked[:40], ranked[:80], ranked[:160], ranked]
-        for pool in search_pools:
-            for size in range(min_legs, min(max_legs, len(pool)) + 1):
-                for combo_tuple in itertools.combinations(pool, size):
-                    combo = list(combo_tuple)
-                    if len({family_key(row) for row in combo}) != len(combo):
-                        continue
-                    decimal = parlay_decimal(combo)
-                    if not decimal:
-                        continue
-                    american = decimal_to_american(decimal)
-                    if american is None or american < target_min or american > target_max:
-                        continue
-                    joint = math.prod(row["_prob"] for row in combo)
-                    avg_conf = sum(row["_confidence"] for row in combo) / len(combo)
-                    score = math.log(max(joint, 1e-9)) + avg_conf * 0.012 - max(0, american - target_min) * 0.00005
-                    if best_meta is None or best_meta["odds"] < target_min or score > best_meta["score"]:
-                        best = combo
-                        best_meta = {
-                            "score": score,
-                            "tier": "Best available +1000",
-                            "decimal": decimal,
-                            "odds": american,
-                            "joint": joint,
-                            "avgConfidence": avg_conf,
-                        }
-                if best_meta and best_meta["odds"] >= target_min:
-                    break
-            if best_meta and best_meta["odds"] >= target_min:
-                break
+        fallback = bounded_target_search(
+            scored, target_min, target_max, min_legs, max_legs
+        )
+        if fallback:
+            best, best_meta = fallback
 
-    if target_min < 1000 and (not best or not (target_min <= best_meta["odds"] <= target_max)):
-        # Ladder guarantee: widen through the entire window board and search
-        # valid 3-6 leg combinations in the target band, relaxing secondary
-        # history/diversification filters rather than returning no pick.
-        import itertools
-        ranked = sorted(scored, key=lambda item: item["_confidence"], reverse=True)
-        for pool in [ranked[:40], ranked[:80], ranked[:160], ranked]:
-            candidate = None
-            candidate_meta = None
-            for size in range(min_legs, min(max_legs, len(pool)) + 1):
-                for combo_tuple in itertools.combinations(pool, size):
-                    combo = list(combo_tuple)
-                    if len({family_key(row) for row in combo}) != len(combo):
-                        continue
-                    decimal = parlay_decimal(combo)
-                    american = decimal_to_american(decimal) if decimal else None
-                    if american is None or not (target_min <= american <= target_max):
-                        continue
-                    joint = math.prod(row["_prob"] for row in combo)
-                    avg_conf = sum(row["_confidence"] for row in combo) / len(combo)
-                    score = math.log(max(joint, 1e-9)) + avg_conf * 0.012 - abs(decimal - 2.0) * 3.8
-                    if candidate_meta is None or score > candidate_meta["score"]:
-                        candidate, candidate_meta = combo, {"score":score,"tier":"Best available ladder","decimal":decimal,"odds":american,"joint":joint,"avgConfidence":avg_conf}
-                if candidate:
-                    break
-            if candidate:
-                best,best_meta=candidate,candidate_meta
-                break
+    if target_min < 1000 and (
+        not best or not (target_min <= best_meta["odds"] <= target_max)
+    ):
+        fallback = bounded_target_search(
+            scored, target_min, target_max, min_legs, max_legs
+        )
+        if fallback:
+            best, best_meta = fallback
 
     if not best or (target_min >= 1000 and best_meta["odds"] < target_min):
         # Deterministic fallback: preserve the requested 3-leg floor whenever
