@@ -710,17 +710,14 @@ def sunday_window(commence):
 
 
 def normalize_ladder_runs(payload):
-    """Assign day numbers within winning streaks instead of globally.
-
-    A win advances to the next rung, a loss starts a fresh run at Day 1, and a
-    push replays the same rung. This also migrates older picks that used a
-    monotonically increasing day counter.
-    """
+    """Assign ladder days/runs while keeping long-shot records independent."""
     picks = sorted(payload.get("picks") or [], key=ladder_sort_key)
+    ladder_picks = [pick for pick in picks if pick.get("kind") != "longshot"]
     run = 1
     day = 1
     changed = False
-    for pick in picks:
+
+    for pick in ladder_picks:
         if int(pick.get("run") or 0) != run:
             pick["run"] = run
             changed = True
@@ -736,11 +733,10 @@ def normalize_ladder_runs(payload):
             day = 1
         elif status == "push":
             pass
-        elif pick.get("slot") and pick.get("provisionalDay"):
-            # A packaged Sunday future window reserves the next displayed rung.
-            # It is still conditional and may be renumbered after earlier results.
+        elif pick.get("slot"):
+            # Pending Sunday slots reserve the following rung: Day 1 / Day 2* /
+            # Day 3* initially, then later slots renumber after a hit or miss.
             day += 1
-        # Ordinary pending picks do not advance the ladder.
 
     if payload.get("picks") != picks:
         payload["picks"] = picks
@@ -749,7 +745,10 @@ def normalize_ladder_runs(payload):
 
 
 def next_ladder_position(picks):
-    ordered = sorted(picks or [], key=ladder_sort_key)
+    ordered = sorted(
+        [pick for pick in (picks or []) if pick.get("kind") != "longshot"],
+        key=ladder_sort_key,
+    )
     if not ordered:
         return 1, 1
     latest = ordered[-1]
@@ -763,7 +762,6 @@ def next_ladder_position(picks):
     if status == "push":
         return run, day
     return None
-
 
 def main():
     now = datetime.now(timezone.utc)
