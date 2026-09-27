@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-27T14:34:04.938004+00:00",
+  "updatedAt": "2026-09-27T17:46:17.733747+00:00",
   "source": "Frozen pregame FanDuel boards graded from completed ESPN game logs",
   "objective": "Maximize out-of-sample hit rate among the highest-scored legs while preserving probability calibration",
   "samples": 454,
-  "completedGames": 1,
-  "status": "provisional",
+  "completedGames": 10,
+  "status": "held",
   "promotionReason": "Provisional refit after new game results; waiting for four completed games before champion/challenger promotion tests",
-  "liveBlend": 0.06,
+  "liveBlend": 0.12,
   "features": [
     "book",
     "l5",
@@ -87,7 +87,7 @@
       "game"
     ],
     "trainedSamples": 454,
-    "trainedGames": 1
+    "trainedGames": 10
   },
   "candidate": {
     "config": {
@@ -318,6 +318,19 @@
       "accuracy": 0.751101,
       "brier": 0.178499,
       "liveBlend": 0.06,
+      "setup": "steady"
+    },
+    {
+      "updatedAt": "2026-09-27T17:46:17.733747+00:00",
+      "samples": 454,
+      "completedGames": 10,
+      "promoted": false,
+      "status": "held",
+      "topHitRate": 0.76087,
+      "topThreshold": 0.632879,
+      "accuracy": 0.751101,
+      "brier": 0.178499,
+      "liveBlend": 0.12,
       "setup": "steady"
     }
   ],
