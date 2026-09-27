@@ -236877,10 +236877,22 @@
           "marketId": "734.188050764",
           "selectionId": "102431838",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           }
         },
@@ -237140,11 +237152,27 @@
           "marketId": "734.188526263",
           "selectionId": "43730496",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "previous": {
+              "pct": 29,
+              "hits": 5,
+              "total": 17
+            }
           }
         },
         {
@@ -268631,11 +268659,31 @@
           "marketId": "734.188063502",
           "selectionId": "14410510",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -367074,11 +367122,23 @@
           "marketId": "734.187694072",
           "selectionId": "43162250",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 11
+            }
           }
         },
         {
