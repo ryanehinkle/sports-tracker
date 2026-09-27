@@ -598,8 +598,11 @@ def normalize_ladder_runs(payload):
             day = 1
         elif status == "push":
             pass
-        # Pending never advances the ladder. A new pick should not be created
-        # until this one has a final result.
+        elif pick.get("slot") and pick.get("provisionalDay"):
+            # A packaged Sunday future window reserves the next displayed rung.
+            # It is still conditional and may be renumbered after earlier results.
+            day += 1
+        # Ordinary pending picks do not advance the ladder.
 
     if payload.get("picks") != picks:
         payload["picks"] = picks
