@@ -372,7 +372,7 @@ def parlay_decimal(combo):
     return value
 
 
-def choose_slip(rows, date_key, profiles, learning=None):
+def choose_slip(rows, date_key, profiles, learning=None, target_min=-110, target_max=110, min_legs=3, max_legs=6):
     rows = [dict(row) for row in rows]
     attach_no_vig_probabilities(rows)
     scored = []
@@ -414,7 +414,7 @@ def choose_slip(rows, date_key, profiles, learning=None):
 
         for _ in range(SIMULATIONS):
             simulations_done += 1
-            size = rng.randint(3, min(6, len(pool)))
+            size = rng.randint(min_legs, min(max_legs, len(pool)))
             sample = rng.sample(pool, min(len(pool), max(size * 4, 14)))
             combo = []
             for row in sample:
@@ -435,10 +435,20 @@ def choose_slip(rows, date_key, profiles, learning=None):
             joint = math.prod(row["_prob"] for row in combo)
             avg_conf = sum(row["_confidence"] for row in combo) / len(combo)
             target_penalty = abs(decimal - 2.0)
-            in_even_band = -110 <= american <= 110
-            score = math.log(max(joint, 1e-9)) + avg_conf * 0.012 - target_penalty * (3.8 if in_even_band else 6.2)
-            if tier_name == "Exact Even Ladder" and not in_even_band:
-                score -= 3.0
+            in_target_band = target_min <= american <= target_max
+            if target_min >= 1000:
+                # Long shot: among qualifying +1000-or-better slips, maximize the
+                # model's joint hit probability first; extra payout is only a tiny
+                # tiebreaker so we do not chase unnecessary risk.
+                score = math.log(max(joint, 1e-9)) + avg_conf * 0.012
+                if american < target_min:
+                    score -= 12.0 + (target_min - american) / 100.0
+                else:
+                    score -= max(0, american - target_min) * 0.00005
+            else:
+                score = math.log(max(joint, 1e-9)) + avg_conf * 0.012 - target_penalty * (3.8 if in_target_band else 6.2)
+                if tier_name == "Exact Even Ladder" and not in_target_band:
+                    score -= 3.0
             if best is None or score > best_meta["score"]:
                 best = combo
                 best_meta = {
@@ -450,7 +460,7 @@ def choose_slip(rows, date_key, profiles, learning=None):
                     "avgConfidence": avg_conf,
                 }
 
-        if best and -110 <= best_meta["odds"] <= 110:
+        if best and target_min <= best_meta["odds"] <= target_max:
             break
 
     if not best:
@@ -709,6 +719,38 @@ def main():
                         f"at {pick['odds']:+d} after {simulations:,} simulations ({meta['tier']})."
                     )
                 payload["picks"].sort(key=ladder_sort_key)
+
+                # One separate Sunday-only long shot uses the full remaining
+                # Sunday board and is published with the three ladder windows.
+                if not any(pick.get("kind") == "longshot" and pick.get("date") == date_key for pick in payload["picks"]):
+                    sunday_ids = {str(event.get("id") or "") for group in sunday_groups.values() for event in group["events"]}
+                    sunday_rows = [row for row in all_rows if row.get("eventId") in sunday_ids]
+                    longshot = choose_slip(
+                        sunday_rows, f"{date_key}:longshot", profiles, learning,
+                        target_min=1000, target_max=100000, min_legs=3, max_legs=6,
+                    )
+                    if longshot:
+                        combo, meta, simulations = longshot
+                        if meta["odds"] is not None and meta["odds"] >= 1000:
+                            payload["picks"].append({
+                                "kind": "longshot",
+                                "date": date_key,
+                                "slot": "all-sunday",
+                                "slotLabel": "Full Sunday slate",
+                                "slotOrder": 99,
+                                "createdAt": now.isoformat(),
+                                "target": "Sunday Long Shot",
+                                "targetOdds": "+1000 minimum",
+                                "odds": meta["odds"],
+                                "decimalOdds": round(meta["decimal"], 6),
+                                "estimatedProbability": round(meta["joint"], 6),
+                                "confidence": round(meta["avgConfidence"], 1),
+                                "selectionTier": meta["tier"],
+                                "simulations": simulations,
+                                "status": "pending",
+                                "legs": [snapshot_leg(row) for row in combo],
+                            })
+                            payload["picks"].sort(key=ladder_sort_key)
 
         # Non-Sunday dates keep the original single pre-kickoff ladder behavior.
         elif not sunday_groups:
