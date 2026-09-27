@@ -18,8 +18,8 @@ on:
       - ".github/workflows/update-odds.yml"\n      - ".github/force-odds-run"
       - "requirements.txt"
   schedule:
-    # Frequent refreshes let us freeze a board close to one hour before each kickoff window.
-    - cron: "12,42 * * * *"
+    # Refresh at :15/:45; builder publishes once kickoff is <=75 minutes away.
+    - cron: "15,45 * * * *"
     # Broader weekly refresh so newly posted future markets also get picked up.
     - cron: "41 15 * * 3,5"
 
