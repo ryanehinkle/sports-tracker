@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-27T15:43:35.632422+00:00",
+  "updatedAt": "2026-09-27T16:22:36.584Z",
   "picks": [
     {
       "day": 1,
@@ -53,12 +53,12 @@
           "commenceTime": "2026-09-25T00:16:00.000Z",
           "odds": -550,
           "player": "Michael Penix Jr.",
-          "key": "36076208\u00a6Michael Penix Jr.\u00a6Passing Yards\u00a6Over\u00a6149.5\u00a6Over 149.5 Passing Yards",
-          "confidence": 90.0,
+          "key": "36076208¦Michael Penix Jr.¦Passing Yards¦Over¦149.5¦Over 149.5 Passing Yards",
+          "confidence": 90,
           "estimatedProbability": 0.90026,
           "result": {
             "status": "hit",
-            "actual": 256.0,
+            "actual": 256,
             "gradedAt": "2026-09-25T04:01:16.369963+00:00"
           }
         },
@@ -103,12 +103,12 @@
           "commenceTime": "2026-09-25T00:16:00.000Z",
           "odds": -550,
           "player": "Bijan Robinson",
-          "key": "36076208\u00a6Bijan Robinson\u00a6Rushing Yards\u00a6Over\u00a649.5\u00a6Over 49.5 Rushing Yards",
+          "key": "36076208¦Bijan Robinson¦Rushing Yards¦Over¦49.5¦Over 49.5 Rushing Yards",
           "confidence": 84.4,
           "estimatedProbability": 0.844495,
           "result": {
             "status": "hit",
-            "actual": 194.0,
+            "actual": 194,
             "gradedAt": "2026-09-25T04:01:16.354953+00:00"
           }
         },
@@ -153,12 +153,12 @@
           "commenceTime": "2026-09-25T00:16:00.000Z",
           "odds": -320,
           "player": "Brian Robinson Jr.",
-          "key": "36076208\u00a6Brian Robinson Jr.\u00a6Rushing Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Rushing Yards",
+          "key": "36076208¦Brian Robinson Jr.¦Rushing Yards¦Over¦14.5¦Over 14.5 Rushing Yards",
           "confidence": 81.9,
           "estimatedProbability": 0.819219,
           "result": {
             "status": "hit",
-            "actual": 50.0,
+            "actual": 50,
             "gradedAt": "2026-09-25T04:01:16.355982+00:00"
           }
         },
@@ -203,17 +203,819 @@
           "commenceTime": "2026-09-25T00:16:00.000Z",
           "odds": -1000,
           "player": "Tucker Kraft",
-          "key": "36076208\u00a6Tucker Kraft\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
+          "key": "36076208¦Tucker Kraft¦Player to Record a 10+ Yard Reception¦Over¦9.5¦Player to Record a 10+ Yard Reception",
           "confidence": 96.5,
           "estimatedProbability": 0.965455,
           "result": {
             "status": "miss",
-            "actual": 9.0,
+            "actual": 9,
             "gradedAt": "2026-09-25T04:01:16.372802+00:00"
           }
         }
       ],
       "run": 1
+    },
+    {
+      "run": 2,
+      "day": 1,
+      "provisionalDay": false,
+      "date": "2026-09-27",
+      "slot": "noon",
+      "slotLabel": "Noon slate",
+      "slotOrder": 1,
+      "createdAt": "2026-09-27T16:22:36.584Z",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 100,
+      "decimalOdds": 2.000121,
+      "estimatedProbability": 0.778493,
+      "confidence": 92,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 67244,
+      "status": "pending",
+      "legs": [
+        {
+          "eventId": "36076207",
+          "commenceTime": "2026-09-27T17:01:00.000Z",
+          "matchup": "NYJ @ DET",
+          "homeAbbr": "DET",
+          "awayAbbr": "NYJ",
+          "scope": "player",
+          "player": "Sam LaPorta",
+          "team": "DET",
+          "position": "TE",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430027.png",
+          "market": "Receptions",
+          "alternate": true,
+          "selection": "Over",
+          "line": 2.5,
+          "odds": -670,
+          "decimalOdds": 1.149253731343284,
+          "proposition": "Over 2.5 Receptions",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 9,
+              "total": 9
+            }
+          },
+          "key": "36076207¦Sam LaPorta¦Receptions¦Over¦2.5¦Over 2.5 Receptions",
+          "confidence": 94.6,
+          "estimatedProbability": 0.946023,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076209",
+          "commenceTime": "2026-09-27T17:01:00.000Z",
+          "matchup": "NE @ JAX",
+          "homeAbbr": "JAX",
+          "awayAbbr": "NE",
+          "scope": "player",
+          "player": "Jakobi Meyers",
+          "team": "JAX",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3916433.png",
+          "market": "Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 19.5,
+          "odds": -340,
+          "decimalOdds": 1.294117647058824,
+          "proposition": "Over 19.5 Receiving Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 16,
+              "total": 16
+            }
+          },
+          "key": "36076209¦Jakobi Meyers¦Receiving Yards¦Over¦19.5¦Over 19.5 Receiving Yards",
+          "confidence": 91.4,
+          "estimatedProbability": 0.914373,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076215",
+          "commenceTime": "2026-09-27T17:01:00.000Z",
+          "matchup": "TEN @ NYG",
+          "homeAbbr": "NYG",
+          "awayAbbr": "TEN",
+          "scope": "player",
+          "player": "Elic Ayomanor",
+          "team": "TEN",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4883647.png",
+          "market": "Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 4.5,
+          "odds": -290,
+          "decimalOdds": 1.344827586206897,
+          "proposition": "Over 4.5 Receiving Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 16,
+              "total": 16
+            }
+          },
+          "key": "36076215¦Elic Ayomanor¦Receiving Yards¦Over¦4.5¦Over 4.5 Receiving Yards",
+          "confidence": 90,
+          "estimatedProbability": 0.899974,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "day": 2,
+      "provisionalDay": true,
+      "date": "2026-09-27",
+      "slot": "mid",
+      "slotLabel": "Mid-afternoon slate",
+      "slotOrder": 2,
+      "createdAt": "2026-09-27T16:22:36.584Z",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 100,
+      "decimalOdds": 2.002801,
+      "estimatedProbability": 0.733969,
+      "confidence": 90.2,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 14194,
+      "status": "pending",
+      "legs": [
+        {
+          "eventId": "36070615",
+          "commenceTime": "2026-09-27T20:25:00.000Z",
+          "matchup": "LV @ NO",
+          "homeAbbr": "NO",
+          "awayAbbr": "LV",
+          "scope": "player",
+          "player": "Brock Bowers",
+          "team": "LV",
+          "position": "TE",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4432665.png",
+          "market": "Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 24.5,
+          "odds": -420,
+          "decimalOdds": 1.238095238095238,
+          "proposition": "Over 24.5 Receiving Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": null,
+            "previous": {
+              "pct": 100,
+              "hits": 12,
+              "total": 12
+            }
+          },
+          "key": "36070615¦Brock Bowers¦Receiving Yards¦Over¦24.5¦Over 24.5 Receiving Yards",
+          "confidence": 91.9,
+          "estimatedProbability": 0.918891,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36070615",
+          "commenceTime": "2026-09-27T20:25:00.000Z",
+          "matchup": "LV @ NO",
+          "homeAbbr": "NO",
+          "awayAbbr": "LV",
+          "scope": "player",
+          "player": "Travis Etienne Jr.",
+          "team": "NO",
+          "position": "RB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4239996.png",
+          "market": "Travis Etienne Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 24.5,
+          "odds": -340,
+          "decimalOdds": 1.294117647058824,
+          "proposition": "Over 24.5 Travis Etienne Rushing Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "key": "36070615¦Travis Etienne Jr.¦Travis Etienne Rushing Yards¦Over¦24.5¦Over 24.5 Travis Etienne Rushing Yards",
+          "confidence": 91.4,
+          "estimatedProbability": 0.914415,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36070615",
+          "commenceTime": "2026-09-27T20:25:00.000Z",
+          "matchup": "LV @ NO",
+          "homeAbbr": "NO",
+          "awayAbbr": "LV",
+          "scope": "player",
+          "player": "Michael Mayer",
+          "team": "LV",
+          "position": "TE",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429086.png",
+          "market": "Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 9.5,
+          "odds": -400,
+          "decimalOdds": 1.25,
+          "proposition": "Over 9.5 Receiving Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 77,
+              "hits": 10,
+              "total": 13
+            }
+          },
+          "key": "36070615¦Michael Mayer¦Receiving Yards¦Over¦9.5¦Over 9.5 Receiving Yards",
+          "confidence": 87.4,
+          "estimatedProbability": 0.873515,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "day": 3,
+      "provisionalDay": true,
+      "date": "2026-09-27",
+      "slot": "snf",
+      "slotLabel": "Sunday Night Football",
+      "slotOrder": 3,
+      "createdAt": "2026-09-27T16:22:36.584Z",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 100,
+      "decimalOdds": 2.002026,
+      "estimatedProbability": 0.747184,
+      "confidence": 90.8,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 77,
+      "status": "pending",
+      "legs": [
+        {
+          "eventId": "36076216",
+          "commenceTime": "2026-09-28T00:21:00.000Z",
+          "matchup": "LAR @ DEN",
+          "homeAbbr": "DEN",
+          "awayAbbr": "LAR",
+          "scope": "player",
+          "player": "J.K. Dobbins",
+          "team": "DEN",
+          "position": "RB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4241985.png",
+          "market": "Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 29.5,
+          "odds": -470,
+          "decimalOdds": 1.212765957446809,
+          "proposition": "Over 29.5 Rushing Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            }
+          },
+          "key": "36076216¦J.K. Dobbins¦Rushing Yards¦Over¦29.5¦Over 29.5 Rushing Yards",
+          "confidence": 92.9,
+          "estimatedProbability": 0.92934,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076216",
+          "commenceTime": "2026-09-28T00:21:00.000Z",
+          "matchup": "LAR @ DEN",
+          "homeAbbr": "DEN",
+          "awayAbbr": "LAR",
+          "scope": "player",
+          "player": "Kyren Williams",
+          "team": "LAR",
+          "position": "RB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430737.png",
+          "market": "Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 39.5,
+          "odds": -300,
+          "decimalOdds": 1.333333333333333,
+          "proposition": "Over 39.5 Rushing Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "key": "36076216¦Kyren Williams¦Rushing Yards¦Over¦39.5¦Over 39.5 Rushing Yards",
+          "confidence": 90.2,
+          "estimatedProbability": 0.90241,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076216",
+          "commenceTime": "2026-09-28T00:21:00.000Z",
+          "matchup": "LAR @ DEN",
+          "homeAbbr": "DEN",
+          "awayAbbr": "LAR",
+          "scope": "player",
+          "player": "Evan Engram",
+          "team": "DEN",
+          "position": "TE",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3051876.png",
+          "market": "Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 9.5,
+          "odds": -420,
+          "decimalOdds": 1.238095238095238,
+          "proposition": "Over 9.5 Receiving Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 14,
+              "total": 16
+            }
+          },
+          "key": "36076216¦Evan Engram¦Receiving Yards¦Over¦9.5¦Over 9.5 Receiving Yards",
+          "confidence": 89.1,
+          "estimatedProbability": 0.890942,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-09-27",
+      "slot": "all-sunday",
+      "slotLabel": "Full Sunday slate",
+      "slotOrder": 99,
+      "createdAt": "2026-09-27T16:22:36.584Z",
+      "target": "Sunday Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1021,
+      "decimalOdds": 11.208067,
+      "estimatedProbability": 0.433344,
+      "confidence": 87,
+      "selectionTier": "Best available +1000",
+      "simulations": 8247674,
+      "status": "pending",
+      "legs": [
+        {
+          "eventId": "36070615",
+          "commenceTime": "2026-09-27T20:25:00.000Z",
+          "matchup": "LV @ NO",
+          "homeAbbr": "NO",
+          "awayAbbr": "LV",
+          "scope": "player",
+          "player": "Travis Etienne Jr.",
+          "team": "NO",
+          "position": "RB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4239996.png",
+          "market": "Travis Etienne Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 24.5,
+          "odds": -340,
+          "decimalOdds": 1.294117647058824,
+          "proposition": "Over 24.5 Travis Etienne Rushing Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "key": "36070615¦Travis Etienne Jr.¦Travis Etienne Rushing Yards¦Over¦24.5¦Over 24.5 Travis Etienne Rushing Yards",
+          "confidence": 91.4,
+          "estimatedProbability": 0.914415,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076216",
+          "commenceTime": "2026-09-28T00:21:00.000Z",
+          "matchup": "LAR @ DEN",
+          "homeAbbr": "DEN",
+          "awayAbbr": "LAR",
+          "scope": "player",
+          "player": "Kyren Williams",
+          "team": "LAR",
+          "position": "RB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430737.png",
+          "market": "Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 39.5,
+          "odds": -300,
+          "decimalOdds": 1.333333333333333,
+          "proposition": "Over 39.5 Rushing Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "key": "36076216¦Kyren Williams¦Rushing Yards¦Over¦39.5¦Over 39.5 Rushing Yards",
+          "confidence": 90.2,
+          "estimatedProbability": 0.90241,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076209",
+          "commenceTime": "2026-09-27T17:01:00.000Z",
+          "matchup": "NE @ JAX",
+          "homeAbbr": "JAX",
+          "awayAbbr": "NE",
+          "scope": "player",
+          "player": "Jakobi Meyers",
+          "team": "JAX",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3916433.png",
+          "market": "Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 24.5,
+          "odds": -230,
+          "decimalOdds": 1.434782608695652,
+          "proposition": "Over 24.5 Receiving Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
+          },
+          "key": "36076209¦Jakobi Meyers¦Receiving Yards¦Over¦24.5¦Over 24.5 Receiving Yards",
+          "confidence": 88,
+          "estimatedProbability": 0.879679,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076206",
+          "commenceTime": "2026-09-27T17:01:00.000Z",
+          "matchup": "CAR @ CLE",
+          "homeAbbr": "CLE",
+          "awayAbbr": "CAR",
+          "scope": "player",
+          "player": "Denzel Boston",
+          "team": "CLE",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4832800.png",
+          "market": "Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 39.5,
+          "odds": -158,
+          "decimalOdds": 1.632911392405063,
+          "proposition": "Over 39.5 Receiving Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": null
+          },
+          "key": "36076206¦Denzel Boston¦Receiving Yards¦Over¦39.5¦Over 39.5 Receiving Yards",
+          "confidence": 84.5,
+          "estimatedProbability": 0.844938,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076214",
+          "commenceTime": "2026-09-27T17:01:00.000Z",
+          "matchup": "SEA @ WSH",
+          "homeAbbr": "WSH",
+          "awayAbbr": "SEA",
+          "scope": "player",
+          "player": "Antonio Williams",
+          "team": "WSH",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/5081432.png",
+          "market": "Player to Record a 10+ Yard Reception",
+          "alternate": true,
+          "selection": "Over",
+          "line": 9.5,
+          "odds": -140,
+          "decimalOdds": 1.714285714285714,
+          "proposition": "Player to Record a 10+ Yard Reception",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": null
+          },
+          "key": "36076214¦Antonio Williams¦Player to Record a 10+ Yard Reception¦Over¦9.5¦Player to Record a 10+ Yard Reception",
+          "confidence": 83.4,
+          "estimatedProbability": 0.83401,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36076206",
+          "commenceTime": "2026-09-27T17:01:00.000Z",
+          "matchup": "CAR @ CLE",
+          "homeAbbr": "CLE",
+          "awayAbbr": "CAR",
+          "scope": "player",
+          "player": "Deshaun Watson",
+          "team": "CLE",
+          "position": "QB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3122840.png",
+          "market": "Passing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "line": 174.5,
+          "odds": -162,
+          "decimalOdds": 1.617283950617284,
+          "proposition": "Over 174.5 Passing Yards",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": null
+          },
+          "key": "36076206¦Deshaun Watson¦Passing Yards¦Over¦174.5¦Over 174.5 Passing Yards",
+          "confidence": 84.7,
+          "estimatedProbability": 0.847161,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
     }
   ]
 }
