@@ -463,7 +463,44 @@ def choose_slip(rows, date_key, profiles, learning=None, target_min=-110, target
         if best and target_min <= best_meta["odds"] <= target_max:
             break
 
-    if not best:
+    if target_min >= 1000 and (not best or best_meta["odds"] < target_min):
+        # Guaranteed long-shot fallback. Exhaustively combine the strongest
+        # model-rated outcomes, progressively relaxing only diversification
+        # constraints. +1000 and the 3-6 leg shape remain hard requirements.
+        import itertools
+        ranked = sorted(scored, key=lambda item: item["_confidence"], reverse=True)
+        search_pools = [ranked[:40], ranked[:80], ranked[:160], ranked]
+        for pool in search_pools:
+            for size in range(min_legs, min(max_legs, len(pool)) + 1):
+                for combo_tuple in itertools.combinations(pool, size):
+                    combo = list(combo_tuple)
+                    if len({family_key(row) for row in combo}) != len(combo):
+                        continue
+                    decimal = parlay_decimal(combo)
+                    if not decimal:
+                        continue
+                    american = decimal_to_american(decimal)
+                    if american is None or american < target_min or american > target_max:
+                        continue
+                    joint = math.prod(row["_prob"] for row in combo)
+                    avg_conf = sum(row["_confidence"] for row in combo) / len(combo)
+                    score = math.log(max(joint, 1e-9)) + avg_conf * 0.012 - max(0, american - target_min) * 0.00005
+                    if best_meta is None or best_meta["odds"] < target_min or score > best_meta["score"]:
+                        best = combo
+                        best_meta = {
+                            "score": score,
+                            "tier": "Best available +1000",
+                            "decimal": decimal,
+                            "odds": american,
+                            "joint": joint,
+                            "avgConfidence": avg_conf,
+                        }
+                if best_meta and best_meta["odds"] >= target_min:
+                    break
+            if best_meta and best_meta["odds"] >= target_min:
+                break
+
+    if not best or (target_min >= 1000 and best_meta["odds"] < target_min):
         # Deterministic fallback: preserve the requested 3-leg floor whenever
         # a board has at least three outcomes. First keep player uniqueness,
         # then relax only the odds-spread guard if the slate is unusually thin.
