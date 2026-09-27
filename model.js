@@ -1871,7 +1871,7 @@ function ladderDateLabel(value){
 }
 function ladderStatusIcon(status){return status==="hit"?"✓":status==="miss"?"×":status==="push"?"↔":"•"}
 function ladderChronologicalPicks(){
-  const picks=[...(state.ladderData&&state.ladderData.picks||[])].sort((a,b)=>{
+  const picks=[...(state.ladderData&&state.ladderData.picks||[])].filter(p=>p.kind!=="longshot").sort((a,b)=>{
     const ad=String(a.date||""),bd=String(b.date||"");if(ad!==bd)return ad.localeCompare(bd);
     const ao=Number(a.slotOrder||0),bo=Number(b.slotOrder||0);if(ao!==bo)return ao-bo;
     return String(a.createdAt||"").localeCompare(String(b.createdAt||""));
@@ -1960,6 +1960,17 @@ function bind(){
     await loadModelDate(date,file);
   });
   $("todayPickButton").addEventListener("click",toggleLadderPanel);
+  $("longShotButton").addEventListener("click",()=>{
+    const all=[...(state.ladderData&&state.ladderData.picks||[])],targetDate=state.modelHistorical?state.modelDate:localDateKey();
+    const pick=all.find(p=>p.kind==="longshot"&&p.date===targetDate);
+    const panel=$("ladderChallengePanel");panel.hidden=false;$("todayPickButton").setAttribute("aria-expanded","false");
+    if(!pick){$("ladderPickTitle").textContent="Sunday Long Shot";$("ladderPickMeta").textContent="+1000 minimum • 3–6 legs • full Sunday slate";$("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPickBody").innerHTML='<div class="ladder-awaiting"><div><strong>No Sunday long shot published yet</strong></div></div>';return}
+    $("ladderPickTitle").textContent="Long Shot Pick • "+ladderDateLabel(pick.date);
+    $("ladderPickMeta").textContent=(pick.slotLabel||"Full Sunday slate")+" • +1000 minimum • best modeled hit probability";
+    $("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPrev").disabled=true;$("ladderNext").disabled=true;
+    const status=String(pick.status||"pending"),statusLabel=status==="hit"?"WIN":status==="miss"?"LOSS":status==="push"?"PUSH":"LIVE / PENDING";
+    $("ladderPickBody").innerHTML='<article class="ladder-slip ladder-slip-'+esc(status)+'"><div class="ladder-slip-summary"><div><span>PARLAY ODDS</span><strong>'+formatOdds(pick.odds)+'</strong></div><div><span>MODEL CONFIDENCE</span><strong>'+pct(Number(pick.confidence),1)+'</strong></div><div><span>EST. HIT PROB.</span><strong>'+pct(Number(pick.estimatedProbability)*100,1)+'</strong></div><div class="ladder-overall-status"><span>'+ladderStatusIcon(status)+'</span><strong>'+statusLabel+'</strong></div></div><div class="ladder-legs">'+(pick.legs||[]).map(ladderLegHtml).join("")+'</div></article>';
+  });
   $("ladderPrev").addEventListener("click",()=>{if(state.ladderIndex<=0)return;state.ladderIndex--;renderLadderPick()});
   $("ladderNext").addEventListener("click",()=>{const n=ladderChronologicalPicks().length;if(state.ladderIndex>=n-1)return;state.ladderIndex++;renderLadderPick()});
   $("modelPresetButton").addEventListener("click",e=>{e.stopPropagation();togglePresetPopover()});
