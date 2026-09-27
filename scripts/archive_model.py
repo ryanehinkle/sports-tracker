@@ -33,7 +33,7 @@ def due_date(odds, now):
         if not start or start <= now:
             continue
         delta = start - now
-        if timedelta(minutes=20) <= delta <= timedelta(minutes=75):
+        if timedelta(minutes=0) < delta <= timedelta(minutes=75):
             candidates.append(start)
     if not candidates:
         return None
