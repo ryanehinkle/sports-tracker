@@ -1873,15 +1873,18 @@ function ladderStatusIcon(status){return status==="hit"?"✓":status==="miss"?"�
 function ladderChronologicalPicks(){
   const picks=[...(state.ladderData&&state.ladderData.picks||[])].sort((a,b)=>{
     const ad=String(a.date||""),bd=String(b.date||"");if(ad!==bd)return ad.localeCompare(bd);
+    const ao=Number(a.slotOrder||0),bo=Number(b.slotOrder||0);if(ao!==bo)return ao-bo;
     return String(a.createdAt||"").localeCompare(String(b.createdAt||""));
   });
-  let run=1,day=1;
+  let run=1,day=1,blocked=false;
   return picks.map((pick,index)=>{
-    const normalized=Object.assign({},pick,{_ladderRun:run,_ladderDay:day,_ladderIndex:index});
+    const sameSundayPackage=Boolean(pick.slot&&pick.provisionalDay);
+    const normalized=Object.assign({},pick,{_ladderRun:run,_ladderDay:day,_ladderIndex:index,_provisional:sameSundayPackage&&blocked});
     const status=String(pick.status||"pending");
-    if(status==="hit")day+=1;
-    else if(status==="miss"){run+=1;day=1}
-    // Push replays the same rung. Pending cannot advance until it grades.
+    if(status==="hit"){day+=1;blocked=false}
+    else if(status==="miss"){run+=1;day=1;blocked=true}
+    else if(status==="push"){blocked=false}
+    else if(sameSundayPackage){day+=1;blocked=true}
     return normalized;
   });
 }
@@ -1895,7 +1898,7 @@ function renderLadderLaunch(){
   if(state.modelHistorical){
     $("todayPickButtonLabel").textContent=selected?"See archived pick (Day "+selected._ladderDay+")":"No archived ladder pick";
   }else if(selected){
-    $("todayPickButtonLabel").textContent="See today's pick (Day "+selected._ladderDay+")";
+    $("todayPickButtonLabel").textContent="See today's picks";
   }else if(last){
     $("todayPickButtonLabel").textContent="See latest pick (Day "+last._ladderDay+")";
   }else{
@@ -1927,9 +1930,9 @@ function renderLadderPick(){
   }
   state.ladderIndex=clamp(state.ladderIndex,0,picks.length-1);
   const pick=picks[state.ladderIndex],status=String(pick.status||"pending"),runMax=ladderRunMaxDay(picks,pick);
-  $("ladderPickTitle").textContent="Day "+pick._ladderDay+" • "+ladderDateLabel(pick.date);
+  $("ladderPickTitle").textContent="Day "+pick._ladderDay+(pick._provisional?"*":"")+" • "+ladderDateLabel(pick.date)+(pick.slotLabel?" • "+pick.slotLabel:"");
   $("ladderPickMeta").textContent=pick.selectionTier||"Even Ladder";
-  $("ladderHistoryStatus").textContent="Day "+pick._ladderDay+" of "+runMax;
+  $("ladderHistoryStatus").textContent="Day "+pick._ladderDay+(pick._provisional?"*":"")+" of "+runMax;
   const statusLabel=status==="hit"?"WIN":status==="miss"?"LOSS":status==="push"?"PUSH":"LIVE / PENDING";
   $("ladderPickBody").innerHTML='<article class="ladder-slip ladder-slip-'+esc(status)+'">'+
     '<div class="ladder-slip-summary"><div><span>PARLAY ODDS</span><strong>'+formatOdds(pick.odds)+'</strong></div><div><span>MODEL CONFIDENCE</span><strong>'+pct(Number(pick.confidence),1)+'</strong></div><div><span>EST. HIT PROB.</span><strong>'+pct(Number(pick.estimatedProbability)*100,1)+'</strong></div><div class="ladder-overall-status"><span>'+ladderStatusIcon(status)+'</span><strong>'+statusLabel+'</strong></div></div>'+
