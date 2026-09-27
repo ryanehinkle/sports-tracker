@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-27T16:22:36.584Z",
+  "updatedAt": "2026-09-27T16:30:03.406378+00:00",
   "picks": [
     {
       "day": 1,
@@ -53,7 +53,7 @@
           "commenceTime": "2026-09-25T00:16:00.000Z",
           "odds": -550,
           "player": "Michael Penix Jr.",
-          "key": "36076208¦Michael Penix Jr.¦Passing Yards¦Over¦149.5¦Over 149.5 Passing Yards",
+          "key": "36076208\u00a6Michael Penix Jr.\u00a6Passing Yards\u00a6Over\u00a6149.5\u00a6Over 149.5 Passing Yards",
           "confidence": 90,
           "estimatedProbability": 0.90026,
           "result": {
@@ -103,7 +103,7 @@
           "commenceTime": "2026-09-25T00:16:00.000Z",
           "odds": -550,
           "player": "Bijan Robinson",
-          "key": "36076208¦Bijan Robinson¦Rushing Yards¦Over¦49.5¦Over 49.5 Rushing Yards",
+          "key": "36076208\u00a6Bijan Robinson\u00a6Rushing Yards\u00a6Over\u00a649.5\u00a6Over 49.5 Rushing Yards",
           "confidence": 84.4,
           "estimatedProbability": 0.844495,
           "result": {
@@ -153,7 +153,7 @@
           "commenceTime": "2026-09-25T00:16:00.000Z",
           "odds": -320,
           "player": "Brian Robinson Jr.",
-          "key": "36076208¦Brian Robinson Jr.¦Rushing Yards¦Over¦14.5¦Over 14.5 Rushing Yards",
+          "key": "36076208\u00a6Brian Robinson Jr.\u00a6Rushing Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Rushing Yards",
           "confidence": 81.9,
           "estimatedProbability": 0.819219,
           "result": {
@@ -203,7 +203,7 @@
           "commenceTime": "2026-09-25T00:16:00.000Z",
           "odds": -1000,
           "player": "Tucker Kraft",
-          "key": "36076208¦Tucker Kraft¦Player to Record a 10+ Yard Reception¦Over¦9.5¦Player to Record a 10+ Yard Reception",
+          "key": "36076208\u00a6Tucker Kraft\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
           "confidence": 96.5,
           "estimatedProbability": 0.965455,
           "result": {
@@ -275,7 +275,7 @@
               "total": 9
             }
           },
-          "key": "36076207¦Sam LaPorta¦Receptions¦Over¦2.5¦Over 2.5 Receptions",
+          "key": "36076207\u00a6Sam LaPorta\u00a6Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Receptions",
           "confidence": 94.6,
           "estimatedProbability": 0.946023,
           "result": {
@@ -327,7 +327,7 @@
               "total": 16
             }
           },
-          "key": "36076209¦Jakobi Meyers¦Receiving Yards¦Over¦19.5¦Over 19.5 Receiving Yards",
+          "key": "36076209\u00a6Jakobi Meyers\u00a6Receiving Yards\u00a6Over\u00a619.5\u00a6Over 19.5 Receiving Yards",
           "confidence": 91.4,
           "estimatedProbability": 0.914373,
           "result": {
@@ -375,7 +375,7 @@
               "total": 16
             }
           },
-          "key": "36076215¦Elic Ayomanor¦Receiving Yards¦Over¦4.5¦Over 4.5 Receiving Yards",
+          "key": "36076215\u00a6Elic Ayomanor\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
           "confidence": 90,
           "estimatedProbability": 0.899974,
           "result": {
@@ -440,7 +440,7 @@
               "total": 12
             }
           },
-          "key": "36070615¦Brock Bowers¦Receiving Yards¦Over¦24.5¦Over 24.5 Receiving Yards",
+          "key": "36070615\u00a6Brock Bowers\u00a6Receiving Yards\u00a6Over\u00a624.5\u00a6Over 24.5 Receiving Yards",
           "confidence": 91.9,
           "estimatedProbability": 0.918891,
           "result": {
@@ -492,7 +492,7 @@
               "total": 17
             }
           },
-          "key": "36070615¦Travis Etienne Jr.¦Travis Etienne Rushing Yards¦Over¦24.5¦Over 24.5 Travis Etienne Rushing Yards",
+          "key": "36070615\u00a6Travis Etienne Jr.\u00a6Travis Etienne Rushing Yards\u00a6Over\u00a624.5\u00a6Over 24.5 Travis Etienne Rushing Yards",
           "confidence": 91.4,
           "estimatedProbability": 0.914415,
           "result": {
@@ -540,7 +540,7 @@
               "total": 13
             }
           },
-          "key": "36070615¦Michael Mayer¦Receiving Yards¦Over¦9.5¦Over 9.5 Receiving Yards",
+          "key": "36070615\u00a6Michael Mayer\u00a6Receiving Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Receiving Yards",
           "confidence": 87.4,
           "estimatedProbability": 0.873515,
           "result": {
@@ -609,7 +609,7 @@
               "total": 10
             }
           },
-          "key": "36076216¦J.K. Dobbins¦Rushing Yards¦Over¦29.5¦Over 29.5 Rushing Yards",
+          "key": "36076216\u00a6J.K. Dobbins\u00a6Rushing Yards\u00a6Over\u00a629.5\u00a6Over 29.5 Rushing Yards",
           "confidence": 92.9,
           "estimatedProbability": 0.92934,
           "result": {
@@ -657,7 +657,7 @@
               "total": 17
             }
           },
-          "key": "36076216¦Kyren Williams¦Rushing Yards¦Over¦39.5¦Over 39.5 Rushing Yards",
+          "key": "36076216\u00a6Kyren Williams\u00a6Rushing Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Rushing Yards",
           "confidence": 90.2,
           "estimatedProbability": 0.90241,
           "result": {
@@ -705,7 +705,7 @@
               "total": 16
             }
           },
-          "key": "36076216¦Evan Engram¦Receiving Yards¦Over¦9.5¦Over 9.5 Receiving Yards",
+          "key": "36076216\u00a6Evan Engram\u00a6Receiving Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Receiving Yards",
           "confidence": 89.1,
           "estimatedProbability": 0.890942,
           "result": {
@@ -776,7 +776,7 @@
               "total": 17
             }
           },
-          "key": "36070615¦Travis Etienne Jr.¦Travis Etienne Rushing Yards¦Over¦24.5¦Over 24.5 Travis Etienne Rushing Yards",
+          "key": "36070615\u00a6Travis Etienne Jr.\u00a6Travis Etienne Rushing Yards\u00a6Over\u00a624.5\u00a6Over 24.5 Travis Etienne Rushing Yards",
           "confidence": 91.4,
           "estimatedProbability": 0.914415,
           "result": {
@@ -824,7 +824,7 @@
               "total": 17
             }
           },
-          "key": "36076216¦Kyren Williams¦Rushing Yards¦Over¦39.5¦Over 39.5 Rushing Yards",
+          "key": "36076216\u00a6Kyren Williams\u00a6Rushing Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Rushing Yards",
           "confidence": 90.2,
           "estimatedProbability": 0.90241,
           "result": {
@@ -876,7 +876,7 @@
               "total": 16
             }
           },
-          "key": "36076209¦Jakobi Meyers¦Receiving Yards¦Over¦24.5¦Over 24.5 Receiving Yards",
+          "key": "36076209\u00a6Jakobi Meyers\u00a6Receiving Yards\u00a6Over\u00a624.5\u00a6Over 24.5 Receiving Yards",
           "confidence": 88,
           "estimatedProbability": 0.879679,
           "result": {
@@ -920,7 +920,7 @@
             },
             "previous": null
           },
-          "key": "36076206¦Denzel Boston¦Receiving Yards¦Over¦39.5¦Over 39.5 Receiving Yards",
+          "key": "36076206\u00a6Denzel Boston\u00a6Receiving Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Receiving Yards",
           "confidence": 84.5,
           "estimatedProbability": 0.844938,
           "result": {
@@ -964,7 +964,7 @@
             },
             "previous": null
           },
-          "key": "36076214¦Antonio Williams¦Player to Record a 10+ Yard Reception¦Over¦9.5¦Player to Record a 10+ Yard Reception",
+          "key": "36076214\u00a6Antonio Williams\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
           "confidence": 83.4,
           "estimatedProbability": 0.83401,
           "result": {
@@ -1008,7 +1008,7 @@
             },
             "previous": null
           },
-          "key": "36076206¦Deshaun Watson¦Passing Yards¦Over¦174.5¦Over 174.5 Passing Yards",
+          "key": "36076206\u00a6Deshaun Watson\u00a6Passing Yards\u00a6Over\u00a6174.5\u00a6Over 174.5 Passing Yards",
           "confidence": 84.7,
           "estimatedProbability": 0.847161,
           "result": {
