@@ -493,3 +493,5 @@ html[data-theme] .model-date-button.open{
 .long-shot-button{border-color:rgba(255,190,85,.26);background:rgba(255,190,85,.055)}
 .long-shot-button:hover{border-color:rgba(255,190,85,.48);background:rgba(255,190,85,.10)}
 .long-shot-dot{width:7px;height:7px;border-radius:50%;background:#ffbe55;box-shadow:0 0 0 5px rgba(255,190,85,.08)}
+
+.signal-margin{text-align:center;white-space:nowrap}.signal-margin strong{display:block;font-size:.72rem}.signal-margin small{display:block;margin-top:2px;color:var(--muted);font-size:.52rem}.margin-good{color:var(--win,#67dda9)}.margin-bad{color:#ff8791}
