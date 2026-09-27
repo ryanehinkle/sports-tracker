@@ -500,6 +500,35 @@ def choose_slip(rows, date_key, profiles, learning=None, target_min=-110, target
             if best_meta and best_meta["odds"] >= target_min:
                 break
 
+    if target_min < 1000 and (not best or not (target_min <= best_meta["odds"] <= target_max)):
+        # Ladder guarantee: widen through the entire window board and search
+        # valid 3-6 leg combinations in the target band, relaxing secondary
+        # history/diversification filters rather than returning no pick.
+        import itertools
+        ranked = sorted(scored, key=lambda item: item["_confidence"], reverse=True)
+        for pool in [ranked[:40], ranked[:80], ranked[:160], ranked]:
+            candidate = None
+            candidate_meta = None
+            for size in range(min_legs, min(max_legs, len(pool)) + 1):
+                for combo_tuple in itertools.combinations(pool, size):
+                    combo = list(combo_tuple)
+                    if len({family_key(row) for row in combo}) != len(combo):
+                        continue
+                    decimal = parlay_decimal(combo)
+                    american = decimal_to_american(decimal) if decimal else None
+                    if american is None or not (target_min <= american <= target_max):
+                        continue
+                    joint = math.prod(row["_prob"] for row in combo)
+                    avg_conf = sum(row["_confidence"] for row in combo) / len(combo)
+                    score = math.log(max(joint, 1e-9)) + avg_conf * 0.012 - abs(decimal - 2.0) * 3.8
+                    if candidate_meta is None or score > candidate_meta["score"]:
+                        candidate, candidate_meta = combo, {"score":score,"tier":"Best available ladder","decimal":decimal,"odds":american,"joint":joint,"avgConfidence":avg_conf}
+                if candidate:
+                    break
+            if candidate:
+                best,best_meta=candidate,candidate_meta
+                break
+
     if not best or (target_min >= 1000 and best_meta["odds"] < target_min):
         # Deterministic fallback: preserve the requested 3-leg floor whenever
         # a board has at least three outcomes. First keep player uniqueness,
