@@ -15,7 +15,7 @@ on:
       - "scripts/build_ladder.py"
       - "scripts/archive_model.py"
       - "scripts/update_team_stats.py"
-      - ".github/workflows/update-odds.yml"
+      - ".github/workflows/update-odds.yml"\n      - ".github/force-odds-run"
       - "requirements.txt"
   schedule:
     # Frequent refreshes let us freeze a board close to one hour before each kickoff window.
