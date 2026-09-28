@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-28T00:48:59.590860+00:00",
+  "updatedAt": "2026-09-28T06:28:47.637623+00:00",
   "picks": [
     {
       "day": 1,
@@ -232,7 +232,7 @@
       "confidence": 92,
       "selectionTier": "Exact Even Ladder",
       "simulations": 67244,
-      "status": "pending",
+      "status": "hit",
       "legs": [
         {
           "eventId": "36076207",
@@ -279,7 +279,9 @@
           "confidence": 94.6,
           "estimatedProbability": 0.946023,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-09-28T06:28:19.438861+00:00"
           }
         },
         {
@@ -331,7 +333,9 @@
           "confidence": 91.4,
           "estimatedProbability": 0.914373,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 64.0,
+            "gradedAt": "2026-09-28T06:28:19.453316+00:00"
           }
         },
         {
@@ -379,7 +383,9 @@
           "confidence": 90,
           "estimatedProbability": 0.899974,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 11.0,
+            "gradedAt": "2026-09-28T06:28:19.596249+00:00"
           }
         }
       ]
@@ -880,7 +886,9 @@
           "confidence": 88,
           "estimatedProbability": 0.879679,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 64.0,
+            "gradedAt": "2026-09-28T06:28:19.453350+00:00"
           }
         },
         {
@@ -924,7 +932,9 @@
           "confidence": 84.5,
           "estimatedProbability": 0.844938,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 41.0,
+            "gradedAt": "2026-09-28T06:28:19.405324+00:00"
           }
         },
         {
@@ -968,7 +978,9 @@
           "confidence": 83.4,
           "estimatedProbability": 0.83401,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-09-28T06:28:19.567357+00:00"
           }
         },
         {
@@ -1012,7 +1024,9 @@
           "confidence": 84.7,
           "estimatedProbability": 0.847161,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 144.0,
+            "gradedAt": "2026-09-28T06:28:19.406619+00:00"
           }
         }
       ]
