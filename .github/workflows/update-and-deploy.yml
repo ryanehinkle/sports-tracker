@@ -3,8 +3,13 @@ name: Update NFL Stats
 on:
   workflow_dispatch:
   schedule:
-    # Refresh completed-game stats and retrain the model every hour.
+    # Hourly fallback all week.
     - cron: "17 * * * *"
+    # Fast postgame grading windows. These run every 15 minutes around the
+    # normal NFL completion windows so finished slates do not sit pending.
+    - cron: "*/15 19-23 * * 0"
+    - cron: "*/15 0-6 * * 1"
+    - cron: "*/15 2-6 * * 2,5"
   push:
     branches: ["main"]
     paths:
@@ -17,12 +22,15 @@ on:
       - "scripts/build_ladder.py"
       - "requirements.txt"
       - ".github/workflows/update-and-deploy.yml"
+      - ".github/force-stats-run"
 
 permissions:
   contents: write
 
+# Keep the stats/grading pipeline independent from the high-frequency odds
+# workflow. Odds refreshes must never cancel a postgame grading run.
 concurrency:
-  group: nfl-data-update
+  group: nfl-stats-update
   cancel-in-progress: false
 
 jobs:
