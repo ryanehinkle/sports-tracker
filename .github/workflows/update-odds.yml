@@ -19,7 +19,7 @@ on:
       - ".github/force-odds-run"
       - "requirements.txt"
   schedule:
-    # Check every 5 minutes so the first eligible run lands at the true 75-minute pre-kickoff threshold.
+    # Check every 15 minutes so each kickoff window can refresh and archive independently.
     - cron: "*/15 * * * *"
     # Broader weekly refresh so newly posted future markets also get picked up.
     - cron: "41 15 * * 3,5"
@@ -86,16 +86,19 @@ jobs:
           except Exception:
               ladder = {"picks": []}
 
-          starts = []
+          due_event_ids = []
           for event in odds.get("events") or []:
               try:
                   start = datetime.fromisoformat(str(event.get("commenceTime") or "").replace("Z", "+00:00"))
               except ValueError:
                   continue
-              if start > now and start.astimezone(central).date().isoformat() == today:
-                  starts.append(start)
+              if start <= now or start.astimezone(central).date().isoformat() != today:
+                  continue
+              if 0 < (start - now).total_seconds() <= 75 * 60:
+                  event_id = str(event.get("id") or "")
+                  if event_id:
+                      due_event_ids.append(event_id)
 
-          due = bool(starts) and 0 < (min(starts) - now).total_seconds() <= 75 * 60
           picks = [p for p in (ladder.get("picks") or []) if p.get("date") == today]
           if now.astimezone(central).weekday() == 6:
               slots = {p.get("slot") for p in picks if p.get("kind") != "longshot"}
@@ -103,8 +106,22 @@ jobs:
           else:
               package_complete = any(p.get("kind") != "longshot" for p in picks)
 
-          archive_complete = Path(f"data/model-history/{today}.json").exists()
-          print("true" if due and not (package_complete and archive_complete) else "false")
+          frozen_ids = set()
+          history_path = Path(f"data/odds-history/{today}.json")
+          try:
+              history = json.loads(history_path.read_text())
+              frozen_ids = {str(event.get("id") or "") for event in (history.get("events") or [])}
+          except Exception:
+              pass
+
+          needs_event_archive = any(event_id not in frozen_ids for event_id in due_event_ids)
+          needs_model_archive = not Path(f"data/model-history/{today}.json").exists()
+          should_run = bool(due_event_ids) and (
+              not package_complete
+              or needs_model_archive
+              or needs_event_archive
+          )
+          print("true" if should_run else "false")
           PY
           )"
             echo "run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
