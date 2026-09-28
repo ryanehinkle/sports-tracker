@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-28T06:35:35.180318+00:00",
+  "updatedAt": "2026-09-28T06:35:43.183917+00:00",
   "picks": [
     {
       "day": 1,
@@ -407,7 +407,7 @@
       "confidence": 90.2,
       "selectionTier": "Exact Even Ladder",
       "simulations": 14194,
-      "status": "pending",
+      "status": "hit",
       "legs": [
         {
           "eventId": "36070615",
@@ -450,7 +450,9 @@
           "confidence": 91.9,
           "estimatedProbability": 0.918891,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 116.0,
+            "gradedAt": "2026-09-28T06:35:43.504358+00:00"
           }
         },
         {
@@ -504,7 +506,7 @@
           "result": {
             "status": "hit",
             "actual": 57.0,
-            "gradedAt": "2026-09-28T06:35:35.442673+00:00"
+            "gradedAt": "2026-09-28T06:35:43.504448+00:00"
           }
         },
         {
@@ -552,7 +554,9 @@
           "confidence": 87.4,
           "estimatedProbability": 0.873515,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 32.0,
+            "gradedAt": "2026-09-28T06:35:43.504497+00:00"
           }
         }
       ]
@@ -623,7 +627,7 @@
           "result": {
             "status": "hit",
             "actual": 49.0,
-            "gradedAt": "2026-09-28T06:35:35.442781+00:00"
+            "gradedAt": "2026-09-28T06:35:43.504545+00:00"
           }
         },
         {
@@ -673,7 +677,7 @@
           "result": {
             "status": "hit",
             "actual": 88.0,
-            "gradedAt": "2026-09-28T06:35:35.442836+00:00"
+            "gradedAt": "2026-09-28T06:35:43.504592+00:00"
           }
         },
         {
@@ -723,7 +727,7 @@
           "result": {
             "status": "miss",
             "actual": 0.0,
-            "gradedAt": "2026-09-28T06:35:35.442880+00:00"
+            "gradedAt": "2026-09-28T06:35:43.504633+00:00"
           }
         }
       ]
@@ -796,7 +800,7 @@
           "result": {
             "status": "hit",
             "actual": 57.0,
-            "gradedAt": "2026-09-28T06:35:35.442934+00:00"
+            "gradedAt": "2026-09-28T06:35:43.504685+00:00"
           }
         },
         {
@@ -846,7 +850,7 @@
           "result": {
             "status": "hit",
             "actual": 88.0,
-            "gradedAt": "2026-09-28T06:35:35.442974+00:00"
+            "gradedAt": "2026-09-28T06:35:43.504724+00:00"
           }
         },
         {
