@@ -676,12 +676,57 @@ def history_result_index():
 def refresh_pick_results(payload):
     results = history_result_index()
     changed = False
+
+    # The odds-history archive is the preferred source because it preserves the
+    # exact frozen pregame market. If a later slate was not archived (for
+    # example because a scheduled odds run was skipped), grade the already
+    # frozen ladder leg directly from the completed ESPN game logs instead of
+    # leaving that pick pending forever.
+    try:
+        from update_odds import (
+            _grade_player_prop,
+            _grade_team_prop,
+            load_stats_players,
+            load_team_stats,
+            normalize_name,
+        )
+        by_norm, _, stats_payload = load_stats_players()
+        team_by_abbr, _, team_payload = load_team_stats()
+        current_season = int(stats_payload.get("season") or datetime.now(timezone.utc).year)
+    except Exception as exc:
+        print(f"WARNING: direct ladder grading unavailable: {exc}")
+        by_norm, stats_payload = {}, {}
+        team_by_abbr, team_payload = {}, {}
+        current_season = datetime.now(timezone.utc).year
+
     for pick in payload.get("picks") or []:
         for leg in pick.get("legs") or []:
+            current = leg.get("result") or {"status": "pending"}
+            current_status = str(current.get("status") or "pending")
+            if current_status in {"hit", "miss", "push"}:
+                continue
+
             result = results.get(leg.get("key"))
-            if result and result != leg.get("result"):
+            if not result or str(result.get("status") or "pending") not in {"hit", "miss", "push"}:
+                event = {
+                    "id": str(leg.get("eventId") or ""),
+                    "commenceTime": leg.get("commenceTime"),
+                    "homeAbbr": leg.get("homeAbbr") or "",
+                    "awayAbbr": leg.get("awayAbbr") or "",
+                }
+                if leg.get("scope") in {"team", "game"}:
+                    result = _grade_team_prop(event, leg, team_by_abbr, team_payload) if team_by_abbr else None
+                else:
+                    profile = by_norm.get(normalize_name(leg.get("player"))) if by_norm else None
+                    result = _grade_player_prop(event, leg, profile, current_season) if profile else None
+                if result:
+                    result = dict(result)
+                    result["gradedAt"] = datetime.now(timezone.utc).isoformat()
+
+            if result and str(result.get("status") or "") in {"hit", "miss", "push"} and result != leg.get("result"):
                 leg["result"] = result
                 changed = True
+
         statuses = [(leg.get("result") or {}).get("status") for leg in pick.get("legs") or []]
         if statuses and all(status in {"hit", "miss", "push"} for status in statuses):
             status = "miss" if "miss" in statuses else "hit" if "hit" in statuses else "push"
