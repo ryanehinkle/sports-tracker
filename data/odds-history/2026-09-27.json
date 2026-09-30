@@ -59975,7 +59975,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-09-30T23:52:22.451128+00:00"
           }
         },
         {
@@ -101947,7 +101949,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-09-30T23:52:22.459270+00:00"
           }
         },
         {
@@ -143991,7 +143995,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-09-30T23:52:22.466475+00:00"
           }
         },
         {
@@ -188747,7 +188753,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-09-30T23:52:22.474516+00:00"
           }
         },
         {
@@ -223341,7 +223349,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-09-30T23:52:22.481431+00:00"
           }
         },
         {
@@ -232585,7 +232595,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-09-30T23:52:22.482405+00:00"
           }
         },
         {
@@ -274937,7 +274949,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-09-30T23:52:22.490482+00:00"
           }
         },
         {
@@ -309053,5 +309067,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-09-28T06:28:19.609774+00:00"
+  "updatedAt": "2026-09-30T23:52:22.494887+00:00"
 }
