@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-01T18:57:24.504110+00:00",
+  "updatedAt": "2026-10-01T22:11:46.789038+00:00",
   "picks": [
     {
       "day": 1,
@@ -1043,6 +1043,505 @@
             "status": "miss",
             "actual": 144.0,
             "gradedAt": "2026-09-28T06:28:19.406619+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "day": 1,
+      "date": "2026-10-01",
+      "eventId": "36104915",
+      "matchup": "PIT @ CLE",
+      "slot": "game-36104915",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-10-01T22:11:46.789038+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -100,
+      "decimalOdds": 1.996566,
+      "estimatedProbability": 0.646609,
+      "confidence": 89.7,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 93,
+              "hits": 14,
+              "total": 15
+            }
+          },
+          "homeAbbr": "CLE",
+          "selection": "Over",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.357142857142857,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4047650.png",
+          "alternate": true,
+          "proposition": "Over 2.5 Receptions",
+          "matchup": "PIT @ CLE",
+          "team": "PIT",
+          "odds": -280,
+          "position": "WR",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Receptions",
+          "player": "DK Metcalf",
+          "line": 2.5,
+          "key": "36104915\u00a6DK Metcalf\u00a6Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Receptions",
+          "confidence": 87.7,
+          "estimatedProbability": 0.877422,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 76,
+              "hits": 13,
+              "total": 17
+            }
+          },
+          "homeAbbr": "CLE",
+          "selection": "Over",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.125,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4361411.png",
+          "alternate": true,
+          "proposition": "Over 9.5 Receiving Yards",
+          "matchup": "PIT @ CLE",
+          "team": "PIT",
+          "odds": -800,
+          "position": "TE",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Receiving Yards",
+          "player": "Pat Freiermuth",
+          "line": 9.5,
+          "key": "36104915\u00a6Pat Freiermuth\u00a6Receiving Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Receiving Yards",
+          "confidence": 88.1,
+          "estimatedProbability": 0.880997,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
+          },
+          "homeAbbr": "CLE",
+          "selection": "Over",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.153846153846154,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/5083076.png",
+          "alternate": true,
+          "proposition": "Player to Record a 10+ Yard Reception",
+          "matchup": "PIT @ CLE",
+          "team": "CLE",
+          "odds": -650,
+          "position": "TE",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Player to Record a 10+ Yard Reception",
+          "player": "Harold Fannin Jr.",
+          "line": 9.5,
+          "key": "36104915\u00a6Harold Fannin Jr.\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
+          "confidence": 92.3,
+          "estimatedProbability": 0.923226,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "homeAbbr": "CLE",
+          "selection": "Over",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.133333333333333,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4035687.png",
+          "alternate": true,
+          "proposition": "Over 1.5 Receptions",
+          "matchup": "PIT @ CLE",
+          "team": "PIT",
+          "odds": -750,
+          "position": "WR",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Receptions",
+          "player": "Michael Pittman Jr.",
+          "line": 1.5,
+          "key": "36104915\u00a6Michael Pittman Jr.\u00a6Receptions\u00a6Over\u00a61.5\u00a6Over 1.5 Receptions",
+          "confidence": 90.6,
+          "estimatedProbability": 0.906047,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-10-01",
+      "eventId": "36104915",
+      "matchup": "PIT @ CLE",
+      "slot": "game-36104915",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-10-01T22:11:46.789038+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1027,
+      "decimalOdds": 11.272735,
+      "estimatedProbability": 0.219229,
+      "confidence": 74.6,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": null
+          },
+          "homeAbbr": "CLE",
+          "selection": "Over",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.833333333333333,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4832800.png",
+          "alternate": true,
+          "proposition": "Player To Record a 20+ Yard Reception",
+          "matchup": "PIT @ CLE",
+          "team": "CLE",
+          "odds": -120,
+          "position": "WR",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Player To Record a 20+ Yard Reception",
+          "player": "Denzel Boston",
+          "line": 19.5,
+          "key": "36104915\u00a6Denzel Boston\u00a6Player To Record a 20+ Yard Reception\u00a6Over\u00a619.5\u00a6Player To Record a 20+ Yard Reception",
+          "confidence": 77.7,
+          "estimatedProbability": 0.777317,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 81,
+              "hits": 13,
+              "total": 16
+            }
+          },
+          "homeAbbr": "CLE",
+          "selection": "Under",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.87719298245614,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4569987.png",
+          "alternate": false,
+          "proposition": "Under 101.5 Rushing + Receiving Yards",
+          "matchup": "PIT @ CLE",
+          "team": "PIT",
+          "odds": -114,
+          "position": "RB",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Rushing + Receiving Yards",
+          "player": "Jaylen Warren",
+          "line": 101.5,
+          "key": "36104915\u00a6Jaylen Warren\u00a6Rushing + Receiving Yards\u00a6Under\u00a6101.5\u00a6Under 101.5 Rushing + Receiving Yards",
+          "confidence": 69.2,
+          "estimatedProbability": 0.692385,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 57,
+              "hits": 4,
+              "total": 7
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 75,
+              "hits": 3,
+              "total": 4
+            }
+          },
+          "homeAbbr": "CLE",
+          "selection": "Over",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.87719298245614,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4601080.png",
+          "alternate": false,
+          "proposition": "Over 5.5 Rushing Yards",
+          "matchup": "PIT @ CLE",
+          "team": "CLE",
+          "odds": -114,
+          "position": "RB",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Rushing Yards",
+          "player": "Raheim Sanders",
+          "line": 5.5,
+          "key": "36104915\u00a6Raheim Sanders\u00a6Rushing Yards\u00a6Over\u00a65.5\u00a6Over 5.5 Rushing Yards",
+          "confidence": 57.1,
+          "estimatedProbability": 0.570698,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 93,
+              "hits": 14,
+              "total": 15
+            }
+          },
+          "homeAbbr": "CLE",
+          "selection": "Over",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.357142857142857,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4047650.png",
+          "alternate": true,
+          "proposition": "Over 2.5 Receptions",
+          "matchup": "PIT @ CLE",
+          "team": "PIT",
+          "odds": -280,
+          "position": "WR",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Receptions",
+          "player": "DK Metcalf",
+          "line": 2.5,
+          "key": "36104915\u00a6DK Metcalf\u00a6Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Receptions",
+          "confidence": 87.7,
+          "estimatedProbability": 0.877422,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 14,
+              "total": 16
+            }
+          },
+          "homeAbbr": "CLE",
+          "selection": "Over",
+          "awayAbbr": "PIT",
+          "decimalOdds": 1.285714285714286,
+          "eventId": "36104915",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/5083076.png",
+          "alternate": true,
+          "proposition": "Over 24.5 Receiving Yards",
+          "matchup": "PIT @ CLE",
+          "team": "CLE",
+          "odds": -350,
+          "position": "TE",
+          "scope": "player",
+          "commenceTime": "2026-10-02T00:16:00.000Z",
+          "market": "Receiving Yards",
+          "player": "Harold Fannin Jr.",
+          "line": 24.5,
+          "key": "36104915\u00a6Harold Fannin Jr.\u00a6Receiving Yards\u00a6Over\u00a624.5\u00a6Over 24.5 Receiving Yards",
+          "confidence": 81.3,
+          "estimatedProbability": 0.813461,
+          "result": {
+            "status": "pending"
           }
         }
       ]
