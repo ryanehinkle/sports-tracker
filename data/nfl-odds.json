@@ -1648,11 +1648,31 @@
           "marketId": "734.189270731",
           "selectionId": "48414678",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 46,
+              "hits": 6,
+              "total": 13
+            }
           }
         },
         {
@@ -2556,11 +2576,31 @@
           "marketId": "734.189270731",
           "selectionId": "10252431",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 18,
+              "hits": 3,
+              "total": 17
+            }
           }
         },
         {
@@ -2730,11 +2770,31 @@
           "marketId": "734.189270731",
           "selectionId": "81008079",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -7641,11 +7701,27 @@
           "marketId": "734.189270731",
           "selectionId": "12399657",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 24,
+              "hits": 4,
+              "total": 17
+            }
           }
         },
         {
@@ -7668,11 +7744,31 @@
           "marketId": "734.189270731",
           "selectionId": "80998821",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 25,
+              "hits": 3,
+              "total": 12
+            }
           }
         },
         {
@@ -12968,11 +13064,31 @@
           "marketId": "734.189270731",
           "selectionId": "88562167",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 17
+            }
           }
         },
         {
@@ -18896,11 +19012,27 @@
           "marketId": "734.188722121",
           "selectionId": "48737126",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            }
           }
         },
         {
@@ -19159,11 +19291,31 @@
           "marketId": "734.189270731",
           "selectionId": "65168724",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 25,
+              "hits": 3,
+              "total": 12
+            }
           }
         },
         {
@@ -19186,11 +19338,31 @@
           "marketId": "734.189270731",
           "selectionId": "68826879",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -28664,11 +28836,31 @@
           "marketId": "734.189270731",
           "selectionId": "25157499",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 50,
+              "hits": 5,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 36,
+              "hits": 5,
+              "total": 14
+            }
           }
         },
         {
@@ -35985,11 +36177,27 @@
           "marketId": "734.188830492",
           "selectionId": "26556679",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 12
+            }
           }
         },
         {
@@ -36093,11 +36301,23 @@
           "marketId": "734.188830492",
           "selectionId": "14807208",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            }
           }
         },
         {
@@ -36201,11 +36421,23 @@
           "marketId": "734.188830489",
           "selectionId": "14807208",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            }
           }
         },
         {
@@ -36530,11 +36762,27 @@
           "marketId": "734.188830492",
           "selectionId": "73285105",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 14
+            }
           }
         },
         {
@@ -36638,11 +36886,23 @@
           "marketId": "734.188830492",
           "selectionId": "48308862",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 9
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 9
+            }
           }
         },
         {
@@ -38285,10 +38545,22 @@
           "marketId": "734.188830492",
           "selectionId": "42200553",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "previous": null
           }
         },
@@ -38393,11 +38665,27 @@
           "marketId": "734.188830492",
           "selectionId": "60885112",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 7,
+              "hits": 1,
+              "total": 15
+            }
           }
         },
         {
@@ -46697,11 +46985,27 @@
           "marketId": "734.188830492",
           "selectionId": "60048951",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 33,
+              "hits": 3,
+              "total": 9
+            }
           }
         },
         {
@@ -67359,10 +67663,22 @@
           "marketId": "734.189169271",
           "selectionId": "95394746",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "previous": null
           }
         },
@@ -67467,11 +67783,27 @@
           "marketId": "734.189169271",
           "selectionId": "50975147",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -67742,11 +68074,27 @@
           "marketId": "734.189169271",
           "selectionId": "14410510",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -67850,11 +68198,27 @@
           "marketId": "734.189169271",
           "selectionId": "60604880",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -71296,11 +71660,23 @@
           "marketId": "734.189169271",
           "selectionId": "37101837",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 8,
+              "hits": 1,
+              "total": 13
+            }
           }
         },
         {
@@ -71404,10 +71780,22 @@
           "marketId": "734.189169271",
           "selectionId": "48068913",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "previous": null
           }
         },
@@ -71512,10 +71900,22 @@
           "marketId": "734.189169269",
           "selectionId": "48068913",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "previous": null
           }
         },
@@ -89878,11 +90278,27 @@
           "marketId": "734.189223721",
           "selectionId": "66499292",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 6,
+              "hits": 1,
+              "total": 16
+            }
           }
         },
         {
@@ -89986,11 +90402,27 @@
           "marketId": "734.189376012",
           "selectionId": "89492015",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 50,
+              "hits": 8,
+              "total": 16
+            }
           }
         },
         {
@@ -90013,11 +90445,27 @@
           "marketId": "734.189376006",
           "selectionId": "73676736",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 31,
+              "hits": 5,
+              "total": 16
+            }
           }
         },
         {
@@ -90040,11 +90488,27 @@
           "marketId": "734.189376006",
           "selectionId": "73676733",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 69,
+              "hits": 11,
+              "total": 16
+            }
           }
         },
         {
@@ -90067,11 +90531,27 @@
           "marketId": "734.189376012",
           "selectionId": "89492019",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 31,
+              "hits": 5,
+              "total": 16
+            }
           }
         },
         {
@@ -90094,11 +90574,27 @@
           "marketId": "734.189376012",
           "selectionId": "89492011",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 25,
+              "hits": 4,
+              "total": 16
+            }
           }
         },
         {
@@ -90121,11 +90617,27 @@
           "marketId": "734.189376012",
           "selectionId": "77766948",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 19,
+              "hits": 3,
+              "total": 16
+            }
           }
         },
         {
@@ -90148,11 +90660,27 @@
           "marketId": "734.189376012",
           "selectionId": "89492009",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -90175,11 +90703,27 @@
           "marketId": "734.189376012",
           "selectionId": "77766943",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -90202,11 +90746,27 @@
           "marketId": "734.189376007",
           "selectionId": "89858430",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 62,
+              "hits": 10,
+              "total": 16
+            }
           }
         },
         {
@@ -90229,11 +90789,27 @@
           "marketId": "734.189376007",
           "selectionId": "89858431",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 31,
+              "hits": 5,
+              "total": 16
+            }
           }
         },
         {
@@ -90256,11 +90832,27 @@
           "marketId": "734.189376007",
           "selectionId": "89858421",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 19,
+              "hits": 3,
+              "total": 16
+            }
           }
         },
         {
@@ -90283,11 +90875,27 @@
           "marketId": "734.189376007",
           "selectionId": "89858419",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -90310,11 +90918,27 @@
           "marketId": "734.189376014",
           "selectionId": "73676736",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 19,
+              "hits": 3,
+              "total": 16
+            }
           }
         },
         {
@@ -90337,11 +90961,27 @@
           "marketId": "734.189376014",
           "selectionId": "73676733",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 81,
+              "hits": 13,
+              "total": 16
+            }
           }
         },
         {
@@ -90364,11 +91004,27 @@
           "marketId": "734.189376009",
           "selectionId": "89492015",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 75,
+              "hits": 12,
+              "total": 16
+            }
           }
         },
         {
@@ -90391,11 +91047,27 @@
           "marketId": "734.189376009",
           "selectionId": "89492008",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 50,
+              "hits": 8,
+              "total": 16
+            }
           }
         },
         {
@@ -90418,11 +91090,27 @@
           "marketId": "734.189376009",
           "selectionId": "89492019",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 25,
+              "hits": 4,
+              "total": 16
+            }
           }
         },
         {
@@ -90445,11 +91133,27 @@
           "marketId": "734.189376009",
           "selectionId": "89492011",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 19,
+              "hits": 3,
+              "total": 16
+            }
           }
         },
         {
@@ -90472,11 +91176,27 @@
           "marketId": "734.189376011",
           "selectionId": "73676736",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 19,
+              "hits": 3,
+              "total": 16
+            }
           }
         },
         {
@@ -90499,11 +91219,27 @@
           "marketId": "734.189376011",
           "selectionId": "73676733",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 81,
+              "hits": 13,
+              "total": 16
+            }
           }
         },
         {
@@ -90526,11 +91262,27 @@
           "marketId": "734.189376009",
           "selectionId": "77766948",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -90553,11 +91305,27 @@
           "marketId": "734.189376009",
           "selectionId": "89492009",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -90580,11 +91348,27 @@
           "marketId": "734.189376009",
           "selectionId": "77766943",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -90607,11 +91391,27 @@
           "marketId": "734.189376009",
           "selectionId": "77766946",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -90634,11 +91434,27 @@
           "marketId": "734.189376009",
           "selectionId": "77766939",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 6,
+              "hits": 1,
+              "total": 16
+            }
           }
         },
         {
@@ -90661,11 +91477,27 @@
           "marketId": "734.189223707",
           "selectionId": "66499292",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 16
+            }
           }
         },
         {
@@ -90688,11 +91520,27 @@
           "marketId": "734.189376010",
           "selectionId": "73676736",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 31,
+              "hits": 5,
+              "total": 16
+            }
           }
         },
         {
@@ -90715,11 +91563,27 @@
           "marketId": "734.189376010",
           "selectionId": "73676733",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 69,
+              "hits": 11,
+              "total": 16
+            }
           }
         },
         {
@@ -91984,11 +92848,27 @@
           "marketId": "734.189223721",
           "selectionId": "72056132",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 22,
+              "hits": 2,
+              "total": 9
+            }
           }
         },
         {
@@ -92092,10 +92972,22 @@
           "marketId": "734.189223721",
           "selectionId": "61821097",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           }
         },
@@ -92200,11 +93092,27 @@
           "marketId": "734.189223721",
           "selectionId": "36928787",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 7
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            }
           }
         },
         {
@@ -93803,11 +94711,23 @@
           "marketId": "734.189223721",
           "selectionId": "37579240",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 12
+            }
           }
         },
         {
@@ -96829,10 +97749,22 @@
           "marketId": "734.189223721",
           "selectionId": "48141807",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           }
         },
@@ -98443,10 +99375,22 @@
           "marketId": "734.189223721",
           "selectionId": "48333013",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "previous": null
           }
         },
@@ -98718,10 +99662,22 @@
           "marketId": "734.189223721",
           "selectionId": "60265436",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "previous": null
           }
         },
@@ -137617,10 +138573,22 @@
           "marketId": "734.188876039",
           "selectionId": "95394736",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "l10": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
             "previous": null
           }
         },
@@ -192419,11 +193387,23 @@
           "marketId": "734.189239513",
           "selectionId": "42218096",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 14
+            }
           }
         },
         {
@@ -192527,11 +193507,27 @@
           "marketId": "734.189239513",
           "selectionId": "14787109",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -193918,11 +194914,31 @@
           "marketId": "734.189239513",
           "selectionId": "16545864",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -194425,11 +195441,27 @@
           "marketId": "734.189239513",
           "selectionId": "40841442",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 22,
+              "hits": 2,
+              "total": 9
+            }
           }
         },
         {
@@ -197465,11 +198497,27 @@
           "marketId": "734.189239513",
           "selectionId": "48300046",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 9
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            }
           }
         },
         {
@@ -208589,11 +209637,27 @@
           "marketId": "734.189239513",
           "selectionId": "20539688",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 11
+            }
           }
         },
         {
@@ -208805,11 +209869,27 @@
           "marketId": "734.189239513",
           "selectionId": "38093940",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 8
+            }
           }
         },
         {
@@ -209080,11 +210160,23 @@
           "marketId": "734.189239513",
           "selectionId": "80634163",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 7
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 7
+            }
           }
         },
         {
@@ -211819,11 +212911,27 @@
           "marketId": "734.189239513",
           "selectionId": "42218093",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 20,
+              "hits": 3,
+              "total": 15
+            }
           }
         },
         {
@@ -211927,11 +213035,27 @@
           "marketId": "734.189239537",
           "selectionId": "42218093",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 7,
+              "hits": 1,
+              "total": 15
+            }
           }
         },
         {
@@ -223780,11 +224904,23 @@
           "marketId": "734.189052375",
           "selectionId": "16528983",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 6,
+              "hits": 1,
+              "total": 17
+            }
           }
         },
         {
@@ -246611,11 +247747,27 @@
           "marketId": "734.189002442",
           "selectionId": "41915986",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 8
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            }
           }
         },
         {
@@ -247002,11 +248154,31 @@
           "marketId": "734.189002442",
           "selectionId": "88027551",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 13
+            }
           }
         },
         {
@@ -247110,11 +248282,31 @@
           "marketId": "734.189002433",
           "selectionId": "88027551",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 13
+            }
           }
         },
         {
@@ -250435,10 +251627,22 @@
           "marketId": "734.189002442",
           "selectionId": "60048944",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           }
         },
@@ -251957,11 +253161,27 @@
           "marketId": "734.189002442",
           "selectionId": "48233799",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            }
           }
         },
         {
@@ -252065,11 +253285,27 @@
           "marketId": "734.189002442",
           "selectionId": "39323492",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 11,
+              "hits": 1,
+              "total": 9
+            }
           }
         },
         {
@@ -258449,10 +259685,22 @@
           "marketId": "734.189002442",
           "selectionId": "60011346",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "previous": null
           }
         },
@@ -258692,11 +259940,31 @@
           "marketId": "734.189002442",
           "selectionId": "42127532",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 50,
+              "hits": 5,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 56,
+              "hits": 9,
+              "total": 16
+            }
           }
         },
         {
@@ -258800,11 +260068,31 @@
           "marketId": "734.189007872",
           "selectionId": "42127532",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 75,
+              "hits": 12,
+              "total": 16
+            }
           }
         },
         {
@@ -258827,11 +260115,31 @@
           "marketId": "734.189007867",
           "selectionId": "42127532",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 44,
+              "hits": 7,
+              "total": 16
+            }
           }
         },
         {
@@ -258854,11 +260162,31 @@
           "marketId": "734.189007861",
           "selectionId": "42127532",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 16,
+              "total": 16
+            }
           }
         },
         {
@@ -258881,11 +260209,31 @@
           "marketId": "734.189007874",
           "selectionId": "42127532",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
           }
         },
         {
@@ -258908,11 +260256,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214841",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
           }
         },
         {
@@ -258935,11 +260303,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214844",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 14,
+              "total": 16
+            }
           }
         },
         {
@@ -258962,11 +260350,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214836",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 14,
+              "total": 16
+            }
           }
         },
         {
@@ -258989,11 +260397,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214839",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 81,
+              "hits": 13,
+              "total": 16
+            }
           }
         },
         {
@@ -259016,11 +260444,31 @@
           "marketId": "734.189254084",
           "selectionId": "41887349",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 62,
+              "hits": 10,
+              "total": 16
+            }
           }
         },
         {
@@ -259043,11 +260491,31 @@
           "marketId": "734.189254084",
           "selectionId": "41887350",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 38,
+              "hits": 6,
+              "total": 16
+            }
           }
         },
         {
@@ -259070,11 +260538,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214838",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 62,
+              "hits": 10,
+              "total": 16
+            }
           }
         },
         {
@@ -259097,11 +260585,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214842",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 56,
+              "hits": 9,
+              "total": 16
+            }
           }
         },
         {
@@ -259124,11 +260632,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214835",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 38,
+              "hits": 6,
+              "total": 16
+            }
           }
         },
         {
@@ -259151,11 +260679,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214845",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 38,
+              "hits": 6,
+              "total": 16
+            }
           }
         },
         {
@@ -259178,11 +260726,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214843",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 31,
+              "hits": 5,
+              "total": 16
+            }
           }
         },
         {
@@ -259205,11 +260773,31 @@
           "marketId": "734.189254091",
           "selectionId": "49214837",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 25,
+              "hits": 4,
+              "total": 16
+            }
           }
         },
         {
@@ -259232,11 +260820,31 @@
           "marketId": "734.189254091",
           "selectionId": "64131825",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -259259,11 +260867,31 @@
           "marketId": "734.189254090",
           "selectionId": "61449506",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
           }
         },
         {
@@ -259286,11 +260914,31 @@
           "marketId": "734.189254090",
           "selectionId": "61449513",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
           }
         },
         {
@@ -259313,11 +260961,31 @@
           "marketId": "734.189254090",
           "selectionId": "61449484",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 81,
+              "hits": 13,
+              "total": 16
+            }
           }
         },
         {
@@ -259340,11 +261008,31 @@
           "marketId": "734.189254090",
           "selectionId": "61449512",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 75,
+              "hits": 12,
+              "total": 16
+            }
           }
         },
         {
@@ -259367,11 +261055,31 @@
           "marketId": "734.189254090",
           "selectionId": "61449500",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 50,
+              "hits": 8,
+              "total": 16
+            }
           }
         },
         {
@@ -259394,11 +261102,31 @@
           "marketId": "734.189254090",
           "selectionId": "61449515",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 44,
+              "hits": 7,
+              "total": 16
+            }
           }
         },
         {
@@ -259421,11 +261149,31 @@
           "marketId": "734.189254090",
           "selectionId": "61449504",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 38,
+              "hits": 6,
+              "total": 16
+            }
           }
         },
         {
@@ -259448,11 +261196,31 @@
           "marketId": "734.189254090",
           "selectionId": "64131852",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 19,
+              "hits": 3,
+              "total": 16
+            }
           }
         },
         {
@@ -259475,11 +261243,31 @@
           "marketId": "734.189254090",
           "selectionId": "64131820",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -259502,11 +261290,31 @@
           "marketId": "734.189002433",
           "selectionId": "42127532",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -259529,11 +261337,31 @@
           "marketId": "734.189002437",
           "selectionId": "42127532",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 16
+            }
           }
         },
         {
@@ -259556,11 +261384,31 @@
           "marketId": "734.189254093",
           "selectionId": "41887349",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 75,
+              "hits": 12,
+              "total": 16
+            }
           }
         },
         {
@@ -259583,11 +261431,31 @@
           "marketId": "734.189254093",
           "selectionId": "41887350",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 25,
+              "hits": 4,
+              "total": 16
+            }
           }
         },
         {
@@ -262082,11 +263950,31 @@
           "marketId": "734.189002442",
           "selectionId": "39581737",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            }
           }
         },
         {
@@ -262489,11 +264377,31 @@
           "marketId": "734.189002442",
           "selectionId": "74160169",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 16
+            }
           }
         },
         {
@@ -290616,11 +292524,27 @@
           "marketId": "734.189065167",
           "selectionId": "25937339",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -290724,11 +292648,27 @@
           "marketId": "734.189065167",
           "selectionId": "48141499",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -290832,10 +292772,22 @@
           "marketId": "734.189065167",
           "selectionId": "95394227",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "previous": null
           }
         },
@@ -292225,11 +294177,27 @@
           "marketId": "734.189065167",
           "selectionId": "48141509",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            }
           }
         },
         {
@@ -292333,11 +294301,27 @@
           "marketId": "734.189065167",
           "selectionId": "48533926",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 8,
+              "hits": 1,
+              "total": 13
+            }
           }
         },
         {
@@ -293280,11 +295264,27 @@
           "marketId": "734.189065167",
           "selectionId": "15742699",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 11
+            }
           }
         },
         {
@@ -293388,11 +295388,27 @@
           "marketId": "734.189065169",
           "selectionId": "15742699",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 11
+            }
           }
         },
         {
@@ -294313,11 +296329,27 @@
           "marketId": "734.189065167",
           "selectionId": "42198215",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            }
           }
         },
         {
@@ -299631,11 +301663,31 @@
           "marketId": "734.189065167",
           "selectionId": "20543927",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            }
           }
         },
         {
@@ -299739,10 +301791,22 @@
           "marketId": "734.189065167",
           "selectionId": "102431838",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           }
         },
@@ -299847,11 +301911,27 @@
           "marketId": "734.189065167",
           "selectionId": "48738117",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 9
+            }
           }
         },
         {
@@ -311746,11 +313826,23 @@
           "marketId": "734.189038957",
           "selectionId": "8505903",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 15
+            }
           }
         },
         {
@@ -311854,11 +313946,23 @@
           "marketId": "734.189038970",
           "selectionId": "8505903",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 15
+            }
           }
         },
         {
@@ -337468,10 +339572,22 @@
           "marketId": "734.188886935",
           "selectionId": "49786792",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "previous": null
           }
         },
@@ -337700,11 +339816,31 @@
           "marketId": "734.188886935",
           "selectionId": "66499293",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -339155,11 +341291,31 @@
           "marketId": "734.188886935",
           "selectionId": "20534955",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 15
+            }
           }
         },
         {
@@ -339263,10 +341419,22 @@
           "marketId": "734.188886935",
           "selectionId": "42197293",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "previous": null
           }
         },
@@ -340596,11 +342764,27 @@
           "marketId": "734.188886935",
           "selectionId": "48141498",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            }
           }
         },
         {
@@ -362457,11 +364641,27 @@
           "marketId": "734.189303231",
           "selectionId": "41519355",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 65,
+              "hits": 11,
+              "total": 17
+            }
           }
         },
         {
@@ -362484,11 +364684,27 @@
           "marketId": "734.189303231",
           "selectionId": "50552257",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            }
           }
         },
         {
@@ -364276,10 +366492,22 @@
           "marketId": "734.188935939",
           "selectionId": "103269730",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           }
         },
@@ -366171,11 +368399,27 @@
           "marketId": "734.188935939",
           "selectionId": "48333000",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 16
+            }
           }
         },
         {
@@ -366279,11 +368523,27 @@
           "marketId": "734.188935942",
           "selectionId": "48333000",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 16
+            }
           }
         },
         {
@@ -369980,11 +372240,27 @@
           "marketId": "734.188935939",
           "selectionId": "20542350",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            }
           }
         },
         {
@@ -370088,11 +372364,27 @@
           "marketId": "734.189303231",
           "selectionId": "60304027",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 24,
+              "hits": 4,
+              "total": 17
+            }
           }
         },
         {
@@ -370115,11 +372407,27 @@
           "marketId": "734.189303231",
           "selectionId": "28236729",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 24,
+              "hits": 4,
+              "total": 17
+            }
           }
         },
         {
@@ -370277,11 +372585,27 @@
           "marketId": "734.188935939",
           "selectionId": "26207569",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -371563,11 +373887,27 @@
           "marketId": "734.188935939",
           "selectionId": "48103498",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            }
           }
         },
         {
@@ -371671,11 +374011,27 @@
           "marketId": "734.188935939",
           "selectionId": "88371814",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 16
+            }
           }
         },
         {
@@ -371779,11 +374135,31 @@
           "marketId": "734.189303231",
           "selectionId": "39120746",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 29,
+              "hits": 5,
+              "total": 17
+            }
           }
         },
         {
@@ -378265,11 +380641,27 @@
           "marketId": "734.188935939",
           "selectionId": "37105712",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           }
         },
         {
@@ -378373,11 +380765,27 @@
           "marketId": "734.188935942",
           "selectionId": "37105712",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 16
+            }
           }
         },
         {
@@ -378400,11 +380808,27 @@
           "marketId": "734.188935939",
           "selectionId": "49993571",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 17
+            }
           }
         },
         {
@@ -378508,11 +380932,27 @@
           "marketId": "734.188935942",
           "selectionId": "49993571",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           }
         },
         {
@@ -383236,11 +385676,27 @@
           "marketId": "734.188935939",
           "selectionId": "16503651",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 13
+            }
           }
         },
         {
@@ -395223,11 +397679,31 @@
           "marketId": "734.189312284",
           "selectionId": "5360066",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 47,
+              "hits": 8,
+              "total": 17
+            }
           }
         },
         {
@@ -395250,11 +397726,27 @@
           "marketId": "734.189312284",
           "selectionId": "43162385",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 17
+            }
           }
         },
         {
@@ -395277,11 +397769,31 @@
           "marketId": "734.189312284",
           "selectionId": "58188828",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 24,
+              "hits": 4,
+              "total": 17
+            }
           }
         },
         {
@@ -395432,11 +397944,31 @@
           "marketId": "734.189312284",
           "selectionId": "26668373",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 67,
+              "hits": 8,
+              "total": 12
+            }
           }
         },
         {
@@ -410211,11 +412743,27 @@
           "marketId": "734.189312284",
           "selectionId": "25157514",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 25,
+              "hits": 2,
+              "total": 8
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "previous": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            }
           }
         },
         {
