@@ -1205,9 +1205,11 @@ def _event_snapshot_candidate(event, previous_events, now):
     commence = iso_dt(event.get("commenceTime"))
     if not commence:
         return None
-    # Freeze the board when a refresh lands roughly one hour before kickoff.
+    # Match the pick-publication window: Sunday slate snapshots stay at 75
+    # minutes, while standalone non-Sunday games freeze 150 minutes pre-kick.
     # If this run is just after kickoff, use the previous refresh if it was pregame.
-    if commence - timedelta(minutes=75) <= now < commence:
+    lead_minutes = 75 if commence.astimezone(CENTRAL).weekday() == 6 else 150
+    if commence - timedelta(minutes=lead_minutes) <= now < commence:
         return event
     if commence <= now <= commence + timedelta(hours=3):
         previous = previous_events.get(str(event.get("id") or ""))

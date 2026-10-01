@@ -92,9 +92,11 @@ jobs:
                   start = datetime.fromisoformat(str(event.get("commenceTime") or "").replace("Z", "+00:00"))
               except ValueError:
                   continue
-              if start <= now or start.astimezone(central).date().isoformat() != today:
+              local_start = start.astimezone(central)
+              if start <= now or local_start.date().isoformat() != today:
                   continue
-              if 0 < (start - now).total_seconds() <= 75 * 60:
+              lead_minutes = 75 if local_start.weekday() == 6 else 150
+              if 0 < (start - now).total_seconds() <= lead_minutes * 60:
                   event_id = str(event.get("id") or "")
                   if event_id:
                       due_event_ids.append(event_id)
@@ -104,7 +106,19 @@ jobs:
               slots = {p.get("slot") for p in picks if p.get("kind") != "longshot"}
               package_complete = {"noon", "mid", "snf"}.issubset(slots) and any(p.get("kind") == "longshot" for p in picks)
           else:
-              package_complete = any(p.get("kind") != "longshot" for p in picks)
+              package_complete = bool(due_event_ids) and all(
+                  any(
+                      p.get("kind") != "longshot"
+                      and str(p.get("eventId") or "") == event_id
+                      for p in picks
+                  )
+                  and any(
+                      p.get("kind") == "longshot"
+                      and str(p.get("eventId") or "") == event_id
+                      for p in picks
+                  )
+                  for event_id in due_event_ids
+              )
 
           frozen_ids = set()
           history_path = Path(f"data/odds-history/{today}.json")

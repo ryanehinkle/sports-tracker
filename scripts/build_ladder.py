@@ -778,9 +778,11 @@ def normalize_ladder_runs(payload):
             day = 1
         elif status == "push":
             pass
-        elif pick.get("slot"):
-            # Pending Sunday slots reserve the following rung: Day 1 / Day 2* /
-            # Day 3* initially, then later slots renumber after a hit or miss.
+        else:
+            # Any pending ladder pick tentatively reserves the following rung.
+            # That lets a later standalone game publish on time even if the prior
+            # game has not graded yet; normalize_ladder_runs will renumber the
+            # later pick automatically once the earlier result becomes final.
             day += 1
 
     if payload.get("picks") != picks:
@@ -806,7 +808,9 @@ def next_ladder_position(picks):
         return run + 1, 1
     if status == "push":
         return run, day
-    return None
+    # Do not let delayed grading suppress the next scheduled game. The next
+    # pick is provisional until this pending result is known.
+    return run, day + 1
 
 def main():
     now = datetime.now(timezone.utc)
@@ -923,35 +927,140 @@ def main():
                             })
                             payload["picks"].sort(key=ladder_sort_key)
 
-        # Non-Sunday dates keep the original single pre-kickoff ladder behavior.
+        # Every non-Sunday game is handled independently. Standalone primetime
+        # games publish about 2.5 hours before THEIR kickoff and can only use
+        # markets from that exact event. This prevents TNF/MNF from being skipped
+        # or accidentally borrowing legs from another game on the same date.
         elif not sunday_groups:
-            existing = next((pick for pick in payload["picks"] if pick.get("date") == date_key), None)
-            if not existing and first_start - timedelta(minutes=75) <= now < first_start:
-                eligible_event_ids = {str(event.get("id") or "") for event in events}
-                rows = [row for row in flatten(odds_payload) if row.get("eventId") in eligible_event_ids]
-                next_position = next_ladder_position(payload["picks"])
-                chosen = choose_slip(rows, date_key, profiles, learning) if next_position else None
-                if chosen and next_position:
-                    combo, meta, simulations = chosen
-                    run_number, day_number = next_position
-                    pick = {
-                        "run": run_number,
-                        "day": day_number,
-                        "date": date_key,
-                        "createdAt": now.isoformat(),
-                        "target": "Even Money Ladder",
-                        "targetOdds": "+100",
-                        "odds": meta["odds"],
-                        "decimalOdds": round(meta["decimal"], 6),
-                        "estimatedProbability": round(meta["joint"], 6),
-                        "confidence": round(meta["avgConfidence"], 1),
-                        "selectionTier": meta["tier"],
-                        "simulations": simulations,
-                        "status": "pending",
-                        "legs": [snapshot_leg(row) for row in combo],
-                    }
-                    payload["picks"].append(pick)
-                    payload["picks"].sort(key=ladder_sort_key)
+            all_rows = flatten(odds_payload)
+            standalone_events = sorted(
+                events,
+                key=lambda event: iso_dt(event.get("commenceTime")) or now,
+            )
+            for event_order, event in enumerate(standalone_events, start=1):
+                start = iso_dt(event.get("commenceTime"))
+                if not start or not (start - timedelta(minutes=150) <= now < start):
+                    continue
+
+                event_id = str(event.get("id") or "")
+                if not event_id:
+                    continue
+                rows = [row for row in all_rows if row.get("eventId") == event_id]
+                if not rows:
+                    continue
+
+                away = event.get("awayAbbr") or event.get("awayTeam") or ""
+                home = event.get("homeAbbr") or event.get("homeTeam") or ""
+                matchup = f"{away} @ {home}".strip()
+                local_start = start.astimezone(CENTRAL)
+                if local_start.weekday() == 3:
+                    slot_label = "Thursday Night Football"
+                elif local_start.weekday() == 0:
+                    slot_label = "Monday Night Football"
+                else:
+                    slot_label = "Standalone game"
+
+                game_picks = [
+                    pick for pick in payload["picks"]
+                    if pick.get("date") == date_key and str(pick.get("eventId") or "") == event_id
+                ]
+                legacy_single_game_ladder = (
+                    len(standalone_events) == 1
+                    and any(
+                        pick.get("date") == date_key
+                        and pick.get("kind") != "longshot"
+                        and not pick.get("eventId")
+                        for pick in payload["picks"]
+                    )
+                )
+                has_ladder = legacy_single_game_ladder or any(
+                    pick.get("kind") != "longshot" for pick in game_picks
+                )
+                has_longshot = any(
+                    pick.get("kind") == "longshot" for pick in game_picks
+                )
+
+                if not has_ladder:
+                    next_position = next_ladder_position(payload["picks"])
+                    chosen = choose_slip(
+                        rows,
+                        f"{date_key}:{event_id}:ladder",
+                        profiles,
+                        learning,
+                    ) if next_position else None
+                    if chosen and next_position:
+                        combo, meta, simulations = chosen
+                        run_number, day_number = next_position
+                        payload["picks"].append({
+                            "run": run_number,
+                            "day": day_number,
+                            "date": date_key,
+                            "eventId": event_id,
+                            "matchup": matchup,
+                            "slot": f"game-{event_id}",
+                            "slotLabel": slot_label,
+                            "slotOrder": event_order,
+                            "createdAt": now.isoformat(),
+                            "target": "Even Money Ladder",
+                            "targetOdds": "+100",
+                            "odds": meta["odds"],
+                            "decimalOdds": round(meta["decimal"], 6),
+                            "estimatedProbability": round(meta["joint"], 6),
+                            "confidence": round(meta["avgConfidence"], 1),
+                            "selectionTier": meta["tier"],
+                            "simulations": simulations,
+                            "status": "pending",
+                            "legs": [snapshot_leg(row) for row in combo],
+                        })
+                        print(
+                            f"Created {slot_label} ladder for {matchup} at "
+                            f"{meta['odds']:+d} after {simulations:,} simulations."
+                        )
+
+                # A separate same-game long shot is attempted for every standalone
+                # event. Keep the 3-6 leg +1000 target, but if the current board
+                # cannot reach +1000, still publish the model's best available
+                # same-game long shot rather than silently omitting the game.
+                if not has_longshot:
+                    longshot = choose_slip(
+                        rows,
+                        f"{date_key}:{event_id}:longshot",
+                        profiles,
+                        learning,
+                        target_min=1000,
+                        target_max=100000,
+                        min_legs=3,
+                        max_legs=6,
+                    )
+                    if longshot:
+                        combo, meta, simulations = longshot
+                        achieved_target = meta["odds"] is not None and meta["odds"] >= 1000
+                        payload["picks"].append({
+                            "kind": "longshot",
+                            "date": date_key,
+                            "eventId": event_id,
+                            "matchup": matchup,
+                            "slot": f"game-{event_id}",
+                            "slotLabel": slot_label,
+                            "slotOrder": 90 + event_order,
+                            "createdAt": now.isoformat(),
+                            "target": "Game Long Shot",
+                            "targetOdds": "+1000 minimum" if achieved_target else "Best available long shot",
+                            "odds": meta["odds"],
+                            "decimalOdds": round(meta["decimal"], 6),
+                            "estimatedProbability": round(meta["joint"], 6),
+                            "confidence": round(meta["avgConfidence"], 1),
+                            "selectionTier": meta["tier"],
+                            "simulations": simulations,
+                            "status": "pending",
+                            "legs": [snapshot_leg(row) for row in combo],
+                        })
+                        print(
+                            f"Created {slot_label} long shot for {matchup} at "
+                            f"{meta['odds']:+d} after {simulations:,} simulations."
+                        )
+
+                payload["picks"].sort(key=ladder_sort_key)
 
     payload["updatedAt"] = now.isoformat()
     OUT.parent.mkdir(parents=True, exist_ok=True)

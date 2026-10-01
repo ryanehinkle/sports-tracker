@@ -1898,13 +1898,12 @@ function ladderChronologicalPicks(){
   });
   let run=1,day=1,blocked=false;
   return picks.map((pick,index)=>{
-    const sameSundayPackage=Boolean(pick.slot);
-    const normalized=Object.assign({},pick,{_ladderRun:run,_ladderDay:day,_ladderIndex:index,_provisional:sameSundayPackage&&blocked});
+    const normalized=Object.assign({},pick,{_ladderRun:run,_ladderDay:day,_ladderIndex:index,_provisional:blocked||Boolean(pick.provisionalDay)});
     const status=String(pick.status||"pending");
     if(status==="hit"){day+=1;blocked=false}
     else if(status==="miss"){run+=1;day=1;blocked=false}
     else if(status==="push"){blocked=false}
-    else if(sameSundayPackage){day+=1;blocked=true}
+    else{day+=1;blocked=true}
     return normalized;
   });
 }
@@ -1982,11 +1981,12 @@ function bind(){
   $("todayPickButton").addEventListener("click",toggleLadderPanel);
   $("longShotButton").addEventListener("click",()=>{
     const all=[...(state.ladderData&&state.ladderData.picks||[])],targetDate=state.modelHistorical?state.modelDate:localDateKey();
-    const pick=all.find(p=>p.kind==="longshot"&&p.date===targetDate);
+    const candidates=all.filter(p=>p.kind==="longshot"&&p.date===targetDate).sort((a,b)=>String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+    const pick=candidates[candidates.length-1];
     const panel=$("ladderChallengePanel");panel.hidden=false;$("todayPickButton").setAttribute("aria-expanded","false");
-    if(!pick){$("ladderPickTitle").textContent="Sunday Long Shot";$("ladderPickMeta").textContent="+1000 minimum • 3–6 legs • full Sunday slate";$("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPickBody").innerHTML='<div class="ladder-awaiting"><div><strong>No Sunday long shot published yet</strong></div></div>';return}
+    if(!pick){$("ladderPickTitle").textContent="Long Shot Pick";$("ladderPickMeta").textContent="+1000 target • 3–6 legs";$("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPickBody").innerHTML='<div class="ladder-awaiting"><div><strong>No long shot published yet</strong></div></div>';return}
     $("ladderPickTitle").textContent="Long Shot Pick • "+ladderDateLabel(pick.date);
-    $("ladderPickMeta").textContent=(pick.slotLabel||"Full Sunday slate")+" • +1000 minimum • best modeled hit probability";
+    $("ladderPickMeta").textContent=(pick.slotLabel||pick.matchup||"Current game")+" • "+(pick.targetOdds||"+1000 target")+" • best modeled hit probability";
     $("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPrev").disabled=true;$("ladderNext").disabled=true;
     const status=String(pick.status||"pending"),statusLabel=status==="hit"?"WIN":status==="miss"?"LOSS":status==="push"?"PUSH":"LIVE / PENDING";
     $("ladderPickBody").innerHTML='<article class="ladder-slip ladder-slip-'+esc(status)+'"><div class="ladder-slip-summary"><div><span>PARLAY ODDS</span><strong>'+formatOdds(pick.odds)+'</strong></div><div><span>MODEL CONFIDENCE</span><strong>'+pct(Number(pick.confidence),1)+'</strong></div><div><span>EST. HIT PROB.</span><strong>'+pct(Number(pick.estimatedProbability)*100,1)+'</strong></div><div class="ladder-overall-status"><span>'+ladderStatusIcon(status)+'</span><strong>'+statusLabel+'</strong></div></div><div class="ladder-legs">'+(pick.legs||[]).map(ladderLegHtml).join("")+'</div></article>';

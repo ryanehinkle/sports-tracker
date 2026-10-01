@@ -33,7 +33,8 @@ def due_date(odds, now):
         if not start or start <= now:
             continue
         delta = start - now
-        if timedelta(minutes=0) < delta <= timedelta(minutes=75):
+        lead_minutes = 75 if start.astimezone(CENTRAL).weekday() == 6 else 150
+        if timedelta(minutes=0) < delta <= timedelta(minutes=lead_minutes):
             candidates.append(start)
     if not candidates:
         return None
