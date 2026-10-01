@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-30T23:52:39.664851+00:00",
+  "updatedAt": "2026-10-01T05:57:44.610515+00:00",
   "source": "Frozen pregame FanDuel boards graded from completed ESPN game logs",
   "objective": "Maximize out-of-sample hit rate among the highest-scored legs while preserving probability calibration",
   "samples": 5272,
@@ -467,7 +467,7 @@
       "setup": "steady"
     },
     {
-      "updatedAt": "2026-09-30T23:52:39.664851+00:00",
+      "updatedAt": "2026-10-01T05:57:44.610515+00:00",
       "samples": 5272,
       "completedGames": 10,
       "promoted": false,
