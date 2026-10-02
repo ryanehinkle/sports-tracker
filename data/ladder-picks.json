@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-02T02:18:45.883753+00:00",
+  "updatedAt": "2026-10-02T08:15:34.949451+00:00",
   "picks": [
     {
       "day": 1,
@@ -1065,7 +1065,7 @@
       "confidence": 89.1,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
-      "status": "pending",
+      "status": "hit",
       "legs": [
         {
           "team": "CLE",
@@ -1116,7 +1116,9 @@
           "confidence": 91.9,
           "estimatedProbability": 0.918589,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 27.0,
+            "gradedAt": "2026-10-02T08:15:08.103561+00:00"
           }
         },
         {
@@ -1168,7 +1170,9 @@
           "confidence": 87.6,
           "estimatedProbability": 0.876168,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 17.0,
+            "gradedAt": "2026-10-02T08:15:08.110729+00:00"
           }
         },
         {
@@ -1220,7 +1224,9 @@
           "confidence": 89.0,
           "estimatedProbability": 0.889842,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 5.0,
+            "gradedAt": "2026-10-02T08:15:08.098442+00:00"
           }
         },
         {
@@ -1272,7 +1278,9 @@
           "confidence": 88.0,
           "estimatedProbability": 0.880489,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 299.0,
+            "gradedAt": "2026-10-02T08:15:08.095893+00:00"
           }
         }
       ]
@@ -1294,7 +1302,7 @@
       "confidence": 75.2,
       "selectionTier": "Best available",
       "simulations": 90000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "team": "PIT",
@@ -1345,7 +1353,9 @@
           "confidence": 62.4,
           "estimatedProbability": 0.624023,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 17.0,
+            "gradedAt": "2026-10-02T08:15:08.110855+00:00"
           }
         },
         {
@@ -1393,7 +1403,9 @@
           "confidence": 70.0,
           "estimatedProbability": 0.700155,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": -1.0,
+            "gradedAt": "2026-10-02T08:15:08.115801+00:00"
           }
         },
         {
@@ -1445,7 +1457,9 @@
           "confidence": 70.2,
           "estimatedProbability": 0.702006,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 93.0,
+            "gradedAt": "2026-10-02T08:15:08.106392+00:00"
           }
         },
         {
@@ -1497,7 +1511,9 @@
           "confidence": 89.0,
           "estimatedProbability": 0.889842,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 5.0,
+            "gradedAt": "2026-10-02T08:15:08.098442+00:00"
           }
         },
         {
@@ -1541,7 +1557,9 @@
           "confidence": 84.3,
           "estimatedProbability": 0.842581,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 60.0,
+            "gradedAt": "2026-10-02T08:15:08.100037+00:00"
           }
         }
       ]
