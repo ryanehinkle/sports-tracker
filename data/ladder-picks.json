@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-04T16:21:12.677326+00:00",
+  "updatedAt": "2026-10-04T16:21:49.308033+00:00",
   "picks": [
     {
       "day": 1,
@@ -1572,127 +1572,26 @@
       "slot": "noon",
       "slotLabel": "Noon slate",
       "slotOrder": 1,
-      "createdAt": "2026-10-04T16:21:12.677326+00:00",
+      "createdAt": "2026-10-04T16:21:49.308033+00:00",
       "target": "Even Money Ladder",
       "targetOdds": "+100",
-      "odds": -100,
-      "decimalOdds": 1.995265,
-      "estimatedProbability": 0.745485,
-      "confidence": 90.7,
+      "odds": -101,
+      "decimalOdds": 1.989694,
+      "estimatedProbability": 0.727189,
+      "confidence": 92.4,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
       "status": "pending",
       "legs": [
         {
-          "scope": "player",
+          "proposition": "Over 39.5 Rushing Yards",
+          "odds": -320,
           "selection": "Over",
-          "commenceTime": "2026-10-04T17:01:00.000Z",
-          "position": "WR",
-          "line": 24.5,
-          "decimalOdds": 1.303030303030303,
-          "homeAbbr": "CIN",
-          "market": "Receiving Yards",
-          "odds": -330,
-          "hitRates": {
-            "l5": {
-              "pct": 100,
-              "hits": 5,
-              "total": 5
-            },
-            "l10": {
-              "pct": 100,
-              "hits": 10,
-              "total": 10
-            },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 3,
-              "total": 3
-            },
-            "previous": {
-              "pct": 94,
-              "hits": 15,
-              "total": 16
-            }
-          },
-          "player": "Jakobi Meyers",
-          "matchup": "JAX @ CIN",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3916433.png",
-          "eventId": "36104919",
-          "proposition": "Over 24.5 Receiving Yards",
-          "team": "JAX",
-          "alternate": true,
-          "awayAbbr": "JAX",
-          "key": "36104919\u00a6Jakobi Meyers\u00a6Receiving Yards\u00a6Over\u00a624.5\u00a6Over 24.5 Receiving Yards",
-          "confidence": 88.9,
-          "estimatedProbability": 0.889298,
-          "result": {
-            "status": "pending"
-          }
-        },
-        {
-          "scope": "player",
-          "selection": "Over",
-          "commenceTime": "2026-10-04T17:01:00.000Z",
-          "position": "TE",
-          "line": 9.5,
-          "decimalOdds": 1.166666666666667,
-          "homeAbbr": "CIN",
-          "market": "Player to Record a 10+ Yard Reception",
-          "odds": -600,
-          "hitRates": {
-            "l5": {
-              "pct": 100,
-              "hits": 5,
-              "total": 5
-            },
-            "l10": {
-              "pct": 100,
-              "hits": 10,
-              "total": 10
-            },
-            "h2h": {
-              "pct": 100,
-              "hits": 1,
-              "total": 1
-            },
-            "current": {
-              "pct": 100,
-              "hits": 3,
-              "total": 3
-            },
-            "previous": {
-              "pct": 100,
-              "hits": 12,
-              "total": 12
-            }
-          },
-          "player": "Brenton Strange",
-          "matchup": "JAX @ CIN",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430539.png",
-          "eventId": "36104919",
-          "proposition": "Player to Record a 10+ Yard Reception",
-          "team": "JAX",
-          "alternate": true,
-          "awayAbbr": "JAX",
-          "key": "36104919\u00a6Brenton Strange\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
-          "confidence": 93.1,
-          "estimatedProbability": 0.930982,
-          "result": {
-            "status": "pending"
-          }
-        },
-        {
-          "scope": "player",
-          "selection": "Over",
-          "commenceTime": "2026-10-04T17:01:00.000Z",
-          "position": "RB",
           "line": 39.5,
           "decimalOdds": 1.3125,
+          "team": "LAR",
+          "player": "Kyren Williams",
           "homeAbbr": "PHI",
-          "market": "Rushing Yards",
-          "odds": -320,
           "hitRates": {
             "l5": {
               "pct": 100,
@@ -1720,17 +1619,168 @@
               "total": 17
             }
           },
-          "player": "Kyren Williams",
-          "matchup": "LAR @ PHI",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430737.png",
+          "scope": "player",
           "eventId": "36104923",
-          "proposition": "Over 39.5 Rushing Yards",
-          "team": "LAR",
+          "market": "Rushing Yards",
+          "matchup": "LAR @ PHI",
+          "position": "RB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430737.png",
           "alternate": true,
+          "commenceTime": "2026-10-04T17:01:00.000Z",
           "awayAbbr": "LAR",
           "key": "36104923\u00a6Kyren Williams\u00a6Rushing Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Rushing Yards",
           "confidence": 90.0,
           "estimatedProbability": 0.900431,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "JAX +14.5 Alt Spread",
+          "odds": -900,
+          "selection": "Cover",
+          "line": 14.5,
+          "decimalOdds": 1.111111111111111,
+          "team": "JAX",
+          "player": "",
+          "homeAbbr": "CIN",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 10,
+              "total": 10,
+              "pct": 100.0
+            },
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 3,
+              "total": 3,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "scope": "team",
+          "teamMarketType": "spread",
+          "eventId": "36104919",
+          "market": "Alt Spread",
+          "matchup": "JAX @ CIN",
+          "position": "TEAM",
+          "teamName": "Jacksonville Jaguars",
+          "headshot": "",
+          "alternate": true,
+          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "awayAbbr": "JAX",
+          "key": "36104919\u00a6JAX\u00a6Alt Spread\u00a6Cover\u00a614.5\u00a6JAX +14.5 Alt Spread",
+          "confidence": 94.1,
+          "estimatedProbability": 0.940531,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Over 0.5 Receptions",
+          "odds": -800,
+          "selection": "Over",
+          "line": 0.5,
+          "decimalOdds": 1.125,
+          "team": "TEN",
+          "player": "Elic Ayomanor",
+          "homeAbbr": "BAL",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 16,
+              "total": 16
+            }
+          },
+          "scope": "player",
+          "eventId": "36104914",
+          "market": "Receptions",
+          "matchup": "TEN @ BAL",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4883647.png",
+          "alternate": true,
+          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "awayAbbr": "TEN",
+          "key": "36104914\u00a6Elic Ayomanor\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 93.7,
+          "estimatedProbability": 0.937316,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Over 19.5 Receiving Yards",
+          "odds": -470,
+          "selection": "Over",
+          "line": 19.5,
+          "decimalOdds": 1.212765957446809,
+          "team": "JAX",
+          "player": "Jakobi Meyers",
+          "homeAbbr": "CIN",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 16,
+              "total": 16
+            }
+          },
+          "scope": "player",
+          "eventId": "36104919",
+          "market": "Receiving Yards",
+          "matchup": "JAX @ CIN",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3916433.png",
+          "alternate": true,
+          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "awayAbbr": "JAX",
+          "key": "36104919\u00a6Jakobi Meyers\u00a6Receiving Yards\u00a6Over\u00a619.5\u00a6Over 19.5 Receiving Yards",
+          "confidence": 91.6,
+          "estimatedProbability": 0.916089,
           "result": {
             "status": "pending"
           }
@@ -1745,27 +1795,26 @@
       "slot": "mid",
       "slotLabel": "Mid-afternoon slate",
       "slotOrder": 2,
-      "createdAt": "2026-10-04T16:21:12.677326+00:00",
+      "createdAt": "2026-10-04T16:21:49.308033+00:00",
       "target": "Even Money Ladder",
       "targetOdds": "+100",
-      "odds": -100,
-      "decimalOdds": 1.999599,
-      "estimatedProbability": 0.71691,
-      "confidence": 89.5,
+      "odds": 100,
+      "decimalOdds": 2.0038,
+      "estimatedProbability": 0.704698,
+      "confidence": 91.7,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
       "status": "pending",
       "legs": [
         {
-          "scope": "player",
+          "proposition": "Over 29.5 Rushing Yards",
+          "odds": -850,
           "selection": "Over",
-          "commenceTime": "2026-10-04T20:26:00.000Z",
-          "position": "WR",
-          "line": 19.5,
-          "decimalOdds": 1.3125,
+          "line": 29.5,
+          "decimalOdds": 1.117647058823529,
+          "team": "DEN",
+          "player": "J.K. Dobbins",
           "homeAbbr": "SF",
-          "market": "Deebo Samuel Receiving Yards",
-          "odds": -320,
           "hitRates": {
             "l5": {
               "pct": 100,
@@ -1777,97 +1826,43 @@
               "hits": 10,
               "total": 10
             },
-            "h2h": {
-              "pct": 100,
-              "hits": 1,
-              "total": 1
-            },
+            "h2h": null,
             "current": {
               "pct": 100,
               "hits": 3,
               "total": 3
             },
             "previous": {
-              "pct": 81,
-              "hits": 13,
-              "total": 16
+              "pct": 100,
+              "hits": 10,
+              "total": 10
             }
           },
-          "player": "Deebo Samuel Sr.",
-          "matchup": "DEN @ SF",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3126486.png",
-          "eventId": "36104924",
-          "proposition": "Over 19.5 Deebo Samuel Receiving Yards",
-          "team": "SF",
-          "alternate": true,
-          "awayAbbr": "DEN",
-          "key": "36104924\u00a6Deebo Samuel Sr.\u00a6Deebo Samuel Receiving Yards\u00a6Over\u00a619.5\u00a6Over 19.5 Deebo Samuel Receiving Yards",
-          "confidence": 87.8,
-          "estimatedProbability": 0.877802,
-          "result": {
-            "status": "pending"
-          }
-        },
-        {
-          "scope": "team",
-          "teamMarketType": "spread",
-          "selection": "Cover",
-          "commenceTime": "2026-10-04T20:26:00.000Z",
-          "position": "TEAM",
-          "line": 18.5,
-          "decimalOdds": 1.192307692307692,
-          "homeAbbr": "SEA",
-          "market": "Alt Spread",
-          "odds": -520,
-          "hitRates": {
-            "l5": {
-              "hits": 5,
-              "total": 5,
-              "pct": 100.0
-            },
-            "l10": {
-              "hits": 9,
-              "total": 10,
-              "pct": 90.0
-            },
-            "h2h": null,
-            "current": {
-              "hits": 3,
-              "total": 3,
-              "pct": 100.0
-            },
-            "previous": {
-              "hits": 16,
-              "total": 17,
-              "pct": 94.1
-            }
-          },
-          "player": "",
-          "teamName": "Los Angeles Chargers",
-          "matchup": "LAC @ SEA",
-          "headshot": "",
-          "eventId": "36104921",
-          "proposition": "LAC +18.5 Alt Spread",
-          "team": "LAC",
-          "alternate": true,
-          "awayAbbr": "LAC",
-          "key": "36104921\u00a6LAC\u00a6Alt Spread\u00a6Cover\u00a618.5\u00a6LAC +18.5 Alt Spread",
-          "confidence": 91.9,
-          "estimatedProbability": 0.919335,
-          "result": {
-            "status": "pending"
-          }
-        },
-        {
           "scope": "player",
+          "eventId": "36104924",
+          "market": "Rushing Yards",
+          "matchup": "DEN @ SF",
+          "position": "RB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4241985.png",
+          "alternate": true,
+          "commenceTime": "2026-10-04T20:26:00.000Z",
+          "awayAbbr": "DEN",
+          "key": "36104924\u00a6J.K. Dobbins\u00a6Rushing Yards\u00a6Over\u00a629.5\u00a6Over 29.5 Rushing Yards",
+          "confidence": 93.8,
+          "estimatedProbability": 0.938499,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Player to Record a 10+ Yard Reception",
+          "odds": -370,
           "selection": "Over",
-          "commenceTime": "2026-10-04T20:06:00.000Z",
-          "position": "TE",
           "line": 9.5,
-          "decimalOdds": 1.277777777777778,
+          "decimalOdds": 1.27027027027027,
+          "team": "MIA",
+          "player": "Greg Dulcich",
           "homeAbbr": "MIN",
-          "market": "Player to Record a 10+ Yard Reception",
-          "odds": -360,
           "hitRates": {
             "l5": {
               "pct": 100,
@@ -1891,17 +1886,116 @@
               "total": 10
             }
           },
-          "player": "Greg Dulcich",
-          "matchup": "MIA @ MIN",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4367209.png",
+          "scope": "player",
           "eventId": "36104925",
-          "proposition": "Player to Record a 10+ Yard Reception",
-          "team": "MIA",
+          "market": "Player to Record a 10+ Yard Reception",
+          "matchup": "MIA @ MIN",
+          "position": "TE",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4367209.png",
           "alternate": true,
+          "commenceTime": "2026-10-04T20:06:00.000Z",
           "awayAbbr": "MIA",
           "key": "36104925\u00a6Greg Dulcich\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
-          "confidence": 88.8,
-          "estimatedProbability": 0.888371,
+          "confidence": 89.0,
+          "estimatedProbability": 0.889942,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "LAC +16.5 Alt Spread",
+          "odds": -370,
+          "selection": "Cover",
+          "line": 16.5,
+          "decimalOdds": 1.27027027027027,
+          "team": "LAC",
+          "player": "",
+          "homeAbbr": "SEA",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 3,
+              "total": 3,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 15,
+              "total": 17,
+              "pct": 88.2
+            }
+          },
+          "scope": "team",
+          "teamMarketType": "spread",
+          "eventId": "36104921",
+          "market": "Alt Spread",
+          "matchup": "LAC @ SEA",
+          "position": "TEAM",
+          "teamName": "Los Angeles Chargers",
+          "headshot": "",
+          "alternate": true,
+          "commenceTime": "2026-10-04T20:26:00.000Z",
+          "awayAbbr": "LAC",
+          "key": "36104921\u00a6LAC\u00a6Alt Spread\u00a6Cover\u00a616.5\u00a6LAC +16.5 Alt Spread",
+          "confidence": 89.7,
+          "estimatedProbability": 0.896682,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Over 4.5 Receiving Yards",
+          "odds": -900,
+          "selection": "Over",
+          "line": 4.5,
+          "decimalOdds": 1.111111111111111,
+          "team": "SEA",
+          "player": "Cooper Kupp",
+          "homeAbbr": "SEA",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 16,
+              "total": 16
+            }
+          },
+          "scope": "player",
+          "eventId": "36104921",
+          "market": "Receiving Yards",
+          "matchup": "LAC @ SEA",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/2977187.png",
+          "alternate": true,
+          "commenceTime": "2026-10-04T20:26:00.000Z",
+          "awayAbbr": "LAC",
+          "key": "36104921\u00a6Cooper Kupp\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
+          "confidence": 94.1,
+          "estimatedProbability": 0.940954,
           "result": {
             "status": "pending"
           }
@@ -1916,27 +2010,74 @@
       "slot": "snf",
       "slotLabel": "Sunday Night Football",
       "slotOrder": 3,
-      "createdAt": "2026-10-04T16:21:12.677326+00:00",
+      "createdAt": "2026-10-04T16:21:49.308033+00:00",
       "target": "Even Money Ladder",
       "targetOdds": "+100",
-      "odds": 100,
-      "decimalOdds": 2.0,
-      "estimatedProbability": 0.637085,
-      "confidence": 89.4,
+      "odds": -100,
+      "decimalOdds": 1.997482,
+      "estimatedProbability": 0.624003,
+      "confidence": 88.9,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
       "status": "pending",
       "legs": [
         {
-          "scope": "player",
+          "proposition": "Over 2.5 Receptions",
+          "odds": -580,
           "selection": "Over",
-          "commenceTime": "2026-10-05T00:21:00.000Z",
-          "position": "WR",
-          "line": 14.5,
-          "decimalOdds": 1.153846153846154,
+          "line": 2.5,
+          "decimalOdds": 1.172413793103448,
+          "team": "DET",
+          "player": "Sam LaPorta",
           "homeAbbr": "CAR",
-          "market": "Player to Record a 15+ Yard Reception",
-          "odds": -650,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 9,
+              "total": 9
+            }
+          },
+          "scope": "player",
+          "eventId": "36104927",
+          "market": "Receptions",
+          "matchup": "DET @ CAR",
+          "position": "TE",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430027.png",
+          "alternate": true,
+          "commenceTime": "2026-10-05T00:21:00.000Z",
+          "awayAbbr": "DET",
+          "key": "36104927\u00a6Sam LaPorta\u00a6Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Receptions",
+          "confidence": 92.5,
+          "estimatedProbability": 0.924584,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Player to Record a 15+ Yard Reception",
+          "odds": -700,
+          "selection": "Over",
+          "line": 14.5,
+          "decimalOdds": 1.142857142857143,
+          "team": "DET",
+          "player": "Amon-Ra St. Brown",
+          "homeAbbr": "CAR",
           "hitRates": {
             "l5": {
               "pct": 100,
@@ -1960,79 +2101,31 @@
               "total": 17
             }
           },
-          "player": "Amon-Ra St. Brown",
-          "matchup": "DET @ CAR",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4374302.png",
+          "scope": "player",
           "eventId": "36104927",
-          "proposition": "Player to Record a 15+ Yard Reception",
-          "team": "DET",
+          "market": "Player to Record a 15+ Yard Reception",
+          "matchup": "DET @ CAR",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4374302.png",
           "alternate": true,
+          "commenceTime": "2026-10-05T00:21:00.000Z",
           "awayAbbr": "DET",
           "key": "36104927\u00a6Amon-Ra St. Brown\u00a6Player to Record a 15+ Yard Reception\u00a6Over\u00a614.5\u00a6Player to Record a 15+ Yard Reception",
-          "confidence": 90.0,
-          "estimatedProbability": 0.899832,
+          "confidence": 90.3,
+          "estimatedProbability": 0.902633,
           "result": {
             "status": "pending"
           }
         },
         {
-          "scope": "player",
+          "proposition": "Over 24.5 Receiving Yards",
+          "odds": -490,
           "selection": "Over",
-          "commenceTime": "2026-10-05T00:21:00.000Z",
-          "position": "RB",
-          "line": 4.5,
-          "decimalOdds": 1.133333333333333,
+          "line": 24.5,
+          "decimalOdds": 1.204081632653061,
+          "team": "DET",
+          "player": "Jameson Williams",
           "homeAbbr": "CAR",
-          "market": "Receiving Yards",
-          "odds": -750,
-          "hitRates": {
-            "l5": {
-              "pct": 100,
-              "hits": 5,
-              "total": 5
-            },
-            "l10": {
-              "pct": 100,
-              "hits": 10,
-              "total": 10
-            },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 3,
-              "total": 3
-            },
-            "previous": {
-              "pct": 73,
-              "hits": 11,
-              "total": 15
-            }
-          },
-          "player": "Chuba Hubbard",
-          "matchup": "DET @ CAR",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4241416.png",
-          "eventId": "36104927",
-          "proposition": "Over 4.5 Receiving Yards",
-          "team": "CAR",
-          "alternate": true,
-          "awayAbbr": "DET",
-          "key": "36104927\u00a6Chuba Hubbard\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
-          "confidence": 90.1,
-          "estimatedProbability": 0.900969,
-          "result": {
-            "status": "pending"
-          }
-        },
-        {
-          "scope": "player",
-          "selection": "Over",
-          "commenceTime": "2026-10-05T00:21:00.000Z",
-          "position": "WR",
-          "line": 29.5,
-          "decimalOdds": 1.294117647058824,
-          "homeAbbr": "CAR",
-          "market": "Receiving Yards",
-          "odds": -340,
           "hitRates": {
             "l5": {
               "pct": 100,
@@ -2056,31 +2149,31 @@
               "total": 17
             }
           },
-          "player": "Jameson Williams",
-          "matchup": "DET @ CAR",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4426388.png",
+          "scope": "player",
           "eventId": "36104927",
-          "proposition": "Over 29.5 Receiving Yards",
-          "team": "DET",
+          "market": "Receiving Yards",
+          "matchup": "DET @ CAR",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4426388.png",
           "alternate": true,
+          "commenceTime": "2026-10-05T00:21:00.000Z",
           "awayAbbr": "DET",
-          "key": "36104927\u00a6Jameson Williams\u00a6Receiving Yards\u00a6Over\u00a629.5\u00a6Over 29.5 Receiving Yards",
-          "confidence": 85.2,
-          "estimatedProbability": 0.851997,
+          "key": "36104927\u00a6Jameson Williams\u00a6Receiving Yards\u00a6Over\u00a624.5\u00a6Over 24.5 Receiving Yards",
+          "confidence": 87.2,
+          "estimatedProbability": 0.87198,
           "result": {
             "status": "pending"
           }
         },
         {
-          "scope": "player",
+          "proposition": "Over 19.5 Receiving Yards",
+          "odds": -420,
           "selection": "Over",
-          "commenceTime": "2026-10-05T00:21:00.000Z",
-          "position": "TE",
-          "line": 2.5,
-          "decimalOdds": 1.181818181818182,
+          "line": 19.5,
+          "decimalOdds": 1.238095238095238,
+          "team": "DET",
+          "player": "Jahmyr Gibbs",
           "homeAbbr": "CAR",
-          "market": "Receptions",
-          "odds": -550,
           "hitRates": {
             "l5": {
               "pct": 100,
@@ -2088,8 +2181,8 @@
               "total": 5
             },
             "l10": {
-              "pct": 100,
-              "hits": 10,
+              "pct": 90,
+              "hits": 9,
               "total": 10
             },
             "h2h": null,
@@ -2099,22 +2192,23 @@
               "total": 3
             },
             "previous": {
-              "pct": 100,
-              "hits": 9,
-              "total": 9
+              "pct": 71,
+              "hits": 12,
+              "total": 17
             }
           },
-          "player": "Sam LaPorta",
-          "matchup": "DET @ CAR",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430027.png",
+          "scope": "player",
           "eventId": "36104927",
-          "proposition": "Over 2.5 Receptions",
-          "team": "DET",
+          "market": "Receiving Yards",
+          "matchup": "DET @ CAR",
+          "position": "RB",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429795.png",
           "alternate": true,
+          "commenceTime": "2026-10-05T00:21:00.000Z",
           "awayAbbr": "DET",
-          "key": "36104927\u00a6Sam LaPorta\u00a6Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Receptions",
-          "confidence": 92.2,
-          "estimatedProbability": 0.922333,
+          "key": "36104927\u00a6Jahmyr Gibbs\u00a6Receiving Yards\u00a6Over\u00a619.5\u00a6Over 19.5 Receiving Yards",
+          "confidence": 85.7,
+          "estimatedProbability": 0.857477,
           "result": {
             "status": "pending"
           }
@@ -2127,75 +2221,78 @@
       "slot": "all-sunday",
       "slotLabel": "Full Sunday slate",
       "slotOrder": 99,
-      "createdAt": "2026-10-04T16:21:12.677326+00:00",
+      "createdAt": "2026-10-04T16:21:49.308033+00:00",
       "target": "Sunday Long Shot",
       "targetOdds": "+1000 minimum",
       "odds": 1007,
-      "decimalOdds": 11.065229,
-      "estimatedProbability": 0.255341,
-      "confidence": 80.3,
+      "decimalOdds": 11.067481,
+      "estimatedProbability": 0.300273,
+      "confidence": 82.2,
       "selectionTier": "Best available +1000",
       "simulations": 120000,
       "status": "pending",
       "legs": [
         {
-          "scope": "player",
+          "proposition": "Over 4.5 Receiving Yards",
+          "odds": -550,
           "selection": "Over",
-          "commenceTime": "2026-10-04T17:01:00.000Z",
-          "position": "WR",
           "line": 4.5,
           "decimalOdds": 1.181818181818182,
-          "homeAbbr": "BAL",
+          "team": "NYG",
+          "player": "Darnell Mooney",
+          "homeAbbr": "NYG",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 15,
+              "total": 15
+            }
+          },
+          "scope": "player",
+          "eventId": "36104920",
           "market": "Receiving Yards",
-          "odds": -550,
-          "hitRates": {
-            "l5": {
-              "pct": 100,
-              "hits": 5,
-              "total": 5
-            },
-            "l10": {
-              "pct": 100,
-              "hits": 10,
-              "total": 10
-            },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 3,
-              "total": 3
-            },
-            "previous": {
-              "pct": 100,
-              "hits": 16,
-              "total": 16
-            }
-          },
-          "player": "Elic Ayomanor",
-          "matchup": "TEN @ BAL",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4883647.png",
-          "eventId": "36104914",
-          "proposition": "Over 4.5 Receiving Yards",
-          "team": "TEN",
+          "matchup": "ARI @ NYG",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4040655.png",
           "alternate": true,
-          "awayAbbr": "TEN",
-          "key": "36104914\u00a6Elic Ayomanor\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
-          "confidence": 92.3,
-          "estimatedProbability": 0.923246,
+          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "awayAbbr": "ARI",
+          "key": "36104920\u00a6Darnell Mooney\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
+          "confidence": 92.8,
+          "estimatedProbability": 0.927757,
           "result": {
             "status": "pending"
           }
         },
         {
-          "scope": "player",
+          "proposition": "Player to Record a 10+ Yard Reception",
+          "odds": -550,
           "selection": "Over",
-          "commenceTime": "2026-10-05T00:21:00.000Z",
-          "position": "TE",
-          "line": 2.5,
+          "line": 9.5,
           "decimalOdds": 1.181818181818182,
-          "homeAbbr": "CAR",
-          "market": "Receptions",
-          "odds": -550,
+          "team": "JAX",
+          "player": "Brenton Strange",
+          "homeAbbr": "CIN",
           "hitRates": {
             "l5": {
               "pct": 100,
@@ -2207,7 +2304,11 @@
               "hits": 10,
               "total": 10
             },
-            "h2h": null,
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "current": {
               "pct": 100,
               "hits": 3,
@@ -2215,127 +2316,171 @@
             },
             "previous": {
               "pct": 100,
-              "hits": 9,
-              "total": 9
+              "hits": 12,
+              "total": 12
             }
           },
-          "player": "Sam LaPorta",
-          "matchup": "DET @ CAR",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430027.png",
-          "eventId": "36104927",
-          "proposition": "Over 2.5 Receptions",
-          "team": "DET",
-          "alternate": true,
-          "awayAbbr": "DET",
-          "key": "36104927\u00a6Sam LaPorta\u00a6Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Receptions",
-          "confidence": 92.2,
-          "estimatedProbability": 0.922333,
-          "result": {
-            "status": "pending"
-          }
-        },
-        {
           "scope": "player",
-          "selection": "Under",
-          "commenceTime": "2026-10-04T17:01:00.000Z",
-          "position": "QB",
-          "line": 1.5,
-          "decimalOdds": 1.641025641025641,
-          "homeAbbr": "CHI",
-          "market": "Passing TDs",
-          "odds": -156,
-          "hitRates": {
-            "l5": {
-              "pct": 100,
-              "hits": 5,
-              "total": 5
-            },
-            "l10": {
-              "pct": 100,
-              "hits": 5,
-              "total": 5
-            },
-            "h2h": null,
-            "current": {
-              "pct": 100,
-              "hits": 2,
-              "total": 2
-            },
-            "previous": {
-              "pct": 100,
-              "hits": 3,
-              "total": 3
-            }
-          },
-          "player": "Tyson Bagent",
-          "matchup": "NYJ @ CHI",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4434153.png",
-          "eventId": "36104916",
-          "proposition": "Under 1.5 Passing TDs",
-          "team": "CHI",
-          "alternate": false,
-          "awayAbbr": "NYJ",
-          "key": "36104916\u00a6Tyson Bagent\u00a6Passing TDs\u00a6Under\u00a61.5\u00a6Under 1.5 Passing TDs",
-          "confidence": 82.3,
-          "estimatedProbability": 0.822731,
-          "result": {
-            "status": "pending"
-          }
-        },
-        {
-          "scope": "player",
-          "selection": "Over",
-          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "eventId": "36104919",
+          "market": "Player to Record a 10+ Yard Reception",
+          "matchup": "JAX @ CIN",
           "position": "TE",
-          "line": 0.5,
-          "decimalOdds": 1.632911392405063,
-          "homeAbbr": "BUF",
-          "market": "Total Receptions",
-          "odds": -158,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430539.png",
+          "alternate": true,
+          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "awayAbbr": "JAX",
+          "key": "36104919\u00a6Brenton Strange\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
+          "confidence": 92.7,
+          "estimatedProbability": 0.927413,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Over 6.5 Receptions",
+          "odds": -154,
+          "selection": "Over",
+          "line": 6.5,
+          "decimalOdds": 1.649350649350649,
+          "team": "ARI",
+          "player": "Trey McBride",
+          "homeAbbr": "NYG",
           "hitRates": {
             "l5": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 5,
+              "total": 5
             },
             "l10": {
-              "pct": 100,
-              "hits": 2,
-              "total": 2
+              "pct": 80,
+              "hits": 8,
+              "total": 10
             },
             "h2h": null,
             "current": {
               "pct": 100,
-              "hits": 2,
-              "total": 2
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 59,
+              "hits": 10,
+              "total": 17
+            }
+          },
+          "scope": "player",
+          "eventId": "36104920",
+          "market": "Receptions",
+          "matchup": "ARI @ NYG",
+          "position": "TE",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4361307.png",
+          "alternate": true,
+          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "awayAbbr": "ARI",
+          "key": "36104920\u00a6Trey McBride\u00a6Receptions\u00a6Over\u00a66.5\u00a6Over 6.5 Receptions",
+          "confidence": 75.2,
+          "estimatedProbability": 0.752035,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Over 19.5 Receiving Yards",
+          "odds": -140,
+          "selection": "Over",
+          "line": 19.5,
+          "decimalOdds": 1.714285714285714,
+          "team": "TB",
+          "player": "Ted Hurst III",
+          "homeAbbr": "TB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
             },
             "previous": null
           },
-          "player": "Eli Raridon",
-          "matchup": "NE @ BUF",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4831959.png",
-          "eventId": "36104918",
-          "proposition": "Over 0.5 Total Receptions",
-          "team": "NE",
-          "alternate": false,
-          "awayAbbr": "NE",
-          "key": "36104918\u00a6Eli Raridon\u00a6Total Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Total Receptions",
-          "confidence": 79.5,
-          "estimatedProbability": 0.794734,
+          "scope": "player",
+          "eventId": "36104917",
+          "market": "Receiving Yards",
+          "matchup": "GB @ TB",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/5220680.png",
+          "alternate": true,
+          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "awayAbbr": "GB",
+          "key": "36104917\u00a6Ted Hurst III\u00a6Receiving Yards\u00a6Over\u00a619.5\u00a6Over 19.5 Receiving Yards",
+          "confidence": 80.5,
+          "estimatedProbability": 0.804838,
           "result": {
             "status": "pending"
           }
         },
         {
-          "scope": "player",
+          "proposition": "Over 14.5 Rushing Yards",
+          "odds": -160,
           "selection": "Over",
-          "commenceTime": "2026-10-04T17:01:00.000Z",
+          "line": 14.5,
+          "decimalOdds": 1.625,
+          "team": "KC",
+          "player": "Emmett Johnson",
+          "homeAbbr": "LV",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": null
+          },
+          "scope": "player",
+          "eventId": "36104926",
+          "market": "Rushing Yards",
+          "matchup": "KC @ LV",
           "position": "RB",
-          "line": 9.5,
-          "decimalOdds": 1.714285714285714,
-          "homeAbbr": "BUF",
-          "market": "Player to Record a 10+ Yard Reception",
-          "odds": -140,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4832955.png",
+          "alternate": true,
+          "commenceTime": "2026-10-04T20:26:00.000Z",
+          "awayAbbr": "KC",
+          "key": "36104926\u00a6Emmett Johnson\u00a6Rushing Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Rushing Yards",
+          "confidence": 81.7,
+          "estimatedProbability": 0.816873,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Over 6.5 Total Receptions",
+          "odds": -138,
+          "selection": "Over",
+          "line": 6.5,
+          "decimalOdds": 1.72463768115942,
+          "team": "SEA",
+          "player": "Jaxon Smith-Njigba",
+          "homeAbbr": "SEA",
           "hitRates": {
             "l5": {
               "pct": 80,
@@ -2347,58 +2492,6 @@
               "hits": 8,
               "total": 10
             },
-            "h2h": {
-              "pct": 50,
-              "hits": 1,
-              "total": 2
-            },
-            "current": {
-              "pct": 67,
-              "hits": 2,
-              "total": 3
-            },
-            "previous": {
-              "pct": 57,
-              "hits": 8,
-              "total": 14
-            }
-          },
-          "player": "Rhamondre Stevenson",
-          "matchup": "NE @ BUF",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4569173.png",
-          "eventId": "36104918",
-          "proposition": "Player to Record a 10+ Yard Reception",
-          "team": "NE",
-          "alternate": true,
-          "awayAbbr": "NE",
-          "key": "36104918\u00a6Rhamondre Stevenson\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
-          "confidence": 66.5,
-          "estimatedProbability": 0.664655,
-          "result": {
-            "status": "pending"
-          }
-        },
-        {
-          "scope": "player",
-          "selection": "Over",
-          "commenceTime": "2026-10-04T17:01:00.000Z",
-          "position": "WR",
-          "line": 9.5,
-          "decimalOdds": 1.72463768115942,
-          "homeAbbr": "HOU",
-          "market": "Receiving Yards",
-          "odds": -138,
-          "hitRates": {
-            "l5": {
-              "pct": 100,
-              "hits": 5,
-              "total": 5
-            },
-            "l10": {
-              "pct": 60,
-              "hits": 6,
-              "total": 10
-            },
             "h2h": null,
             "current": {
               "pct": 100,
@@ -2406,22 +2499,23 @@
               "total": 3
             },
             "previous": {
-              "pct": 47,
-              "hits": 8,
+              "pct": 71,
+              "hits": 12,
               "total": 17
             }
           },
-          "player": "Jaylin Noel",
-          "matchup": "DAL @ HOU",
-          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4586312.png",
-          "eventId": "36104922",
-          "proposition": "Over 9.5 Receiving Yards",
-          "team": "HOU",
-          "alternate": true,
-          "awayAbbr": "DAL",
-          "key": "36104922\u00a6Jaylin Noel\u00a6Receiving Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Receiving Yards",
-          "confidence": 69.0,
-          "estimatedProbability": 0.689985,
+          "scope": "player",
+          "eventId": "36104921",
+          "market": "Total Receptions",
+          "matchup": "LAC @ SEA",
+          "position": "WR",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png",
+          "alternate": false,
+          "commenceTime": "2026-10-04T20:26:00.000Z",
+          "awayAbbr": "LAC",
+          "key": "36104921\u00a6Jaxon Smith-Njigba\u00a6Total Receptions\u00a6Over\u00a66.5\u00a6Over 6.5 Total Receptions",
+          "confidence": 70.6,
+          "estimatedProbability": 0.705844,
           "result": {
             "status": "pending"
           }
