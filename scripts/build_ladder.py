@@ -348,8 +348,28 @@ def strict_candidate(row):
 
 
 def family_key(row):
+    """Canonical underlying market family used to prevent correlated duplicate legs."""
+    event_id = str(row.get("eventId") or "")
+    market = str(row.get("market") or "").strip().lower()
+    kind = str(row.get("teamMarketType") or "").strip()
+
+    # A spread and any alternate spread for the same game are one underlying
+    # outcome family. Never allow multiple spread thresholds from one game in
+    # the same generated slip (for either side).
+    if kind == "spread" or "spread" in market:
+        return (event_id, "game", "spread")
+
+    # Treat alternate totals as the same underlying market too so the model
+    # cannot stack multiple thresholds of the same team/game total.
+    if kind == "gameTotal" or market in {"game total", "alt game total"}:
+        return (event_id, "game", "total")
+    if kind == "teamTotal" or market in {"team total", "alt team total"}:
+        return (event_id, "team", norm(row.get("team")), "total")
+
+    # Player props are keyed without the line so two alternate thresholds of
+    # the same player/market cannot appear together.
     entity = row.get("player") or row.get("team") or row.get("scope") or "game"
-    return (str(row.get("eventId") or ""), norm(entity), str(row.get("market") or "").lower(), str(row.get("line")))
+    return (event_id, norm(entity), market)
 
 
 def compatible(combo, row, max_spread=700):

@@ -1151,11 +1151,17 @@ function analyze(row,cfg){
 }
 function modelSlipPropFamilyKey(x){
   const row=x.row||{};
-  return[
-    String(row.eventId||""),
-    norm(row.player||row.team||row.scope||""),
-    String(x.market||row._marketLabel||generalizedMarketLabel(row)||"").toLowerCase()
-  ].join("|");
+  const eventId=String(row.eventId||"");
+  const market=String(x.market||row._marketLabel||generalizedMarketLabel(row)||"").trim().toLowerCase();
+  const teamMarketType=String(row.teamMarketType||"").trim();
+
+  // Canonicalize correlated alternate lines. A slip can contain at most one
+  // spread from a game, regardless of side/threshold or Spread vs Alt Spread.
+  if(teamMarketType==="spread"||market.includes("spread"))return[eventId,"game","spread"].join("|");
+  if(teamMarketType==="gameTotal"||market==="game total"||market==="alt game total")return[eventId,"game","total"].join("|");
+  if(teamMarketType==="teamTotal"||market==="team total"||market==="alt team total")return[eventId,"team",norm(row.team),"total"].join("|");
+
+  return[eventId,norm(row.player||row.team||row.scope||""),market].join("|");
 }
 function modelSlipLegsCompatible(combo,next,cfg){
   if(combo.some(x=>modelSlipPropFamilyKey(x)===modelSlipPropFamilyKey(next)))return false;
