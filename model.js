@@ -1570,7 +1570,7 @@ function renderCharts(){
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
   const previousSlips=state.slips||[];
-  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(state.odds.map(row=>[modelPropKey(row),row]));state.slips=generateSlips(out,cfg,previousSlips);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();
+  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(state.odds.map(row=>[modelPropKey(row),row]));for(const pick of state.ladderData&&state.ladderData.picks||[])for(const leg of pick.legs||[])state.chartRows.set(String(leg.key||modelPropKey(leg)),leg);state.slips=generateSlips(out,cfg,previousSlips);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
