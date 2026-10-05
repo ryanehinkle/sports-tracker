@@ -42,9 +42,8 @@ const state={
   hitRateActiveSplit:null,
   hitTimingFilter:"all",
   hitTimingRequestToken:0,
-  playByPlayCache:new Map(),
-  playByPlayPromises:new Map(),
-  playerTimelineCache:new Map(),
+  hitTimingData:null,
+  hitTimingDataPromise:null,
   parlayOpen:false,
   parlayLegs:[],
   parlayRows:new Map(),
@@ -948,219 +947,95 @@ const HIT_TIMING_METRICS=new Set([
   "receptions","receivingYards","rushingYards","rushingAttempts","passingYards","passingAttempts",
   "passingCompletions","passingTouchdowns","receivingTouchdowns","rushingTouchdowns","touchdowns",
   "passingInterceptions","passingLongest","receivingLongest","rushingLongest","allPurposeYards",
-  "passRushYards","passRushRecYards","sacks","defensiveInterceptions","fieldGoalsMade","kickingPoints"
+  "passRushYards","passRushRecYards","soloTackles","totalTackles","sacks","defensiveInterceptions",
+  "fieldGoalsMade","kickingPoints"
 ]);
-function playRoleText(participant){
-  const type=participant?.type;
-  if(typeof type==="string") return type.toLowerCase();
-  if(type&&typeof type==="object") return String(type.text||type.name||type.abbreviation||type.id||"").toLowerCase();
-  return String(participant?.role||"").toLowerCase();
-}
-function playAthleteId(participant){
-  return String(participant?.athlete?.id||participant?.athleteId||participant?.id||"");
-}
-function playHasRole(play,athleteId,needles){
-  const wanted=Array.isArray(needles)?needles:[needles];
-  return (play?.participants||[]).some(participant=>{
-    if(playAthleteId(participant)!==String(athleteId||"")) return false;
-    const role=playRoleText(participant);
-    return wanted.some(needle=>role.includes(String(needle).toLowerCase()));
-  });
-}
-function playAnyRole(play,needles){
-  const wanted=Array.isArray(needles)?needles:[needles];
-  return (play?.participants||[]).some(participant=>{
-    const role=playRoleText(participant);
-    return wanted.some(needle=>role.includes(String(needle).toLowerCase()));
-  });
-}
-function playTypeText(play){
-  const type=play?.type;
-  if(typeof type==="string") return type.toLowerCase();
-  return String(type?.text||type?.name||type?.abbreviation||"").toLowerCase();
-}
-function playYards(play){
-  const direct=Number(play?.statYardage);
-  if(Number.isFinite(direct)) return direct;
-  const text=String(play?.text||play?.shortText||"");
-  let match=text.match(/\bfor\s+(-?\d+)\s+yards?\b/i);
-  if(match) return Number(match[1]);
-  match=text.match(/\bfor a loss of\s+(\d+)\s+yards?\b/i);
-  if(match) return -Number(match[1]);
-  if(/\bfor no gain\b/i.test(text)) return 0;
-  return 0;
-}
-function summaryPlays(payload){
-  if(Array.isArray(payload?.plays)) return payload.plays;
-  const drives=payload?.drives||{};
-  const rows=[];
-  for(const drive of drives.previous||[]) rows.push(...(drive?.plays||[]));
-  if(drives.current) rows.push(...(drives.current.plays||[]));
-  return rows;
-}
-async function loadPlayByPlay(eventId){
-  const id=String(eventId||"");
-  if(!id) return null;
-  if(state.playByPlayCache.has(id)) return state.playByPlayCache.get(id);
-  if(state.playByPlayPromises.has(id)) return state.playByPlayPromises.get(id);
-  const promise=fetch("https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event="+encodeURIComponent(id),{cache:"force-cache"})
-    .then(response=>{if(!response.ok)throw new Error("ESPN play-by-play "+response.status);return response.json()})
-    .then(payload=>{const plays=summaryPlays(payload);state.playByPlayCache.set(id,plays);return plays})
-    .catch(error=>{console.warn("Hit timing unavailable for ESPN event",id,error);state.playByPlayCache.set(id,null);return null})
-    .finally(()=>state.playByPlayPromises.delete(id));
-  state.playByPlayPromises.set(id,promise);
-  return promise;
-}
-function playerPlayTimeline(plays,player,eventId){
-  const athleteId=String(player?.id||"");
-  if(!athleteId||!Array.isArray(plays)) return [];
-  const cacheKey=String(eventId||"")+"|"+athleteId;
-  if(state.playerTimelineCache.has(cacheKey)) return state.playerTimelineCache.get(cacheKey);
-  const totals={
-    receptions:0,receivingYards:0,rushingYards:0,rushingAttempts:0,passingYards:0,passingAttempts:0,
-    passingCompletions:0,passingTouchdowns:0,receivingTouchdowns:0,rushingTouchdowns:0,
-    passingInterceptions:0,passingLongest:0,receivingLongest:0,rushingLongest:0,sacks:0,
-    defensiveInterceptions:0,fieldGoalsMade:0,kickingPoints:0
-  };
-  const timeline=[];
-  for(const play of plays){
-    const text=String(play?.text||play?.shortText||"");
-    const context=(playTypeText(play)+" "+text).toLowerCase();
-    if(/\bno play\b/.test(context)) continue;
-    const yards=playYards(play);
-    const isPasser=playHasRole(play,athleteId,["passer"]);
-    const isReceiver=playHasRole(play,athleteId,["receiver","reception"]);
-    const isRusher=playHasRole(play,athleteId,["rusher","rush"]);
-    const isKicker=playHasRole(play,athleteId,["kicker"]);
-    const isSacker=playHasRole(play,athleteId,["sacker","sack"]);
-    const isInterceptor=playHasRole(play,athleteId,["interceptor"]);
-    const receiverOnPlay=playAnyRole(play,["receiver","reception"]);
-    const passPlay=/\bpass\b|interception/.test(context);
-    const completion=passPlay&&receiverOnPlay&&!/incomplete|intercepted|interception|sack/.test(context);
-    const touchdown=Boolean(play?.scoringPlay)&&/touchdown/.test(context);
-    let changed=false;
-    if(isPasser&&passPlay&&!/\bsack\b/.test(context)){
-      totals.passingAttempts+=1;changed=true;
-      if(completion){
-        totals.passingCompletions+=1;
-        totals.passingYards+=yards;
-        totals.passingLongest=Math.max(totals.passingLongest,Math.max(0,yards));
-      }
-      if(touchdown&&completion) totals.passingTouchdowns+=1;
-      if(/intercepted|interception/.test(context)) totals.passingInterceptions+=1;
-    }
-    if(isReceiver&&completion){
-      totals.receptions+=1;
-      totals.receivingYards+=yards;
-      totals.receivingLongest=Math.max(totals.receivingLongest,Math.max(0,yards));
-      if(touchdown) totals.receivingTouchdowns+=1;
-      changed=true;
-    }
-    if(isRusher){
-      totals.rushingAttempts+=1;
-      totals.rushingYards+=yards;
-      totals.rushingLongest=Math.max(totals.rushingLongest,Math.max(0,yards));
-      if(touchdown) totals.rushingTouchdowns+=1;
-      changed=true;
-    }
-    if(isKicker&&/field goal/.test(context)&&!/no good|missed|blocked/.test(context)&&(Boolean(play?.scoringPlay)||/\bgood\b/.test(context))){
-      totals.fieldGoalsMade+=1;totals.kickingPoints+=3;changed=true;
-    }
-    if(isKicker&&/(extra point|pat)/.test(context)&&!/no good|missed|blocked/.test(context)&&(Boolean(play?.scoringPlay)||/\bgood\b/.test(context))){
-      totals.kickingPoints+=1;changed=true;
-    }
-    if(isSacker){totals.sacks+=1;changed=true}
-    if(isInterceptor&&/intercept/.test(context)){totals.defensiveInterceptions+=1;changed=true}
-    if(!changed) continue;
-    timeline.push({
-      quarter:Number(play?.period?.number||play?.period||0),
-      clock:String(play?.clock?.displayValue||play?.clock||""),
-      ...totals
-    });
-  }
-  state.playerTimelineCache.set(cacheKey,timeline);
-  return timeline;
-}
-function timelineMetricValue(snapshot,metric){
-  if(metric==="touchdowns") return safe(snapshot.rushingTouchdowns)+safe(snapshot.receivingTouchdowns);
-  if(metric==="allPurposeYards") return safe(snapshot.rushingYards)+safe(snapshot.receivingYards);
-  if(metric==="passRushYards") return safe(snapshot.passingYards)+safe(snapshot.rushingYards);
-  if(metric==="passRushRecYards") return safe(snapshot.passingYards)+safe(snapshot.rushingYards)+safe(snapshot.receivingYards);
-  const value=Number(snapshot?.[metric]);
-  return Number.isFinite(value)?value:null;
+async function loadHitTimingData(){
+  if(state.hitTimingData)return state.hitTimingData;
+  if(state.hitTimingDataPromise)return state.hitTimingDataPromise;
+  state.hitTimingDataPromise=fetch("data/nfl-hit-timing.json",{cache:"no-cache"})
+    .then(response=>{if(!response.ok)throw new Error("Hit timing data "+response.status);return response.json()})
+    .then(data=>{state.hitTimingData=data||{events:{}};return state.hitTimingData})
+    .catch(error=>{console.warn("Hit timing database unavailable",error);state.hitTimingData={events:{}};return state.hitTimingData})
+    .finally(()=>{state.hitTimingDataPromise=null});
+  return state.hitTimingDataPromise;
 }
 function quarterTimingLabel(quarter){
-  if(quarter==="final") return "Final";
+  if(quarter==="final")return"Final";
   const q=Number(quarter);
-  if(q>=1&&q<=4) return q+"Q";
-  if(q>4) return "OT";
-  return "—";
+  if(q>=1&&q<=4)return q+"Q";
+  if(q>4)return"OT";
+  return"—";
+}
+function hitTimingRows(game,player,metric){
+  if(!state.hitTimingData)return null;
+  const eventId=String(game?.eventId||""),playerId=String(player?.id||"");
+  if(!eventId||!playerId)return[];
+  return state.hitTimingData?.events?.[eventId]?.[playerId]?.[metric]||[];
 }
 function hitTimingForGame(row,game,player){
   const spec=metricSpec(row);
-  if(!player||!spec||!HIT_TIMING_METRICS.has(spec.metric)) return null;
+  if(!player||!spec||!HIT_TIMING_METRICS.has(spec.metric))return null;
   const hit=propHit(row,game);
-  if(hit!==true) return {hit:false};
-  if(["Under","No"].includes(String(row.selection||""))) return {hit:true,quarter:"final",clock:""};
-  const eventId=String(game?.eventId||"");
-  if(!eventId) return {hit:true,unavailable:true};
-  if(!state.playByPlayCache.has(eventId)) return {hit:true,loading:true};
-  const plays=state.playByPlayCache.get(eventId);
-  if(!Array.isArray(plays)) return {hit:true,unavailable:true};
+  if(hit!==true)return{hit:false};
+  if(["Under","No"].includes(String(row.selection||"")))return{hit:true,quarter:"final",clock:""};
+  if(!state.hitTimingData)return{hit:true,loading:true};
   const target=spec.comparison==="gte"?Number(spec.threshold):Number(row.line);
-  if(!Number.isFinite(target)) return {hit:true,unavailable:true};
-  const timeline=playerPlayTimeline(plays,player,eventId);
-  for(const snapshot of timeline){
-    const value=timelineMetricValue(snapshot,spec.metric);
-    if(value===null) continue;
+  if(!Number.isFinite(target))return{hit:true,unavailable:true};
+  const rows=hitTimingRows(game,player,spec.metric);
+  for(const entry of rows){
+    const value=Number(Array.isArray(entry)?entry[0]:entry?.value);
+    const quarter=Array.isArray(entry)?entry[1]:entry?.quarter;
+    const clock=Array.isArray(entry)?entry[2]:entry?.clock;
+    if(!Number.isFinite(value))continue;
     const crossed=spec.comparison==="gte"?value>=target:value>target;
-    if(crossed) return {hit:true,quarter:snapshot.quarter,clock:snapshot.clock};
+    if(crossed)return{hit:true,quarter,clock:String(clock||"")};
   }
-  return {hit:true,unavailable:true};
+  return{hit:true,unavailable:true};
 }
 function hitTimingReadyForGame(row,game,player){
-  const timing=hitTimingForGame(row,game,player);
-  return !timing?.loading;
+  const spec=metricSpec(row);
+  if(!player||!spec||!HIT_TIMING_METRICS.has(spec.metric))return true;
+  const hit=propHit(row,game);
+  if(hit!==true||["Under","No"].includes(String(row.selection||"")))return true;
+  return Boolean(state.hitTimingData);
 }
 function hitTimingMatchesFilter(timing,filter){
-  if(filter==="all") return true;
+  if(filter==="all")return true;
   return Boolean(timing?.hit)&&String(timing.quarter)===String(filter);
 }
 function hitTimingInlineMarkup(timing,hit){
-  if(!hit) return '<span class="hit-timing-chip miss">No hit</span>';
-  if(timing?.loading) return '<span class="hit-timing-chip loading">Hit in: …</span>';
-  if(!timing||timing.unavailable) return '<span class="hit-timing-chip unavailable">Hit timing —</span>';
+  if(!hit)return'<span class="hit-timing-chip miss">No hit</span>';
+  if(timing?.loading)return'<span class="hit-timing-chip loading">Hit in: …</span>';
+  if(!timing||timing.unavailable)return'<span class="hit-timing-chip unavailable">Hit timing —</span>';
   const label=quarterTimingLabel(timing.quarter);
-  return '<span class="hit-timing-chip">Hit in: '+esc(label)+(timing.clock?' · '+esc(timing.clock):'')+'</span>';
+  return'<span class="hit-timing-chip">Hit in: '+esc(label)+(timing.clock?' · '+esc(timing.clock):'')+'</span>';
 }
 function hitTimingTooltipMarkup(timing,hit){
-  if(!hit) return '<div class="hit-tooltip-timing miss"><span>Line timing</span><strong>No hit</strong></div>';
-  if(timing?.loading) return '<div class="hit-tooltip-timing unavailable"><span>Hit in</span><strong>Loading…</strong></div>';
-  if(!timing||timing.unavailable) return '<div class="hit-tooltip-timing unavailable"><span>Hit in</span><strong>Unavailable</strong></div>';
-  return '<div class="hit-tooltip-timing"><span>Hit in</span><strong>'+esc(quarterTimingLabel(timing.quarter))+(timing.clock?' · '+esc(timing.clock):'')+'</strong></div>';
+  if(!hit)return'<div class="hit-tooltip-timing miss"><span>Line timing</span><strong>No hit</strong></div>';
+  if(timing?.loading)return'<div class="hit-tooltip-timing unavailable"><span>Hit in</span><strong>Loading…</strong></div>';
+  if(!timing||timing.unavailable)return'<div class="hit-tooltip-timing unavailable"><span>Hit in</span><strong>Unavailable</strong></div>';
+  return'<div class="hit-tooltip-timing"><span>Hit in</span><strong>'+esc(quarterTimingLabel(timing.quarter))+(timing.clock?' · '+esc(timing.clock):'')+'</strong></div>';
 }
 function renderHitTimingTools(row,baseGames,player,spec){
-  if(!hitTimingTools||!hitTimingFilters||!hitTimingStatus) return;
+  if(!hitTimingTools||!hitTimingFilters||!hitTimingStatus)return;
   const available=Boolean(player&&spec&&HIT_TIMING_METRICS.has(spec.metric)&&!["team","game"].includes(row?.scope));
   hitTimingTools.hidden=!available;
   if(!available){state.hitTimingFilter="all";return}
   hitTimingFilters.querySelectorAll("[data-hit-timing]").forEach(button=>button.classList.toggle("selected",button.dataset.hitTiming===state.hitTimingFilter));
   const ready=baseGames.every(game=>hitTimingReadyForGame(row,game,player));
-  if(state.hitTimingFilter==="all") hitTimingStatus.textContent=ready?"Quarter + clock from ESPN play-by-play":"Loading quarter + clock…";
-  else if(!ready) hitTimingStatus.textContent="Loading hit timing…";
+  if(state.hitTimingFilter==="all")hitTimingStatus.textContent=ready?"Saved ESPN play-by-play timing":"Loading saved hit timing…";
+  else if(!ready)hitTimingStatus.textContent="Loading hit timing…";
   else{
     const matching=baseGames.filter(game=>hitTimingMatchesFilter(hitTimingForGame(row,game,player),state.hitTimingFilter)).length;
     hitTimingStatus.textContent=matching+" game"+(matching===1?"":"s")+" first hit in "+quarterTimingLabel(state.hitTimingFilter);
   }
 }
 function scheduleHitTimingHydration(row,baseGames,player,split){
-  if(!player) return;
-  const ids=[...new Set(baseGames.map(game=>String(game?.eventId||"")).filter(Boolean))];
-  const pending=ids.filter(id=>!state.playByPlayCache.has(id));
-  if(!pending.length) return;
+  if(!player||state.hitTimingData)return;
   const token=++state.hitTimingRequestToken;
-  Promise.all(pending.map(loadPlayByPlay)).then(()=>{
-    if(token!==state.hitTimingRequestToken||state.hitRateActiveRow!==row||state.hitRateActiveSplit!==split) return;
+  loadHitTimingData().then(()=>{
+    if(token!==state.hitTimingRequestToken||state.hitRateActiveRow!==row||state.hitRateActiveSplit!==split)return;
     renderHitRateChart(row,split);
   });
 }
