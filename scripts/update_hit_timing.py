@@ -105,8 +105,13 @@ def role_text(participant):
 
 def athlete_id(participant):
     athlete = participant.get("athlete") or {}
-    if isinstance(athlete, dict) and athlete.get("id"):
-        return str(athlete["id"])
+    if isinstance(athlete, dict):
+        if athlete.get("id"):
+            return str(athlete["id"])
+        ref = str(athlete.get("$ref") or "")
+        match = re.search(r"/athletes/(\d+)", ref)
+        if match:
+            return match.group(1)
     return str(participant.get("athleteId") or participant.get("id") or "")
 
 
@@ -118,6 +123,106 @@ def participant_roles(play):
             continue
         roles.setdefault(pid, []).append(role_text(participant))
     return roles
+
+
+
+def clean_player_name(value):
+    text = re.sub(r"\b(Jr|Sr|II|III|IV)\.?\b", "", str(value or ""), flags=re.IGNORECASE)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def compact_name_pattern(name):
+    clean = clean_player_name(name)
+    parts = clean.split()
+    if len(parts) < 2:
+        return None
+    first = parts[0]
+    last = " ".join(parts[1:])
+    last_pattern = re.escape(last)
+    last_pattern = last_pattern.replace(r"\ ", r"\s+")
+    last_pattern = last_pattern.replace(r"\-", r"[-\s]?")
+    last_pattern = last_pattern.replace(r"\'", r"['’]?")
+    return re.compile(r"\b" + re.escape(first[0]) + r"\.?\s*" + last_pattern + r"\b", re.IGNORECASE)
+
+
+def full_name_pattern(name):
+    clean = clean_player_name(name)
+    if not clean:
+        return None
+    pattern = re.escape(clean)
+    pattern = pattern.replace(r"\ ", r"\s+")
+    pattern = pattern.replace(r"\-", r"[-\s]?")
+    pattern = pattern.replace(r"\'", r"['’]?")
+    return re.compile(r"\b" + pattern + r"\b", re.IGNORECASE)
+
+
+def infer_text_roles(play, player_names):
+    """Infer ESPN play participant roles from shortText/text when site summary omits participant IDs."""
+    short_text = str(play.get("shortText") or "")
+    long_text = str(play.get("text") or play.get("alternativeText") or "")
+    type_text = play_type_text(play)
+    roles = {}
+
+    def add(pid, role):
+        roles.setdefault(pid, [])
+        if role not in roles[pid]:
+            roles[pid].append(role)
+
+    for pid, name in player_names.items():
+        full = full_name_pattern(name)
+        compact = compact_name_pattern(name)
+        if not full and not compact:
+            continue
+
+        full_in_short = bool(full and full.search(short_text))
+        compact_in_long = bool(compact and compact.search(long_text))
+        if not full_in_short and not compact_in_long:
+            continue
+
+        # ESPN shortText is highly standardized and normally uses full names.
+        if full:
+            if re.search(r"^\s*" + full.pattern + r"\s+Pass\b", short_text, re.IGNORECASE):
+                add(pid, "passer")
+            if re.search(r"\bto\s+" + full.pattern + r"\b", short_text, re.IGNORECASE):
+                add(pid, "receiver")
+            if re.search(r"^\s*" + full.pattern + r"\s+(?:Rush|Run)\b", short_text, re.IGNORECASE):
+                add(pid, "rusher")
+            if re.search(r"^\s*" + full.pattern + r".*\bField Goal\b", short_text, re.IGNORECASE):
+                add(pid, "kicker")
+            if re.search(r"^\s*" + full.pattern + r".*\bExtra Point\b", short_text, re.IGNORECASE):
+                add(pid, "kicker")
+            if re.search(r"\bIntercepted by\s+" + full.pattern + r"\b", short_text, re.IGNORECASE):
+                add(pid, "interceptor")
+            if re.search(r"\bSacked(?:.*?\bby)?\s+" + full.pattern + r"\b", short_text, re.IGNORECASE):
+                add(pid, "sacker")
+
+        # Older/long-form play text uses J.Allen / S.Diggs-style names.
+        if compact:
+            cp = compact.pattern
+            if re.search(cp + r"\s+pass\b", long_text, re.IGNORECASE):
+                add(pid, "passer")
+            if re.search(r"\bto\s+" + cp + r"\b", long_text, re.IGNORECASE):
+                add(pid, "receiver")
+            if "rush" in type_text.lower() and re.search(cp + r".{0,55}\bfor\b", long_text, re.IGNORECASE):
+                add(pid, "rusher")
+            if "field goal" in (type_text + " " + short_text).lower() and re.search(cp, long_text, re.IGNORECASE):
+                add(pid, "kicker")
+            if re.search(r"\bintercepted(?:.*?\bby)?\s+" + cp + r"\b", long_text, re.IGNORECASE):
+                add(pid, "interceptor")
+            if re.search(r"\bsacked(?:.*?\bby)?\s+" + cp + r"\b", long_text, re.IGNORECASE):
+                add(pid, "sacker")
+
+    return roles
+
+
+def merge_roles(primary, secondary):
+    out = {pid: list(values) for pid, values in primary.items()}
+    for pid, values in secondary.items():
+        out.setdefault(pid, [])
+        for value in values:
+            if value not in out[pid]:
+                out[pid].append(value)
+    return out
 
 
 def has_role(roles, player_id, needles):
@@ -187,8 +292,9 @@ def derived_values(state):
     }
 
 
-def parse_event(payload, wanted_player_ids):
-    wanted = {str(x) for x in wanted_player_ids}
+def parse_event(payload, wanted_players):
+    player_names = {str(pid): str(name or "") for pid, name in wanted_players.items()}
+    wanted = set(player_names)
     states = {pid: {metric: 0.0 for metric in BASE_METRICS} for pid in wanted}
     timelines = {pid: {} for pid in wanted}
 
@@ -198,7 +304,7 @@ def parse_event(payload, wanted_player_ids):
         if re.search(r"\bno play\b", context):
             continue
 
-        roles = participant_roles(play)
+        roles = merge_roles(participant_roles(play), infer_text_roles(play, player_names))
         if not roles:
             continue
 
@@ -358,8 +464,11 @@ def main():
 
     seasons = {str(stats.get("season") or ""), str((stats.get("season") or 0) - 1)}
     wanted = {}
+    player_names = {}
     for player in players:
         pid = str(player.get("id") or "")
+        if pid:
+            player_names[pid] = str(player.get("name") or "")
         if not pid:
             continue
         by_season = player.get("gameLogsBySeason") or {}
@@ -373,7 +482,8 @@ def main():
                 wanted.setdefault(event_id, {})[pid] = game
 
     existing = load_json(OUT, {})
-    existing_events = existing.get("events") or {}
+    schema_version = 2
+    existing_events = (existing.get("events") or {}) if existing.get("schemaVersion") == schema_version else {}
     events = {}
     pending = {}
 
@@ -401,7 +511,8 @@ def main():
             for future in as_completed(futures):
                 event_id = futures[future]
                 try:
-                    fetched[event_id] = parse_event(future.result(), pending[event_id])
+                    names = {pid: player_names.get(pid, "") for pid in pending[event_id]}
+                    fetched[event_id] = parse_event(future.result(), names)
                     print(f"play-by-play: {event_id} ({len(pending[event_id])} players)")
                 except Exception as exc:
                     print(f"WARNING: play-by-play failed for {event_id}: {exc}", file=sys.stderr)
@@ -423,6 +534,7 @@ def main():
         return
 
     payload = {
+        "schemaVersion": schema_version,
         "season": stats.get("season"),
         "availableSeasons": stats.get("availableSeasons") or [],
         "updatedAt": datetime.now(timezone.utc).isoformat(),
@@ -432,7 +544,8 @@ def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, separators=(",", ":")) + "\n", encoding="utf-8")
     covered_players = sum(len(x) for x in events.values())
-    print(f"Wrote hit timing for {len(events)} events / {covered_players} player-games.")
+    covered_metrics = sum(len(metrics) for event in events.values() for metrics in event.values())
+    print(f"Wrote hit timing for {len(events)} events / {covered_players} player-games / {covered_metrics} validated metric timelines.")
 
 
 if __name__ == "__main__":
