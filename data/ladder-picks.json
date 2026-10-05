@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-05T16:02:30.174622+00:00",
+  "updatedAt": "2026-10-05T22:39:37.945254+00:00",
   "picks": [
     {
       "day": 1,
@@ -2552,6 +2552,565 @@
             "status": "miss",
             "actual": 5.0,
             "gradedAt": "2026-10-05T07:04:30.236545+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "day": 2,
+      "date": "2026-10-05",
+      "eventId": "36104928",
+      "matchup": "ATL @ NO",
+      "slot": "game-36104928",
+      "slotLabel": "Monday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-10-05T22:39:37.945254+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 101,
+      "decimalOdds": 2.009091,
+      "estimatedProbability": 0.547063,
+      "confidence": 88.7,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "scope": "player",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 4.5,
+          "decimalOdds": 1.166666666666667,
+          "position": "WR",
+          "odds": -600,
+          "team": "NO",
+          "market": "Receptions",
+          "proposition": "Over 4.5 Receptions",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 75,
+              "hits": 12,
+              "total": 16
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4361370.png",
+          "awayAbbr": "ATL",
+          "player": "Chris Olave",
+          "alternate": true,
+          "selection": "Over",
+          "key": "36104928\u00a6Chris Olave\u00a6Receptions\u00a6Over\u00a64.5\u00a6Over 4.5 Receptions",
+          "confidence": 86.1,
+          "estimatedProbability": 0.860646,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 9.5,
+          "decimalOdds": 1.133333333333333,
+          "position": "TE",
+          "odds": -750,
+          "team": "NO",
+          "market": "Player to Record a 10+ Yard Reception",
+          "proposition": "Player to Record a 10+ Yard Reception",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3929645.png",
+          "awayAbbr": "ATL",
+          "player": "Juwan Johnson",
+          "alternate": true,
+          "selection": "Over",
+          "key": "36104928\u00a6Juwan Johnson\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
+          "confidence": 92.4,
+          "estimatedProbability": 0.923668,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "team",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 12.5,
+          "decimalOdds": 1.090909090909091,
+          "teamMarketType": "spread",
+          "teamName": "New Orleans Saints",
+          "position": "TEAM",
+          "odds": -1100,
+          "team": "NO",
+          "market": "Alt Spread",
+          "proposition": "NO +12.5 Alt Spread",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "h2h": {
+              "hits": 1,
+              "total": 2,
+              "pct": 50.0
+            },
+            "current": {
+              "hits": 3,
+              "total": 3,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 13,
+              "total": 17,
+              "pct": 76.5
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "",
+          "awayAbbr": "ATL",
+          "player": "",
+          "alternate": true,
+          "selection": "Cover",
+          "key": "36104928\u00a6NO\u00a6Alt Spread\u00a6Cover\u00a612.5\u00a6NO +12.5 Alt Spread",
+          "confidence": 91.4,
+          "estimatedProbability": 0.914094,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 174.5,
+          "decimalOdds": 1.238095238095238,
+          "position": "QB",
+          "odds": -420,
+          "team": "ATL",
+          "market": "Passing Yards",
+          "proposition": "Over 174.5 Passing Yards",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "previous": {
+              "pct": 78,
+              "hits": 7,
+              "total": 9
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4360423.png",
+          "awayAbbr": "ATL",
+          "player": "Michael Penix Jr.",
+          "alternate": true,
+          "selection": "Over",
+          "key": "36104928\u00a6Michael Penix Jr.\u00a6Passing Yards\u00a6Over\u00a6174.5\u00a6Over 174.5 Passing Yards",
+          "confidence": 84.1,
+          "estimatedProbability": 0.840865,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 4.5,
+          "decimalOdds": 1.125,
+          "position": "QB",
+          "odds": -800,
+          "team": "NO",
+          "market": "Rushing Yards",
+          "proposition": "Over 4.5 Rushing Yards",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 73,
+              "hits": 8,
+              "total": 11
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4360689.png",
+          "awayAbbr": "ATL",
+          "player": "Tyler Shough",
+          "alternate": true,
+          "selection": "Over",
+          "key": "36104928\u00a6Tyler Shough\u00a6Rushing Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Rushing Yards",
+          "confidence": 89.5,
+          "estimatedProbability": 0.895322,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-10-05",
+      "eventId": "36104928",
+      "matchup": "ATL @ NO",
+      "slot": "game-36104928",
+      "slotLabel": "Monday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-10-05T22:39:37.945254+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1006,
+      "decimalOdds": 11.057832,
+      "estimatedProbability": 0.196021,
+      "confidence": 72.7,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "scope": "player",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 3.5,
+          "decimalOdds": 1.87719298245614,
+          "position": "TE",
+          "odds": -114,
+          "team": "NO",
+          "market": "Receptions",
+          "proposition": "Over 3.5 Receptions",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "current": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "previous": {
+              "pct": 71,
+              "hits": 12,
+              "total": 17
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3929645.png",
+          "awayAbbr": "ATL",
+          "player": "Juwan Johnson",
+          "alternate": true,
+          "selection": "Over",
+          "key": "36104928\u00a6Juwan Johnson\u00a6Receptions\u00a6Over\u00a63.5\u00a6Over 3.5 Receptions",
+          "confidence": 62.8,
+          "estimatedProbability": 0.628455,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "team",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 9.5,
+          "decimalOdds": 1.149253731343284,
+          "teamMarketType": "spread",
+          "teamName": "New Orleans Saints",
+          "position": "TEAM",
+          "odds": -670,
+          "team": "NO",
+          "market": "Alt Spread",
+          "proposition": "NO +9.5 Alt Spread",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "h2h": {
+              "hits": 1,
+              "total": 2,
+              "pct": 50.0
+            },
+            "current": {
+              "hits": 3,
+              "total": 3,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 11,
+              "total": 17,
+              "pct": 64.7
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "",
+          "awayAbbr": "ATL",
+          "player": "",
+          "alternate": true,
+          "selection": "Cover",
+          "key": "36104928\u00a6NO\u00a6Alt Spread\u00a6Cover\u00a69.5\u00a6NO +9.5 Alt Spread",
+          "confidence": 88.0,
+          "estimatedProbability": 0.880496,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 15.5,
+          "decimalOdds": 1.87719298245614,
+          "position": "RB",
+          "odds": -114,
+          "team": "NO",
+          "market": "Receiving Yards",
+          "proposition": "Under 15.5 Receiving Yards",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 55,
+              "hits": 6,
+              "total": 11
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3054850.png",
+          "awayAbbr": "ATL",
+          "player": "Alvin Kamara",
+          "alternate": false,
+          "selection": "Under",
+          "key": "36104928\u00a6Alvin Kamara\u00a6Receiving Yards\u00a6Under\u00a615.5\u00a6Under 15.5 Receiving Yards",
+          "confidence": 64.9,
+          "estimatedProbability": 0.649044,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 20.5,
+          "decimalOdds": 1.87719298245614,
+          "position": "WR",
+          "odds": -114,
+          "team": "ATL",
+          "market": "Receiving Yards",
+          "proposition": "Under 20.5 Receiving Yards",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 71,
+              "hits": 12,
+              "total": 17
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4361409.png",
+          "awayAbbr": "ATL",
+          "player": "Jahan Dotson",
+          "alternate": false,
+          "selection": "Under",
+          "key": "36104928\u00a6Jahan Dotson\u00a6Receiving Yards\u00a6Under\u00a620.5\u00a6Under 20.5 Receiving Yards",
+          "confidence": 71.3,
+          "estimatedProbability": 0.713369,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "matchup": "ATL @ NO",
+          "homeAbbr": "NO",
+          "line": 69.5,
+          "decimalOdds": 1.454545454545455,
+          "position": "WR",
+          "odds": -220,
+          "team": "NO",
+          "market": "Receiving Yards",
+          "proposition": "Over 69.5 Receiving Yards",
+          "commenceTime": "2026-10-06T00:16:00.000Z",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 44,
+              "hits": 7,
+              "total": 16
+            }
+          },
+          "eventId": "36104928",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4361370.png",
+          "awayAbbr": "ATL",
+          "player": "Chris Olave",
+          "alternate": true,
+          "selection": "Over",
+          "key": "36104928\u00a6Chris Olave\u00a6Receiving Yards\u00a6Over\u00a669.5\u00a6Over 69.5 Receiving Yards",
+          "confidence": 76.5,
+          "estimatedProbability": 0.765092,
+          "result": {
+            "status": "pending"
           }
         }
       ]
