@@ -2,7 +2,7 @@
 "use strict";
 const $=id=>document.getElementById(id);
 const fmt=new Intl.NumberFormat("en-US");
-const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
+const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,avgHitQuarter:0,avgHitTime:900,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const PRESETS={
   "even-ladder":{label:"Even Ladder",l5:100,l10:75,h2h:0,current:0,previous:70,legOddsMin:-1200,legOddsMax:-280,parlayOddsMin:-110,parlayOddsMax:110,legsMin:3,legsMax:6,oddsSpread:700,edgeMin:-20,uniquePlayers:true,avoidSameGame:false},
   "ten-x":{label:"+1000 Sharp",l5:70,l10:65,h2h:0,current:55,previous:55,legOddsMin:-500,legOddsMax:250,parlayOddsMin:850,parlayOddsMax:1200,legsMin:3,legsMax:5,oddsSpread:1000,edgeMin:0,teamMatchupMin:45,uniquePlayers:true,avoidSameGame:false},
@@ -292,6 +292,38 @@ function modelTeamLogo(abbr){return abbr?"https://a.espncdn.com/i/teamlogos/nfl/
 function modelShortTeam(name){const parts=String(name||"").trim().split(/\s+/);return parts.length?parts[parts.length-1]:"Team"}
 function modelGameTime(value){const d=new Date(value);return Number.isNaN(d.getTime())?"":new Intl.DateTimeFormat("en-US",{weekday:"long",hour:"numeric",minute:"2-digit"}).format(d)}
 function modelPropKey(row){return [row.eventId||"",row.player||row.team||row.scope||"",row.market||"",row.selection||"",row.line??"",row.proposition||""].join("¦")}
+
+function avgHitInfo(row){
+  const raw=row&&row.avgHitTime,elapsed=Number(raw&&raw.elapsedSeconds);
+  if(!Number.isFinite(elapsed))return null;
+  return{elapsedSeconds:elapsed,sample:Number(raw.sample)||0,hits:Number(raw.hits)||0,season:Number(raw.season)||Number(state.season)||0};
+}
+function avgHitGameClock(elapsed){
+  elapsed=Math.max(0,Number(elapsed)||0);
+  if(elapsed<=3600){
+    let quarter=Math.floor(Math.max(0,elapsed-1e-6)/900)+1;
+    quarter=clamp(quarter,1,4);
+    const inQuarter=elapsed-(quarter-1)*900;
+    const remaining=Math.max(0,Math.round(900-inQuarter));
+    return{quarter:quarter,label:quarter+"Q",remaining:remaining};
+  }
+  const otElapsed=elapsed-3600,period=Math.floor(Math.max(0,otElapsed-1e-6)/600)+5;
+  const inPeriod=otElapsed-(period-5)*600,remaining=Math.max(0,Math.round(600-inPeriod));
+  return{quarter:period,label:period===5?"OT":((period-4)+"OT"),remaining:remaining};
+}
+function avgHitClockText(seconds){
+  const value=Math.max(0,Math.round(Number(seconds)||0)),minutes=Math.floor(value/60),secs=value%60;
+  return minutes+":"+String(secs).padStart(2,"0");
+}
+function avgHitDisplay(info){
+  if(!info)return"—";
+  const clock=avgHitGameClock(info.elapsedSeconds);
+  return clock.label+" · "+avgHitClockText(clock.remaining);
+}
+function avgHitThresholdSeconds(cfg){
+  return cfg.avgHitQuarter?((cfg.avgHitQuarter-1)*900+cfg.avgHitTime):null;
+}
+
 function percentile(value,values){const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length||!Number.isFinite(value))return null;let below=0,equal=0;for(const x of a){if(x<value)below++;else if(x===value)equal++}return 100*(below+.5*equal)/a.length}
 
 function logs(player,seasonOnly){
@@ -974,6 +1006,7 @@ function removeModelEntityRule(key){
 
 function controls(){
   const hit={};for(const [k] of HIT_LABELS)hit[k]=Number($(k+"Min").value)||0;
+  const avgHitQuarter=Number($("avgHitQuarter").value)||0,avgHitTime=clamp(Number($("avgHitTime").value)||0,0,900);
   const rawLegMin=Number($("legOddsMin").value),rawLegMax=Number($("legOddsMax").value);
   const legOddsMin=Math.min(rawLegMin,rawLegMax),legOddsMax=Math.max(rawLegMin,rawLegMax);
   const rawParlayMin=Number($("parlayOddsMin").value),rawParlayMax=Number($("parlayOddsMax").value);
@@ -981,7 +1014,7 @@ function controls(){
   const parlayMinD=americanToDecimal(rawParlayMin),parlayMaxD=americanToDecimal(rawParlayMax);
   if(Number.isFinite(parlayMinD)&&Number.isFinite(parlayMaxD)&&parlayMinD>parlayMaxD)[parlayOddsMin,parlayOddsMax]=[rawParlayMax,rawParlayMin];
   return{
-    hit:hit,targetShare:Number($("targetShare").value)||0,carryShare:Number($("carryShare").value)||0,opportunityShare:Number($("opportunityShare").value)||0,
+    hit:hit,avgHitQuarter:avgHitQuarter,avgHitTime:avgHitTime,targetShare:Number($("targetShare").value)||0,carryShare:Number($("carryShare").value)||0,opportunityShare:Number($("opportunityShare").value)||0,
     targetsPerGameMin:Number($("targetsPerGameMin").value)||0,carriesPerGameMin:Number($("carriesPerGameMin").value)||0,
     dvpMin:Number($("dvpMin").value)||0,dvpSample:Number($("dvpSample").value)||1,teamMatchupMin:Number($("teamMatchupMin").value)||0,
     edgeMin:Number($("edgeMin").value),oddsSpread:Number($("oddsSpread").value)||600,requireOpponentData:$("requireOpponentData").checked,
@@ -992,6 +1025,7 @@ function controls(){
   };
 }
 function analyzeTeamMarket(row,cfg){
+  if(cfg.avgHitQuarter)return null;
   const odds=Number(row.odds),hasLine=row.line!==null&&row.line!==undefined&&row.line!=="",line=hasLine?Number(row.line):null;
   if(!Number.isFinite(odds)||odds<cfg.legOddsMin||odds>cfg.legOddsMax)return null;
   if(cfg.lineMin!==null&&(!Number.isFinite(line)||line<cfg.lineMin))return null;
@@ -1041,7 +1075,7 @@ function analyzeTeamMarket(row,cfg){
   return{row,player:null,pos,team,opp,market,rates,usage:{target:0,carry:0,opportunity:0,targetsPerGame:0,carriesPerGame:0},
     dvpRow:null,dvpPct:matchupSignal*100,favorableDvp:matchupSignal*100,teamMatchupPct:matchupSignal*100,dvpMetric:null,
     recentSignal:recent,seasonSignal:season,h2hSignal,usageSignal:profileSignal,matchupSignal,valueSignal,
-    modelProb,impliedProb:book,edge,score,reliability,calibrationQuality:statModel.breadth,teamProfile:statModel};
+    modelProb,impliedProb:book,edge,score,reliability,calibrationQuality:statModel.breadth,teamProfile:statModel,avgHitTime:null};
 }
 function analyze(row,cfg){
   const scope=String(row&&row.scope||"player");
@@ -1070,6 +1104,8 @@ function analyze(row,cfg){
   for(const k of Object.keys(cfg.hit)){
     if(cfg.hit[k]>0&&(!rates[k]||rates[k].pct<cfg.hit[k]))return null;
   }
+  const avgHitTime=avgHitInfo(row),avgHitMax=avgHitThresholdSeconds(cfg);
+  if(avgHitMax!==null&&(!avgHitTime||avgHitTime.elapsedSeconds>avgHitMax+1e-9))return null;
 
   const usage=state.usage.get(String(player.id))||{target:0,carry:0,opportunity:0,targetsPerGame:0,carriesPerGame:0};
   if(usage.target<cfg.targetShare||usage.carry<cfg.carryShare||usage.opportunity<cfg.opportunityShare||usage.targetsPerGame<cfg.targetsPerGameMin||usage.carriesPerGame<cfg.carriesPerGameMin)return null;
@@ -1146,7 +1182,7 @@ function analyze(row,cfg){
     usageSignal:usageSignal,matchupSignal:matchup,valueSignal:valueSignal,
     modelProb:modelProb,impliedProb:book,edge:edge,score:score,
     reliability:calibrated.reliability,calibrationQuality:calibrated.calibrationQuality,
-    lineMargin:lineMargin,marginSignal:marginSignal
+    lineMargin:lineMargin,marginSignal:marginSignal,avgHitTime:avgHitTime
   };
 }
 function modelSlipPropFamilyKey(x){
@@ -1354,6 +1390,7 @@ function signalSortValue(x,key){
   if(key==="score")return Number(x.score);
   if(key==="odds")return Number(row.odds);
   if(key==="margin")return x.lineMargin&&Number.isFinite(x.lineMargin.margin)?x.lineMargin.margin:null;
+  if(key==="avgHit")return x.avgHitTime&&Number.isFinite(x.avgHitTime.elapsedSeconds)?x.avgHitTime.elapsedSeconds:null;
   if(key==="result"){
     const status=String(historicalResultForRow(row).status||"pending");
     return({miss:0,pending:1,push:2,hit:3})[status]??1;
@@ -1398,14 +1435,14 @@ function setSignalSort(key){
   if(state.signalSortKey===key)state.signalSortDir=state.signalSortDir==="asc"?"desc":"asc";
   else{
     state.signalSortKey=key;
-    state.signalSortDir=key==="pick"?"asc":"desc";
+    state.signalSortDir=(key==="pick"||key==="avgHit")?"asc":"desc";
   }
   renderSignalSortHeaders();
   renderSignals();
 }
 function renderSignals(){
   const rows=sortedSignalRows().slice(0,60);$("legBoardCount").textContent=fmt.format(rows.length);renderSignalSortHeaders();
-  const colspan=state.modelHistorical?12:11;
+  const colspan=state.modelHistorical?13:12;
   if(!rows.length){
     const unavailable=[...state.selectedMarkets].filter(m=>!state.odds.some(row=>(row._modelMarketLabel||modelSupportedMarketLabel(row))===m));
     const message=unavailable.length===1
@@ -1420,7 +1457,8 @@ function renderSignals(){
     const resultCell=state.modelHistorical?'<td class="model-result-cell">'+modelResultBadge(result,true)+(memberships.length?'<small class="slip-membership">Slip '+memberships.join(" • ")+'</small>':"")+'</td>':"";
     return '<tr class="model-board-row model-prop-trigger '+(state.modelHistorical?'historical-row result-'+esc(result.status):"")+'"'+rowAttrs+'><td><div class="signal-player">'+
       modelEntityVisual(r,x.player)+'<div class="signal-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(r.scope==="game"?r.matchup:(x.team||"NFL")+" vs "+(x.opp||"—"))+' • '+esc(x.pos||"—")+'</small></div></div></td>'+
-      '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td><td class="signal-margin">'+(x.lineMargin?'<strong class="'+(x.lineMargin.margin>=0?'margin-good':'margin-bad')+'">'+(x.lineMargin.margin>=0?'+':'')+x.lineMargin.margin.toFixed(1)+'</strong><small>'+x.lineMargin.average.toFixed(1)+' avg</small>':'—')+'</td>'+resultCell+
+      '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td><td class="signal-margin">'+(x.lineMargin?'<strong class="'+(x.lineMargin.margin>=0?'margin-good':'margin-bad')+'">'+(x.lineMargin.margin>=0?'+':'')+x.lineMargin.margin.toFixed(1)+'</strong><small>'+x.lineMargin.average.toFixed(1)+' avg</small>':'—')+'</td>'+
+      '<td class="signal-avg-hit">'+(x.avgHitTime?'<strong>'+esc(avgHitDisplay(x.avgHitTime))+'</strong><small>'+x.avgHitTime.sample+' hit'+(x.avgHitTime.sample===1?'':'s')+'</small>':'—')+'</td>'+resultCell+
       rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+
       '<td class="'+metricClass(x.usageSignal*100)+'">'+esc(modelProfileText(x))+'</td>'+
       '<td class="'+metricClass(x.matchupSignal*100)+'">'+Math.round(x.matchupSignal*100)+'th'+(["team","game"].includes(r.scope)?' <small>all-team model</small>':x.dvpRow?' <small>(n='+x.dvpRow.samples+')</small>':"")+'</td></tr>';
@@ -1532,7 +1570,7 @@ function renderCharts(){
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
   const previousSlips=state.slips||[];
-  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(out.map(x=>[modelPropKey(x.row),x.row]));state.slips=generateSlips(out,cfg,previousSlips);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();
+  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(state.odds.map(row=>[modelPropKey(row),row]));state.slips=generateSlips(out,cfg,previousSlips);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
@@ -1545,6 +1583,7 @@ function applyPreset(key){
   for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","targetsPerGameMin","carriesPerGameMin"]){
     $(id).value=0;
   }
+  $("avgHitQuarter").value=String(DEFAULTS.avgHitQuarter);$("avgHitTime").value=String(DEFAULTS.avgHitTime);
   $("dvpSample").value=DEFAULTS.dvpSample;
   $("requireOpponentData").checked=false;
   $("teamMatchupMin").value=preset.teamMatchupMin??0;
@@ -1570,7 +1609,7 @@ function togglePresetPopover(){
   let top=rect.bottom+8;if(top+pop.offsetHeight>window.innerHeight-10)top=Math.max(10,rect.top-pop.offsetHeight-8);
   pop.style.top=top+"px";btn.setAttribute("aria-expanded","true");btn.classList.add("open");
 }
-function syncLabels(){for(const [k] of HIT_LABELS)$(k+"Value").textContent=$(k+"Min").value+"%";$("targetShareValue").textContent=$("targetShare").value+"%";$("carryShareValue").textContent=$("carryShare").value+"%";$("opportunityShareValue").textContent=$("opportunityShare").value+"%";$("dvpValue").textContent=$("dvpMin").value+"th+";$("dvpSampleValue").textContent=$("dvpSample").value+"+";$("teamMatchupValue").textContent=$("teamMatchupMin").value+"th+";$("edgeValue").textContent=$("edgeMin").value+"%+";$("oddsSpreadValue").textContent=$("oddsSpread").value}
+function syncLabels(){for(const [k] of HIT_LABELS)$(k+"Value").textContent=$(k+"Min").value+"%";const avgQuarter=Number($("avgHitQuarter").value)||0,avgTime=clamp(Number($("avgHitTime").value)||0,0,900);$("avgHitTime").disabled=!avgQuarter;$("avgHitTimeValue").textContent=avgHitClockText(900-avgTime);$("avgHitTime").closest(".avg-hit-time-row").classList.toggle("is-disabled",!avgQuarter);$("targetShareValue").textContent=$("targetShare").value+"%";$("carryShareValue").textContent=$("carryShare").value+"%";$("opportunityShareValue").textContent=$("opportunityShare").value+"%";$("dvpValue").textContent=$("dvpMin").value+"th+";$("dvpSampleValue").textContent=$("dvpSample").value+"+";$("teamMatchupValue").textContent=$("teamMatchupMin").value+"th+";$("edgeValue").textContent=$("edgeMin").value+"%+";$("oddsSpreadValue").textContent=$("oddsSpread").value}
 function modelFilterCountLabel(set,singular,allLabel){
   return set.size?set.size+" "+singular+(set.size===1?"":"s"):allLabel;
 }
@@ -2012,14 +2051,15 @@ function renderLadderLaunch(){
   else if(picks.length)state.ladderIndex=picks.length-1;
 }
 function ladderLegHtml(leg){
-  const scope=leg.scope||"player",status=String(leg.result&&leg.result.status||"pending");
+  const scope=leg.scope||"player",status=String(leg.result&&leg.result.status||"pending"),key=String(leg.key||modelPropKey(leg));
+  state.chartRows.set(key,leg);
   const entity=scope==="player"?cleanDisplayPlayerName(leg.player):(scope==="team"?(leg.teamName||leg.team||"Team"):(leg.matchup||"Game"));
   let visual;
   if(scope==="player")visual='<img src="'+esc(leg.headshot||fallbackHeadshot())+'" alt="">';
   else if(scope==="team")visual='<img src="'+esc(modelTeamLogo(leg.team))+'" alt="">';
   else visual='<span class="ladder-game-logos"><img src="'+esc(modelTeamLogo(leg.awayAbbr))+'" alt=""><img src="'+esc(modelTeamLogo(leg.homeAbbr))+'" alt=""></span>';
   const actual=leg.result&&leg.result.actual!==undefined?'<small>Final: '+esc(String(leg.result.actual))+'</small>':"";
-  return '<div class="ladder-leg ladder-'+esc(status)+'">'+visual+'<div class="ladder-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(leg))+'</span><small>'+formatOdds(leg.odds)+' • confidence '+pct(Number(leg.confidence),1)+'</small></div><div class="ladder-leg-result"><span>'+ladderStatusIcon(status)+'</span><strong>'+esc(status==="pending"?"Pending":status.charAt(0).toUpperCase()+status.slice(1))+'</strong>'+actual+'</div></div>';
+  return '<div class="ladder-leg ladder-'+esc(status)+' model-prop-trigger" data-prop-key="'+esc(key)+'" tabindex="0" role="button" aria-label="Open '+esc(entity)+' prop history chart">'+visual+'<div class="ladder-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(leg))+'</span><small>'+formatOdds(leg.odds)+' • confidence '+pct(Number(leg.confidence),1)+'</small></div><div class="ladder-leg-result"><span>'+ladderStatusIcon(status)+'</span><strong>'+esc(status==="pending"?"Pending":status.charAt(0).toUpperCase()+status.slice(1))+'</strong>'+actual+'</div></div>';
 }
 function renderLadderPick(){
   const picks=ladderChronologicalPicks();
@@ -2118,7 +2158,7 @@ function bind(){
   });
   document.addEventListener("click",e=>{if(!e.target.closest(".model-entity-picker"))$("modelEntitySearchResults").hidden=true});
   $("weightControls").addEventListener("click",e=>{const b=e.target.closest("[data-weight]");if(!b)return;const k=b.dataset.weight,levels=[0,8,14,22,30,40],cur=state.weights[k],next=levels[(levels.indexOf(cur)+1)%levels.length];state.weights[k]=next;b.querySelector("strong").textContent=next;b.classList.toggle("active",next>0);schedule()});
-  $("resetModel").addEventListener("click",()=>{$("modelPresetButton").querySelector("span").textContent="Presets";for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();state.modelScope="";state.entityRules.clear();saveModelEntityRules();$("modelEntitySearch").value="";renderModelEntityRules();renderModelEntitySearchResults();renderModelFilters();for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
+  $("resetModel").addEventListener("click",()=>{$("modelPresetButton").querySelector("span").textContent="Presets";for(const [k] of HIT_LABELS)$(k+"Min").value=DEFAULTS[k];$("avgHitQuarter").value=String(DEFAULTS.avgHitQuarter);$("avgHitTime").value=String(DEFAULTS.avgHitTime);for(const id of ["targetShare","carryShare","opportunityShare","dvpMin","teamMatchupMin","edgeMin","targetsPerGameMin","carriesPerGameMin","oddsSpread"])$(id).value=DEFAULTS[id];$("dvpSample").value=DEFAULTS.dvpSample;$("requireOpponentData").checked=false;state.selectedPositions.clear();state.selectedMarkets.clear();state.selectedSides.clear();state.selectedGames.clear();state.modelScope="";state.entityRules.clear();saveModelEntityRules();$("modelEntitySearch").value="";renderModelEntityRules();renderModelEntitySearchResults();renderModelFilters();for(const id of ["legOddsMin","legOddsMax","parlayOddsMin","parlayOddsMax","legsMin","legsMax"])$(id).value=DEFAULTS[id];$("lineMin").value="";$("lineMax").value="";$("uniquePlayers").checked=true;$("avoidSameGame").checked=true;state.weights=Object.assign({},DEFAULTS.weights);document.querySelectorAll("[data-weight]").forEach(b=>{const k=b.dataset.weight;b.querySelector("strong").textContent=state.weights[k];b.classList.add("active")});syncLabels();recalc()});
 }
 async function init(){
   loadModelEntityRules();buildControls();bind();syncLabels();renderModelEntityRules();

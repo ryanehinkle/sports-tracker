@@ -6,7 +6,7 @@
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=hit-timing-2"><link rel="stylesheet" href="model.css?v=copy-clean-1">
+<link rel="stylesheet" href="styles.css?v=hit-timing-2"><link rel="stylesheet" href="model.css?v=avg-hit-1">
 </head>
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -23,7 +23,16 @@
 <div class="number-pair"><label class="field"><span>Minimum legs</span><input id="legsMin" type="number" min="1" max="10" value="2"></label><label class="field"><span>Maximum legs</span><input id="legsMax" type="number" min="1" max="10" value="4"></label></div>
 
 </section>
-<section class="control-section"><div class="control-heading"><div><strong>Historical hit rate</strong></div></div><div id="hitRateControls" class="slider-stack"></div></section>
+<section class="control-section"><div class="control-heading"><div><strong>Historical hit rate</strong></div></div><div id="hitRateControls" class="slider-stack"></div>
+<div class="avg-hit-threshold">
+  <div class="avg-hit-threshold-head">
+    <div><strong>Average hit by</strong><small>This season • first time the line was reached</small></div>
+    <select id="avgHitQuarter" aria-label="Average hit time quarter">
+      <option value="0">Off</option><option value="1">1Q</option><option value="2">2Q</option><option value="3">3Q</option><option value="4">4Q</option>
+    </select>
+  </div>
+  <label class="range-row avg-hit-time-row"><span><b>Time left</b></span><output id="avgHitTimeValue">0:00</output><input id="avgHitTime" type="range" min="0" max="900" step="15" value="900" disabled></label>
+</div></section>
 <section class="control-section"><div class="control-heading"><div><strong>Usage & opportunity</strong></div></div>
 <label class="range-row"><span><b>Target share</b></span><output id="targetShareValue">0%</output><input id="targetShare" type="range" min="0" max="70" step="1" value="0"></label>
 <label class="range-row"><span><b>Carry share</b></span><output id="carryShareValue">0%</output><input id="carryShare" type="range" min="0" max="90" step="1" value="0"></label>
@@ -106,6 +115,7 @@
 <th data-signal-sort="pick"><button type="button" class="signal-sort-button">Pick / Market <span class="signal-sort-indicator"></span></button></th>
 <th data-signal-sort="score"><button type="button" class="signal-sort-button">Score <span class="signal-sort-indicator">↓</span></button></th>
 <th data-signal-sort="odds"><button type="button" class="signal-sort-button">Odds <span class="signal-sort-indicator"></span></button></th>\n<th data-signal-sort="margin"><button type="button" class="signal-sort-button">Avg vs Line <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="avgHit"><button type="button" class="signal-sort-button">Avg Hit <span class="signal-sort-indicator"></span></button></th>
 <th id="modelResultHead" class="model-result-head" data-signal-sort="result" hidden><button type="button" class="signal-sort-button">Result <span class="signal-sort-indicator"></span></button></th>
 <th data-signal-sort="l5"><button type="button" class="signal-sort-button">L5 <span class="signal-sort-indicator"></span></button></th>
 <th data-signal-sort="l10"><button type="button" class="signal-sort-button">L10 <span class="signal-sort-indicator"></span></button></th>
@@ -175,5 +185,5 @@
     </div>
     <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="theme.js?v=1"></script><script src="model.js?v=hit-timing-2"></script>
+</dialog><script src="theme.js?v=1"></script><script src="model.js?v=avg-hit-1"></script>
 </body></html>

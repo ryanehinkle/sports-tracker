@@ -15,6 +15,7 @@ PUBLIC_WEB_KEY = "FhMFpcPWXMeyZxOx"
 OUT = Path("data/nfl-odds.json")
 STATS = Path("data/nfl-stats.json")
 TEAM_STATS = Path("data/nfl-team-stats.json")
+HIT_TIMING = Path("data/nfl-hit-timing.json")
 HISTORY_DIR = Path("data/odds-history")
 HISTORY_INDEX = HISTORY_DIR / "index.json"
 CENTRAL = ZoneInfo("America/Chicago")
@@ -116,6 +117,7 @@ def load_stats_players():
     profiles = []
     for player in payload.get("players") or []:
         profile = {
+            "id": str(player.get("id") or ""),
             "name": player.get("name") or "",
             "team": player.get("team") or "",
             "position": player.get("position") or "",
@@ -151,6 +153,17 @@ def load_team_stats():
             by_name[normalize_name(name)] = team
             by_name[normalize_name(team.get("shortName") or "")] = team
     return by_abbr, by_name, payload
+
+
+
+def load_hit_timing():
+    if not HIT_TIMING.exists():
+        return {"events": {}}
+    try:
+        payload = json.loads(HIT_TIMING.read_text(encoding="utf-8"))
+        return payload if isinstance(payload, dict) else {"events": {}}
+    except (json.JSONDecodeError, OSError):
+        return {"events": {}}
 
 
 def load_previous():
@@ -1129,18 +1142,135 @@ def _hit_rates_for_team_prop(event, prop, team_by_abbr, team_payload):
     }
 
 
-def enrich_hit_rates(payload, by_norm, stats_payload, team_by_abbr=None, team_payload=None):
+
+def _clock_seconds(value):
+    text = str(value or "").strip()
+    match = re.fullmatch(r"(\d+):(\d{2})", text)
+    if not match:
+        return None
+    minutes, seconds = int(match.group(1)), int(match.group(2))
+    return minutes * 60 + seconds
+
+
+def _timing_elapsed_seconds(quarter, clock):
+    try:
+        quarter = int(quarter)
+    except (TypeError, ValueError):
+        return None
+    remaining = _clock_seconds(clock)
+    if remaining is None:
+        return None
+    if 1 <= quarter <= 4:
+        return (quarter - 1) * 900 + max(0, 900 - remaining)
+    if quarter >= 5:
+        # NFL regular-season OT is 10 minutes. Additional periods, when present,
+        # continue chronologically after that.
+        return 3600 + (quarter - 5) * 600 + max(0, 600 - remaining)
+    return None
+
+
+def _event_has_overtime(event_timing):
+    for metrics in (event_timing or {}).values():
+        for rows in (metrics or {}).values():
+            for entry in rows or []:
+                if isinstance(entry, list) and len(entry) >= 2:
+                    try:
+                        if int(entry[1]) >= 5:
+                            return True
+                    except (TypeError, ValueError):
+                        pass
+    return False
+
+
+def _average_hit_time_for_prop(prop, profile, current_season, timing_payload):
+    spec = _metric_spec(prop)
+    player_id = str((profile or {}).get("id") or "")
+    if not spec or not player_id or not timing_payload:
+        return None
+
+    metric = spec.get("metric")
+    events = timing_payload.get("events") or {}
+    selection = str(prop.get("selection") or "")
+    line = prop.get("line")
+    try:
+        threshold = float(spec["threshold"]) if spec.get("comparison") == "gte" else float(line)
+    except (KeyError, TypeError, ValueError):
+        return None
+
+    elapsed_values = []
+    hit_games = 0
+    current_logs = _season_logs(profile, current_season, current_season)
+    for game in current_logs:
+        value = _metric_value(game, spec)
+        if value is None:
+            continue
+
+        if spec.get("comparison") == "gte":
+            base_hit = value >= threshold
+            hit = (not base_hit) if selection == "No" else base_hit
+        elif selection == "Under":
+            hit = value < threshold
+        elif selection == "No":
+            hit = value <= threshold
+        else:
+            hit = value > threshold
+        if not hit:
+            continue
+
+        hit_games += 1
+        event_id = str(game.get("eventId") or "")
+        event_timing = events.get(event_id) or {}
+
+        # Unders/No are only actually won when the game is final. Keep them at
+        # regulation end, or just beyond regulation if the game went to OT, so
+        # a "by Q4" threshold never treats an OT under as an earlier hit.
+        if selection in {"Under", "No"}:
+            elapsed_values.append(3601 if _event_has_overtime(event_timing) else 3600)
+            continue
+
+        rows = ((event_timing.get(player_id) or {}).get(metric) or [])
+        for entry in rows:
+            if not isinstance(entry, list) or len(entry) < 3:
+                continue
+            try:
+                running_value = float(entry[0])
+            except (TypeError, ValueError):
+                continue
+            crossed = running_value >= threshold if spec.get("comparison") == "gte" else running_value > threshold
+            if not crossed:
+                continue
+            elapsed = _timing_elapsed_seconds(entry[1], entry[2])
+            if elapsed is not None:
+                elapsed_values.append(elapsed)
+            break
+
+    if not elapsed_values:
+        return None
+
+    average_elapsed = sum(elapsed_values) / len(elapsed_values)
+    return {
+        "elapsedSeconds": round(average_elapsed, 1),
+        "sample": len(elapsed_values),
+        "hits": hit_games,
+        "season": current_season,
+    }
+
+
+def enrich_hit_rates(payload, by_norm, stats_payload, team_by_abbr=None, team_payload=None, hit_timing=None):
     current_season = int(stats_payload.get("season") or datetime.now(timezone.utc).year)
     team_by_abbr = team_by_abbr or {}
     team_payload = team_payload or {}
+    hit_timing = hit_timing or {"events": {}}
     enriched = 0
     for event in payload.get("events") or []:
         for prop in event.get("props") or []:
             if prop.get("scope") in {"team", "game"}:
                 prop["hitRates"] = _hit_rates_for_team_prop(event, prop, team_by_abbr, team_payload)
+                prop["avgHitTime"] = None
             else:
                 profile = by_norm.get(normalize_name(prop.get("player")))
                 prop["hitRates"] = _hit_rates_for_prop(event, prop, profile, current_season)
+                prop["avgHitTime"] = _average_hit_time_for_prop(prop, profile, current_season, hit_timing)
             enriched += 1
     return enriched
 
@@ -1153,6 +1283,7 @@ def history_only():
 
     by_norm, _, stats_payload = load_stats_players()
     team_by_abbr, _, team_payload = load_team_stats()
+    hit_timing = load_hit_timing()
     if not by_norm and not team_by_abbr:
         print("No player/team stats available; skipping history enrichment.")
         return
@@ -1160,7 +1291,7 @@ def history_only():
     original = json.loads(json.dumps(previous))
     normalized, removed_bad = normalize_team_market_records(previous)
     completed_removed = remove_completed_live_events(previous, team_by_abbr, team_payload)
-    enriched = enrich_hit_rates(previous, by_norm, stats_payload, team_by_abbr, team_payload)
+    enriched = enrich_hit_rates(previous, by_norm, stats_payload, team_by_abbr, team_payload, hit_timing)
     graded = grade_history(by_norm, stats_payload, team_by_abbr, team_payload)
 
     if normalized or removed_bad:
@@ -1500,6 +1631,7 @@ def main():
 
     by_norm, profiles, stats_payload = load_stats_players()
     team_by_abbr, _, team_payload = load_team_stats()
+    hit_timing = load_hit_timing()
     previous = load_previous()
     previous_events = {
         str(event.get("id")): event
@@ -1589,7 +1721,7 @@ def main():
     if completed_removed:
         print(f"Removed {completed_removed} completed game(s) from the live board.")
 
-    enriched = enrich_hit_rates(payload, by_norm, stats_payload, team_by_abbr, team_payload)
+    enriched = enrich_hit_rates(payload, by_norm, stats_payload, team_by_abbr, team_payload, hit_timing)
     print(f"Enriched {enriched} prop outcomes with historical hit rates.")
 
     archived = archive_due_events(payload, previous_events, now)
