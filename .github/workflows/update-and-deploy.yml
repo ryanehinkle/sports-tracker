@@ -118,7 +118,7 @@ jobs:
             cp -R /tmp/odds-history data/odds-history
           fi
 
-          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-odds.json data/model-calibration.json data/model-learning.json data/odds-history data/ladder-picks.json; then
+          if git diff --quiet -- data/nfl-stats.json data/nfl-team-stats.json data/nfl-hit-timing.json data/nfl-odds.json data/model-calibration.json data/model-learning.json data/odds-history data/ladder-picks.json; then
             echo "Remote already has these generated updates."
             exit 0
           fi
