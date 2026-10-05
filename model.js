@@ -294,7 +294,7 @@ function modelGameTime(value){const d=new Date(value);return Number.isNaN(d.getT
 function modelPropKey(row){return [row.eventId||"",row.player||row.team||row.scope||"",row.market||"",row.selection||"",row.line??"",row.proposition||""].join("¦")}
 
 function avgHitInfo(row){
-  const raw=row&&row.avgHitTime,elapsed=Number(raw&&raw.elapsedSeconds);
+  const raw=row&&row.avgHitTime,elapsed=raw&&raw.elapsedSeconds!==undefined&&raw.elapsedSeconds!==null?Number(raw.elapsedSeconds):NaN;
   if(!Number.isFinite(elapsed))return null;
   return{elapsedSeconds:elapsed,sample:Number(raw.sample)||0,hits:Number(raw.hits)||0,season:Number(raw.season)||Number(state.season)||0};
 }
