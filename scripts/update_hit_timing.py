@@ -322,8 +322,16 @@ def parse_event(payload, wanted_players):
         yards = play_yards(play)
         pass_play = bool(re.search(r"\bpass\b|interception", context))
         receiver_on_play = any_role(roles, ("receiver", "reception"))
-        completion = pass_play and receiver_on_play and not re.search(
+        # ESPN's summary feed often omits the receiver participant even when the
+        # pass text itself is clearly a completion. Passer totals can be safely
+        # reconstructed from the play result text, then final-stat validation
+        # below rejects any game that does not reconcile exactly.
+        completion = pass_play and not re.search(
             r"incomplete|intercepted|interception|\bsack\b", context
+        ) and (
+            receiver_on_play
+            or "complete" in context
+            or bool(re.search(r"\bto\s+[A-Z]\.", str(play.get("text") or ""), re.I))
         )
         touchdown = bool(play.get("scoringPlay")) and "touchdown" in context
 
@@ -482,7 +490,7 @@ def main():
                 wanted.setdefault(event_id, {})[pid] = game
 
     existing = load_json(OUT, {})
-    schema_version = 2
+    schema_version = 3
     existing_events = (existing.get("events") or {}) if existing.get("schemaVersion") == schema_version else {}
     events = {}
     pending = {}

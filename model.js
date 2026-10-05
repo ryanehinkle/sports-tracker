@@ -2148,6 +2148,7 @@ function bind(){
     else if(delta>0&&state.slipPage>0){state.slipPage--;renderSlips(-1)}
   },{passive:true});
   document.querySelectorAll(".model-controls input:not(#modelEntitySearch)").forEach(el=>{el.addEventListener("input",()=>{syncLabels();schedule()});el.addEventListener("change",()=>{syncLabels();schedule()})});
+  $("avgHitQuarter").addEventListener("change",()=>{syncLabels();schedule()});
   $("modelEntitySearch").addEventListener("input",renderModelEntitySearchResults);
   $("modelEntitySearch").addEventListener("focus",renderModelEntitySearchResults);
   $("modelEntitySearchResults").addEventListener("click",e=>{const button=e.target.closest("[data-entity-add]");if(button)addModelEntityRule(button.dataset.entityAdd)});
