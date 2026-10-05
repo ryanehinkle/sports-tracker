@@ -435,6 +435,42 @@ footer{display:flex;justify-content:space-between;color:#687588;font-size:.7rem;
 }
 
 
+
+
+/* First-hit timing inside prop history */
+.hit-timing-tools{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:10px 24px 12px;border-bottom:1px solid #252d38;background:#121821
+}
+.hit-timing-tools[hidden]{display:none}
+.hit-timing-label{
+  color:#8f9aaa;font-size:.69rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase
+}
+.hit-timing-filters{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.hit-timing-filters button{
+  appearance:none;border:1px solid #313c4b;background:#171e27;color:#9ba6b5;
+  min-width:39px;height:28px;padding:0 9px;border-radius:8px;font:inherit;font-size:.67rem;font-weight:800;
+  cursor:pointer;transition:background .14s,border-color .14s,color .14s,transform .14s
+}
+.hit-timing-filters button:hover{background:#1d2632;border-color:#44536a;color:#eef3f8;transform:translateY(-1px)}
+.hit-timing-filters button.selected{background:#263446;border-color:#4f6887;color:#f5f8fc}
+.hit-timing-filters button:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+#hitTimingStatus{margin-left:auto;color:#7e8998;font-size:.68rem;font-weight:650}
+.hit-bar-label .hit-timing-chip{color:#44d6a0!important;font-weight:850;letter-spacing:-.01em}
+.hit-bar-label .hit-timing-chip.miss{color:#8b95a3!important}
+.hit-bar-label .hit-timing-chip.loading,.hit-bar-label .hit-timing-chip.unavailable{color:#748091!important;font-weight:700}
+.hit-tooltip-timing{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,.09);
+  color:#9ba6b5;font-size:.67rem;font-weight:700
+}
+.hit-tooltip-timing strong{color:#49dda8;font-size:.72rem}
+.hit-tooltip-timing.miss strong,.hit-tooltip-timing.unavailable strong{color:#8b95a3}
+@media(max-width:760px){
+  .hit-timing-tools{padding:9px 16px 11px;gap:8px}
+  #hitTimingStatus{width:100%;margin-left:0}
+}
+
 /* Switchable hit-rate chart tabs + chart draw animation */
 .hit-summary-item{
   appearance:none;

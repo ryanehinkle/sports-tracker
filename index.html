@@ -409,6 +409,18 @@
         <span>Average: <strong id="hitRateAverage">—</strong></span>
         <span>Median: <strong id="hitRateMedian">—</strong></span>
       </div>
+    <div id="hitTimingTools" class="hit-timing-tools" hidden>
+      <span class="hit-timing-label">Hit in</span>
+      <div id="hitTimingFilters" class="hit-timing-filters" role="group" aria-label="Filter games by when the line was first hit">
+        <button type="button" class="selected" data-hit-timing="all">All</button>
+        <button type="button" data-hit-timing="1">1Q</button>
+        <button type="button" data-hit-timing="2">2Q</button>
+        <button type="button" data-hit-timing="3">3Q</button>
+        <button type="button" data-hit-timing="4">4Q</button>
+        <button type="button" data-hit-timing="final">Final</button>
+      </div>
+      <small id="hitTimingStatus"></small>
+    </div>
 
       <div class="hit-rate-chart-scroll">
         <div id="hitRateChart" class="hit-rate-chart"></div>
@@ -417,6 +429,6 @@
   </dialog>
 
   <script src="theme.js?v=1"></script>
-  <script src="app.js?v=copy-clean-1"></script>
+  <script src="app.js?v=hit-timing-1"></script>
 </body>
 </html>

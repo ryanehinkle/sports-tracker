@@ -755,6 +755,7 @@ def parse_game_log(athlete_id, season):
 
                 rows[week] = {
                     "week": week,
+                    "eventId": event_id,
                     "date": game_date,
                     "played": True,
                     "isAway": str(meta.get("atVs") or "").strip() == "@",
@@ -778,6 +779,7 @@ def parse_game_log(athlete_id, season):
 def blank_week(week):
     return {
         "week": week,
+        "eventId": "",
         "date": "",
         "played": False,
         "isAway": False,
@@ -823,7 +825,7 @@ def attach_game_logs(players, season, previous_payload, refresh_current=True):
 
             current_existing = previous_by_season.get(str(season)) or previous.get("gameLog") or []
             current_has_dates = current_existing and all(
-                (not g.get("played")) or g.get("date")
+                (not g.get("played")) or (g.get("date") and g.get("eventId"))
                 for g in current_existing
             )
             if refresh_current or not current_has_dates or force_kicker_refresh:
@@ -833,7 +835,7 @@ def attach_game_logs(players, season, previous_payload, refresh_current=True):
 
             prior_existing = previous_by_season.get(str(prior_season)) or []
             prior_has_dates = prior_existing and all(
-                (not g.get("played")) or g.get("date")
+                (not g.get("played")) or (g.get("date") and g.get("eventId"))
                 for g in prior_existing
             )
             if prior_has_dates and not force_kicker_refresh:
@@ -948,11 +950,11 @@ def main():
         str(season) in (p.get("gameLogsBySeason") or {})
         and str(season - 1) in (p.get("gameLogsBySeason") or {})
         and all(
-            (not g.get("played")) or g.get("date")
+            (not g.get("played")) or (g.get("date") and g.get("eventId"))
             for g in (p.get("gameLogsBySeason") or {}).get(str(season), [])
         )
         and all(
-            (not g.get("played")) or g.get("date")
+            (not g.get("played")) or (g.get("date") and g.get("eventId"))
             for g in (p.get("gameLogsBySeason") or {}).get(str(season - 1), [])
         )
         for p in previous_players

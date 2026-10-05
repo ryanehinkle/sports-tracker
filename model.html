@@ -6,7 +6,7 @@
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fit-charts-2"><link rel="stylesheet" href="model.css?v=copy-clean-1">
+<link rel="stylesheet" href="styles.css?v=hit-timing-1"><link rel="stylesheet" href="model.css?v=copy-clean-1">
 </head>
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -161,7 +161,19 @@
       <span>Average: <strong id="hitRateAverage">—</strong></span>
       <span>Median: <strong id="hitRateMedian">—</strong></span>
     </div>
+    <div id="hitTimingTools" class="hit-timing-tools" hidden>
+      <span class="hit-timing-label">Hit in</span>
+      <div id="hitTimingFilters" class="hit-timing-filters" role="group" aria-label="Filter games by when the line was first hit">
+        <button type="button" class="selected" data-hit-timing="all">All</button>
+        <button type="button" data-hit-timing="1">1Q</button>
+        <button type="button" data-hit-timing="2">2Q</button>
+        <button type="button" data-hit-timing="3">3Q</button>
+        <button type="button" data-hit-timing="4">4Q</button>
+        <button type="button" data-hit-timing="final">Final</button>
+      </div>
+      <small id="hitTimingStatus"></small>
+    </div>
     <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="theme.js?v=1"></script><script src="model.js?v=copy-clean-1"></script>
+</dialog><script src="theme.js?v=1"></script><script src="model.js?v=hit-timing-1"></script>
 </body></html>
