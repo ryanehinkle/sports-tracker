@@ -357,7 +357,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.796274+00:00"
           }
         },
         {
@@ -493,7 +495,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796381+00:00"
           }
         },
         {
@@ -539,7 +543,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796415+00:00"
           }
         },
         {
@@ -585,7 +591,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796450+00:00"
           }
         },
         {
@@ -631,7 +639,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796482+00:00"
           }
         },
         {
@@ -677,7 +687,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796513+00:00"
           }
         },
         {
@@ -723,7 +735,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796543+00:00"
           }
         },
         {
@@ -769,7 +783,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796572+00:00"
           }
         },
         {
@@ -815,7 +831,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796602+00:00"
           }
         },
         {
@@ -861,7 +879,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796631+00:00"
           }
         },
         {
@@ -907,7 +927,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.796659+00:00"
           }
         },
         {
@@ -4685,7 +4707,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.797787+00:00"
           }
         },
         {
@@ -4851,7 +4875,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.797914+00:00"
           }
         },
         {
@@ -5017,7 +5043,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.798036+00:00"
           }
         },
         {
@@ -7127,7 +7155,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.798792+00:00"
           }
         },
         {
@@ -7293,7 +7323,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.798902+00:00"
           }
         },
         {
@@ -7505,7 +7537,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.798992+00:00"
           }
         },
         {
@@ -7641,7 +7675,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799091+00:00"
           }
         },
         {
@@ -7687,7 +7723,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799125+00:00"
           }
         },
         {
@@ -7733,7 +7771,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799192+00:00"
           }
         },
         {
@@ -7779,7 +7819,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799236+00:00"
           }
         },
         {
@@ -7825,7 +7867,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799272+00:00"
           }
         },
         {
@@ -7871,7 +7915,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799305+00:00"
           }
         },
         {
@@ -7917,7 +7963,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799339+00:00"
           }
         },
         {
@@ -7963,7 +8011,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799371+00:00"
           }
         },
         {
@@ -8009,7 +8059,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799404+00:00"
           }
         },
         {
@@ -8055,7 +8107,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799437+00:00"
           }
         },
         {
@@ -8101,7 +8155,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799469+00:00"
           }
         },
         {
@@ -8147,7 +8203,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799502+00:00"
           }
         },
         {
@@ -8193,7 +8251,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799534+00:00"
           }
         },
         {
@@ -8239,7 +8299,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799566+00:00"
           }
         },
         {
@@ -8285,7 +8347,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-10-07T22:01:16.799598+00:00"
           }
         },
         {
@@ -8331,7 +8395,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.799629+00:00"
           }
         },
         {
@@ -8377,7 +8443,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.799660+00:00"
           }
         },
         {
@@ -8423,7 +8491,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.799690+00:00"
           }
         },
         {
@@ -8469,7 +8539,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.799720+00:00"
           }
         },
         {
@@ -8605,7 +8677,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.799823+00:00"
           }
         },
         {
@@ -8651,7 +8725,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.799856+00:00"
           }
         },
         {
@@ -8697,7 +8773,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.799891+00:00"
           }
         },
         {
@@ -8727,7 +8805,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.799916+00:00"
           }
         },
         {
@@ -8983,7 +9063,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.800049+00:00"
           }
         },
         {
@@ -9179,7 +9261,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800207+00:00"
           }
         },
         {
@@ -9225,7 +9309,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800243+00:00"
           }
         },
         {
@@ -9271,7 +9357,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800277+00:00"
           }
         },
         {
@@ -9317,7 +9405,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800311+00:00"
           }
         },
         {
@@ -9363,7 +9453,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800344+00:00"
           }
         },
         {
@@ -9409,7 +9501,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800377+00:00"
           }
         },
         {
@@ -9455,7 +9549,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800410+00:00"
           }
         },
         {
@@ -9501,7 +9597,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800443+00:00"
           }
         },
         {
@@ -9547,7 +9645,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800475+00:00"
           }
         },
         {
@@ -9593,7 +9693,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800507+00:00"
           }
         },
         {
@@ -9639,7 +9741,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800539+00:00"
           }
         },
         {
@@ -9685,7 +9789,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800572+00:00"
           }
         },
         {
@@ -9731,7 +9837,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800604+00:00"
           }
         },
         {
@@ -9777,7 +9885,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-10-07T22:01:16.800636+00:00"
           }
         },
         {
@@ -9823,7 +9933,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.800666+00:00"
           }
         },
         {
@@ -9869,7 +9981,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.800696+00:00"
           }
         },
         {
@@ -9915,7 +10029,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.800726+00:00"
           }
         },
         {
@@ -9961,7 +10077,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.800756+00:00"
           }
         },
         {
@@ -10007,7 +10125,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.800786+00:00"
           }
         },
         {
@@ -10053,7 +10173,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.800816+00:00"
           }
         },
         {
@@ -10189,7 +10311,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.800919+00:00"
           }
         },
         {
@@ -10235,7 +10359,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.800952+00:00"
           }
         },
         {
@@ -10281,7 +10407,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.800985+00:00"
           }
         },
         {
@@ -10475,7 +10603,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.801096+00:00"
           }
         },
         {
@@ -10641,7 +10771,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.801203+00:00"
           }
         },
         {
@@ -11713,7 +11845,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.801513+00:00"
           }
         },
         {
@@ -15931,7 +16065,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.802614+00:00"
           }
         },
         {
@@ -16093,7 +16229,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.802692+00:00"
           }
         },
         {
@@ -16165,7 +16303,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.802741+00:00"
           }
         },
         {
@@ -16361,7 +16501,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.802850+00:00"
           }
         },
         {
@@ -49557,7 +49699,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.810460+00:00"
           }
         },
         {
@@ -100731,7 +100875,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.823840+00:00"
           }
         },
         {
@@ -105331,7 +105477,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.825122+00:00"
           }
         },
         {
@@ -105561,7 +105709,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 8.0,
+            "gradedAt": "2026-10-07T22:01:16.825328+00:00"
           }
         },
         {
@@ -105611,7 +105761,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 8.0,
+            "gradedAt": "2026-10-07T22:01:16.825368+00:00"
           }
         },
         {
@@ -105661,7 +105813,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 8.0,
+            "gradedAt": "2026-10-07T22:01:16.825407+00:00"
           }
         },
         {
@@ -105711,7 +105865,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.825445+00:00"
           }
         },
         {
@@ -105761,7 +105917,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.825482+00:00"
           }
         },
         {
@@ -105811,7 +105969,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.825517+00:00"
           }
         },
         {
@@ -105861,7 +106021,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.825554+00:00"
           }
         },
         {
@@ -105911,7 +106073,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.825590+00:00"
           }
         },
         {
@@ -105961,7 +106125,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.825626+00:00"
           }
         },
         {
@@ -106011,7 +106177,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.825662+00:00"
           }
         },
         {
@@ -106061,7 +106229,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-10-07T22:01:16.825697+00:00"
           }
         },
         {
@@ -106111,7 +106281,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.825731+00:00"
           }
         },
         {
@@ -106161,7 +106333,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.825764+00:00"
           }
         },
         {
@@ -106211,7 +106385,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.825798+00:00"
           }
         },
         {
@@ -106261,7 +106437,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.825832+00:00"
           }
         },
         {
@@ -106311,7 +106489,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.825869+00:00"
           }
         },
         {
@@ -106361,7 +106541,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.825906+00:00"
           }
         },
         {
@@ -106411,7 +106593,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.825946+00:00"
           }
         },
         {
@@ -106761,7 +106945,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-10-07T22:01:16.826255+00:00"
           }
         },
         {
@@ -106811,7 +106997,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-10-07T22:01:16.826294+00:00"
           }
         },
         {
@@ -106861,7 +107049,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-10-07T22:01:16.826331+00:00"
           }
         },
         {
@@ -106911,7 +107101,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-10-07T22:01:16.826368+00:00"
           }
         },
         {
@@ -106961,7 +107153,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826404+00:00"
           }
         },
         {
@@ -107011,7 +107205,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826440+00:00"
           }
         },
         {
@@ -107061,7 +107257,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826475+00:00"
           }
         },
         {
@@ -107111,7 +107309,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826511+00:00"
           }
         },
         {
@@ -107161,7 +107361,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826547+00:00"
           }
         },
         {
@@ -107211,7 +107413,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826582+00:00"
           }
         },
         {
@@ -107261,7 +107465,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826618+00:00"
           }
         },
         {
@@ -107311,7 +107517,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826653+00:00"
           }
         },
         {
@@ -107361,7 +107569,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826689+00:00"
           }
         },
         {
@@ -107411,7 +107621,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826724+00:00"
           }
         },
         {
@@ -107461,7 +107673,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826759+00:00"
           }
         },
         {
@@ -107511,7 +107725,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826794+00:00"
           }
         },
         {
@@ -107561,7 +107777,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826829+00:00"
           }
         },
         {
@@ -107611,7 +107829,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-10-07T22:01:16.826867+00:00"
           }
         },
         {
@@ -107661,7 +107881,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.826901+00:00"
           }
         },
         {
@@ -107711,7 +107933,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.826935+00:00"
           }
         },
         {
@@ -107761,7 +107985,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.826970+00:00"
           }
         },
         {
@@ -107811,7 +108037,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.827004+00:00"
           }
         },
         {
@@ -107861,7 +108089,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.827037+00:00"
           }
         },
         {
@@ -107911,7 +108141,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.827073+00:00"
           }
         },
         {
@@ -107961,7 +108193,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.827108+00:00"
           }
         },
         {
@@ -108011,7 +108245,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.827144+00:00"
           }
         },
         {
@@ -108061,7 +108297,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.827197+00:00"
           }
         },
         {
@@ -110543,7 +110781,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.827937+00:00"
           }
         },
         {
@@ -110765,7 +111005,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.828040+00:00"
           }
         },
         {
@@ -110807,7 +111049,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.828065+00:00"
           }
         },
         {
@@ -110849,7 +111093,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.828090+00:00"
           }
         },
         {
@@ -110891,7 +111137,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.828114+00:00"
           }
         },
         {
@@ -110933,7 +111181,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.828138+00:00"
           }
         },
         {
@@ -110975,7 +111225,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.828177+00:00"
           }
         },
         {
@@ -111017,7 +111269,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.828203+00:00"
           }
         },
         {
@@ -111059,7 +111313,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.828227+00:00"
           }
         },
         {
@@ -111101,7 +111357,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.828249+00:00"
           }
         },
         {
@@ -111143,7 +111401,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.828270+00:00"
           }
         },
         {
@@ -111185,7 +111445,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.828291+00:00"
           }
         },
         {
@@ -111227,7 +111489,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.828315+00:00"
           }
         },
         {
@@ -111269,7 +111533,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.828340+00:00"
           }
         },
         {
@@ -111311,7 +111577,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.828364+00:00"
           }
         },
         {
@@ -113463,7 +113731,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.828814+00:00"
           }
         },
         {
@@ -118553,7 +118823,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.830390+00:00"
           }
         },
         {
@@ -121945,7 +122217,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.830959+00:00"
           }
         },
         {
@@ -122175,7 +122449,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831142+00:00"
           }
         },
         {
@@ -122225,7 +122501,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831196+00:00"
           }
         },
         {
@@ -122275,7 +122553,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831234+00:00"
           }
         },
         {
@@ -122325,7 +122605,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831271+00:00"
           }
         },
         {
@@ -122375,7 +122657,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831308+00:00"
           }
         },
         {
@@ -122425,7 +122709,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831343+00:00"
           }
         },
         {
@@ -122475,7 +122761,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831379+00:00"
           }
         },
         {
@@ -122525,7 +122813,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831414+00:00"
           }
         },
         {
@@ -122575,7 +122865,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831450+00:00"
           }
         },
         {
@@ -122625,7 +122917,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831485+00:00"
           }
         },
         {
@@ -122675,7 +122969,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831520+00:00"
           }
         },
         {
@@ -122725,7 +123021,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831555+00:00"
           }
         },
         {
@@ -122775,7 +123073,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831589+00:00"
           }
         },
         {
@@ -122825,7 +123125,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831623+00:00"
           }
         },
         {
@@ -122875,7 +123177,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831657+00:00"
           }
         },
         {
@@ -122925,7 +123229,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831690+00:00"
           }
         },
         {
@@ -122975,7 +123281,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831722+00:00"
           }
         },
         {
@@ -123025,7 +123333,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831754+00:00"
           }
         },
         {
@@ -123075,7 +123385,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831788+00:00"
           }
         },
         {
@@ -123125,7 +123437,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831824+00:00"
           }
         },
         {
@@ -123175,7 +123489,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.831861+00:00"
           }
         },
         {
@@ -125565,7 +125881,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.832637+00:00"
           }
         },
         {
@@ -125731,7 +126049,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.832773+00:00"
           }
         },
         {
@@ -132207,7 +132527,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.834043+00:00"
           }
         },
         {
@@ -132467,7 +132789,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834261+00:00"
           }
         },
         {
@@ -132517,7 +132841,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834299+00:00"
           }
         },
         {
@@ -132567,7 +132893,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834335+00:00"
           }
         },
         {
@@ -132617,7 +132945,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834371+00:00"
           }
         },
         {
@@ -132667,7 +132997,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834405+00:00"
           }
         },
         {
@@ -132717,7 +133049,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834439+00:00"
           }
         },
         {
@@ -132767,7 +133101,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834473+00:00"
           }
         },
         {
@@ -132817,7 +133153,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834508+00:00"
           }
         },
         {
@@ -132867,7 +133205,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834542+00:00"
           }
         },
         {
@@ -132917,7 +133257,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834576+00:00"
           }
         },
         {
@@ -132967,7 +133309,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834610+00:00"
           }
         },
         {
@@ -133017,7 +133361,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-10-07T22:01:16.834644+00:00"
           }
         },
         {
@@ -133067,7 +133413,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.834677+00:00"
           }
         },
         {
@@ -133117,7 +133465,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.834710+00:00"
           }
         },
         {
@@ -133167,7 +133517,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.834742+00:00"
           }
         },
         {
@@ -133217,7 +133569,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.834773+00:00"
           }
         },
         {
@@ -133267,7 +133621,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.834805+00:00"
           }
         },
         {
@@ -133317,7 +133673,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.834844+00:00"
           }
         },
         {
@@ -133367,7 +133725,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 12.0,
+            "gradedAt": "2026-10-07T22:01:16.834883+00:00"
           }
         },
         {
@@ -133417,7 +133777,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.834917+00:00"
           }
         },
         {
@@ -133467,7 +133829,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.834951+00:00"
           }
         },
         {
@@ -133517,7 +133881,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.834985+00:00"
           }
         },
         {
@@ -133567,7 +133933,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.835018+00:00"
           }
         },
         {
@@ -133617,7 +133985,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.835051+00:00"
           }
         },
         {
@@ -133667,7 +134037,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.835085+00:00"
           }
         },
         {
@@ -133717,7 +134089,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.835117+00:00"
           }
         },
         {
@@ -133767,7 +134141,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.835165+00:00"
           }
         },
         {
@@ -133817,7 +134193,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-07T22:01:16.835205+00:00"
           }
         },
         {
@@ -180523,7 +180901,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.846961+00:00"
           }
         },
         {
@@ -180689,7 +181069,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.847080+00:00"
           }
         },
         {
@@ -182533,7 +182915,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.847442+00:00"
           }
         },
         {
@@ -211733,7 +212117,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.854834+00:00"
           }
         },
         {
@@ -213885,7 +214271,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.855571+00:00"
           }
         },
         {
@@ -220113,7 +220501,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.857526+00:00"
           }
         },
         {
@@ -222577,7 +222967,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.858109+00:00"
           }
         },
         {
@@ -222623,7 +223015,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.858148+00:00"
           }
         },
         {
@@ -222849,7 +223243,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.858325+00:00"
           }
         },
         {
@@ -222895,7 +223291,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.858358+00:00"
           }
         },
         {
@@ -222941,7 +223339,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.858391+00:00"
           }
         },
         {
@@ -222987,7 +223387,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.858423+00:00"
           }
         },
         {
@@ -223033,7 +223435,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.858453+00:00"
           }
         },
         {
@@ -223079,7 +223483,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.858485+00:00"
           }
         },
         {
@@ -223125,7 +223531,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.858517+00:00"
           }
         },
         {
@@ -227167,7 +227575,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.859552+00:00"
           }
         },
         {
@@ -231557,7 +231967,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.860803+00:00"
           }
         },
         {
@@ -231903,7 +232315,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 21.0,
+            "gradedAt": "2026-10-07T22:01:16.861049+00:00"
           }
         },
         {
@@ -231949,7 +232363,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 21.0,
+            "gradedAt": "2026-10-07T22:01:16.861083+00:00"
           }
         },
         {
@@ -231995,7 +232411,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 21.0,
+            "gradedAt": "2026-10-07T22:01:16.861116+00:00"
           }
         },
         {
@@ -232041,7 +232459,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 21.0,
+            "gradedAt": "2026-10-07T22:01:16.861162+00:00"
           }
         },
         {
@@ -232087,7 +232507,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861199+00:00"
           }
         },
         {
@@ -232133,7 +232555,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861233+00:00"
           }
         },
         {
@@ -232179,7 +232603,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861265+00:00"
           }
         },
         {
@@ -232225,7 +232651,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861297+00:00"
           }
         },
         {
@@ -232271,7 +232699,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861328+00:00"
           }
         },
         {
@@ -232317,7 +232747,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861359+00:00"
           }
         },
         {
@@ -232363,7 +232795,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861390+00:00"
           }
         },
         {
@@ -232409,7 +232843,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861421+00:00"
           }
         },
         {
@@ -232455,7 +232891,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861451+00:00"
           }
         },
         {
@@ -232501,7 +232939,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861482+00:00"
           }
         },
         {
@@ -232547,7 +232987,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861513+00:00"
           }
         },
         {
@@ -232593,7 +233035,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861544+00:00"
           }
         },
         {
@@ -232639,7 +233083,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861574+00:00"
           }
         },
         {
@@ -232685,7 +233131,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 36.0,
+            "gradedAt": "2026-10-07T22:01:16.861605+00:00"
           }
         },
         {
@@ -232731,7 +233179,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.861634+00:00"
           }
         },
         {
@@ -232777,7 +233227,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.861662+00:00"
           }
         },
         {
@@ -232823,7 +233275,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.861691+00:00"
           }
         },
         {
@@ -232869,7 +233323,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.861719+00:00"
           }
         },
         {
@@ -232915,7 +233371,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.861748+00:00"
           }
         },
         {
@@ -232961,7 +233419,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.861776+00:00"
           }
         },
         {
@@ -233007,7 +233467,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.861806+00:00"
           }
         },
         {
@@ -233053,7 +233515,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.861839+00:00"
           }
         },
         {
@@ -233099,7 +233563,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-10-07T22:01:16.861871+00:00"
           }
         },
         {
@@ -233129,7 +233595,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.861912+00:00"
           }
         },
         {
@@ -233357,7 +233825,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.862053+00:00"
           }
         },
         {
@@ -235625,7 +236095,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.862820+00:00"
           }
         },
         {
@@ -235655,7 +236127,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-07T22:01:16.862862+00:00"
           }
         },
         {
@@ -237631,7 +238105,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.863253+00:00"
           }
         },
         {
@@ -386797,7 +387273,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.899392+00:00"
           }
         },
         {
@@ -395205,7 +395683,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-07T22:01:16.901318+00:00"
           }
         },
         {
@@ -417153,5 +417633,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-10-05T23:52:36.758902+00:00"
+  "updatedAt": "2026-10-07T22:01:16.904309+00:00"
 }
