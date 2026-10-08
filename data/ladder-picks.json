@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-08T16:31:15.567186+00:00",
+  "updatedAt": "2026-10-08T22:07:30.709369+00:00",
   "picks": [
     {
       "day": 1,
@@ -3133,6 +3133,433 @@
             "status": "hit",
             "actual": 116.0,
             "gradedAt": "2026-10-06T08:47:57.912891+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "day": 1,
+      "date": "2026-10-08",
+      "eventId": "36132640",
+      "matchup": "TB @ DAL",
+      "slot": "game-36132640",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-10-08T22:07:30.709369+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -105,
+      "decimalOdds": 1.948205,
+      "estimatedProbability": 0.680999,
+      "confidence": 88.0,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "market": "Alt Spread",
+          "position": "TEAM",
+          "eventId": "36132640",
+          "proposition": "TB +17.5 Alt Spread",
+          "awayAbbr": "TB",
+          "decimalOdds": 1.32258064516129,
+          "homeAbbr": "DAL",
+          "commenceTime": "2026-10-09T00:16:00.000Z",
+          "line": 17.5,
+          "teamName": "Tampa Bay Buccaneers",
+          "matchup": "TB @ DAL",
+          "headshot": "",
+          "odds": -310,
+          "teamMarketType": "spread",
+          "selection": "Cover",
+          "player": "",
+          "team": "TB",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 10,
+              "total": 10,
+              "pct": 100.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 4,
+              "total": 4,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "alternate": true,
+          "scope": "team",
+          "key": "36132640\u00a6TB\u00a6Alt Spread\u00a6Cover\u00a617.5\u00a6TB +17.5 Alt Spread",
+          "confidence": 90.1,
+          "estimatedProbability": 0.9011,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "market": "Rushing Yards",
+          "position": "RB",
+          "eventId": "36132640",
+          "proposition": "Over 29.5 Rushing Yards",
+          "awayAbbr": "TB",
+          "decimalOdds": 1.172413793103448,
+          "homeAbbr": "DAL",
+          "commenceTime": "2026-10-09T00:16:00.000Z",
+          "line": 29.5,
+          "matchup": "TB @ DAL",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4596448.png",
+          "odds": -580,
+          "selection": "Over",
+          "player": "Bucky Irving",
+          "team": "TB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 4,
+              "total": 4
+            },
+            "previous": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            }
+          },
+          "alternate": true,
+          "scope": "player",
+          "key": "36132640\u00a6Bucky Irving\u00a6Rushing Yards\u00a6Over\u00a629.5\u00a6Over 29.5 Rushing Yards",
+          "confidence": 88.7,
+          "estimatedProbability": 0.887148,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "market": "Receiving Yards",
+          "position": "TE",
+          "eventId": "36132640",
+          "proposition": "Over 14.5 Receiving Yards",
+          "awayAbbr": "TB",
+          "decimalOdds": 1.256410256410256,
+          "homeAbbr": "DAL",
+          "commenceTime": "2026-10-09T00:16:00.000Z",
+          "line": 14.5,
+          "matchup": "TB @ DAL",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4243331.png",
+          "odds": -390,
+          "selection": "Over",
+          "player": "Cade Otton",
+          "team": "TB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 4,
+              "total": 4
+            },
+            "previous": {
+              "pct": 75,
+              "hits": 12,
+              "total": 16
+            }
+          },
+          "alternate": true,
+          "scope": "player",
+          "key": "36132640\u00a6Cade Otton\u00a6Receiving Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Receiving Yards",
+          "confidence": 85.2,
+          "estimatedProbability": 0.851878,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-10-08",
+      "eventId": "36132640",
+      "matchup": "TB @ DAL",
+      "slot": "game-36132640",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-10-08T22:07:30.709369+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1147,
+      "decimalOdds": 12.473689,
+      "estimatedProbability": 0.245717,
+      "confidence": 75.6,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "market": "Chris Godwin Receptions",
+          "position": "WR",
+          "eventId": "36132640",
+          "proposition": "Over 2.5 Chris Godwin Receptions",
+          "awayAbbr": "TB",
+          "decimalOdds": 1.37037037037037,
+          "homeAbbr": "DAL",
+          "commenceTime": "2026-10-09T00:16:00.000Z",
+          "line": 2.5,
+          "matchup": "TB @ DAL",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3116165.png",
+          "odds": -270,
+          "selection": "Over",
+          "player": "Chris Godwin Jr.",
+          "team": "TB",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 4,
+              "total": 4
+            },
+            "previous": {
+              "pct": 78,
+              "hits": 7,
+              "total": 9
+            }
+          },
+          "alternate": true,
+          "scope": "player",
+          "key": "36132640\u00a6Chris Godwin Jr.\u00a6Chris Godwin Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Chris Godwin Receptions",
+          "confidence": 79.9,
+          "estimatedProbability": 0.798904,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "market": "Receiving Yards",
+          "position": "WR",
+          "eventId": "36132640",
+          "proposition": "Over 4.5 Receiving Yards",
+          "awayAbbr": "TB",
+          "decimalOdds": 1.37037037037037,
+          "homeAbbr": "DAL",
+          "commenceTime": "2026-10-09T00:16:00.000Z",
+          "line": 4.5,
+          "matchup": "TB @ DAL",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4608810.png",
+          "odds": -270,
+          "selection": "Over",
+          "player": "Tez Johnson",
+          "team": "TB",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 75,
+              "hits": 3,
+              "total": 4
+            },
+            "previous": {
+              "pct": 69,
+              "hits": 11,
+              "total": 16
+            }
+          },
+          "alternate": true,
+          "scope": "player",
+          "key": "36132640\u00a6Tez Johnson\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
+          "confidence": 71.6,
+          "estimatedProbability": 0.716013,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "market": "Passing Yards",
+          "position": "QB",
+          "eventId": "36132640",
+          "proposition": "Under 181.5 Passing Yards",
+          "awayAbbr": "TB",
+          "decimalOdds": 1.87719298245614,
+          "homeAbbr": "DAL",
+          "commenceTime": "2026-10-09T00:16:00.000Z",
+          "line": 181.5,
+          "matchup": "TB @ DAL",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4596472.png",
+          "odds": -114,
+          "selection": "Under",
+          "player": "Jalon Daniels",
+          "team": "TB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": null
+          },
+          "alternate": false,
+          "scope": "player",
+          "key": "36132640\u00a6Jalon Daniels\u00a6Passing Yards\u00a6Under\u00a6181.5\u00a6Under 181.5 Passing Yards",
+          "confidence": 76.7,
+          "estimatedProbability": 0.767323,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "market": "Rushing Yards",
+          "position": "RB",
+          "eventId": "36132640",
+          "proposition": "Under 16.5 Rushing Yards",
+          "awayAbbr": "TB",
+          "decimalOdds": 1.87719298245614,
+          "homeAbbr": "DAL",
+          "commenceTime": "2026-10-09T00:16:00.000Z",
+          "line": 16.5,
+          "matchup": "TB @ DAL",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429676.png",
+          "odds": -114,
+          "selection": "Under",
+          "player": "Tyler Goodson",
+          "team": "DAL",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 11,
+              "total": 11
+            }
+          },
+          "alternate": false,
+          "scope": "player",
+          "key": "36132640\u00a6Tyler Goodson\u00a6Rushing Yards\u00a6Under\u00a616.5\u00a6Under 16.5 Rushing Yards",
+          "confidence": 70.1,
+          "estimatedProbability": 0.700722,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "market": "Alt Spread",
+          "position": "TEAM",
+          "eventId": "36132640",
+          "proposition": "TB +8.5 Alt Spread",
+          "awayAbbr": "TB",
+          "decimalOdds": 1.884955752212389,
+          "homeAbbr": "DAL",
+          "commenceTime": "2026-10-09T00:16:00.000Z",
+          "line": 8.5,
+          "teamName": "Tampa Bay Buccaneers",
+          "matchup": "TB @ DAL",
+          "headshot": "",
+          "odds": -113,
+          "teamMarketType": "spread",
+          "selection": "Cover",
+          "player": "",
+          "team": "TB",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 10,
+              "total": 10,
+              "pct": 100.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 4,
+              "total": 4,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 14,
+              "total": 17,
+              "pct": 82.4
+            }
+          },
+          "alternate": true,
+          "scope": "team",
+          "key": "36132640\u00a6TB\u00a6Alt Spread\u00a6Cover\u00a68.5\u00a6TB +8.5 Alt Spread",
+          "confidence": 79.9,
+          "estimatedProbability": 0.798906,
+          "result": {
+            "status": "pending"
           }
         }
       ]
