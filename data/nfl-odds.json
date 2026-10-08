@@ -75319,13 +75319,34 @@
           "marketId": "734.190105976",
           "selectionId": "16555258",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 2,
+              "total": 4
+            },
+            "previous": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 2753.0,
+            "sample": 2,
+            "hits": 2,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -75403,13 +75424,34 @@
           "marketId": "734.190105997",
           "selectionId": "16555258",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 25,
+              "hits": 1,
+              "total": 4
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 3421.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
