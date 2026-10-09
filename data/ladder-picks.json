@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-09T02:12:27.924944+00:00",
+  "updatedAt": "2026-10-09T08:47:02.268043+00:00",
   "picks": [
     {
       "day": 1,
@@ -3155,7 +3155,7 @@
       "confidence": 88.0,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
-      "status": "pending",
+      "status": "hit",
       "legs": [
         {
           "market": "Alt Spread",
@@ -3204,7 +3204,9 @@
           "confidence": 90.1,
           "estimatedProbability": 0.9011,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 8.0,
+            "gradedAt": "2026-10-09T08:47:02.733240+00:00"
           }
         },
         {
@@ -3252,7 +3254,9 @@
           "confidence": 88.7,
           "estimatedProbability": 0.887148,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 165.0,
+            "gradedAt": "2026-10-09T08:47:02.734236+00:00"
           }
         },
         {
@@ -3300,7 +3304,9 @@
           "confidence": 85.2,
           "estimatedProbability": 0.851878,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 25.0,
+            "gradedAt": "2026-10-09T08:47:02.734303+00:00"
           }
         }
       ]
@@ -3322,7 +3328,7 @@
       "confidence": 75.6,
       "selectionTier": "Best available",
       "simulations": 90000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "market": "Chris Godwin Receptions",
@@ -3369,7 +3375,9 @@
           "confidence": 79.9,
           "estimatedProbability": 0.798904,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-09T08:47:02.734361+00:00"
           }
         },
         {
@@ -3417,7 +3425,9 @@
           "confidence": 71.6,
           "estimatedProbability": 0.716013,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 64.0,
+            "gradedAt": "2026-10-09T08:47:02.734410+00:00"
           }
         },
         {
@@ -3461,7 +3471,9 @@
           "confidence": 76.7,
           "estimatedProbability": 0.767323,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 189.0,
+            "gradedAt": "2026-10-09T08:47:02.734446+00:00"
           }
         },
         {
@@ -3509,7 +3521,9 @@
           "confidence": 70.1,
           "estimatedProbability": 0.700722,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-10-09T08:47:02.734488+00:00"
           }
         },
         {
@@ -3559,7 +3573,9 @@
           "confidence": 79.9,
           "estimatedProbability": 0.798906,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 8.0,
+            "gradedAt": "2026-10-09T08:47:02.734507+00:00"
           }
         }
       ]
