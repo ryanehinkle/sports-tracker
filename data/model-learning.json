@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-11T15:43:33.304538+00:00",
+  "updatedAt": "2026-10-11T20:19:13.010637+00:00",
   "source": "Frozen pregame FanDuel boards graded from completed ESPN game logs",
   "objective": "Maximize out-of-sample hit rate among the highest-scored legs while preserving probability calibration",
   "samples": 12959,
-  "completedGames": 24,
+  "completedGames": 35,
   "status": "held",
-  "promotionReason": "Champion setup held (fast-reacting); weights refit with 12,959 graded legs",
-  "liveBlend": 0.38,
+  "promotionReason": "Provisional refit after new game results; waiting for four completed games before champion/challenger promotion tests",
+  "liveBlend": 0.12,
   "features": [
     "book",
     "l5",
@@ -87,94 +87,25 @@
       "game"
     ],
     "trainedSamples": 12959,
-    "trainedGames": 24
+    "trainedGames": 35
   },
   "candidate": {
     "config": {
-      "name": "fast-reacting",
-      "l2": 0.015,
-      "decay": 0.97,
-      "lr": 0.04
+      "name": "steady",
+      "l2": 0.04,
+      "decay": 0.995,
+      "lr": 0.05
     },
     "validation": {
-      "n": 4351,
-      "accuracy": 0.738221,
-      "brier": 0.168709,
-      "hitRate": 0.393703,
-      "topHitRate": 0.801378,
-      "topThreshold": 0.70626,
-      "objective": 0.793001
+      "n": 0,
+      "accuracy": null,
+      "brier": null,
+      "hitRate": null,
+      "topHitRate": null,
+      "topThreshold": null,
+      "objective": null
     },
-    "testedSetups": [
-      {
-        "config": {
-          "name": "steady",
-          "l2": 0.04,
-          "decay": 0.995,
-          "lr": 0.05
-        },
-        "validation": {
-          "n": 4351,
-          "accuracy": 0.737761,
-          "brier": 0.16808,
-          "hitRate": 0.393703,
-          "topHitRate": 0.799082,
-          "topThreshold": 0.689695,
-          "objective": 0.791328
-        }
-      },
-      {
-        "config": {
-          "name": "responsive",
-          "l2": 0.025,
-          "decay": 0.985,
-          "lr": 0.045
-        },
-        "validation": {
-          "n": 4351,
-          "accuracy": 0.737302,
-          "brier": 0.168346,
-          "hitRate": 0.393703,
-          "topHitRate": 0.799082,
-          "topThreshold": 0.699466,
-          "objective": 0.791218
-        }
-      },
-      {
-        "config": {
-          "name": "conservative",
-          "l2": 0.08,
-          "decay": 1.0,
-          "lr": 0.055
-        },
-        "validation": {
-          "n": 4351,
-          "accuracy": 0.737072,
-          "brier": 0.168048,
-          "hitRate": 0.393703,
-          "topHitRate": 0.797933,
-          "topThreshold": 0.673287,
-          "objective": 0.79038
-        }
-      },
-      {
-        "config": {
-          "name": "fast-reacting",
-          "l2": 0.015,
-          "decay": 0.97,
-          "lr": 0.04
-        },
-        "validation": {
-          "n": 4351,
-          "accuracy": 0.738221,
-          "brier": 0.168709,
-          "hitRate": 0.393703,
-          "topHitRate": 0.801378,
-          "topThreshold": 0.70626,
-          "objective": 0.793001
-        }
-      }
-    ]
+    "testedSetups": []
   },
   "performance": {
     "all": {
@@ -186,24 +117,8 @@
       "topThreshold": 0.696489,
       "objective": 0.811982
     },
-    "validation": {
-      "n": 4351,
-      "accuracy": 0.738221,
-      "brier": 0.168709,
-      "hitRate": 0.393703,
-      "topHitRate": 0.801378,
-      "topThreshold": 0.70626,
-      "objective": 0.793001
-    },
-    "previousChampionValidation": {
-      "n": 4351,
-      "accuracy": 0.738221,
-      "brier": 0.168709,
-      "hitRate": 0.393703,
-      "topHitRate": 0.801378,
-      "topThreshold": 0.70626,
-      "objective": 0.793001
-    },
+    "validation": null,
+    "previousChampionValidation": null,
     "scoreBuckets": [
       {
         "label": "<50",
@@ -620,6 +535,19 @@
       "accuracy": 0.747203,
       "brier": 0.164516,
       "liveBlend": 0.38,
+      "setup": "fast-reacting"
+    },
+    {
+      "updatedAt": "2026-10-11T20:19:13.010637+00:00",
+      "samples": 12959,
+      "completedGames": 35,
+      "promoted": false,
+      "status": "held",
+      "topHitRate": 0.824913,
+      "topThreshold": 0.696489,
+      "accuracy": 0.747203,
+      "brier": 0.164516,
+      "liveBlend": 0.12,
       "setup": "fast-reacting"
     }
   ],

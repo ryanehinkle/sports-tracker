@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-11T19:46:38.715855+00:00",
+  "updatedAt": "2026-10-11T20:19:13.597593+00:00",
   "picks": [
     {
       "day": 1,
@@ -3582,7 +3582,7 @@
     },
     {
       "run": 5,
-      "day": 3,
+      "day": 2,
       "provisionalDay": true,
       "date": "2026-10-11",
       "slot": "mid",
@@ -3815,7 +3815,7 @@
     },
     {
       "run": 5,
-      "day": 4,
+      "day": 3,
       "provisionalDay": true,
       "date": "2026-10-11",
       "slot": "snf",
