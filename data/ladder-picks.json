@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-12T02:43:40.322429+00:00",
+  "updatedAt": "2026-10-12T07:25:24.635827+00:00",
   "picks": [
     {
       "day": 1,
@@ -3597,7 +3597,7 @@
       "confidence": 91.4,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
-      "status": "pending",
+      "status": "hit",
       "legs": [
         {
           "market": "Rushing Yards",
@@ -3648,7 +3648,9 @@
           "confidence": 90.8,
           "estimatedProbability": 0.908454,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 33.0,
+            "gradedAt": "2026-10-12T07:23:52.959476+00:00"
           }
         },
         {
@@ -3702,7 +3704,9 @@
           "confidence": 93.6,
           "estimatedProbability": 0.93581,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": -6.0,
+            "gradedAt": "2026-10-12T07:23:52.966923+00:00"
           }
         },
         {
@@ -3754,7 +3758,9 @@
           "confidence": 86.6,
           "estimatedProbability": 0.86637,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 102.0,
+            "gradedAt": "2026-10-12T07:23:52.984842+00:00"
           }
         },
         {
@@ -3808,7 +3814,9 @@
           "confidence": 94.5,
           "estimatedProbability": 0.945052,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-12T07:23:52.992548+00:00"
           }
         }
       ]
@@ -3830,7 +3838,7 @@
       "confidence": 86.4,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
-      "status": "pending",
+      "status": "hit",
       "legs": [
         {
           "market": "Rushing Yards",
@@ -3877,7 +3885,9 @@
           "confidence": 85.7,
           "estimatedProbability": 0.857151,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 102.0,
+            "gradedAt": "2026-10-12T07:23:53.024238+00:00"
           }
         },
         {
@@ -3927,7 +3937,9 @@
           "confidence": 90.3,
           "estimatedProbability": 0.903191,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 7.0,
+            "gradedAt": "2026-10-12T07:23:53.039607+00:00"
           }
         },
         {
@@ -3975,7 +3987,9 @@
           "confidence": 83.2,
           "estimatedProbability": 0.832053,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 240.0,
+            "gradedAt": "2026-10-12T07:23:53.033178+00:00"
           }
         }
       ]
@@ -3995,7 +4009,7 @@
       "confidence": 80.1,
       "selectionTier": "Best available +1000",
       "simulations": 120000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "market": "Player to Record a 15+ Yard Reception",
@@ -4042,7 +4056,9 @@
           "confidence": 87.5,
           "estimatedProbability": 0.875266,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 39.0,
+            "gradedAt": "2026-10-12T07:23:53.004099+00:00"
           }
         },
         {
@@ -4094,7 +4110,9 @@
           "confidence": 86.8,
           "estimatedProbability": 0.868046,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-12T07:23:52.954839+00:00"
           }
         },
         {
@@ -4142,7 +4160,9 @@
           "confidence": 85.0,
           "estimatedProbability": 0.850105,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-10-12T07:23:53.036252+00:00"
           }
         },
         {
@@ -4194,7 +4214,9 @@
           "confidence": 74.0,
           "estimatedProbability": 0.739605,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 14.0,
+            "gradedAt": "2026-10-12T07:23:52.978348+00:00"
           }
         },
         {
@@ -4246,7 +4268,9 @@
           "confidence": 75.3,
           "estimatedProbability": 0.752944,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-12T07:23:52.963819+00:00"
           }
         },
         {
@@ -4294,7 +4318,9 @@
           "confidence": 71.9,
           "estimatedProbability": 0.718908,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-12T07:23:53.033027+00:00"
           }
         }
       ]
