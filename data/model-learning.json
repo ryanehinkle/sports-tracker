@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-14T17:12:53.898249+00:00",
+  "updatedAt": "2026-10-14T20:44:56.999877+00:00",
   "source": "Frozen pregame FanDuel boards graded from completed ESPN game logs",
   "objective": "Maximize out-of-sample hit rate among the highest-scored legs while preserving probability calibration",
-  "samples": 18272,
+  "samples": 18646,
   "completedGames": 36,
   "status": "held",
-  "promotionReason": "Champion setup held (steady); weights refit with 18,272 graded legs",
-  "liveBlend": 0.371,
+  "promotionReason": "Champion setup held: incumbent 0.774 vs challenger 0.775; weights still refit on every graded leg",
+  "liveBlend": 0.368,
   "features": [
     "book",
     "l5",
@@ -23,48 +23,48 @@
     "game"
   ],
   "champion": {
-    "intercept": -0.40130895750708395,
+    "intercept": -0.4158391623500585,
     "coefficients": [
-      0.46389289132272404,
-      0.18552321002608974,
-      0.2020929114897485,
-      0.12909842181004683,
-      0.22780595952065938,
-      0.04854675323625494,
-      0.038498732997546956,
-      -0.0027259233981303302,
-      0.20640602071701025,
-      0.01631852784338862,
-      0.054982509137730895,
-      0.004311905251199069
+      0.46497348738122574,
+      0.1888609794168733,
+      0.20508043309931331,
+      0.12897896805309592,
+      0.22575257078122837,
+      0.044520891306203736,
+      0.03367785559949177,
+      -0.00027390678085421877,
+      0.20357200777405118,
+      0.022460037894604976,
+      0.0589166100449173,
+      0.004632756928231789
     ],
     "means": [
-      0.43066859029202886,
-      0.39159314798598954,
-      0.392274573117338,
-      0.3971132333625219,
-      0.4010527035901926,
-      0.45558778458844135,
-      0.6056487678258694,
-      0.7969570928196147,
+      0.42851219084958875,
+      0.3892856376702778,
+      0.3905379706103186,
+      0.39448155100289606,
+      0.4003520862383353,
+      0.45470878472594656,
+      0.6063211565866291,
+      0.7938431835246166,
       0.0,
-      0.07377408056042031,
-      0.209938704028021,
-      0.00394045534150613
+      0.07384961922128071,
+      0.20572777003110587,
+      0.0038614179984983376
     ],
     "stds": [
-      0.28576688370427483,
-      0.33316146036139893,
-      0.31368271882713206,
-      0.3687432838244934,
-      0.29797190286716346,
-      0.28788021783965945,
-      0.14196843780876015,
-      0.402275206158464,
-      0.3619078979810842,
-      0.2614100332511162,
-      0.40727573288355345,
-      0.06265096144974118
+      0.2853844407644159,
+      0.3324500244478324,
+      0.31331861070865485,
+      0.3677444612754836,
+      0.29791186858806745,
+      0.2910575282977886,
+      0.141770967207394,
+      0.4045552631962828,
+      0.35825975606082,
+      0.2615330214018436,
+      0.4042432666347151,
+      0.06202188123474155
     ],
     "config": {
       "name": "steady",
@@ -86,24 +86,24 @@
       "team",
       "game"
     ],
-    "trainedSamples": 18272,
+    "trainedSamples": 18646,
     "trainedGames": 36
   },
   "candidate": {
     "config": {
-      "name": "steady",
-      "l2": 0.04,
-      "decay": 0.995,
-      "lr": 0.05
+      "name": "conservative",
+      "l2": 0.08,
+      "decay": 1.0,
+      "lr": 0.055
     },
     "validation": {
-      "n": 5035,
-      "accuracy": 0.733863,
-      "brier": 0.177177,
-      "hitRate": 0.401589,
-      "topHitRate": 0.785714,
-      "topThreshold": 0.710309,
-      "objective": 0.780092
+      "n": 5409,
+      "accuracy": 0.738769,
+      "brier": 0.173948,
+      "hitRate": 0.390275,
+      "topHitRate": 0.776547,
+      "topThreshold": 0.684315,
+      "objective": 0.774697
     },
     "testedSetups": [
       {
@@ -114,13 +114,13 @@
           "lr": 0.05
         },
         "validation": {
-          "n": 5035,
-          "accuracy": 0.733863,
-          "brier": 0.177177,
-          "hitRate": 0.401589,
-          "topHitRate": 0.785714,
-          "topThreshold": 0.710309,
-          "objective": 0.780092
+          "n": 5409,
+          "accuracy": 0.738399,
+          "brier": 0.174247,
+          "hitRate": 0.390275,
+          "topHitRate": 0.775623,
+          "topThreshold": 0.701005,
+          "objective": 0.773936
         }
       },
       {
@@ -131,13 +131,13 @@
           "lr": 0.045
         },
         "validation": {
-          "n": 5035,
-          "accuracy": 0.733863,
-          "brier": 0.177649,
-          "hitRate": 0.401589,
-          "topHitRate": 0.785714,
-          "topThreshold": 0.719238,
-          "objective": 0.780045
+          "n": 5409,
+          "accuracy": 0.738399,
+          "brier": 0.174713,
+          "hitRate": 0.390275,
+          "topHitRate": 0.7747,
+          "topThreshold": 0.710313,
+          "objective": 0.773224
         }
       },
       {
@@ -148,13 +148,13 @@
           "lr": 0.055
         },
         "validation": {
-          "n": 5035,
-          "accuracy": 0.734062,
-          "brier": 0.176806,
-          "hitRate": 0.401589,
-          "topHitRate": 0.784722,
-          "topThreshold": 0.692606,
-          "objective": 0.779451
+          "n": 5409,
+          "accuracy": 0.738769,
+          "brier": 0.173948,
+          "hitRate": 0.390275,
+          "topHitRate": 0.776547,
+          "topThreshold": 0.684315,
+          "objective": 0.774697
         }
       },
       {
@@ -165,154 +165,154 @@
           "lr": 0.04
         },
         "validation": {
-          "n": 5035,
-          "accuracy": 0.733863,
-          "brier": 0.178196,
-          "hitRate": 0.401589,
-          "topHitRate": 0.78373,
-          "topThreshold": 0.725014,
-          "objective": 0.778561
+          "n": 5409,
+          "accuracy": 0.738584,
+          "brier": 0.175275,
+          "hitRate": 0.390275,
+          "topHitRate": 0.772853,
+          "topThreshold": 0.717357,
+          "objective": 0.771872
         }
       }
     ]
   },
   "performance": {
     "all": {
-      "n": 18272,
-      "accuracy": 0.74398,
-      "brier": 0.167347,
-      "hitRate": 0.399683,
-      "topHitRate": 0.813133,
-      "topThreshold": 0.678519,
-      "objective": 0.802637
+      "n": 18646,
+      "accuracy": 0.745307,
+      "brier": 0.166663,
+      "hitRate": 0.396439,
+      "topHitRate": 0.808847,
+      "topThreshold": 0.675174,
+      "objective": 0.799859
     },
     "validation": {
-      "n": 5035,
-      "accuracy": 0.733863,
-      "brier": 0.177177,
-      "hitRate": 0.401589,
-      "topHitRate": 0.785714,
-      "topThreshold": 0.710309,
-      "objective": 0.780092
+      "n": 5409,
+      "accuracy": 0.738399,
+      "brier": 0.174247,
+      "hitRate": 0.390275,
+      "topHitRate": 0.775623,
+      "topThreshold": 0.701005,
+      "objective": 0.773936
     },
     "previousChampionValidation": {
-      "n": 5035,
-      "accuracy": 0.733863,
-      "brier": 0.177177,
-      "hitRate": 0.401589,
-      "topHitRate": 0.785714,
-      "topThreshold": 0.710309,
-      "objective": 0.780092
+      "n": 5409,
+      "accuracy": 0.738399,
+      "brier": 0.174247,
+      "hitRate": 0.390275,
+      "topHitRate": 0.775623,
+      "topThreshold": 0.701005,
+      "objective": 0.773936
     },
     "scoreBuckets": [
       {
         "label": "<50",
-        "hits": 2661,
-        "total": 11613,
-        "hitRate": 0.2291
+        "hits": 2702,
+        "total": 11909,
+        "hitRate": 0.2269
       },
       {
         "label": "50\u201359",
-        "hits": 967,
-        "total": 1813,
-        "hitRate": 0.5334
+        "hits": 978,
+        "total": 1842,
+        "hitRate": 0.5309
       },
       {
         "label": "60\u201369",
-        "hits": 909,
-        "total": 1497,
-        "hitRate": 0.6072
+        "hits": 931,
+        "total": 1523,
+        "hitRate": 0.6113
       },
       {
         "label": "70\u201379",
-        "hits": 1031,
-        "total": 1411,
-        "hitRate": 0.7307
+        "hits": 1038,
+        "total": 1426,
+        "hitRate": 0.7279
       },
       {
         "label": "80+",
-        "hits": 1735,
-        "total": 1938,
-        "hitRate": 0.8953
+        "hits": 1743,
+        "total": 1946,
+        "hitRate": 0.8957
       }
     ],
     "marketPerformance": [
       {
         "market": "Receiving Yards",
-        "samples": 4859,
-        "topSamples": 972,
-        "topHitRate": 0.716,
-        "averageProbability": 0.7446
+        "samples": 4996,
+        "topSamples": 1000,
+        "topHitRate": 0.715,
+        "averageProbability": 0.7434
       },
       {
         "market": "Spread",
         "samples": 3622,
         "topSamples": 725,
-        "topHitRate": 0.9283,
-        "averageProbability": 0.9207
+        "topHitRate": 0.9269,
+        "averageProbability": 0.921
       },
       {
         "market": "Receptions",
-        "samples": 3157,
-        "topSamples": 632,
-        "topHitRate": 0.6978,
-        "averageProbability": 0.7303
+        "samples": 3242,
+        "topSamples": 649,
+        "topHitRate": 0.6949,
+        "averageProbability": 0.7304
       },
       {
         "market": "Rushing Yards",
-        "samples": 2175,
-        "topSamples": 435,
-        "topHitRate": 0.7195,
-        "averageProbability": 0.7395
+        "samples": 2184,
+        "topSamples": 437,
+        "topHitRate": 0.7185,
+        "averageProbability": 0.7391
       },
       {
         "market": "Touchdowns",
-        "samples": 1842,
-        "topSamples": 369,
-        "topHitRate": 0.4986,
-        "averageProbability": 0.5031
+        "samples": 1942,
+        "topSamples": 389,
+        "topHitRate": 0.4859,
+        "averageProbability": 0.4911
       },
       {
         "market": "Reception Milestones",
-        "samples": 1339,
-        "topSamples": 268,
-        "topHitRate": 0.7836,
-        "averageProbability": 0.7831
+        "samples": 1382,
+        "topSamples": 277,
+        "topHitRate": 0.7798,
+        "averageProbability": 0.7806
       },
       {
         "market": "Passing Yards",
         "samples": 817,
         "topSamples": 164,
         "topHitRate": 0.8171,
-        "averageProbability": 0.7678
+        "averageProbability": 0.7674
       },
       {
         "market": "Player To Record A Sack",
         "samples": 175,
         "topSamples": 35,
         "topHitRate": 0.3143,
-        "averageProbability": 0.4853
+        "averageProbability": 0.4845
       },
       {
         "market": "Team Total",
         "samples": 144,
         "topSamples": 29,
         "topHitRate": 0.5517,
-        "averageProbability": 0.638
+        "averageProbability": 0.6401
       },
       {
         "market": "Game Total",
         "samples": 72,
         "topSamples": 15,
         "topHitRate": 0.4,
-        "averageProbability": 0.6304
+        "averageProbability": 0.6307
       },
       {
         "market": "Moneyline",
         "samples": 70,
         "topSamples": 14,
         "topHitRate": 0.7143,
-        "averageProbability": 0.7231
+        "averageProbability": 0.7232
       }
     ]
   },
@@ -320,110 +320,110 @@
     {
       "feature": "book",
       "label": "FanDuel no-vig probability",
-      "coefficient": 0.463893,
-      "effect": 0.463893,
+      "coefficient": 0.464973,
+      "effect": 0.464973,
       "direction": "up",
-      "importance": 0.46389289132272404,
+      "importance": 0.46497348738122574,
       "importancePct": 29.4
     },
     {
       "feature": "previous",
       "label": "Prior-season hit rate",
-      "coefficient": 0.227806,
-      "effect": 0.227806,
+      "coefficient": 0.225753,
+      "effect": 0.225753,
       "direction": "up",
-      "importance": 0.22780595952065938,
-      "importancePct": 14.4
-    },
-    {
-      "feature": "spreadLine",
-      "label": "Spread points received / given",
-      "coefficient": 0.206406,
-      "effect": 0.206406,
-      "direction": "up",
-      "importance": 0.20640602071701025,
-      "importancePct": 13.1
+      "importance": 0.22575257078122837,
+      "importancePct": 14.3
     },
     {
       "feature": "l10",
       "label": "Last 10 hit rate",
-      "coefficient": 0.202093,
-      "effect": 0.202093,
+      "coefficient": 0.20508,
+      "effect": 0.20508,
       "direction": "up",
-      "importance": 0.2020929114897485,
-      "importancePct": 12.8
+      "importance": 0.20508043309931331,
+      "importancePct": 13.0
+    },
+    {
+      "feature": "spreadLine",
+      "label": "Spread points received / given",
+      "coefficient": 0.203572,
+      "effect": 0.203572,
+      "direction": "up",
+      "importance": 0.20357200777405118,
+      "importancePct": 12.9
     },
     {
       "feature": "l5",
       "label": "Last 5 hit rate",
-      "coefficient": 0.185523,
-      "effect": 0.185523,
+      "coefficient": 0.188861,
+      "effect": 0.188861,
       "direction": "up",
-      "importance": 0.18552321002608974,
-      "importancePct": 11.7
+      "importance": 0.1888609794168733,
+      "importancePct": 11.9
     },
     {
       "feature": "current",
       "label": "Current-season hit rate",
-      "coefficient": 0.129098,
-      "effect": 0.129098,
+      "coefficient": 0.128979,
+      "effect": 0.128979,
       "direction": "up",
-      "importance": 0.12909842181004683,
+      "importance": 0.12897896805309592,
       "importancePct": 8.2
     },
     {
       "feature": "team",
       "label": "Team-market flag",
-      "coefficient": 0.054983,
-      "effect": 0.054983,
+      "coefficient": 0.058917,
+      "effect": 0.058917,
       "direction": "up",
-      "importance": 0.054982509137730895,
-      "importancePct": 3.5
+      "importance": 0.0589166100449173,
+      "importancePct": 3.7
     },
     {
       "feature": "h2h",
       "label": "Head-to-head hit rate",
-      "coefficient": 0.048547,
-      "effect": 0.048547,
+      "coefficient": 0.044521,
+      "effect": 0.044521,
       "direction": "up",
-      "importance": 0.04854675323625494,
-      "importancePct": 3.1
+      "importance": 0.044520891306203736,
+      "importancePct": 2.8
     },
     {
       "feature": "sample",
       "label": "History sample strength",
-      "coefficient": 0.038499,
-      "effect": 0.038499,
+      "coefficient": 0.033678,
+      "effect": 0.033678,
       "direction": "up",
-      "importance": 0.038498732997546956,
-      "importancePct": 2.4
+      "importance": 0.03367785559949177,
+      "importancePct": 2.1
     },
     {
       "feature": "under",
       "label": "Under / No side",
-      "coefficient": 0.016319,
-      "effect": 0.016319,
+      "coefficient": 0.02246,
+      "effect": 0.02246,
       "direction": "up",
-      "importance": 0.01631852784338862,
-      "importancePct": 1.0
+      "importance": 0.022460037894604976,
+      "importancePct": 1.4
     },
     {
       "feature": "game",
       "label": "Game-market flag",
-      "coefficient": 0.004312,
-      "effect": 0.004312,
+      "coefficient": 0.004633,
+      "effect": 0.004633,
       "direction": "up",
-      "importance": 0.004311905251199069,
+      "importance": 0.004632756928231789,
       "importancePct": 0.3
     },
     {
       "feature": "alternate",
       "label": "Alternate-line flag",
-      "coefficient": -0.002726,
-      "effect": -0.002726,
+      "coefficient": -0.000274,
+      "effect": -0.000274,
       "direction": "down",
-      "importance": 0.0027259233981303302,
-      "importancePct": 0.2
+      "importance": 0.00027390678085421877,
+      "importancePct": 0.0
     }
   ],
   "trainingRuns": [
@@ -659,6 +659,19 @@
       "accuracy": 0.74398,
       "brier": 0.167347,
       "liveBlend": 0.371,
+      "setup": "steady"
+    },
+    {
+      "updatedAt": "2026-10-14T20:44:56.999877+00:00",
+      "samples": 18646,
+      "completedGames": 36,
+      "promoted": false,
+      "status": "held",
+      "topHitRate": 0.808847,
+      "topThreshold": 0.675174,
+      "accuracy": 0.745307,
+      "brier": 0.166663,
+      "liveBlend": 0.368,
       "setup": "steady"
     }
   ],
