@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-15T19:10:26.391614+00:00",
+  "updatedAt": "2026-10-15T22:22:12.988515+00:00",
   "picks": [
     {
       "day": 1,
@@ -4321,6 +4321,483 @@
             "status": "hit",
             "actual": 1.0,
             "gradedAt": "2026-10-12T07:23:53.033027+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "day": 4,
+      "date": "2026-10-15",
+      "eventId": "36160506",
+      "matchup": "SEA @ DEN",
+      "slot": "game-36160506",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-10-15T22:22:12.988515+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -101,
+      "decimalOdds": 1.990741,
+      "estimatedProbability": 0.677848,
+      "confidence": 87.9,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "scope": "player",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -450,
+          "alternate": true,
+          "position": "WR",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "market": "Receiving Yards",
+          "selection": "Over",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png",
+          "line": 59.5,
+          "eventId": "36160506",
+          "team": "SEA",
+          "decimalOdds": 1.222222222222222,
+          "proposition": "Over 59.5 Receiving Yards",
+          "player": "Jaxon Smith-Njigba",
+          "key": "36160506\u00a6Jaxon Smith-Njigba\u00a6Receiving Yards\u00a6Over\u00a659.5\u00a6Over 59.5 Receiving Yards",
+          "confidence": 88.9,
+          "estimatedProbability": 0.888895,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -400,
+          "alternate": true,
+          "position": "RB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            }
+          },
+          "market": "Rushing Yards",
+          "selection": "Over",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4241985.png",
+          "line": 29.5,
+          "eventId": "36160506",
+          "team": "DEN",
+          "decimalOdds": 1.25,
+          "proposition": "Over 29.5 Rushing Yards",
+          "player": "J.K. Dobbins",
+          "key": "36160506\u00a6J.K. Dobbins\u00a6Rushing Yards\u00a6Over\u00a629.5\u00a6Over 29.5 Rushing Yards",
+          "confidence": 88.9,
+          "estimatedProbability": 0.889383,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -330,
+          "alternate": true,
+          "position": "",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
+          },
+          "market": "Receiving Yards",
+          "selection": "Over",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "",
+          "line": 9.5,
+          "eventId": "36160506",
+          "team": "",
+          "decimalOdds": 1.303030303030303,
+          "proposition": "Over 9.5 Receiving Yards",
+          "player": "Cooper Kupp",
+          "key": "36160506\u00a6Cooper Kupp\u00a6Receiving Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Receiving Yards",
+          "confidence": 85.7,
+          "estimatedProbability": 0.857418,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-10-15",
+      "eventId": "36160506",
+      "matchup": "SEA @ DEN",
+      "slot": "game-36160506",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-10-15T22:22:12.988515+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1009,
+      "decimalOdds": 11.08835,
+      "estimatedProbability": 0.181589,
+      "confidence": 75.7,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "scope": "player",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -186,
+          "alternate": true,
+          "position": "WR",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "previous": {
+              "pct": 82,
+              "hits": 14,
+              "total": 17
+            }
+          },
+          "market": "Receiving Yards",
+          "selection": "Over",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png",
+          "line": 79.5,
+          "eventId": "36160506",
+          "team": "SEA",
+          "decimalOdds": 1.537634408602151,
+          "proposition": "Over 79.5 Receiving Yards",
+          "player": "Jaxon Smith-Njigba",
+          "key": "36160506\u00a6Jaxon Smith-Njigba\u00a6Receiving Yards\u00a6Over\u00a679.5\u00a6Over 79.5 Receiving Yards",
+          "confidence": 73.4,
+          "estimatedProbability": 0.733826,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -114,
+          "alternate": false,
+          "position": "RB",
+          "hitRates": {
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "previous": {
+              "pct": 91,
+              "hits": 10,
+              "total": 11
+            }
+          },
+          "market": "Receiving Yards",
+          "selection": "Under",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429835.png",
+          "line": 8.5,
+          "eventId": "36160506",
+          "team": "SEA",
+          "decimalOdds": 1.87719298245614,
+          "proposition": "Under 8.5 Receiving Yards",
+          "player": "George Holani",
+          "key": "36160506\u00a6George Holani\u00a6Receiving Yards\u00a6Under\u00a68.5\u00a6Under 8.5 Receiving Yards",
+          "confidence": 64.3,
+          "estimatedProbability": 0.642956,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "team",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -390,
+          "alternate": true,
+          "position": "TEAM",
+          "hitRates": {
+            "l5": {
+              "hits": 3,
+              "total": 5,
+              "pct": 60.0
+            },
+            "l10": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 3,
+              "total": 5,
+              "pct": 60.0
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "market": "Alt Spread",
+          "selection": "Cover",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "",
+          "line": 9.5,
+          "teamMarketType": "spread",
+          "eventId": "36160506",
+          "team": "DEN",
+          "decimalOdds": 1.256410256410256,
+          "proposition": "DEN +9.5 Alt Spread",
+          "player": "",
+          "teamName": "Denver Broncos",
+          "key": "36160506\u00a6DEN\u00a6Alt Spread\u00a6Cover\u00a69.5\u00a6DEN +9.5 Alt Spread",
+          "confidence": 78.4,
+          "estimatedProbability": 0.784169,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -400,
+          "alternate": true,
+          "position": "",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 87,
+              "hits": 13,
+              "total": 15
+            }
+          },
+          "market": "Receptions",
+          "selection": "Over",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "",
+          "line": 0.5,
+          "eventId": "36160506",
+          "team": "",
+          "decimalOdds": 1.25,
+          "proposition": "Over 0.5 Receptions",
+          "player": "Marvin Mims Jr.",
+          "key": "36160506\u00a6Marvin Mims Jr.\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 84.3,
+          "estimatedProbability": 0.842693,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -330,
+          "alternate": true,
+          "position": "",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
+          },
+          "market": "Receiving Yards",
+          "selection": "Over",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "",
+          "line": 9.5,
+          "eventId": "36160506",
+          "team": "",
+          "decimalOdds": 1.303030303030303,
+          "proposition": "Over 9.5 Receiving Yards",
+          "player": "Cooper Kupp",
+          "key": "36160506\u00a6Cooper Kupp\u00a6Receiving Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Receiving Yards",
+          "confidence": 85.7,
+          "estimatedProbability": 0.857418,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "scope": "player",
+          "commenceTime": "2026-10-16T00:16:00.000Z",
+          "awayAbbr": "SEA",
+          "odds": -114,
+          "alternate": false,
+          "position": "QB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 41,
+              "hits": 7,
+              "total": 17
+            }
+          },
+          "market": "Rushing Yards",
+          "selection": "Under",
+          "homeAbbr": "DEN",
+          "matchup": "SEA @ DEN",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4426338.png",
+          "line": 15.5,
+          "eventId": "36160506",
+          "team": "DEN",
+          "decimalOdds": 1.87719298245614,
+          "proposition": "Under 15.5 Rushing Yards",
+          "player": "Bo Nix",
+          "key": "36160506\u00a6Bo Nix\u00a6Rushing Yards\u00a6Under\u00a615.5\u00a6Under 15.5 Rushing Yards",
+          "confidence": 67.9,
+          "estimatedProbability": 0.679272,
+          "result": {
+            "status": "pending"
           }
         }
       ]
