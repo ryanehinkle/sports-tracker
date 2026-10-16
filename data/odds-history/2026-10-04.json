@@ -140629,7 +140629,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-10-16T21:11:30.924143+00:00"
           }
         },
         {
@@ -159835,7 +159837,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-16T21:11:30.927908+00:00"
           }
         },
         {
@@ -169811,7 +169815,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-16T21:11:30.930150+00:00"
           }
         },
         {
@@ -220473,7 +220479,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-16T21:11:30.943848+00:00"
           }
         },
         {
@@ -237865,7 +237873,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-16T21:11:30.948750+00:00"
           }
         },
         {
@@ -238151,7 +238161,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-16T21:11:30.949054+00:00"
           }
         },
         {
@@ -398331,7 +398343,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-16T21:11:30.987135+00:00"
           }
         },
         {
@@ -417669,5 +417683,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-10-12T07:23:52.341675+00:00"
+  "updatedAt": "2026-10-16T21:11:30.990086+00:00"
 }
