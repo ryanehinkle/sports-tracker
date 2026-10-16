@@ -77932,11 +77932,27 @@
           "marketId": "734.191712952",
           "selectionId": "26207569",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
@@ -251895,11 +251911,27 @@
           "marketId": "734.191325271",
           "selectionId": "40855952",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 7,
+              "hits": 1,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
