@@ -43709,13 +43709,30 @@
           "marketId": "734.191566725",
           "selectionId": "95394736",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 25,
+              "hits": 1,
+              "total": 4
+            },
+            "l10": {
+              "pct": 25,
+              "hits": 1,
+              "total": 4
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 25,
+              "hits": 1,
+              "total": 4
+            },
             "previous": null
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1249.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -43793,10 +43810,22 @@
           "marketId": "734.191566732",
           "selectionId": "95394736",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -172736,13 +172765,38 @@
           "marketId": "734.191588039",
           "selectionId": "48035472",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "previous": {
+              "pct": 6,
+              "hits": 1,
+              "total": 17
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 3382.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -172820,11 +172874,31 @@
           "marketId": "734.191588030",
           "selectionId": "48035472",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
@@ -196524,11 +196598,27 @@
           "marketId": "734.191580378",
           "selectionId": "80634164",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 18,
+              "hits": 3,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
@@ -196608,11 +196698,27 @@
           "marketId": "734.191580364",
           "selectionId": "80634164",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
@@ -227655,11 +227761,31 @@
           "marketId": "734.191363659",
           "selectionId": "60061696",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 6,
+              "hits": 1,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
