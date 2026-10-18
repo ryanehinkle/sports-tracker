@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-18T20:47:23.447670+00:00",
+  "updatedAt": "2026-10-18T21:22:16.824246+00:00",
   "source": "Frozen pregame FanDuel boards graded from completed ESPN game logs",
   "objective": "Maximize out-of-sample hit rate among the highest-scored legs while preserving probability calibration",
   "samples": 19307,
   "completedGames": 47,
-  "status": "promoted",
-  "promotionReason": "Challenger promoted: validation objective 0.800 > incumbent 0.798",
+  "status": "held",
+  "promotionReason": "Champion setup held (fast-reacting); weights refit with 19,307 graded legs",
   "liveBlend": 0.383,
   "features": [
     "book",
@@ -197,12 +197,12 @@
     },
     "previousChampionValidation": {
       "n": 2744,
-      "accuracy": 0.776239,
-      "brier": 0.155957,
+      "accuracy": 0.773324,
+      "brier": 0.156738,
       "hitRate": 0.367347,
-      "topHitRate": 0.796364,
-      "topThreshold": 0.675911,
-      "objective": 0.797509
+      "topHitRate": 0.8,
+      "topThreshold": 0.686594,
+      "objective": 0.799524
     },
     "scoreBuckets": [
       {
@@ -675,11 +675,11 @@
       "setup": "steady"
     },
     {
-      "updatedAt": "2026-10-18T20:47:23.447670+00:00",
+      "updatedAt": "2026-10-18T21:22:16.824246+00:00",
       "samples": 19307,
       "completedGames": 47,
-      "promoted": true,
-      "status": "promoted",
+      "promoted": false,
+      "status": "held",
       "topHitRate": 0.808907,
       "topThreshold": 0.691384,
       "accuracy": 0.747397,
