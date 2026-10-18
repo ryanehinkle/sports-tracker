@@ -100687,7 +100687,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:44.000564+00:00"
           }
         },
         {
@@ -108341,7 +108343,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:44.001490+00:00"
           }
         },
         {
@@ -111939,7 +111943,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:44.002047+00:00"
           }
         },
         {
@@ -248659,7 +248665,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:44.019974+00:00"
           }
         },
         {
@@ -248857,7 +248865,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-18T23:34:44.020043+00:00"
           }
         },
         {
@@ -258977,7 +258987,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:44.021364+00:00"
           }
         },
         {
@@ -259129,7 +259141,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:44.021405+00:00"
           }
         },
         {
@@ -265929,7 +265943,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:44.022496+00:00"
           }
         },
         {
@@ -266169,7 +266185,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:44.022573+00:00"
           }
         },
         {
@@ -417683,5 +417701,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-10-16T21:11:30.990086+00:00"
+  "updatedAt": "2026-10-18T23:34:44.040221+00:00"
 }

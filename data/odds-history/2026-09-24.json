@@ -1373,7 +1373,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:43.795901+00:00"
           }
         },
         {
@@ -4785,7 +4787,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:43.796525+00:00"
           }
         },
         {
@@ -9865,7 +9869,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:43.797257+00:00"
           }
         },
         {
@@ -9911,7 +9917,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:43.797279+00:00"
           }
         },
         {
@@ -20247,7 +20255,9 @@
             }
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-18T23:34:43.798587+00:00"
           }
         },
         {
@@ -31111,5 +31121,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-10-05T23:52:36.467115+00:00"
+  "updatedAt": "2026-10-18T23:34:43.799740+00:00"
 }
