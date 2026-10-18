@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-18T18:07:49.729950+00:00",
+  "updatedAt": "2026-10-18T19:37:28.144548+00:00",
   "picks": [
     {
       "day": 1,
@@ -4816,6 +4816,679 @@
             "status": "hit",
             "actual": 2.0,
             "gradedAt": "2026-10-16T06:57:25.747176+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "day": 6,
+      "provisionalDay": true,
+      "date": "2026-10-18",
+      "slot": "mid",
+      "slotLabel": "Mid-afternoon slate",
+      "slotOrder": 2,
+      "createdAt": "2026-10-18T19:37:28.144548+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 100,
+      "decimalOdds": 2.002801,
+      "estimatedProbability": 0.706244,
+      "confidence": 89.1,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "eventId": "36160524",
+          "decimalOdds": 1.294117647058824,
+          "player": "",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 10,
+              "total": 10,
+              "pct": 100.0
+            },
+            "h2h": {
+              "hits": 2,
+              "total": 2,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 15,
+              "total": 17,
+              "pct": 88.2
+            }
+          },
+          "scope": "team",
+          "awayAbbr": "LAC",
+          "matchup": "LAC @ KC",
+          "selection": "Cover",
+          "line": 16.5,
+          "headshot": "",
+          "proposition": "LAC +16.5 Alt Spread",
+          "position": "TEAM",
+          "teamName": "Los Angeles Chargers",
+          "odds": -340,
+          "homeAbbr": "KC",
+          "commenceTime": "2026-10-18T20:26:00.000Z",
+          "team": "LAC",
+          "market": "Alt Spread",
+          "teamMarketType": "spread",
+          "key": "36160524\u00a6LAC\u00a6Alt Spread\u00a6Cover\u00a616.5\u00a6LAC +16.5 Alt Spread",
+          "confidence": 89.7,
+          "estimatedProbability": 0.897318,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160495",
+          "decimalOdds": 1.238095238095238,
+          "player": "Jacoby Brissett",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 86,
+              "hits": 12,
+              "total": 14
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "ARI",
+          "matchup": "ARI @ LAR",
+          "selection": "Over",
+          "line": 0.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/2578570.png",
+          "proposition": "Over 0.5 Passing TDs",
+          "position": "QB",
+          "odds": -420,
+          "homeAbbr": "LAR",
+          "commenceTime": "2026-10-18T20:06:00.000Z",
+          "team": "ARI",
+          "market": "Passing TDs",
+          "key": "36160495\u00a6Jacoby Brissett\u00a6Passing TDs\u00a6Over\u00a60.5\u00a6Over 0.5 Passing TDs",
+          "confidence": 88.1,
+          "estimatedProbability": 0.88067,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160524",
+          "decimalOdds": 1.25,
+          "player": "Omarion Hampton",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 9,
+              "total": 9
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "LAC",
+          "matchup": "LAC @ KC",
+          "selection": "Over",
+          "line": 19.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4685382.png",
+          "proposition": "Over 19.5 Rushing Yards",
+          "position": "RB",
+          "odds": -400,
+          "homeAbbr": "KC",
+          "commenceTime": "2026-10-18T20:26:00.000Z",
+          "team": "LAC",
+          "market": "Rushing Yards",
+          "key": "36160524\u00a6Omarion Hampton\u00a6Rushing Yards\u00a6Over\u00a619.5\u00a6Over 19.5 Rushing Yards",
+          "confidence": 89.4,
+          "estimatedProbability": 0.893706,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "day": 7,
+      "provisionalDay": true,
+      "date": "2026-10-18",
+      "slot": "snf",
+      "slotLabel": "Sunday Night Football",
+      "slotOrder": 3,
+      "createdAt": "2026-10-18T19:37:28.144548+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -101,
+      "decimalOdds": 1.995001,
+      "estimatedProbability": 0.529191,
+      "confidence": 85.3,
+      "selectionTier": "Relaxed history",
+      "simulations": 60000,
+      "status": "pending",
+      "legs": [
+        {
+          "eventId": "36160511",
+          "decimalOdds": 1.149253731343284,
+          "player": "Christian Watson",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "DAL",
+          "matchup": "DAL @ GB",
+          "selection": "Over",
+          "line": 39.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4248528.png",
+          "proposition": "Over 39.5 Receiving Yards",
+          "position": "WR",
+          "odds": -670,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-19T00:21:00.000Z",
+          "team": "GB",
+          "market": "Receiving Yards",
+          "key": "36160511\u00a6Christian Watson\u00a6Receiving Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Receiving Yards",
+          "confidence": 85.8,
+          "estimatedProbability": 0.858419,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160511",
+          "decimalOdds": 1.166666666666667,
+          "player": "Jake Ferguson",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 82,
+              "hits": 14,
+              "total": 17
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "DAL",
+          "matchup": "DAL @ GB",
+          "selection": "Over",
+          "line": 1.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4242355.png",
+          "proposition": "Over 1.5 Receptions",
+          "position": "TE",
+          "odds": -600,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-19T00:21:00.000Z",
+          "team": "DAL",
+          "market": "Receptions",
+          "key": "36160511\u00a6Jake Ferguson\u00a6Receptions\u00a6Over\u00a61.5\u00a6Over 1.5 Receptions",
+          "confidence": 86.5,
+          "estimatedProbability": 0.865089,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160511",
+          "decimalOdds": 1.222222222222222,
+          "player": "Ryan Flournoy",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 56,
+              "hits": 9,
+              "total": 16
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "DAL",
+          "matchup": "DAL @ GB",
+          "selection": "Over",
+          "line": 9.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/5083754.png",
+          "proposition": "Player to Record a 10+ Yard Reception",
+          "position": "WR",
+          "odds": -450,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-19T00:21:00.000Z",
+          "team": "DAL",
+          "market": "Player to Record a 10+ Yard Reception",
+          "key": "36160511\u00a6Ryan Flournoy\u00a6Player to Record a 10+ Yard Reception\u00a6Over\u00a69.5\u00a6Player to Record a 10+ Yard Reception",
+          "confidence": 84.9,
+          "estimatedProbability": 0.848506,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160511",
+          "decimalOdds": 1.217391304347826,
+          "player": "",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 11,
+              "total": 17,
+              "pct": 64.7
+            }
+          },
+          "scope": "team",
+          "awayAbbr": "DAL",
+          "matchup": "DAL @ GB",
+          "selection": "Cover",
+          "line": 8.5,
+          "headshot": "",
+          "proposition": "DAL +8.5 Alt Spread",
+          "position": "TEAM",
+          "teamName": "Dallas Cowboys",
+          "odds": -460,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-19T00:21:00.000Z",
+          "team": "DAL",
+          "market": "Alt Spread",
+          "teamMarketType": "spread",
+          "key": "36160511\u00a6DAL\u00a6Alt Spread\u00a6Cover\u00a68.5\u00a6DAL +8.5 Alt Spread",
+          "confidence": 84.0,
+          "estimatedProbability": 0.839842,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-10-18",
+      "slot": "all-sunday",
+      "slotLabel": "Full Sunday slate",
+      "slotOrder": 99,
+      "createdAt": "2026-10-18T19:37:28.144548+00:00",
+      "target": "Sunday Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1004,
+      "decimalOdds": 11.040492,
+      "estimatedProbability": 0.360275,
+      "confidence": 81.7,
+      "selectionTier": "Best available +1000",
+      "simulations": 120000,
+      "status": "pending",
+      "legs": [
+        {
+          "eventId": "36160495",
+          "decimalOdds": 1.133333333333333,
+          "player": "Kyren Williams",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "ARI",
+          "matchup": "ARI @ LAR",
+          "selection": "Over",
+          "line": 39.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430737.png",
+          "proposition": "Over 39.5 Rushing Yards",
+          "position": "RB",
+          "odds": -750,
+          "homeAbbr": "LAR",
+          "commenceTime": "2026-10-18T20:06:00.000Z",
+          "team": "LAR",
+          "market": "Rushing Yards",
+          "key": "36160495\u00a6Kyren Williams\u00a6Rushing Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Rushing Yards",
+          "confidence": 92.1,
+          "estimatedProbability": 0.920703,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160524",
+          "decimalOdds": 1.454545454545455,
+          "player": "Justin Herbert",
+          "alternate": true,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "LAC",
+          "matchup": "LAC @ KC",
+          "selection": "Over",
+          "line": 0.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4038941.png",
+          "proposition": "Over 0.5 Passing TDs",
+          "position": "QB",
+          "odds": -220,
+          "homeAbbr": "KC",
+          "commenceTime": "2026-10-18T20:26:00.000Z",
+          "team": "LAC",
+          "market": "Passing TDs",
+          "key": "36160524\u00a6Justin Herbert\u00a6Passing TDs\u00a6Over\u00a60.5\u00a6Over 0.5 Passing TDs",
+          "confidence": 83.7,
+          "estimatedProbability": 0.836506,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160524",
+          "decimalOdds": 1.884955752212389,
+          "player": "Jalen Royals",
+          "alternate": false,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 4,
+              "total": 4
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "LAC",
+          "matchup": "LAC @ KC",
+          "selection": "Under",
+          "line": 24.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/5082630.png",
+          "proposition": "Under 24.5 Receiving Yards",
+          "position": "WR",
+          "odds": -113,
+          "homeAbbr": "KC",
+          "commenceTime": "2026-10-18T20:26:00.000Z",
+          "team": "KC",
+          "market": "Receiving Yards",
+          "key": "36160524\u00a6Jalen Royals\u00a6Receiving Yards\u00a6Under\u00a624.5\u00a6Under 24.5 Receiving Yards",
+          "confidence": 79.4,
+          "estimatedProbability": 0.794176,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160495",
+          "decimalOdds": 1.884955752212389,
+          "player": "Tyler Allgeier",
+          "alternate": false,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 15,
+              "total": 17
+            }
+          },
+          "scope": "player",
+          "awayAbbr": "ARI",
+          "matchup": "ARI @ LAR",
+          "selection": "Under",
+          "line": 13.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4373626.png",
+          "proposition": "Under 13.5 Receiving Yards",
+          "position": "RB",
+          "odds": -113,
+          "homeAbbr": "LAR",
+          "commenceTime": "2026-10-18T20:06:00.000Z",
+          "team": "ARI",
+          "market": "Receiving Yards",
+          "key": "36160495\u00a6Tyler Allgeier\u00a6Receiving Yards\u00a6Under\u00a613.5\u00a6Under 13.5 Receiving Yards",
+          "confidence": 77.2,
+          "estimatedProbability": 0.772149,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "eventId": "36160511",
+          "decimalOdds": 1.884955752212389,
+          "player": "MarShawn Lloyd",
+          "alternate": false,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": null
+          },
+          "scope": "player",
+          "awayAbbr": "DAL",
+          "matchup": "DAL @ GB",
+          "selection": "Under",
+          "line": 42.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429023.png",
+          "proposition": "Under 42.5 Rushing Yards",
+          "position": "RB",
+          "odds": -113,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-19T00:21:00.000Z",
+          "team": "GB",
+          "market": "Rushing Yards",
+          "key": "36160511\u00a6MarShawn Lloyd\u00a6Rushing Yards\u00a6Under\u00a642.5\u00a6Under 42.5 Rushing Yards",
+          "confidence": 76.3,
+          "estimatedProbability": 0.762831,
+          "result": {
+            "status": "pending"
           }
         }
       ]
