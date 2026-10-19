@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-19T01:56:50.240551+00:00",
+  "updatedAt": "2026-10-19T07:01:59.130863+00:00",
   "picks": [
     {
       "day": 1,
@@ -5022,7 +5022,7 @@
       "confidence": 85.3,
       "selectionTier": "Relaxed history",
       "simulations": 60000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "eventId": "36160511",
@@ -5069,7 +5069,9 @@
           "confidence": 85.8,
           "estimatedProbability": 0.858419,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 64.0,
+            "gradedAt": "2026-10-19T07:00:53.177146+00:00"
           }
         },
         {
@@ -5121,7 +5123,9 @@
           "confidence": 86.5,
           "estimatedProbability": 0.865089,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-10-19T07:00:53.180426+00:00"
           }
         },
         {
@@ -5173,7 +5177,9 @@
           "confidence": 84.9,
           "estimatedProbability": 0.848506,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 11.0,
+            "gradedAt": "2026-10-19T07:00:53.186638+00:00"
           }
         },
         {
@@ -5227,7 +5233,9 @@
           "confidence": 84.0,
           "estimatedProbability": 0.839842,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": -10.0,
+            "gradedAt": "2026-10-19T07:00:53.188647+00:00"
           }
         }
       ]
@@ -5247,7 +5255,7 @@
       "confidence": 81.7,
       "selectionTier": "Best available +1000",
       "simulations": 120000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "eventId": "36160495",
@@ -5502,7 +5510,9 @@
           "confidence": 76.3,
           "estimatedProbability": 0.762831,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-10-19T07:00:53.184594+00:00"
           }
         }
       ]
