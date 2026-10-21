@@ -76691,7 +76691,9 @@
             "previous": null
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-21T23:22:27.944834+00:00"
           }
         },
         {
@@ -309079,5 +309081,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-10-01T23:15:06.050476+00:00"
+  "updatedAt": "2026-10-21T23:22:28.004823+00:00"
 }
