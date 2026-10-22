@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-22T20:11:12.625387+00:00",
+  "updatedAt": "2026-10-22T23:26:57.791214+00:00",
   "picks": [
     {
       "day": 1,
@@ -5513,6 +5513,487 @@
             "status": "hit",
             "actual": 10.0,
             "gradedAt": "2026-10-19T07:00:53.184594+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 7,
+      "day": 1,
+      "date": "2026-10-22",
+      "eventId": "36190129",
+      "matchup": "NE @ CHI",
+      "slot": "game-36190129",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-10-22T23:26:57.791214+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 100,
+      "decimalOdds": 2.004142,
+      "estimatedProbability": 0.586746,
+      "confidence": 87.5,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "selection": "Over",
+          "alternate": true,
+          "proposition": "Over 19.5 Receiving Yards",
+          "line": 19.5,
+          "market": "Receiving Yards",
+          "position": "WR",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "scope": "player",
+          "decimalOdds": 1.172413793103448,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 83,
+              "hits": 10,
+              "total": 12
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4431299.png",
+          "odds": -580,
+          "homeAbbr": "CHI",
+          "player": "Rome Odunze",
+          "team": "CHI",
+          "key": "36190129\u00a6Rome Odunze\u00a6Receiving Yards\u00a6Over\u00a619.5\u00a6Over 19.5 Receiving Yards",
+          "confidence": 87.1,
+          "estimatedProbability": 0.871042,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "alternate": true,
+          "proposition": "Over 39.5 Rushing Yards",
+          "line": 39.5,
+          "market": "Rushing Yards",
+          "position": "RB",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "scope": "player",
+          "decimalOdds": 1.238095238095238,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 81,
+              "hits": 13,
+              "total": 16
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4259545.png",
+          "odds": -420,
+          "homeAbbr": "CHI",
+          "player": "D'Andre Swift",
+          "team": "CHI",
+          "key": "36190129\u00a6D'Andre Swift\u00a6Rushing Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Rushing Yards",
+          "confidence": 86.9,
+          "estimatedProbability": 0.868599,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "alternate": true,
+          "proposition": "Over 174.5 Passing Yards",
+          "line": 174.5,
+          "market": "Passing Yards",
+          "position": "QB",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "scope": "player",
+          "decimalOdds": 1.125,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4431452.png",
+          "odds": -800,
+          "homeAbbr": "CHI",
+          "player": "Drake Maye",
+          "team": "NE",
+          "key": "36190129\u00a6Drake Maye\u00a6Passing Yards\u00a6Over\u00a6174.5\u00a6Over 174.5 Passing Yards",
+          "confidence": 89.7,
+          "estimatedProbability": 0.896563,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "alternate": true,
+          "proposition": "Over 9.5 Rushing Yards",
+          "line": 9.5,
+          "market": "Rushing Yards",
+          "position": "RB",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "scope": "player",
+          "decimalOdds": 1.227272727272727,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 15,
+              "total": 17
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4432710.png",
+          "odds": -440,
+          "homeAbbr": "CHI",
+          "player": "TreVeyon Henderson",
+          "team": "NE",
+          "key": "36190129\u00a6TreVeyon Henderson\u00a6Rushing Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Rushing Yards",
+          "confidence": 86.5,
+          "estimatedProbability": 0.864989,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-10-22",
+      "eventId": "36190129",
+      "matchup": "NE @ CHI",
+      "slot": "game-36190129",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-10-22T23:26:57.791214+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1100,
+      "decimalOdds": 12.004155,
+      "estimatedProbability": 0.184868,
+      "confidence": 71.8,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "selection": "Over",
+          "alternate": true,
+          "proposition": "Over 14.5 Rushing Yards",
+          "line": 14.5,
+          "market": "Rushing Yards",
+          "position": "RB",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "scope": "player",
+          "decimalOdds": 1.416666666666667,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 82,
+              "hits": 14,
+              "total": 17
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4432710.png",
+          "odds": -240,
+          "homeAbbr": "CHI",
+          "player": "TreVeyon Henderson",
+          "team": "NE",
+          "key": "36190129\u00a6TreVeyon Henderson\u00a6Rushing Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Rushing Yards",
+          "confidence": 82.1,
+          "estimatedProbability": 0.820738,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Under",
+          "alternate": false,
+          "proposition": "Under 68.5 Receiving Yards",
+          "line": 68.5,
+          "market": "Receiving Yards",
+          "position": "",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "scope": "player",
+          "decimalOdds": 1.87719298245614,
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 53,
+              "hits": 8,
+              "total": 15
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "",
+          "odds": -114,
+          "homeAbbr": "CHI",
+          "player": "A.J. Brown",
+          "team": "",
+          "key": "36190129\u00a6A.J. Brown\u00a6Receiving Yards\u00a6Under\u00a668.5\u00a6Under 68.5 Receiving Yards",
+          "confidence": 60.2,
+          "estimatedProbability": 0.602295,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "alternate": true,
+          "proposition": "Player To Record a 20+ Yard Reception",
+          "line": 19.5,
+          "market": "Player To Record a 20+ Yard Reception",
+          "position": "WR",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "scope": "player",
+          "decimalOdds": 1.588235294117647,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 75,
+              "hits": 9,
+              "total": 12
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4431299.png",
+          "odds": -170,
+          "homeAbbr": "CHI",
+          "player": "Rome Odunze",
+          "team": "CHI",
+          "key": "36190129\u00a6Rome Odunze\u00a6Player To Record a 20+ Yard Reception\u00a6Over\u00a619.5\u00a6Player To Record a 20+ Yard Reception",
+          "confidence": 78.5,
+          "estimatedProbability": 0.784572,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Cover",
+          "teamMarketType": "spread",
+          "alternate": true,
+          "proposition": "NE +3.5 Alt Spread",
+          "line": 3.5,
+          "market": "Alt Spread",
+          "position": "TEAM",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "teamName": "New England Patriots",
+          "scope": "team",
+          "decimalOdds": 1.714285714285714,
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 8,
+              "total": 10,
+              "pct": 80.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 5,
+              "total": 6,
+              "pct": 83.3
+            },
+            "previous": {
+              "hits": 14,
+              "total": 17,
+              "pct": 82.4
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "",
+          "odds": -140,
+          "homeAbbr": "CHI",
+          "player": "",
+          "team": "NE",
+          "key": "36190129\u00a6NE\u00a6Alt Spread\u00a6Cover\u00a63.5\u00a6NE +3.5 Alt Spread",
+          "confidence": 71.0,
+          "estimatedProbability": 0.710335,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "alternate": true,
+          "proposition": "Over 29.5 Receiving Yards",
+          "line": 29.5,
+          "market": "Receiving Yards",
+          "position": "TE",
+          "commenceTime": "2026-10-23T00:16:00.000Z",
+          "scope": "player",
+          "decimalOdds": 1.657894736842105,
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 67,
+              "hits": 4,
+              "total": 6
+            },
+            "previous": {
+              "pct": 71,
+              "hits": 12,
+              "total": 17
+            }
+          },
+          "eventId": "36190129",
+          "awayAbbr": "NE",
+          "matchup": "NE @ CHI",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3046439.png",
+          "odds": -152,
+          "homeAbbr": "CHI",
+          "player": "Hunter Henry",
+          "team": "NE",
+          "key": "36190129\u00a6Hunter Henry\u00a6Receiving Yards\u00a6Over\u00a629.5\u00a6Over 29.5 Receiving Yards",
+          "confidence": 67.1,
+          "estimatedProbability": 0.671046,
+          "result": {
+            "status": "pending"
           }
         }
       ]
