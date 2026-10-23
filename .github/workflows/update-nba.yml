@@ -37,6 +37,8 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
       - name: Check NBA syntax and isolation
         run: |
           python -m py_compile scripts/update_nba_stats.py scripts/update_nba_odds.py
@@ -44,8 +46,16 @@ jobs:
           node --check nba-model.js
           python - <<'PY'
           from pathlib import Path
-          for file in ('scripts/update_nba_stats.py','scripts/update_nba_odds.py'):
-              assert 'data/nba-' in Path(file).read_text()
+          assert 'nba-stats.json' in Path('scripts/update_nba_stats.py').read_text()
+          assert 'nba-odds.json' in Path('scripts/update_nba_odds.py').read_text()
+          import sys
+          sys.path.insert(0,'scripts')
+          from update_nba_stats import player_stats
+          sample=player_stats(['MIN','FG','3PT','FT','REB','AST','STL','BLK','TO','PTS'],['29:30','7-14','3-7','2-2','8','5','2','1','3','19'])
+          assert sample['minutes']==29.5 and sample['pra']==32 and sample['threes']==3
+          from update_nba_odds import market_metric
+          assert market_metric('Player Points + Rebounds + Assists')=='pra'
+          assert market_metric('Player 3-Pointers Made')=='threes'
           PY
   nba-refresh:
     if: github.event_name != 'pull_request'
