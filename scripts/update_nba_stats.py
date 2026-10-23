@@ -110,16 +110,27 @@ def month_ranges(first,last):
         if m>12:y,m=y+1,1
 
 def completed_games(start,end):
+    # ESPN no longer accepts YYYYMMDD-YYYYMMDD ranges (returns HTTP 400).
+    # Request each date explicitly and deduplicate returned event IDs.
+    dates=[]
+    day=start
+    while day<=end:
+        dates.append(day.strftime("%Y%m%d"))
+        day+=timedelta(days=1)
     events={}
-    for lo,hi in month_ranges(start,end):
-        query={"dates":lo.strftime("%Y%m%d")+"-"+hi.strftime("%Y%m%d"),"limit":500}
-        payload=get(SCOREBOARD,query)
-        for event in payload.get("events") or []:
-            if not (event.get("status") or {}).get("type",{}).get("completed"):continue
-            season=event.get("season") or {}
-            if int(season.get("type") or 2)!=2:continue
-            eid=str(event.get("id") or "")
-            if eid:events[eid]=event
+    with ThreadPoolExecutor(max_workers=12) as pool:
+        tasks={pool.submit(get,SCOREBOARD,{"dates":day,"limit":100}):day for day in dates}
+        for future in as_completed(tasks):
+            try:payload=future.result()
+            except Exception as exc:
+                print(f"Scoreboard date {tasks[future]} failed: {exc}")
+                continue
+            for event in payload.get("events") or []:
+                if not (event.get("status") or {}).get("type",{}).get("completed"):continue
+                season=event.get("season") or {}
+                if int(season.get("type") or 2)!=2:continue
+                eid=str(event.get("id") or "")
+                if eid:events[eid]=event
     return events
 
 def normalized_game(raw):
