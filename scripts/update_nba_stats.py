@@ -133,7 +133,10 @@ def completed_games(start,end):
                 if eid:events[eid]=event
     return events
 
+_NBA_SCHEMA_REPORTED=False
+
 def normalized_game(raw):
+    global _NBA_SCHEMA_REPORTED
     eid=str(raw.get("header",{}).get("id") or raw.get("boxscore",{}).get("id") or "")
     header=raw.get("header") or {}
     competitions=header.get("competitions") or []
@@ -150,7 +153,14 @@ def normalized_game(raw):
             "logo":team.get("logo") or f"https://a.espncdn.com/i/teamlogos/nba/500/{code.lower()}.png",
             "score":num(c.get("score")),"homeAway":c.get("homeAway") or "",
         }
-    if len(teams)!=2:return None
+    if len(teams)!=2:
+        if not _NBA_SCHEMA_REPORTED:
+            _NBA_SCHEMA_REPORTED=True
+            print("NBA summary diagnostic: header keys=",list(header.keys()),
+                  "competition keys=",list(comp.keys()),
+                  "competitor team samples=",[(x.get("team") or {}).get("abbreviation") for x in competitors],
+                  "boxscore keys=",list((raw.get("boxscore") or {}).keys()))
+        return None
     players=[]
     for entry in (raw.get("boxscore") or {}).get("players") or []:
         team=entry.get("team") or {}
@@ -174,7 +184,15 @@ def normalized_game(raw):
                     "headshot":(athlete.get("headshot") or {}).get("href") or HEADSHOT.format(pid),
                     "stats":stat,
                 })
-    if not players:return None
+    if not players:
+        if not _NBA_SCHEMA_REPORTED:
+            _NBA_SCHEMA_REPORTED=True
+            box=raw.get("boxscore") or {}
+            print("NBA player diagnostic: summary keys=",list(raw.keys()),
+                  "boxscore keys=",list(box.keys()),
+                  "entries=",len(box.get("players") or []),
+                  "sample=",str((box.get("players") or [{}])[0])[:650])
+        return None
     return {"id":eid,"date":comp.get("date") or header.get("competitions",[{}])[0].get("date"),
             "teams":teams,"players":players}
 
