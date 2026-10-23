@@ -150,7 +150,7 @@ def enrich(row,player,opponent,season):
         "recentAverage":round(sum(values(current[:10]))/len(values(current[:10])),2) if values(current[:10]) else None,
     }
 
-def parse_event(event,pages,roster,season):
+def parse_event(event,pages,roster,season,team_reference):
     pair=teams_for_event(event)
     if not pair:return None
     away,home=pair
@@ -199,25 +199,62 @@ def parse_event(event,pages,roster,season):
                 # lines as full-game totals, or blend player/team markets.
                 lower=name.lower()
                 if any(p in lower for p in ("quarter","half","player","first to","race to")):continue
-                scope="game" if "total" in lower and "team" not in lower else "team"
                 kind="total" if ("total" in lower or "over/under" in lower) else "spread" if "spread" in lower or "handicap" in lower else "moneyline" if any(x in lower for x in ("moneyline","money line","match winner","game winner")) else ""
                 if not kind:continue
-                team=next((code for full,code in TEAM_ABBR.items() if (full.lower() in runner_name.lower() or full.split(" ")[-1].lower()==runner_name.lower()) and code in (result["homeAbbr"],result["awayAbbr"])),"")
-                if kind in ("spread","moneyline") and not team:continue
+                teams_here={full:code for full,code in TEAM_ABBR.items() if code in (result["homeAbbr"],result["awayAbbr"])}
+                name_team=next((code for full,code in teams_here.items() if full.lower() in lower or full.split(" ")[-1].lower() in lower),"")
+                runner_team=next((code for full,code in teams_here.items() if full.lower() in runner_name.lower() or full.split(" ")[-1].lower()==runner_name.lower()),"")
+                is_team_total=kind=="total" and (bool(name_team) or "team" in lower)
+                scope="game" if kind=="total" and not is_team_total else "team"
+                team=(name_team or runner_team) if is_team_total else runner_team
+                if (kind in ("spread","moneyline") or is_team_total) and not team:continue
                 side=choose_selection(runner_name) if kind=="total" else "Cover" if kind=="spread" else "Win"
                 if kind=="total" and side not in ("Over","Under"):continue
                 if kind=="moneyline":line=0
                 else:
                     line=infer_line(name,runner)
                     if line is None:continue
-                obj={"scope":scope,"player":"","team":team,"metric":kind,"teamMarketType":kind,
-                     "market":"Game Total" if scope=="game" else ("Spread" if kind=="spread" else "Moneyline"),
+                obj={"scope":scope,"player":"","team":team,"metric":kind,"teamMarketType":"teamTotal" if is_team_total else kind,
+                     "market":"Game Total" if scope=="game" else "Team Total" if is_team_total else ("Spread" if kind=="spread" else "Moneyline"),
                      "selection":side,"line":line,"odds":odds,"decimalOdds":decimal_odds(runner),
                      "proposition":f"{team or 'Game'} {kind.title()} {side} {line if kind!='moneyline' else ''}".strip(),
                      "marketId":str(market_id),"sourceTab":tab}
                 props[(scope,team,kind,side,line)]=obj
+    team_by_abbr={t.get("abbreviation"):t for t in team_reference.get("teams",[])}
+    for prop in props.values():
+        if prop.get("scope")!="player":
+            prop["hitRates"]=enrich_team(prop,result,team_by_abbr,season)
     result["props"]=sorted(props.values(),key=lambda x:(x.get("scope") or "",x.get("player") or x.get("team") or "",x["market"],str(x["line"])))
     return result if result["props"] else None
+
+def enrich_team(row,event,team_by_abbr,season):
+    team=team_by_abbr.get(row.get("team") or event.get("homeAbbr"))
+    if not team:return {}
+    current=game_logs(team,season)
+    previous=game_logs(team,season-1)
+    opponent=event["awayAbbr"] if team["abbreviation"]==event["homeAbbr"] else event["homeAbbr"]
+    def numeric(g):
+        stats=g.get("stats") or {}
+        pf=stats.get("derived.pointsFor")
+        pa=stats.get("derived.pointsAgainst")
+        if pf is None or pa is None:return None
+        pf=float(pf);pa=float(pa)
+        kind=row.get("teamMarketType")
+        return pf+pa if row.get("scope")=="game" else pf-pa if kind in ("spread","moneyline") else pf
+    def prop_rate(games):
+        values=[v for g in games if (v:=numeric(g)) is not None]
+        if not values:return None
+        line=float(row.get("line") or 0)
+        kind=row.get("teamMarketType")
+        def hit(v):
+            if kind=="moneyline":return v>0
+            if kind=="spread":return v+line>0
+            return v<line if row.get("selection")=="Under" else v>line
+        hits=sum(hit(v) for v in values)
+        return {"hits":hits,"total":len(values),"pct":round(100*hits/len(values),1)}
+    h2h=[g for g in current+previous if (g.get("opponent") or {}).get("abbreviation")==opponent]
+    return {"l5":prop_rate(current[:5]),"l10":prop_rate(current[:10]),
+            "h2h":prop_rate(h2h),"current":prop_rate(current),"previous":prop_rate(previous)}
 
 def load_players(stats):
     return {normalize_name(p["name"]):p for p in stats.get("players") or [] if p.get("name")}
@@ -347,7 +384,7 @@ def main():
                         page=fetch_json(EVENT_URL,{"eventId":eid,"tab":tab,"_ak":WEB_KEY})
                         if (page.get("attachments") or {}).get("markets"):pages[tab]=page
                     except Exception:pass
-            parsed=parse_event(event,pages,roster,season)
+            parsed=parse_event(event,pages,roster,season,teams)
             if parsed:fresh.append(parsed);refreshed.add(eid)
             else:print(f"  {eid}: no eligible NBA markets; keeping previous snapshot if any")
         except Exception as exc:print(f"  NBA odds failed for {eid}: {exc}")
