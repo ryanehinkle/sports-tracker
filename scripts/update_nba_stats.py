@@ -18,6 +18,9 @@ ROOT = Path("data")
 CACHE = ROOT / "nba-game-cache.json"
 STATS = ROOT / "nba-stats.json"
 TEAMS = ROOT / "nba-team-stats.json"
+ROSTERS = ROOT / "nba-rosters.json"
+TEAM_LIST = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams"
+TEAM_ROSTER = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/{}/roster"
 SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard"
 SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary"
 NBA_TEAMS = {
@@ -258,6 +261,63 @@ def make_payload(games, current_season):
                   "updatedAt":now,"teams":team_list,"statCatalog":catalog}
     return stat_payload,team_payload
 
+def roster_players(season):
+    """Fetch official ESPN team rosters daily, preserving verified prior cache.
+
+    NBA props are often posted before a player's first game; excluding zero-game
+    roster members would silently drop legitimate market rows.
+    """
+    cached=load(ROSTERS,{})
+    updated=cached.get("updatedAt","")
+    if cached.get("season")==season and updated[:10]==date.today().isoformat() and cached.get("players"):
+        return cached["players"]
+    listing=get(TEAM_LIST,{"limit":100})
+    leagues=((listing.get("sports") or [{}])[0].get("leagues") or [{}])
+    teams=(leagues[0].get("teams") or []) if leagues else []
+    known=[]
+    for entry in teams:
+        team=entry.get("team") or entry
+        code=abbr(team.get("abbreviation"))
+        if code in NBA_TEAMS and team.get("id"):
+            known.append((str(team["id"]),code))
+    if len(known)<20:
+        return cached.get("players") or []
+    players=[]
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        tasks={pool.submit(get,TEAM_ROSTER.format(eid),{"season":season}):code for eid,code in known}
+        for future in as_completed(tasks):
+            code=tasks[future]
+            try: payload=future.result()
+            except Exception:continue
+            for entry in payload.get("athletes") or []:
+                athlete=entry.get("athlete") or entry
+                pid=str(athlete.get("id") or "")
+                if not pid:continue
+                head=athlete.get("headshot") or {}
+                pos=athlete.get("position") or {}
+                players.append({
+                    "id":pid,"name":athlete.get("displayName") or athlete.get("fullName") or "",
+                    "team":code,"position":pos.get("abbreviation") or "",
+                    "headshot":head.get("href") or HEADSHOT.format(pid),
+                })
+    if players:
+        ROSTERS.write_text(json.dumps({"season":season,"updatedAt":datetime.now(timezone.utc).isoformat(),
+                                       "players":players},separators=(",",":"))+"\n")
+        return players
+    return cached.get("players") or []
+
+def supplement_roster(stats, roster):
+    existing={str(p["id"]) for p in stats["players"]}
+    for athlete in roster:
+        if not athlete.get("name") or str(athlete["id"]) in existing:continue
+        p=dict(athlete)
+        p["gameLogsBySeason"]={}
+        p["gameLog"]=[]
+        p.update(sumstats([]))
+        stats["players"].append(p)
+        existing.add(str(p["id"]))
+    stats["players"].sort(key=lambda p:(-p["points"],p["name"]))
+
 def main():
     ROOT.mkdir(parents=True,exist_ok=True)
     today=date.today()
@@ -288,6 +348,7 @@ def main():
     CACHE.write_text(json.dumps(cache,separators=(",",":"))+"\n")
     current_games=[g for g in gamecache.values() if g.get("date")]
     stats,teams=make_payload(current_games,year)
+    supplement_roster(stats,roster_players(year))
     if not stats["players"] and STATS.exists():
         raise RuntimeError("ESPN returned no completed NBA player logs; keeping the previous stats file")
     STATS.write_text(json.dumps(stats,separators=(",",":"))+"\n")
