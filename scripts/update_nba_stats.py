@@ -191,7 +191,11 @@ def normalized_game(raw):
             print("NBA player diagnostic: summary keys=",list(raw.keys()),
                   "boxscore keys=",list(box.keys()),
                   "entries=",len(box.get("players") or []),
-                  "sample=",str((box.get("players") or [{}])[0])[:650])
+                  "section keys=",list((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).keys()),
+                  "section names=",((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).get("names") or []),
+                  "section labels=",((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).get("labels") or []),
+                  "athletes count=",len(((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).get("athletes") or [])),
+                  "first athlete=",str((((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).get("athletes") or [{}])[0]))[:550])
         return None
     return {"id":eid,"date":comp.get("date") or header.get("competitions",[{}])[0].get("date"),
             "teams":teams,"players":players}
