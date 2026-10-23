@@ -84,12 +84,25 @@ function calculate(row){
  const opp=teamBy(opponentFor(row));
  const medianDefense=state.teams.filter(t=>n(t.stats?.games)>0).map(t=>n(t.stats?.pointsAllowedPerGame)).sort((a,b)=>a-b);
  const leagueDefense=medianDefense.length?medianDefense[Math.floor(medianDefense.length/2)]:null;
- let defenseEdge=0;
- if(opp?.stats&&leagueDefense&&n(opp.stats.games)>2){
-   defenseEdge=clamp((n(opp.stats.pointsAllowedPerGame)-leagueDefense)/leagueDefense,-.13,.13);
-   // A weak defense increases overs, decreases unders. ML/spread have no
-   // same interpretation and do not use this per-player defensive adjustment.
-   if(row.scope==="player")model+=(row.selection==="Under"?-1:1)*defenseEdge*.20;
+ let defenseEdge=0,defensePercentile=0;
+ // Use verified position-specific NBA box-score production allowed, never
+ // NFL target/carry shares or an invented opposing-player game log.
+ const allowed=opp?.allowedByPosition?.[row.position];
+ const metricAllowed=Number(allowed?.[row.metric]);
+ if(row.scope==="player"&&Number(allowed?.sampleGames)>=2&&Number.isFinite(metricAllowed)){
+   const peers=state.teams.map(t=>t.allowedByPosition?.[row.position])
+     .filter(x=>Number(x?.sampleGames)>=2&&Number.isFinite(Number(x?.[row.metric])))
+     .map(x=>Number(x[row.metric])).sort((a,b)=>a-b);
+   if(peers.length>=4){
+     const typical=peers[Math.floor(peers.length/2)];
+     defenseEdge=clamp((metricAllowed-typical)/Math.max(1,typical),-.18,.18);
+     defensePercentile=peers.filter(v=>v<=metricAllowed).length/peers.length*100;
+     if(row.selection==="Under"||row.selection==="No")defensePercentile=100-defensePercentile;
+     model+=(row.selection==="Under"||row.selection==="No"?-1:1)*defenseEdge*.22;
+   }
+ }else if(opp?.stats&&leagueDefense&&n(opp.stats.games)>2&&row.scope==="player"){
+   defenseEdge=clamp((n(opp.stats.pointsAllowedPerGame)-leagueDefense)/leagueDefense,-.10,.10);
+   model+=(row.selection==="Under"||row.selection==="No"?-1:1)*defenseEdge*.15;
  }
  const edge=clamp(model-anchor,-.99,.99);
  const minutes=n(player?.minutesPerGame),fga=n(player?.fga)/Math.max(1,n(player?.games)),tpa=n(player?.tpa)/Math.max(1,n(player?.games));
@@ -97,7 +110,7 @@ function calculate(row){
  const effectiveSample=info.l10?.total||info.current?.total||0;
  const score=clamp(Math.round(100*(.75*model+.25*clamp(.50+edge,0,1))*(.76+.24*Math.min(1,effectiveSample/8))),0,100);
  return Object.assign({},row,{hitRates:info,probability:clamp(model,.01,.99),marketProbability:anchor,
-  edge:edge*100,score,average:avg,minutes,fga,tpa,defenseEdge:defenseEdge*100});
+  edge:edge*100,score,average:avg,minutes,fga,tpa,defenseEdge:defenseEdge*100,defensePercentile});
 }
 function filters(row){
  const q=norm($("modelSearch").value);
@@ -109,7 +122,7 @@ function filters(row){
  if($("position").value&&row.position!==$("position").value)return false;
  if(n(row.odds)<n($("minLegOdds").value)||n(row.odds)>n($("maxLegOdds").value))return false;
  if(row.minutes<n($("minutes").value)||row.fga<n($("fga").value)||row.tpa<n($("tpa").value))return false;
- if(row.defenseEdge<n($("defense").value))return false;
+ if(n($("defense").value)>0&&row.defensePercentile<n($("defense").value))return false;
  if(row.edge<n($("edge").value))return false;
  for(const k of ["l5","l10","h2h","current","previous"]){
   const threshold=n($(k).value);if(!threshold)continue;
