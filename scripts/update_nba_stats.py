@@ -244,6 +244,32 @@ def make_payload(games, current_season):
         entry["stats"]=stat
         entry["gameLog"]=current
         team_list.append(entry)
+    # NBA defensive matchup profile: points/rebounds/assists/etc surrendered
+    # to each opposing position per completed team game this regular season.
+    allowed=defaultdict(lambda:defaultdict(lambda:defaultdict(float)))
+    sample=defaultdict(int)
+    dvp_metrics=("points","rebounds","assists","threes","steals","blocks","turnovers","pra","pr","pa","ra")
+    for game in games:
+        if not str(game.get("date") or "").startswith((str(current_season-1)+"-",str(current_season)+"-")):
+            continue
+        day=str(game.get("date") or "")[:10]
+        if int(day[:4])+(1 if int(day[5:7])>=7 else 0)!=current_season:
+            continue
+        for code in game.get("teams") or {}:
+            sample[code]+=1
+            for athlete in game.get("players") or []:
+                if athlete.get("team")==code:continue
+                position=str(athlete.get("position") or "").upper()
+                if position not in ("PG","SG","SF","PF","C"):continue
+                for metric in dvp_metrics:
+                    allowed[code][position][metric]+=num(athlete.get("stats",{}).get(metric))
+    for entry in team_list:
+        code=entry["abbreviation"]
+        games_played=sample.get(code,0)
+        entry["allowedByPosition"]={
+            pos:dict({k:round(v/games_played,2) for k,v in metrics.items()},sampleGames=games_played)
+            for pos,metrics in allowed[code].items() if games_played
+        }
     now=datetime.now(timezone.utc).isoformat()
     stat_payload={"league":"NBA","season":current_season,"seasonLabel":f"{current_season-1}–{str(current_season)[-2:]} Regular Season",
                   "updatedAt":now,"players":players}
