@@ -65,6 +65,15 @@ function build(){
     </div>`;
   const shell=document.querySelector(".shell");
   (shell||document.body).appendChild(wrap);
+  // League navigation is independent of the appearance menu and follows the
+  // current Stats/Teams/Odds/Model view when switching sports.
+  const currentNBA=/\/nba(?:-model)?\.html$/i.test(location.pathname);
+  const onModel=/(?:^|\/)\w*model\.html$/i.test(location.pathname);
+  const league=document.createElement("nav");
+  league.className="league-switch";
+  league.setAttribute("aria-label","Select sport");
+  league.innerHTML='<a class="'+(!currentNBA?'active':'')+'" href="'+(onModel?'model.html':'index.html'+location.hash)+'" '+(!currentNBA?'aria-current="page"':'')+'>NFL</a><a class="'+(currentNBA?'active':'')+'" href="'+(onModel?'nba-model.html':'nba.html'+location.hash)+'" '+(currentNBA?'aria-current="page"':'')+'>NBA</a>';
+  (shell||document.body).appendChild(league);
   const button=document.getElementById("themeSettingsButton"),popover=document.getElementById("themeSettingsPopover");
   button.addEventListener("click",e=>{
     e.stopPropagation();
