@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#151922" />
+  <title>NBA Tracker</title>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=copy-clean-1" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">NBA • TRACKER</div>
+        <h1>NBA Tracker</h1>
+        <p id="pageSubtitle" hidden aria-hidden="true"></p>
+      </div>
+      <div class="hero-meta">
+        <div class="status-pill"><span class="status-dot"></span><span id="seasonLabel">Loading season…</span></div>
+        <div class="updated" id="updatedLabel">Loading latest stats…</div>
+      </div>
+    </header>
+
+    <nav class="main-tabs" aria-label="NBA tracker sections">
+      <button id="statsTabButton" class="main-tab active" type="button" data-view="stats">Player Stats</button>
+      <button id="teamStatsTabButton" class="main-tab" type="button" data-view="team-stats">Team Stats</button>
+      <button id="oddsTabButton" class="main-tab" type="button" data-view="odds">Odds</button>
+      <a class="main-tab" href="nba-model.html">Model</a>
+    </nav>
+
+    <section id="statsView" class="tab-view active">
+      <section class="toolbar">
+        <label class="search-wrap" for="searchInput">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="searchInput" type="search" placeholder="Search players, teams, positions…" autocomplete="off" />
+        </label>
+        <div class="record-count" id="recordCount">— players</div>
+      </section>
+
+      <section class="table-card">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th class="player-col" data-key="name">Player <span class="sort-indicator"></span></th><th data-key="points">PTS <span class="sort-indicator"></span></th><th data-key="rebounds">REB <span class="sort-indicator"></span></th><th data-key="assists">AST <span class="sort-indicator"></span></th><th data-key="threes">3PM <span class="sort-indicator"></span></th><th data-key="pra">PRA <span class="sort-indicator"></span></th><th data-key="pr">PTS+REB <span class="sort-indicator"></span></th><th data-key="pa">PTS+AST <span class="sort-indicator"></span></th><th data-key="ra">REB+AST <span class="sort-indicator"></span></th><th data-key="steals">STL <span class="sort-indicator"></span></th><th data-key="blocks">BLK <span class="sort-indicator"></span></th><th data-key="turnovers">TO <span class="sort-indicator"></span></th><th data-key="minutes">MIN <span class="sort-indicator"></span></th><th data-key="fgm">FGM <span class="sort-indicator"></span></th><th data-key="fga">FGA <span class="sort-indicator"></span></th><th data-key="fgPct">FG% <span class="sort-indicator"></span></th><th data-key="tpa">3PA <span class="sort-indicator"></span></th><th data-key="ftm">FTM <span class="sort-indicator"></span></th><th data-key="ftPct">FT% <span class="sort-indicator"></span></th><th data-key="games">GP <span class="sort-indicator"></span></th><th data-key="pointsPerGame">PPG <span class="sort-indicator"></span></th><th data-key="reboundsPerGame">RPG <span class="sort-indicator"></span></th><th data-key="assistsPerGame">APG <span class="sort-indicator"></span></th></tr></thead>
+            <tbody id="statsBody">
+              <tr><td colspan="23" class="loading-cell"><div class="spinner"></div>Loading NBA stats…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="teamStatsView" class="tab-view">
+      <section class="team-stats-toolbar">
+        <label class="search-wrap team-search" for="teamSearchInput">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="teamSearchInput" type="search" placeholder="Search NBA teams…" autocomplete="off" />
+        </label>
+        <div class="record-count" id="teamRecordCount">— teams</div>
+      </section>
+
+      <section class="team-view-bar">
+        <div id="teamViewButtons" class="team-view-buttons" aria-label="Team stat categories">
+          <button type="button" class="team-view-button active" data-team-view="overview">Overview</button>
+          <button type="button" class="team-view-button" data-team-view="offense">Offense</button>
+          <button type="button" class="team-view-button" data-team-view="defense">Defense</button>
+          <button type="button" class="team-view-button" data-team-view="shooting">Shooting</button>
+          <button type="button" class="team-view-button" data-team-view="rebounding">Rebounding</button>
+          <button type="button" class="team-view-button" data-team-view="playmaking">Playmaking</button>
+          <button type="button" class="team-view-button" data-team-view="overview">Scoring</button>
+          <button type="button" class="team-view-button" data-team-view="all">All Stats</button>
+        </div>
+        <div class="team-view-tools">
+          <label class="team-stat-search-wrap">
+            <span>Filter columns</span>
+            <input id="teamStatSearchInput" type="search" placeholder="e.g. rebounds, threes, assists…" autocomplete="off" />
+          </label>
+          <span id="teamColumnCount" class="team-column-count">— stats</span>
+        </div>
+      </section>
+
+      <section class="team-leader-strip" id="teamLeaderStrip" aria-label="League leaders"></section>
+
+      <section class="table-card team-table-card">
+        <div class="team-table-scroll">
+          <table id="teamStatsTable" class="team-stats-table">
+            <thead id="teamStatsHead">
+              <tr><th class="team-col">Team</th><th>Loading…</th></tr>
+            </thead>
+            <tbody id="teamStatsBody">
+              <tr><td colspan="2" class="loading-cell"><div class="spinner"></div>Loading NBA team stats…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="oddsView" class="tab-view">
+      <section class="odds-toolbar">
+        <label class="search-wrap odds-search" for="oddsSearchInput">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="oddsSearchInput" type="search" placeholder="Search player, team, game, or prop…" autocomplete="off" />
+        </label>
+
+        <div class="filter-strip">
+          <div class="filter-control">
+            <button id="gameFilterButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">◫</span><span id="gameFilterLabel">Games</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="gameFilterDialog" class="filter-popover game-filter-popover" hidden>
+              <div class="filter-popover-title">Games</div>
+              <button class="filter-all-row" type="button" data-clear-filter="games"><span>All Games</span><span class="selection-mark" id="allGamesMark">✓</span></button>
+              <div id="gameFilterOptions" class="filter-options"></div>
+            </div>
+          </div>
+
+          <div class="filter-control">
+            <button id="marketFilterButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">✦</span><span id="marketFilterLabel">Propositions</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="marketFilterDialog" class="filter-popover market-filter-popover" hidden>
+              <div class="filter-popover-title">Propositions</div>
+              <button class="filter-all-row" type="button" data-clear-filter="markets"><span>All Propositions</span><span class="selection-mark" id="allMarketsMark">✓</span></button>
+              <div id="marketFilterOptions" class="filter-options"></div>
+            </div>
+          </div>
+
+          <div class="filter-control">
+            <button id="scopeFilterButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">◎</span><span id="scopeFilterLabel">Market Type</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="scopeFilterDialog" class="filter-popover scope-filter-popover" hidden>
+              <div class="filter-popover-title">Market Type</div>
+              <div id="scopeFilterOptions" class="position-options">
+                <button type="button" class="scope-option active" data-scope=""><span>All Markets</span><span class="selection-mark">✓</span></button>
+                <button type="button" class="scope-option" data-scope="player"><span>Player Props</span><span class="selection-mark"></span></button>
+                <button type="button" class="scope-option" data-scope="team"><span>Team Props</span><span class="selection-mark"></span></button>
+                <button type="button" class="scope-option" data-scope="game"><span>Game Props</span><span class="selection-mark"></span></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-control">
+            <button id="positionFilterButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">↕</span><span id="positionFilterLabel">Side</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="positionFilterDialog" class="filter-popover position-filter-popover" hidden>
+              <div class="filter-popover-title">Side / Selection</div>
+              <div id="positionFilterOptions" class="position-options">
+                <button type="button" class="position-option active" data-position=""><span>Any Side</span><span class="selection-mark">✓</span></button>
+                <button type="button" class="position-option" data-position="Over"><span>Over</span><span class="selection-mark"></span></button>
+                <button type="button" class="position-option" data-position="Under"><span>Under</span><span class="selection-mark"></span></button>
+                <button type="button" class="position-option" data-position="Win"><span>Moneyline</span><span class="selection-mark"></span></button>
+                <button type="button" class="position-option" data-position="Cover"><span>Spread</span><span class="selection-mark"></span></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-control">
+            <button id="oddsRangeButton" class="filter-button" type="button" aria-expanded="false">
+              <span class="filter-icon">⊗</span><span id="oddsRangeLabel">Odds</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="oddsRangeDialog" class="filter-popover odds-range-popover" hidden>
+              <div class="filter-popover-title">Odds</div>
+              <div class="odds-range-inputs">
+                <label><span>From</span><input id="oddsMinInput" type="number" inputmode="numeric"></label>
+                <span class="range-separator">–</span>
+                <label><span>To</span><input id="oddsMaxInput" type="number" inputmode="numeric"></label>
+              </div>
+              <div class="dual-range">
+                <div class="dual-range-track"></div>
+                <div id="dualRangeFill" class="dual-range-fill"></div>
+                <input id="oddsMinRange" type="range" min="-5000" max="5000" step="1">
+                <input id="oddsMaxRange" type="range" min="-5000" max="5000" step="1">
+              </div>
+              <div class="range-actions">
+                <button id="resetOddsRange" class="range-reset" type="button">Reset</button>
+                <button id="applyOddsRange" class="range-done" type="button">Done</button>
+              </div>
+            </div>
+          </div>
+
+          <button id="clearFiltersButton" class="clear-filters" type="button">Clear</button>
+        </div>
+
+        <div class="odds-right-actions">
+          <div class="filter-control odds-date-control">
+            <button id="oddsDateButton" class="filter-button odds-date-button" type="button" aria-expanded="false">
+              <span class="filter-icon">◷</span><span id="oddsDateLabel">Live</span><span class="filter-caret">⌄</span>
+            </button>
+            <div id="oddsDateDialog" class="filter-popover odds-date-popover" hidden>
+              <div class="filter-popover-title">Board Date</div>
+              <div id="oddsDateOptions" class="filter-options"></div>
+            </div>
+          </div>
+          <button id="parlayBuilderButton" class="parlay-builder-button" type="button" aria-expanded="false" aria-controls="parlayPanel">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h8M5 12h5M5 17h8M18 6v12M15 9l3-3 3 3"/></svg>
+            <span>Parlay Builder</span>
+            <span id="parlayBuilderCount" class="parlay-builder-count" hidden>0</span>
+          </button>
+          <div class="odds-meta">
+            <span class="fanduel-pill">FanDuel</span>
+            <span id="oddsCount">— props</span>
+          </div>
+        </div>
+      </section>
+
+      <div id="oddsWorkspace" class="odds-workspace">
+        <section class="odds-card">
+          <div class="odds-table-scroll">
+            <table class="odds-table">
+            <thead>
+              <tr>
+                <th class="prop-col" data-odds-key="player">Proposition <span class="odds-sort-indicator"></span></th>
+                <th data-odds-key="line">Line <span class="odds-sort-indicator"></span></th>
+                <th data-odds-key="odds">Odds <span class="odds-sort-indicator"></span></th>
+                <th id="oddsResultHead" class="result-head" data-odds-key="result" hidden>Result <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hitL5">L5 <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hitL10">L10 <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hitH2H">H2H <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hit2026">2027 <span class="odds-sort-indicator"></span></th>
+                <th class="hit-head" data-odds-key="hit2025">2026 <span class="odds-sort-indicator"></span></th>
+              </tr>
+            </thead>
+            <tbody id="oddsBody">
+              <tr><td colspan="8" class="loading-cell"><div class="spinner"></div>Loading FanDuel props…</td></tr>
+            </tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside id="parlayPanel" class="parlay-panel" aria-hidden="true">
+          <div class="parlay-panel-inner">
+            <div class="parlay-header">
+              <div>
+                <div class="parlay-kicker">MY PICKS</div>
+                <h2>Parlay Builder</h2>
+              </div>
+              <button id="parlayCloseButton" class="parlay-icon-button" type="button" aria-label="Close parlay builder">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
+            </div>
+
+            <div class="parlay-book-row">
+              <span class="parlay-fd-mark">FD</span>
+              <div>
+                <strong>FanDuel</strong>
+                <span id="parlayLegCount">0 legs</span>
+              </div>
+              <strong id="parlayCombinedOdds" class="parlay-combined-odds">—</strong>
+            </div>
+
+            <div id="parlayLegs" class="parlay-legs">
+              <div class="parlay-empty">
+                <div class="parlay-empty-icon">+</div>
+                <strong>Build your parlay</strong>
+                <span>Add legs with +.</span>
+              </div>
+            </div>
+
+            <div class="parlay-footer">
+              <div class="parlay-math-row">
+                <span>Combined odds</span>
+                <strong id="parlayFooterOdds">—</strong>
+              </div>
+              <div class="parlay-math-row">
+                <span>Implied probability</span>
+                <strong id="parlayImpliedProbability">—</strong>
+              </div>
+              <button id="parlayClearButton" class="parlay-clear-button" type="button" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M8 10v8M12 10v8M16 10v8M6 7l1 14h10l1-14"/></svg>
+                Clear All
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer id="pageFooter" hidden></footer>
+  </main>
+
+  <dialog id="teamStatModal" class="team-stat-modal" aria-labelledby="teamStatModalTitle">
+    <div class="team-stat-modal-panel">
+      <div class="team-stat-modal-header">
+        <div class="team-stat-modal-identity">
+          <img id="teamStatModalLogo" class="team-stat-modal-logo" src="" alt="" />
+          <div>
+            <div id="teamStatModalEyebrow" class="modal-kicker">TEAM STAT • REGULAR SEASON</div>
+            <h2 id="teamStatModalTitle">Team Stat</h2>
+            <div id="teamStatModalMeta" class="modal-player-meta"></div>
+          </div>
+        </div>
+        <button id="teamStatModalClose" class="modal-close" type="button" aria-label="Close team stat chart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div id="teamStatSummaryCards" class="team-stat-summary-cards"></div>
+
+      <div class="team-chart-tabs">
+        <button id="teamTrendTab" type="button" class="team-chart-tab active">Game Trend</button>
+        <button id="teamLeagueTab" type="button" class="team-chart-tab">League Compare</button>
+      </div>
+
+      <div class="team-chart-scroll">
+        <div id="teamStatChart" class="team-stat-chart"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="playerModal" class="player-modal" aria-labelledby="modalPlayerName">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div class="modal-player">
+          <div class="modal-headshot-wrap">
+            <img id="modalHeadshot" class="modal-headshot" src="" alt="" />
+          </div>
+          <div>
+            <div class="modal-kicker" id="modalKicker">REGULAR SEASON • GAME LOG</div>
+            <h2 id="modalPlayerName">Player</h2>
+            <div class="modal-player-meta" id="modalPlayerMeta"></div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <select id="modalSeasonSelect" class="season-select" aria-label="Game log season"></select>
+          <button id="modalClose" class="modal-close" type="button" aria-label="Close game log">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-table-scroll">
+        <table class="gamelog-table">
+          <thead id="gameLogHead"><tr><th>Date</th><th>Opponent</th><th>PTS</th><th>REB</th><th>AST</th><th>3PM</th><th>PRA</th><th>PTS+REB</th><th>PTS+AST</th><th>REB+AST</th><th>STL</th><th>BLK</th><th>TO</th><th>MIN</th></tr></thead>
+          <tbody id="gameLogBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="hitRateModal" class="hit-rate-modal" aria-labelledby="hitRateTitle">
+    <div class="hit-rate-panel">
+      <div class="hit-rate-header">
+        <div>
+          <div class="hit-rate-eyebrow">PROP HIT RATE</div>
+          <h2 id="hitRateTitle">Player Prop</h2>
+          <div id="hitRateSubtitle" class="hit-rate-subtitle"></div>
+        </div>
+        <button id="hitRateClose" class="modal-close" type="button" aria-label="Close hit-rate chart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="hit-rate-summary">
+        <div class="hit-rate-primary">
+          <span id="hitRateSplitLabel" class="hit-rate-split-label">Last 10</span>
+          <div><strong id="hitRateSelectedPct">—</strong><span id="hitRateSelectedRecord"></span></div>
+        </div>
+        <div id="hitRateBreakdown" class="hit-rate-breakdown"></div>
+      </div>
+
+      <div class="hit-rate-stats">
+        <span>Average: <strong id="hitRateAverage">—</strong></span>
+        <span>Median: <strong id="hitRateMedian">—</strong></span>
+      </div>
+    <div id="hitTimingTools" class="hit-timing-tools" hidden>
+      <span class="hit-timing-label">Hit in</span>
+      <div id="hitTimingFilters" class="hit-timing-filters" role="group" aria-label="Filter games by when the line was first hit">
+        <button type="button" class="selected" data-hit-timing="all">All</button>
+        <button type="button" data-hit-timing="1">1Q</button>
+        <button type="button" data-hit-timing="2">2Q</button>
+        <button type="button" data-hit-timing="3">3Q</button>
+        <button type="button" data-hit-timing="4">4Q</button>
+        <button type="button" data-hit-timing="final">Final</button>
+      </div>
+      <small id="hitTimingStatus"></small>
+    </div>
+
+      <div class="hit-rate-chart-scroll">
+        <div id="hitRateChart" class="hit-rate-chart"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="theme.js?v=1"></script>
+  <script src="nba.js?v=1"></script>
+</body>
+</html>
