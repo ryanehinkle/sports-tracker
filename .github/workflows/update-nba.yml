@@ -1,0 +1,80 @@
+name: Update NBA Stats & Odds
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/update_nba_stats.py"
+      - "scripts/update_nba_odds.py"
+      - ".github/workflows/update-nba.yml"
+      - "nba.js"
+      - "nba-model.js"
+  schedule:
+    # Current-season NBA stats, results, prop histories and FanDuel odds.
+    - cron: "7,37 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nba-data-update
+  cancel-in-progress: false
+
+jobs:
+  nba-refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Sync main
+        shell: bash
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Validate NBA Python and JavaScript
+        run: |
+          python -m py_compile scripts/update_nba_stats.py scripts/update_nba_odds.py
+          node --check nba.js
+          node --check nba-model.js
+
+      - name: Fetch verified NBA player and team game logs
+        run: python scripts/update_nba_stats.py
+
+      - name: Fetch FanDuel NBA markets and archive results
+        env:
+          NBA_ODDS_LOOKAHEAD_HOURS: "72"
+        run: python scripts/update_nba_odds.py
+
+      - name: Commit NBA data without touching NFL files
+        shell: bash
+        run: |
+          mkdir -p /tmp/nba-snapshot
+          cp data/nba-stats.json data/nba-team-stats.json data/nba-odds.json data/nba-game-cache.json /tmp/nba-snapshot/
+          cp -R data/nba-odds-history /tmp/nba-snapshot/
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/nba-snapshot/*.json data/
+          rm -rf data/nba-odds-history
+          cp -R /tmp/nba-snapshot/nba-odds-history data/
+          git add data/nba-stats.json data/nba-team-stats.json data/nba-odds.json data/nba-game-cache.json data/nba-odds-history
+          if git diff --cached --quiet; then
+            echo "No NBA updates"
+            exit 0
+          fi
+          git config user.name "sports-tracker-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git commit -m "Refresh ESPN NBA stats and FanDuel markets"
+          git push
