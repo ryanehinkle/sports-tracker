@@ -99,13 +99,14 @@ jobs:
         run: |
           mkdir -p /tmp/nba-snapshot
           cp data/nba-stats.json data/nba-team-stats.json data/nba-odds.json data/nba-game-cache.json /tmp/nba-snapshot/
+          [ ! -f data/nba-rosters.json ] || cp data/nba-rosters.json /tmp/nba-snapshot/
           cp -R data/nba-odds-history /tmp/nba-snapshot/
           git fetch origin main
           git reset --hard origin/main
           cp /tmp/nba-snapshot/*.json data/
           rm -rf data/nba-odds-history
           cp -R /tmp/nba-snapshot/nba-odds-history data/
-          git add data/nba-stats.json data/nba-team-stats.json data/nba-odds.json data/nba-game-cache.json data/nba-odds-history
+          git add data/nba-stats.json data/nba-team-stats.json data/nba-odds.json data/nba-game-cache.json data/nba-rosters.json data/nba-odds-history
           if git diff --cached --quiet; then
             echo "No NBA updates"
             exit 0
