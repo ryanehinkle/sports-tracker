@@ -50,11 +50,10 @@ function rateInfo(row){
   current:rateFromLogs(row,logs),previous:rateFromLogs(row,old),h2h:rateFromLogs(row,h2h)};
 }
 function marketAnchor(row){
- const same=state.rows.find(x=>x!==row&&x.eventId===row.eventId&&x.scope===row.scope&&
-    (x.player||x.team)===(row.player||row.team)&&x.metric===row.metric&&n(x.line)===n(row.line)&&
-    (row.selection==="Over"?x.selection==="Under":row.selection==="Under"?x.selection==="Over":
-     row.selection==="Yes"?x.selection==="No":row.selection==="No"?x.selection==="Yes":false));
- const own=implied(row.odds),opposite=same?implied(same.odds):null;
+ const selection=row.selection==="Over"?"Under":row.selection==="Under"?"Over":row.selection==="Yes"?"No":row.selection==="No"?"Yes":"";
+ const base=[row.eventId,row.scope,row.player||row.team,row.metric,row.line].join("¦");
+ const other=selection?state.pairIndex?.get(base+"¦"+selection):null;
+ const own=implied(row.odds),opposite=other?implied(other.odds):null;
  return own===null?.5:opposite===null?own:clamp(own/(own+opposite),.01,.99);
 }
 function calculate(row){
@@ -196,6 +195,7 @@ function fillFilters(){
 }
 function syncLabels(){for(const k of ["l5","l10","h2h","current","previous","minutes","fga","tpa","defense","edge"]){let v=$(k).value;$(k+"Val").textContent=v+(["l5","l10","h2h","current","previous","defense","edge"].includes(k)?"%":"")}}
 function evaluate(){
+ state.pairIndex=new Map(state.rows.map(row=>[[row.eventId,row.scope,row.player||row.team,row.metric,row.line,row.selection].join("¦"),row]));
  state.ranked=state.rows.filter(r=>Number.isFinite(Number(r.odds))&&Number.isFinite(Number(r.line))&&r.scope).map(calculate).sort((a,b)=>b.score-a.score||b.edge-a.edge);
  renderBoard();
 }
