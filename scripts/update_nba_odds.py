@@ -268,6 +268,11 @@ def archive_and_grade(previous,payload,players,teams,season,now):
                 stored[str(event["id"])]=event
                 archived+=1
         snapshot["events"]=list(stored.values())
+        # Freeze the contemporaneous stats and team context with the first
+        # archived NBA event. Historical model views must not use future logs.
+        if "statsSnapshot" not in snapshot:
+            snapshot["statsSnapshot"]=load(STATS,{})
+            snapshot["teamSnapshot"]=teams
         save(path,snapshot)
     graded=0
     for path in sorted(HISTORY.glob("20??-??-??.json")):
