@@ -1458,3 +1458,19 @@ body:has(script[src^="nba.js"]) #statsView table{min-width:1730px}
 .nba-score{color:var(--accent);font-weight:800}
 .nba-empty{padding:40px 20px;text-align:center;color:var(--muted)}
 @media(max-width:760px){.league-switch{position:fixed;top:10px;right:52px}.league-switch a{height:26px;min-width:40px}.nba-model-controls{grid-template-columns:1fr}}
+
+/* NBA slip recommendations use the same model card surfaces as NFL. */
+.nba-slip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;padding:16px}
+.nba-slip{background:var(--surface-2,#202733);border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0}
+.nba-slip-top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px;font-size:.81rem}
+.nba-slip-top b{font-size:1rem;color:var(--accent)}
+.nba-slip-legs{display:grid;gap:5px}
+.nba-slip-legs button{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--text);padding:8px 5px;text-align:left;font:600 .72rem Inter,system-ui;cursor:pointer}
+.nba-slip-legs button:hover{border-color:var(--line);background:var(--surface-3,#242d39)}
+.nba-slip-legs button strong{white-space:nowrap;color:var(--accent)}
+.nba-slip-metrics{font-size:.69rem;color:var(--muted);border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
+.nba-slips{width:100%}
+.nba-model-table tr{cursor:pointer}.nba-model-table td small{margin-top:4px}
+.nba-model-criteria select,.nba-model-criteria input{min-width:0}
+.nba-model-criteria .range-row output{min-width:44px;text-align:right}
+@media(max-width:760px){.nba-slip-grid{grid-template-columns:1fr}.nba-model-criteria{gap:12px}}
