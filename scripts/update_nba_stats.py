@@ -195,7 +195,10 @@ def normalized_game(raw):
                   "section names=",((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).get("names") or []),
                   "section labels=",((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).get("labels") or []),
                   "athletes count=",len(((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).get("athletes") or [])),
-                  "first athlete=",str((((((box.get("players") or [{}])[0].get("statistics") or [{}])[0]).get("athletes") or [{}])[0]))[:550])
+                  "athlete examples=",[
+                    (a.get("athlete",{}).get("displayName"),a.get("stats"),a.get("didNotPlay"),
+                     a.get("reason"),a.get("active"))
+                    for a in (((box.get("players") or [{}])[0].get("statistics") or [{}])[0].get("athletes") or [])[:5]])
         return None
     return {"id":eid,"date":comp.get("date") or header.get("competitions",[{}])[0].get("date"),
             "teams":teams,"players":players}
