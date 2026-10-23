@@ -1436,3 +1436,41 @@ html[data-theme] .scope-option:hover{background:color-mix(in srgb,var(--surface-
   .hit-bar-detail{display:none}
   .hit-bar-label,.team-trend-label{font-size:.45rem;gap:2px}
 }
+
+/* NFL / NBA league switch beside the appearance gear */
+.league-switch{position:absolute;z-index:1499;top:17px;right:48px;display:flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:11px;background:var(--surface-3,#151a23);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.league-switch a{display:grid;place-items:center;min-width:46px;height:28px;border-radius:7px;text-decoration:none;font-size:.69rem;font-weight:850;letter-spacing:.02em;color:var(--muted)}
+.league-switch a:hover{color:var(--text)}
+.league-switch a.active{background:var(--surface-2,#252d39);color:var(--accent);box-shadow:inset 0 0 0 1px var(--line)}
+body:has(script[src^="nba.js"]) #statsView table{min-width:1730px}
+.nba-team-stat{display:flex;align-items:center;gap:10px;text-align:left;font-weight:750}
+.nba-team-stat img{width:30px;height:30px;object-fit:contain}
+.nba-team-group{color:var(--accent);font-weight:750}
+.nba-bar{background:var(--accent);border-radius:4px 4px 0 0;min-height:2px;flex:1;max-width:32px;align-self:end}
+.nba-chart-row{display:flex;gap:5px;align-items:end;height:160px;padding:16px 10px 10px;border-bottom:1px solid var(--line)}
+.nba-rate.good{color:var(--win)}.nba-rate.bad{color:var(--loss)}
+.nba-model-criteria{display:flex;flex-direction:column;gap:18px}
+.nba-model-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.nba-model-controls label{display:grid;gap:5px;color:var(--muted);font-size:.68rem;font-weight:700}
+.nba-model-controls input,.nba-model-controls select{height:38px;padding:0 10px;color:var(--text);background:var(--surface-2,#202733);border:1px solid var(--line);border-radius:9px;font:inherit}
+.nba-signal-row{cursor:pointer}.nba-signal-row:hover{background:var(--surface-2,#222b39)}
+.nba-model-table{min-width:760px}.nba-model-table td:first-child,.nba-model-table th:first-child{text-align:left}
+.nba-score{color:var(--accent);font-weight:800}
+.nba-empty{padding:40px 20px;text-align:center;color:var(--muted)}
+@media(max-width:760px){.league-switch{position:fixed;top:10px;right:52px}.league-switch a{height:26px;min-width:40px}.nba-model-controls{grid-template-columns:1fr}}
+
+/* NBA slip recommendations use the same model card surfaces as NFL. */
+.nba-slip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;padding:16px}
+.nba-slip{background:var(--surface-2,#202733);border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0}
+.nba-slip-top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px;font-size:.81rem}
+.nba-slip-top b{font-size:1rem;color:var(--accent)}
+.nba-slip-legs{display:grid;gap:5px}
+.nba-slip-legs button{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--text);padding:8px 5px;text-align:left;font:600 .72rem Inter,system-ui;cursor:pointer}
+.nba-slip-legs button:hover{border-color:var(--line);background:var(--surface-3,#242d39)}
+.nba-slip-legs button strong{white-space:nowrap;color:var(--accent)}
+.nba-slip-metrics{font-size:.69rem;color:var(--muted);border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
+.nba-slips{width:100%}
+.nba-model-table tr{cursor:pointer}.nba-model-table td small{margin-top:4px}
+.nba-model-criteria select,.nba-model-criteria input{min-width:0}
+.nba-model-criteria .range-row output{min-width:44px;text-align:right}
+@media(max-width:760px){.nba-slip-grid{grid-template-columns:1fr}.nba-model-criteria{gap:12px}}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#151922">
+<title>NBA Model • NBA Tracker</title>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=nba-1"><link rel="stylesheet" href="model.css?v=nba-1">
+</head>
+<body>
+<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+<main class="shell model-shell">
+<header class="hero model-hero"><div><div class="eyebrow">NBA • TRACKER</div><h1>NBA Tracker</h1></div><div class="hero-meta"><div class="status-pill"><span class="status-dot"></span><span id="modelSeason">Loading NBA model…</span></div><div class="updated" id="modelUpdated">Loading verified NBA data…</div></div></header>
+<nav class="main-tabs model-nav" aria-label="NBA tracker sections"><a class="main-tab" href="nba.html#stats">Player Stats</a><a class="main-tab" href="nba.html#teams">Team Stats</a><a class="main-tab" href="nba.html#odds">Odds</a><a class="main-tab active" href="nba-model.html" aria-current="page">Model</a></nav>
+<section class="model-layout">
+<aside class="model-controls nba-model-criteria">
+<div class="model-control-header"><div><span class="model-kicker">LIVE CRITERIA</span><h2>Build constraints</h2></div><div class="model-control-actions"><button id="resetNbaModel" class="model-reset" type="button">Reset</button></div></div>
+<section class="control-section">
+<div class="control-heading"><div><strong>Odds & slip shape</strong></div></div>
+<div class="nba-model-controls">
+<label>Min leg odds<input id="minLegOdds" type="number" value="-500"></label>
+<label>Max leg odds<input id="maxLegOdds" type="number" value="500"></label>
+<label>Min parlay odds<input id="minParlayOdds" type="number" value="100"></label>
+<label>Max parlay odds<input id="maxParlayOdds" type="number" value="350"></label>
+<label>Minimum legs<input id="minLegs" type="number" min="1" max="8" value="2"></label>
+<label>Maximum legs<input id="maxLegs" type="number" min="1" max="8" value="4"></label>
+</div>
+</section>
+<section class="control-section"><div class="control-heading"><div><strong>Historical hit rates</strong></div></div>
+<label class="range-row"><span><b>Last 5</b></span><output id="l5Val">0%</output><input type="range" id="l5" min="0" max="100" value="0"></label>
+<label class="range-row"><span><b>Last 10</b></span><output id="l10Val">0%</output><input type="range" id="l10" min="0" max="100" value="0"></label>
+<label class="range-row"><span><b>Head to head</b></span><output id="h2hVal">0%</output><input type="range" id="h2h" min="0" max="100" value="0"></label>
+<label class="range-row"><span><b>Current season</b></span><output id="currentVal">0%</output><input type="range" id="current" min="0" max="100" value="0"></label>
+<label class="range-row"><span><b>Previous season</b></span><output id="previousVal">0%</output><input type="range" id="previous" min="0" max="100" value="0"></label>
+</section>
+<section class="control-section"><div class="control-heading"><div><strong>NBA usage & matchup</strong></div></div>
+<label class="range-row"><span><b>Minutes / game</b></span><output id="minutesVal">0</output><input type="range" id="minutes" min="0" max="45" value="0"></label>
+<label class="range-row"><span><b>FGA / game</b></span><output id="fgaVal">0</output><input type="range" id="fga" min="0" max="35" value="0"></label>
+<label class="range-row"><span><b>3PA / game</b></span><output id="tpaVal">0</output><input type="range" id="tpa" min="0" max="20" value="0"></label>
+<label class="range-row"><span><b>Opponent DvP percentile</b></span><output id="defenseVal">0%</output><input type="range" id="defense" min="0" max="100" value="0"></label>
+<label class="range-row"><span><b>Min model edge</b></span><output id="edgeVal">-20%</output><input type="range" id="edge" min="-20" max="30" value="-20"></label>
+</section>
+<section class="control-section"><div class="control-heading"><div><strong>NBA filters</strong></div></div>
+<div class="nba-model-controls">
+<label>Scope<select id="scope"><option value="">All markets</option><option value="player">Player props</option><option value="team">Team props</option><option value="game">Game props</option></select></label>
+<label>Side<select id="side"><option value="">All sides</option><option>Over</option><option>Under</option><option>Yes</option><option>No</option><option>Win</option><option>Cover</option></select></label>
+<label>Market<select id="market"><option value="">All props</option></select></label>
+<label>Game<select id="game"><option value="">All games</option></select></label>
+<label>Position<select id="position"><option value="">All positions</option><option>PG</option><option>SG</option><option>SF</option><option>PF</option><option>C</option></select></label>
+<label>Search<input type="search" id="modelSearch" placeholder="Player or team…"></label>
+</div>
+<label class="check-row"><input type="checkbox" id="uniquePlayers" checked><span><b>Unique players per slip</b></span></label>
+<label class="check-row"><input type="checkbox" id="separateGames" checked><span><b>Different games only</b></span></label>
+</section>
+</aside>
+<section class="model-results">
+<div class="model-top-toolbar"><div class="model-date-control"><button id="nbaModelDateButton" type="button" class="filter-button model-date-button" aria-expanded="false"><span class="filter-icon">◷</span><span id="nbaModelDateLabel">Live Model</span><span class="filter-caret">⌄</span></button><div id="nbaModelDatePopover" class="filter-popover model-date-popover" hidden><div class="filter-popover-title">NBA Model Date</div><div id="nbaModelDateOptions" class="filter-options"></div></div></div><span class="model-card-meta" id="nbaModelCount">— legs evaluated</span></div>
+<section class="model-card recommended-card"><div class="model-card-header recommended-header"><div><span class="model-kicker">NBA AUTO-GENERATED</span><h2>Recommended slips</h2></div><span class="model-card-meta" id="slipsSummary">Waiting for NBA odds</span></div><div id="nbaSlips" class="nba-slips"></div></section>
+<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">NBA LIVE ANALYTICS</span><h2>Top-pick signal profile</h2></div></div><div class="chart-grid"><div class="model-card-meta" id="modelProfile">Recent form, season, price, usage & opponent</div></div></section>
+<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">MODEL BOARD</span><h2>Ranked NBA props</h2></div><span id="boardCount" class="model-card-meta">— props</span></div><div class="odds-table-scroll"><table class="nba-model-table"><thead><tr><th data-sort="player">Player / Proposition</th><th data-sort="line">Line</th><th data-sort="odds">Odds</th><th data-sort="l10">L10</th><th data-sort="current">Season</th><th data-sort="probability">Model %</th><th data-sort="edge">Edge</th><th data-sort="score">Score</th></tr></thead><tbody id="nbaBoard"><tr><td colspan="8" class="loading-cell">Loading NBA model…</td></tr></tbody></table></div></section>
+<details class="control-disclosure"><summary><strong>NBA model methodology</strong><b>+</b></summary><section class="control-section"><p>NBA-only scoring blends game-log hit rates, recent per-game averages versus the offered line, minutes and shot opportunities, opponent defensive environment, and sportsbook implied probabilities. Models are separate from NFL. Recommendations are estimates, not guaranteed outcomes.</p><p>No pregame history is backfilled using later stats. Dates without a pregame NBA snapshot are marked unavailable.</p></section></details>
+</section>
+</section></main>
+<dialog id="nbaPropModal" class="hit-rate-modal" aria-labelledby="nbaPropTitle"><div class="hit-rate-panel"><div class="hit-rate-header"><div><div class="hit-rate-eyebrow">NBA PROP HISTORY</div><h2 id="nbaPropTitle"></h2><div id="nbaPropMeta" class="hit-rate-subtitle"></div></div><button class="modal-close" id="nbaPropClose" aria-label="Close chart" type="button">×</button></div><div class="hit-rate-summary"><div class="hit-rate-primary"><span>Last 10</span><div><strong id="nbaPropHitPct">—</strong><span id="nbaPropHitCount"></span></div></div><div id="nbaPropBreakdown" class="hit-rate-breakdown"></div></div><div id="nbaPropChart" class="hit-rate-chart"></div></div></dialog>
+<script src="theme.js?v=nba-1"></script><script src="nba-model.js?v=1"></script>
+</body></html>
