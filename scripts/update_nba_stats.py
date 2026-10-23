@@ -173,7 +173,7 @@ def normalized_game(raw):
                 athlete=item.get("athlete") or {}
                 pid=str(athlete.get("id") or "")
                 if not pid or not item.get("stats"):continue
-                if item.get("didNotPlay") or item.get("reason"):continue
+                if item.get("didNotPlay"):continue
                 name=athlete.get("displayName") or athlete.get("fullName")
                 if not name:continue
                 pos=athlete.get("position") or {}
@@ -405,6 +405,8 @@ def main():
                     normalized=normalized_game(future.result())
                     if normalized:gamecache[eid]=normalized
                 except Exception as exc:print(f"Could not parse NBA game {eid}: {exc}")
+    if missing and not gamecache:
+        raise RuntimeError("ESPN returned completed NBA games but none parsed into valid box scores")
     # Keep only NBA season data. Cache persists across game updates and does not overwrite past records.
     cache["games"]=gamecache
     CACHE.write_text(json.dumps(cache,separators=(",",":"))+"\n")
