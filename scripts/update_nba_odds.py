@@ -75,6 +75,15 @@ def teams_for_event(event):
 
 def market_metric(label):
     value=re.sub(r"\s+"," ",label.lower()).replace("–","-")
+    words=set(re.findall(r"[a-z0-9]+",value))
+    points=bool(words & {"points","point","pts"})
+    rebounds=bool(words & {"rebounds","rebound","rebs","reb"})
+    assists=bool(words & {"assists","assist","asts","ast"})
+    if any(x in value for x in ("three pointer","3-pointer","three point","3pt","3pm","threes")):return "threes"
+    if points and rebounds and assists:return "pra"
+    if points and rebounds:return "pr"
+    if points and assists:return "pa"
+    if rebounds and assists:return "ra"
     if "team " in value and "player" not in value:return None
     if any(x in value for x in ("1st quarter","first quarter","2nd quarter","first half","2nd half")):return None
     if "race to" in value or "quarter" in value or "half" in value:return None
