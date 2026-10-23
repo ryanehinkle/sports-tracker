@@ -120,7 +120,7 @@ function saveSlip(){try{localStorage.setItem("nbaTrackerParlayV1",JSON.stringify
 function updateSlip(){
  const decimal=st.slip.reduce((sum,p)=>sum*(n(p.odds)>0?1+n(p.odds)/100:1+100/Math.abs(n(p.odds)||100)),1);
  const odd=decimal>=2?"+"+Math.round((decimal-1)*100):"-"+Math.round(100/(decimal-1));
- $("oddsWorkspace").classList.toggle("parlay-open",st.builder);$("parlayPanel").setAttribute("aria-hidden",String(!st.builder));
+ $("oddsWorkspace").classList.toggle("parlay-open",st.builder);$("oddsWorkspace").classList.toggle("parlay-mode",st.builder);$("parlayPanel").classList.toggle("open",st.builder);$("parlayPanel").setAttribute("aria-hidden",String(!st.builder));
  $("parlayBuilderButton").setAttribute("aria-expanded",String(st.builder));$("parlayBuilderCount").hidden=!st.slip.length;
  $("parlayBuilderCount").textContent=st.slip.length;$("parlayLegCount").textContent=st.slip.length+" legs";
  $("parlayCombinedOdds").textContent=st.slip.length?odd:"—";$("parlayFooterOdds").textContent=st.slip.length?odd:"—";
