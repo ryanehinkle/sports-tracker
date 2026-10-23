@@ -72,7 +72,17 @@ function build(){
   const league=document.createElement("nav");
   league.className="league-switch";
   league.setAttribute("aria-label","Select sport");
-  league.innerHTML='<a class="'+(!currentNBA?'active':'')+'" href="'+(onModel?'model.html':'index.html'+location.hash)+'" '+(!currentNBA?'aria-current="page"':'')+'>NFL</a><a class="'+(currentNBA?'active':'')+'" href="'+(onModel?'nba-model.html':'nba.html'+location.hash)+'" '+(currentNBA?'aria-current="page"':'')+'>NBA</a>';
+  for(const [name,active,target] of [
+    ["NFL",!currentNBA,onModel?"model.html":"index.html"],
+    ["NBA",currentNBA,onModel?"nba-model.html":"nba.html"]
+  ]){
+    const a=document.createElement("a");
+    a.textContent=name;
+    a.className=active?"active":"";
+    a.href=target+(onModel?"":location.hash);
+    if(active)a.setAttribute("aria-current","page");
+    league.appendChild(a);
+  }
   (shell||document.body).appendChild(league);
   const button=document.getElementById("themeSettingsButton"),popover=document.getElementById("themeSettingsPopover");
   button.addEventListener("click",e=>{
