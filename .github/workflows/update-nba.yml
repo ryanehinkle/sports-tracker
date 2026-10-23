@@ -1,6 +1,13 @@
 name: Update NBA Stats & Odds
 
 on:
+  pull_request:
+    paths:
+      - "scripts/update_nba_stats.py"
+      - "scripts/update_nba_odds.py"
+      - "nba.js"
+      - "nba-model.js"
+      - ".github/workflows/update-nba.yml"
   workflow_dispatch:
   push:
     branches: ["main"]
@@ -22,7 +29,26 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  verify-nba:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Check NBA syntax and isolation
+        run: |
+          python -m py_compile scripts/update_nba_stats.py scripts/update_nba_odds.py
+          node --check nba.js
+          node --check nba-model.js
+          python - <<'PY'
+          from pathlib import Path
+          for file in ('scripts/update_nba_stats.py','scripts/update_nba_odds.py'):
+              assert 'data/nba-' in Path(file).read_text()
+          PY
   nba-refresh:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
