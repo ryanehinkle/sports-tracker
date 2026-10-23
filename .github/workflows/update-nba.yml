@@ -106,7 +106,7 @@ jobs:
           cp /tmp/nba-snapshot/*.json data/
           rm -rf data/nba-odds-history
           cp -R /tmp/nba-snapshot/nba-odds-history data/
-          git add data/nba-stats.json data/nba-team-stats.json data/nba-odds.json data/nba-game-cache.json data/nba-rosters.json data/nba-odds-history
+          git add data/nba-*.json data/nba-odds-history
           if git diff --cached --quiet; then
             echo "No NBA updates"
             exit 0
