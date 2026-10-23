@@ -1837,11 +1837,27 @@
           "marketId": "734.193381917",
           "selectionId": "48414678",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 33,
+              "hits": 2,
+              "total": 6
+            },
+            "previous": {
+              "pct": 46,
+              "hits": 6,
+              "total": 13
+            }
           },
           "avgHitTime": null
         },
@@ -5464,11 +5480,27 @@
           "marketId": "734.193381917",
           "selectionId": "10252431",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 17,
+              "hits": 1,
+              "total": 6
+            },
+            "previous": {
+              "pct": 18,
+              "hits": 3,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
@@ -5492,11 +5524,27 @@
           "marketId": "734.193381917",
           "selectionId": "5360066",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 47,
+              "hits": 8,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
@@ -5520,11 +5568,27 @@
           "marketId": "734.193381917",
           "selectionId": "58188828",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "previous": {
+              "pct": 24,
+              "hits": 4,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
@@ -5548,11 +5612,27 @@
           "marketId": "734.193381917",
           "selectionId": "26668373",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 3,
+              "total": 6
+            },
+            "previous": {
+              "pct": 67,
+              "hits": 8,
+              "total": 12
+            }
           },
           "avgHitTime": null
         },
@@ -21431,11 +21511,27 @@
           "marketId": "734.192712542",
           "selectionId": "48737126",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            }
           },
           "avgHitTime": null
         },
@@ -21571,11 +21667,27 @@
           "marketId": "734.193381917",
           "selectionId": "54583443",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 17,
+              "hits": 1,
+              "total": 6
+            },
+            "previous": {
+              "pct": 40,
+              "hits": 6,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -26568,11 +26680,27 @@
           "marketId": "734.193381917",
           "selectionId": "25157499",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 3,
+              "total": 6
+            },
+            "previous": {
+              "pct": 36,
+              "hits": 5,
+              "total": 14
+            }
           },
           "avgHitTime": null
         },
@@ -33888,10 +34016,22 @@
           "marketId": "734.193016446",
           "selectionId": "103269730",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -45834,11 +45974,27 @@
           "marketId": "734.193016446",
           "selectionId": "41460250",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 17
+            }
           },
           "avgHitTime": null
         },
@@ -76891,11 +77047,23 @@
           "marketId": "734.192941095",
           "selectionId": "37286190",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 7
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 7
+            }
           },
           "avgHitTime": null
         },
@@ -76947,11 +77115,23 @@
           "marketId": "734.192941025",
           "selectionId": "37286190",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 7
+            },
             "h2h": null,
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 7
+            }
           },
           "avgHitTime": null
         },
@@ -93419,10 +93599,22 @@
           "marketId": "734.192917327",
           "selectionId": "72056133",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -112374,11 +112566,27 @@
           "marketId": "734.193075091",
           "selectionId": "35951219",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 7,
+              "hits": 1,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -112430,13 +112638,34 @@
           "marketId": "734.193079852",
           "selectionId": "35951219",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 17,
+              "hits": 1,
+              "total": 6
+            },
+            "previous": {
+              "pct": 33,
+              "hits": 5,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1180.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112458,13 +112687,34 @@
           "marketId": "734.193079851",
           "selectionId": "35951219",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 17,
+              "hits": 1,
+              "total": 6
+            },
+            "previous": {
+              "pct": 13,
+              "hits": 2,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1180.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112486,13 +112736,34 @@
           "marketId": "734.193079858",
           "selectionId": "35951219",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 3,
+              "total": 6
+            },
+            "previous": {
+              "pct": 93,
+              "hits": 14,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1652.0,
+            "sample": 3,
+            "hits": 3,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112514,13 +112785,34 @@
           "marketId": "734.193079860",
           "selectionId": "35951219",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 50,
+              "hits": 5,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 33,
+              "hits": 2,
+              "total": 6
+            },
+            "previous": {
+              "pct": 73,
+              "hits": 11,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1472.5,
+            "sample": 2,
+            "hits": 2,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112542,13 +112834,34 @@
           "marketId": "734.193401076",
           "selectionId": "73918264",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 67,
+              "hits": 4,
+              "total": 6
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 15,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1740.2,
+            "sample": 4,
+            "hits": 4,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112570,13 +112883,34 @@
           "marketId": "734.193401076",
           "selectionId": "73918263",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 67,
+              "hits": 4,
+              "total": 6
+            },
+            "previous": {
+              "pct": 93,
+              "hits": 14,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 2016.5,
+            "sample": 4,
+            "hits": 4,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112598,13 +112932,34 @@
           "marketId": "734.193401076",
           "selectionId": "73918277",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 3,
+              "total": 6
+            },
+            "previous": {
+              "pct": 87,
+              "hits": 13,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1652.0,
+            "sample": 3,
+            "hits": 3,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112626,13 +112981,34 @@
           "marketId": "734.193401081",
           "selectionId": "36284882",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 3,
+              "total": 6
+            },
+            "previous": {
+              "pct": 67,
+              "hits": 10,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1765.3,
+            "sample": 3,
+            "hits": 3,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112654,13 +113030,34 @@
           "marketId": "734.193401081",
           "selectionId": "36284883",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 50,
+              "hits": 3,
+              "total": 6
+            },
+            "previous": {
+              "pct": 33,
+              "hits": 5,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 3600.3,
+            "sample": 3,
+            "hits": 3,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112682,13 +113079,34 @@
           "marketId": "734.193401076",
           "selectionId": "40906187",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 33,
+              "hits": 2,
+              "total": 6
+            },
+            "previous": {
+              "pct": 47,
+              "hits": 7,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1642.5,
+            "sample": 2,
+            "hits": 2,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112710,13 +113128,34 @@
           "marketId": "734.193401076",
           "selectionId": "73918269",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 17,
+              "hits": 1,
+              "total": 6
+            },
+            "previous": {
+              "pct": 40,
+              "hits": 6,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1180.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112738,13 +113177,34 @@
           "marketId": "734.193401076",
           "selectionId": "40906198",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 17,
+              "hits": 1,
+              "total": 6
+            },
+            "previous": {
+              "pct": 20,
+              "hits": 3,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 2350.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112766,11 +113226,27 @@
           "marketId": "734.193401076",
           "selectionId": "40906192",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 13,
+              "hits": 2,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -112794,11 +113270,27 @@
           "marketId": "734.193401076",
           "selectionId": "40906194",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 13,
+              "hits": 2,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -112822,11 +113314,27 @@
           "marketId": "734.193401076",
           "selectionId": "40906207",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 7,
+              "hits": 1,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -112850,11 +113358,27 @@
           "marketId": "734.193401076",
           "selectionId": "40906189",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -112878,11 +113402,27 @@
           "marketId": "734.193401076",
           "selectionId": "40906199",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -112906,13 +113446,34 @@
           "marketId": "734.193401077",
           "selectionId": "61339364",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 67,
+              "hits": 4,
+              "total": 6
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 15,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1740.2,
+            "sample": 4,
+            "hits": 4,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112934,13 +113495,34 @@
           "marketId": "734.193401077",
           "selectionId": "61339336",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 67,
+              "hits": 4,
+              "total": 6
+            },
+            "previous": {
+              "pct": 67,
+              "hits": 10,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 2394.0,
+            "sample": 4,
+            "hits": 4,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -112962,11 +113544,27 @@
           "marketId": "734.193401077",
           "selectionId": "61339362",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 40,
+              "hits": 6,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -112990,11 +113588,27 @@
           "marketId": "734.193401077",
           "selectionId": "61339341",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 7,
+              "hits": 1,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -113018,11 +113632,27 @@
           "marketId": "734.193401077",
           "selectionId": "61339338",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -113046,11 +113676,27 @@
           "marketId": "734.193075104",
           "selectionId": "35951219",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -113074,13 +113720,34 @@
           "marketId": "734.193401080",
           "selectionId": "36284882",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 67,
+              "hits": 4,
+              "total": 6
+            },
+            "previous": {
+              "pct": 67,
+              "hits": 10,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 2394.0,
+            "sample": 4,
+            "hits": 4,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -113102,13 +113769,34 @@
           "marketId": "734.193401080",
           "selectionId": "36284883",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 33,
+              "hits": 2,
+              "total": 6
+            },
+            "previous": {
+              "pct": 33,
+              "hits": 5,
+              "total": 15
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 3600.0,
+            "sample": 2,
+            "hits": 2,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -123493,10 +124181,22 @@
           "marketId": "734.193075091",
           "selectionId": "95394740",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -135874,11 +136574,31 @@
           "marketId": "734.193138301",
           "selectionId": "42200633",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           },
           "avgHitTime": null
         },
@@ -135958,13 +136678,38 @@
           "marketId": "734.193138363",
           "selectionId": "42200633",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "previous": {
+              "pct": 38,
+              "hits": 6,
+              "total": 16
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 2026.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -135986,13 +136731,38 @@
           "marketId": "734.193138335",
           "selectionId": "42200633",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 20,
+              "hits": 2,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "previous": {
+              "pct": 12,
+              "hits": 2,
+              "total": 16
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 2026.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -136014,13 +136784,38 @@
           "marketId": "734.193138353",
           "selectionId": "42200633",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 56,
+              "hits": 9,
+              "total": 16
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1582.5,
+            "sample": 2,
+            "hits": 2,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -136042,13 +136837,38 @@
           "marketId": "734.193138464",
           "selectionId": "42200633",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 44,
+              "hits": 7,
+              "total": 16
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1582.5,
+            "sample": 2,
+            "hits": 2,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -136070,13 +136890,38 @@
           "marketId": "734.193478578",
           "selectionId": "48048058",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 60,
+              "hits": 6,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 31,
+              "hits": 5,
+              "total": 16
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1713.5,
+            "sample": 2,
+            "hits": 2,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -136098,11 +136943,31 @@
           "marketId": "734.193478578",
           "selectionId": "48048062",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 40,
+              "hits": 4,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 69,
+              "hits": 11,
+              "total": 16
+            }
           },
           "avgHitTime": null
         },
@@ -136126,11 +136991,31 @@
           "marketId": "734.193138410",
           "selectionId": "42200633",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 16
+            }
           },
           "avgHitTime": null
         },
@@ -136154,13 +137039,38 @@
           "marketId": "734.193478573",
           "selectionId": "48048058",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 50,
+              "hits": 8,
+              "total": 16
+            }
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 1205.5,
+            "sample": 2,
+            "hits": 2,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -136182,11 +137092,31 @@
           "marketId": "734.193478573",
           "selectionId": "48048062",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 30,
+              "hits": 3,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 50,
+              "hits": 1,
+              "total": 2
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 50,
+              "hits": 8,
+              "total": 16
+            }
           },
           "avgHitTime": null
         },
@@ -143820,11 +144750,31 @@
           "marketId": "734.193138301",
           "selectionId": "43162281",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 3
+            },
+            "previous": {
+              "pct": 8,
+              "hits": 1,
+              "total": 13
+            }
           },
           "avgHitTime": null
         },
@@ -143876,11 +144826,27 @@
           "marketId": "734.193138301",
           "selectionId": "42207992",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            }
           },
           "avgHitTime": null
         },
@@ -146195,10 +147161,22 @@
           "marketId": "734.193138301",
           "selectionId": "48141807",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -166188,11 +167166,27 @@
           "marketId": "734.192930814",
           "selectionId": "48299830",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
+            "l5": {
+              "pct": 20,
+              "hits": 1,
+              "total": 5
+            },
+            "l10": {
+              "pct": 10,
+              "hits": 1,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 13,
+              "hits": 2,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -166244,11 +167238,27 @@
           "marketId": "734.192930842",
           "selectionId": "48299830",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 15
+            }
           },
           "avgHitTime": null
         },
@@ -189731,11 +190741,31 @@
           "marketId": "734.192876118",
           "selectionId": "16593182",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            }
           },
           "avgHitTime": null
         },
@@ -189787,11 +190817,31 @@
           "marketId": "734.192876116",
           "selectionId": "16593182",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
-            "current": null,
-            "previous": null
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            }
           },
           "avgHitTime": null
         },
@@ -189883,10 +190933,22 @@
           "marketId": "734.192876118",
           "selectionId": "60306313",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -189939,10 +191001,22 @@
           "marketId": "734.192876116",
           "selectionId": "60306313",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -202522,10 +203596,22 @@
           "marketId": "734.192876118",
           "selectionId": "95394195",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -202899,11 +203985,27 @@
           "marketId": "734.192876118",
           "selectionId": "21336036",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 8
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 7
+            }
           },
           "avgHitTime": null
         },
@@ -222989,13 +224091,30 @@
           "marketId": "734.192976550",
           "selectionId": "48313335",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "previous": null
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 3159.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -223073,13 +224192,30 @@
           "marketId": "734.193493665",
           "selectionId": "103038722",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
             "previous": null
           },
-          "avgHitTime": null
+          "avgHitTime": {
+            "elapsedSeconds": 3387.0,
+            "sample": 1,
+            "hits": 1,
+            "season": 2026
+          }
         },
         {
           "scope": "player",
@@ -223101,10 +224237,22 @@
           "marketId": "734.193493665",
           "selectionId": "103038731",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -223129,10 +224277,22 @@
           "marketId": "734.192976532",
           "selectionId": "48313335",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "h2h": null,
-            "current": null,
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "previous": null
           },
           "avgHitTime": null
@@ -264438,11 +265598,27 @@
           "marketId": "734.192774086",
           "selectionId": "10220939",
           "hitRates": {
-            "l5": null,
-            "l10": null,
-            "h2h": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
             "current": null,
-            "previous": null
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 4
+            }
           },
           "avgHitTime": null
         },
@@ -306440,11 +307616,27 @@
           "marketId": "734.192727341",
           "selectionId": "47436644",
           "hitRates": {
-            "l5": null,
-            "l10": null,
+            "l5": {
+              "pct": 0,
+              "hits": 0,
+              "total": 5
+            },
+            "l10": {
+              "pct": 0,
+              "hits": 0,
+              "total": 10
+            },
             "h2h": null,
-            "current": null,
-            "previous": null
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 6
+            },
+            "previous": {
+              "pct": 0,
+              "hits": 0,
+              "total": 8
+            }
           },
           "avgHitTime": null
         },
