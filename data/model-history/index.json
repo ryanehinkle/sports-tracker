@@ -1,6 +1,13 @@
 {
-  "updatedAt": "2026-10-23T00:08:03.395405+00:00",
+  "updatedAt": "2026-10-25T20:00:11.935470+00:00",
   "days": [
+    {
+      "date": "2026-10-25",
+      "label": "Sun, Oct 25, 2026",
+      "file": "2026-10-25.json",
+      "sourceCommit": "f90486df4a9ca7c018faaa1bddb59b8680bc328f",
+      "kind": "pregame-model-freeze"
+    },
     {
       "date": "2026-10-22",
       "label": "Thu, Oct 22, 2026",
