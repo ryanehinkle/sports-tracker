@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-26",
+  "label": "Mon, Oct 26, 2026",
+  "capturedAt": "2026-10-26T21:54:32.103724+00:00",
+  "sourceCommit": "2cfbc3cf898833799b3c544d794357b5bd552367",
+  "kind": "pregame-model-freeze",
+  "note": "Immutable full-model input snapshot captured before the first kickoff window.",
+  "files": {
+    "stats": "data/nfl-stats.json",
+    "teamStats": "data/nfl-team-stats.json",
+    "odds": "data/nfl-odds.json",
+    "calibration": "data/model-calibration.json",
+    "learning": "data/model-learning.json",
+    "ladder": "data/ladder-picks.json"
+  }
+}
