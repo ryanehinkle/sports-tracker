@@ -119898,7 +119898,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-26T13:12:44.726564+00:00"
           }
         },
         {
@@ -119976,7 +119978,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-26T13:12:44.726633+00:00"
           }
         },
         {
@@ -310983,5 +310987,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-10-26T06:16:32.280308+00:00"
+  "updatedAt": "2026-10-26T13:12:44.761631+00:00"
 }
