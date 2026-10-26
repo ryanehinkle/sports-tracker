@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-26T01:54:38.632076+00:00",
+  "updatedAt": "2026-10-26T06:18:32.664186+00:00",
   "picks": [
     {
       "day": 1,
@@ -6082,7 +6082,9 @@
           "confidence": 87.1,
           "estimatedProbability": 0.871269,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": -6.0,
+            "gradedAt": "2026-10-26T06:16:32.185672+00:00"
           }
         },
         {
@@ -6184,7 +6186,9 @@
           "confidence": 92.4,
           "estimatedProbability": 0.924094,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 6.0,
+            "gradedAt": "2026-10-26T06:16:32.210840+00:00"
           }
         }
       ]
@@ -6206,7 +6210,7 @@
       "confidence": 86.3,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "eventId": "36189004",
@@ -6253,7 +6257,9 @@
           "confidence": 82.2,
           "estimatedProbability": 0.822246,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-10-26T06:16:32.239588+00:00"
           }
         },
         {
@@ -6301,7 +6307,9 @@
           "confidence": 87.9,
           "estimatedProbability": 0.879493,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 23.0,
+            "gradedAt": "2026-10-26T06:16:32.230778+00:00"
           }
         },
         {
@@ -6353,14 +6361,16 @@
           "confidence": 88.7,
           "estimatedProbability": 0.887451,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 18.0,
+            "gradedAt": "2026-10-26T06:16:32.276623+00:00"
           }
         }
       ]
     },
     {
-      "run": 8,
-      "day": 3,
+      "run": 9,
+      "day": 1,
       "provisionalDay": true,
       "date": "2026-10-25",
       "slot": "snf",
@@ -6375,7 +6385,7 @@
       "confidence": 87.8,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "eventId": "36189006",
@@ -6424,7 +6434,9 @@
           "confidence": 91.5,
           "estimatedProbability": 0.914867,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": -17.0,
+            "gradedAt": "2026-10-26T06:18:33.193045+00:00"
           }
         },
         {
@@ -6472,7 +6484,9 @@
           "confidence": 85.8,
           "estimatedProbability": 0.858011,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 165.0,
+            "gradedAt": "2026-10-26T06:18:33.193801+00:00"
           }
         },
         {
@@ -6520,7 +6534,9 @@
           "confidence": 86.3,
           "estimatedProbability": 0.862602,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 150.0,
+            "gradedAt": "2026-10-26T06:18:33.193857+00:00"
           }
         }
       ]
@@ -6540,7 +6556,7 @@
       "confidence": 81.6,
       "selectionTier": "Best available +1000",
       "simulations": 120000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "eventId": "36189005",
@@ -6593,7 +6609,9 @@
           "confidence": 96.6,
           "estimatedProbability": 0.965943,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-26T06:16:32.279678+00:00"
           }
         },
         {
@@ -6637,7 +6655,9 @@
           "confidence": 79.3,
           "estimatedProbability": 0.793325,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 60.0,
+            "gradedAt": "2026-10-26T06:16:32.173039+00:00"
           }
         },
         {
@@ -6685,7 +6705,9 @@
           "confidence": 78.1,
           "estimatedProbability": 0.781165,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 17.0,
+            "gradedAt": "2026-10-26T06:16:32.209680+00:00"
           }
         },
         {
@@ -6733,7 +6755,9 @@
           "confidence": 75.7,
           "estimatedProbability": 0.757268,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-10-26T06:16:32.239610+00:00"
           }
         },
         {
@@ -6777,7 +6801,9 @@
           "confidence": 79.6,
           "estimatedProbability": 0.796087,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-10-26T06:16:32.275869+00:00"
           }
         },
         {
@@ -6821,7 +6847,9 @@
           "confidence": 80.2,
           "estimatedProbability": 0.802086,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 83.0,
+            "gradedAt": "2026-10-26T06:16:32.205630+00:00"
           }
         }
       ]
