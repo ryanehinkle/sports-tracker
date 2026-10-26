@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-26T19:23:57.224140+00:00",
+  "updatedAt": "2026-10-26T21:54:15.108071+00:00",
   "picks": [
     {
       "day": 1,
@@ -6850,6 +6850,517 @@
             "status": "hit",
             "actual": 83.0,
             "gradedAt": "2026-10-26T06:16:32.205630+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 10,
+      "day": 1,
+      "date": "2026-10-26",
+      "eventId": "36189007",
+      "matchup": "DAL @ PHI",
+      "slot": "game-36189007",
+      "slotLabel": "Monday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-10-26T21:54:15.108071+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 102,
+      "decimalOdds": 2.016807,
+      "estimatedProbability": 0.611482,
+      "confidence": 85.0,
+      "selectionTier": "Relaxed history",
+      "simulations": 60000,
+      "status": "pending",
+      "legs": [
+        {
+          "selection": "Over",
+          "homeAbbr": "PHI",
+          "team": "DAL",
+          "matchup": "DAL @ PHI",
+          "alternate": true,
+          "awayAbbr": "DAL",
+          "market": "Receptions",
+          "position": "RB",
+          "decimalOdds": 1.363636363636364,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4361579.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 56,
+              "hits": 9,
+              "total": 16
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "Javonte Williams",
+          "line": 1.5,
+          "scope": "player",
+          "odds": -275,
+          "proposition": "Over 1.5 Receptions",
+          "key": "36189007\u00a6Javonte Williams\u00a6Receptions\u00a6Over\u00a61.5\u00a6Over 1.5 Receptions",
+          "confidence": 78.6,
+          "estimatedProbability": 0.786217,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Cover",
+          "homeAbbr": "PHI",
+          "team": "PHI",
+          "matchup": "DAL @ PHI",
+          "alternate": true,
+          "awayAbbr": "DAL",
+          "market": "Alt Spread",
+          "position": "TEAM",
+          "decimalOdds": 1.294117647058824,
+          "headshot": "",
+          "teamMarketType": "spread",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "h2h": {
+              "hits": 2,
+              "total": 2,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 5,
+              "total": 6,
+              "pct": 83.3
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "",
+          "line": 12.5,
+          "scope": "team",
+          "odds": -340,
+          "proposition": "PHI +12.5 Alt Spread",
+          "teamName": "Philadelphia Eagles",
+          "key": "36189007\u00a6PHI\u00a6Alt Spread\u00a6Cover\u00a612.5\u00a6PHI +12.5 Alt Spread",
+          "confidence": 85.5,
+          "estimatedProbability": 0.855055,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "homeAbbr": "PHI",
+          "team": "DAL",
+          "matchup": "DAL @ PHI",
+          "alternate": true,
+          "awayAbbr": "DAL",
+          "market": "Receiving Yards",
+          "position": "TE",
+          "decimalOdds": 1.142857142857143,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4242355.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "Jake Ferguson",
+          "line": 4.5,
+          "scope": "player",
+          "odds": -700,
+          "proposition": "Over 4.5 Receiving Yards",
+          "key": "36189007\u00a6Jake Ferguson\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
+          "confidence": 91.0,
+          "estimatedProbability": 0.909594,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-10-26",
+      "eventId": "36189007",
+      "matchup": "DAL @ PHI",
+      "slot": "game-36189007",
+      "slotLabel": "Monday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-10-26T21:54:15.108071+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1117,
+      "decimalOdds": 12.170316,
+      "estimatedProbability": 0.203745,
+      "confidence": 77.0,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "selection": "Over",
+          "homeAbbr": "PHI",
+          "team": "DAL",
+          "matchup": "DAL @ PHI",
+          "alternate": true,
+          "awayAbbr": "DAL",
+          "market": "Rushing Yards",
+          "position": "RB",
+          "decimalOdds": 1.222222222222222,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4361579.png",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 83,
+              "hits": 5,
+              "total": 6
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 14,
+              "total": 16
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "Javonte Williams",
+          "line": 39.5,
+          "scope": "player",
+          "odds": -450,
+          "proposition": "Over 39.5 Rushing Yards",
+          "key": "36189007\u00a6Javonte Williams\u00a6Rushing Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Rushing Yards",
+          "confidence": 81.3,
+          "estimatedProbability": 0.81349,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Cover",
+          "homeAbbr": "PHI",
+          "team": "PHI",
+          "matchup": "DAL @ PHI",
+          "alternate": true,
+          "awayAbbr": "DAL",
+          "market": "Alt Spread",
+          "position": "TEAM",
+          "decimalOdds": 1.256410256410256,
+          "headshot": "",
+          "teamMarketType": "spread",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "h2h": {
+              "hits": 2,
+              "total": 2,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 5,
+              "total": 6,
+              "pct": 83.3
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "",
+          "line": 13.5,
+          "scope": "team",
+          "odds": -390,
+          "proposition": "PHI +13.5 Alt Spread",
+          "teamName": "Philadelphia Eagles",
+          "key": "36189007\u00a6PHI\u00a6Alt Spread\u00a6Cover\u00a613.5\u00a6PHI +13.5 Alt Spread",
+          "confidence": 86.6,
+          "estimatedProbability": 0.866247,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Under",
+          "homeAbbr": "PHI",
+          "team": "PHI",
+          "matchup": "DAL @ PHI",
+          "alternate": false,
+          "awayAbbr": "DAL",
+          "market": "Total Receptions",
+          "position": "RB",
+          "decimalOdds": 1.819672131147541,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3929630.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 4,
+              "total": 4
+            },
+            "previous": {
+              "pct": 56,
+              "hits": 9,
+              "total": 16
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "Saquon Barkley",
+          "line": 2.5,
+          "scope": "player",
+          "odds": -122,
+          "proposition": "Under 2.5 Total Receptions",
+          "key": "36189007\u00a6Saquon Barkley\u00a6Total Receptions\u00a6Under\u00a62.5\u00a6Under 2.5 Total Receptions",
+          "confidence": 69.3,
+          "estimatedProbability": 0.692769,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Under",
+          "homeAbbr": "PHI",
+          "team": "PHI",
+          "matchup": "DAL @ PHI",
+          "alternate": false,
+          "awayAbbr": "DAL",
+          "market": "Total Receptions",
+          "position": "WR",
+          "decimalOdds": 1.694444444444444,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4715355.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 13,
+              "total": 13
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "Darius Cooper",
+          "line": 3.5,
+          "scope": "player",
+          "odds": -144,
+          "proposition": "Under 3.5 Total Receptions",
+          "key": "36189007\u00a6Darius Cooper\u00a6Total Receptions\u00a6Under\u00a63.5\u00a6Under 3.5 Total Receptions",
+          "confidence": 82.0,
+          "estimatedProbability": 0.819699,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "homeAbbr": "PHI",
+          "team": "DAL",
+          "matchup": "DAL @ PHI",
+          "alternate": true,
+          "awayAbbr": "DAL",
+          "market": "Receiving Yards",
+          "position": "WR",
+          "decimalOdds": 1.363636363636364,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4241389.png",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 50,
+              "hits": 5,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 67,
+              "hits": 4,
+              "total": 6
+            },
+            "previous": {
+              "pct": 71,
+              "hits": 10,
+              "total": 14
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "CeeDee Lamb",
+          "line": 59.5,
+          "scope": "player",
+          "odds": -275,
+          "proposition": "Over 59.5 Receiving Yards",
+          "key": "36189007\u00a6CeeDee Lamb\u00a6Receiving Yards\u00a6Over\u00a659.5\u00a6Over 59.5 Receiving Yards",
+          "confidence": 70.1,
+          "estimatedProbability": 0.700596,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Under",
+          "homeAbbr": "PHI",
+          "team": "DAL",
+          "matchup": "DAL @ PHI",
+          "alternate": false,
+          "awayAbbr": "DAL",
+          "market": "Rushing Yards",
+          "position": "RB",
+          "decimalOdds": 1.884955752212389,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429676.png",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 75,
+              "hits": 3,
+              "total": 4
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 11,
+              "total": 11
+            }
+          },
+          "commenceTime": "2026-10-27T00:16:00.000Z",
+          "eventId": "36189007",
+          "player": "Tyler Goodson",
+          "line": 13.5,
+          "scope": "player",
+          "odds": -113,
+          "proposition": "Under 13.5 Rushing Yards",
+          "key": "36189007\u00a6Tyler Goodson\u00a6Rushing Yards\u00a6Under\u00a613.5\u00a6Under 13.5 Rushing Yards",
+          "confidence": 72.7,
+          "estimatedProbability": 0.726746,
+          "result": {
+            "status": "pending"
           }
         }
       ]
