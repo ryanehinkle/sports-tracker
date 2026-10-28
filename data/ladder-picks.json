@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-28T20:33:41.069239+00:00",
+  "updatedAt": "2026-10-28T21:09:00.026513+00:00",
   "picks": [
     {
       "day": 1,
@@ -6033,7 +6033,7 @@
       "confidence": 89.3,
       "selectionTier": "Exact Even Ladder",
       "simulations": 30000,
-      "status": "pending",
+      "status": "hit",
       "legs": [
         {
           "eventId": "36189002",
@@ -6136,7 +6136,9 @@
           "confidence": 88.4,
           "estimatedProbability": 0.884397,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-10-28T21:07:16.646959+00:00"
           }
         },
         {
