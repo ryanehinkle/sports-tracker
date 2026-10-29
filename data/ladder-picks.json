@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-29T20:21:30.959083+00:00",
+  "updatedAt": "2026-10-29T23:10:49.762401+00:00",
   "picks": [
     {
       "day": 1,
@@ -7381,6 +7381,405 @@
             "status": "miss",
             "actual": 38.0,
             "gradedAt": "2026-10-27T05:07:05.810908+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 11,
+      "day": 1,
+      "date": "2026-10-29",
+      "eventId": "36215311",
+      "matchup": "CAR @ GB",
+      "slot": "game-36215311",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-10-29T23:10:49.762401+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -101,
+      "decimalOdds": 1.990421,
+      "estimatedProbability": 0.537464,
+      "confidence": 81.4,
+      "selectionTier": "Relaxed history",
+      "simulations": 60000,
+      "status": "pending",
+      "legs": [
+        {
+          "proposition": "Over 9.5 Receiving Yards",
+          "awayAbbr": "CAR",
+          "odds": -350,
+          "market": "Receiving Yards",
+          "eventId": "36215311",
+          "position": "TE",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 83,
+              "hits": 5,
+              "total": 6
+            },
+            "previous": {
+              "pct": 78,
+              "hits": 7,
+              "total": 9
+            }
+          },
+          "decimalOdds": 1.285714285714286,
+          "team": "CAR",
+          "line": 9.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/2576925.png",
+          "selection": "Over",
+          "matchup": "CAR @ GB",
+          "player": "Darren Waller",
+          "scope": "player",
+          "alternate": true,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-30T00:16:00.000Z",
+          "key": "36215311\u00a6Darren Waller\u00a6Receiving Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Receiving Yards",
+          "confidence": 77.6,
+          "estimatedProbability": 0.77562,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "CAR +11.5 Alt Spread",
+          "awayAbbr": "CAR",
+          "odds": -350,
+          "market": "Alt Spread",
+          "eventId": "36215311",
+          "position": "TEAM",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 4,
+              "total": 6,
+              "pct": 66.7
+            },
+            "previous": {
+              "hits": 13,
+              "total": 17,
+              "pct": 76.5
+            }
+          },
+          "decimalOdds": 1.285714285714286,
+          "team": "CAR",
+          "line": 11.5,
+          "headshot": "",
+          "selection": "Cover",
+          "matchup": "CAR @ GB",
+          "player": "",
+          "scope": "team",
+          "teamName": "Carolina Panthers",
+          "alternate": true,
+          "homeAbbr": "GB",
+          "teamMarketType": "spread",
+          "commenceTime": "2026-10-30T00:16:00.000Z",
+          "key": "36215311\u00a6CAR\u00a6Alt Spread\u00a6Cover\u00a611.5\u00a6CAR +11.5 Alt Spread",
+          "confidence": 81.5,
+          "estimatedProbability": 0.814867,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Over 39.5 Receiving Yards",
+          "awayAbbr": "CAR",
+          "odds": -490,
+          "market": "Receiving Yards",
+          "eventId": "36215311",
+          "position": "WR",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            }
+          },
+          "decimalOdds": 1.204081632653061,
+          "team": "GB",
+          "line": 39.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4248528.png",
+          "selection": "Over",
+          "matchup": "CAR @ GB",
+          "player": "Christian Watson",
+          "scope": "player",
+          "alternate": true,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-30T00:16:00.000Z",
+          "key": "36215311\u00a6Christian Watson\u00a6Receiving Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Receiving Yards",
+          "confidence": 85.0,
+          "estimatedProbability": 0.850382,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-10-29",
+      "eventId": "36215311",
+      "matchup": "CAR @ GB",
+      "slot": "game-36215311",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-10-29T23:10:49.762401+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1006,
+      "decimalOdds": 11.055504,
+      "estimatedProbability": 0.202851,
+      "confidence": 67.4,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "proposition": "Under 2.5 Total Receptions",
+          "awayAbbr": "CAR",
+          "odds": -120,
+          "market": "Total Receptions",
+          "eventId": "36215311",
+          "position": "WR",
+          "hitRates": {
+            "l5": {
+              "pct": 60,
+              "hits": 3,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 0,
+              "hits": 0,
+              "total": 2
+            },
+            "previous": {
+              "pct": 92,
+              "hits": 11,
+              "total": 12
+            }
+          },
+          "decimalOdds": 1.833333333333333,
+          "team": "GB",
+          "line": 2.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4431487.png",
+          "selection": "Under",
+          "matchup": "CAR @ GB",
+          "player": "Savion Williams",
+          "scope": "player",
+          "alternate": false,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-30T00:16:00.000Z",
+          "key": "36215311\u00a6Savion Williams\u00a6Total Receptions\u00a6Under\u00a62.5\u00a6Under 2.5 Total Receptions",
+          "confidence": 60.8,
+          "estimatedProbability": 0.607623,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "CAR +5.5 Alt Spread",
+          "awayAbbr": "CAR",
+          "odds": -142,
+          "market": "Alt Spread",
+          "eventId": "36215311",
+          "position": "TEAM",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "h2h": {
+              "hits": 1,
+              "total": 1,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 4,
+              "total": 6,
+              "pct": 66.7
+            },
+            "previous": {
+              "hits": 11,
+              "total": 17,
+              "pct": 64.7
+            }
+          },
+          "decimalOdds": 1.704225352112676,
+          "team": "CAR",
+          "line": 5.5,
+          "headshot": "",
+          "selection": "Cover",
+          "matchup": "CAR @ GB",
+          "player": "",
+          "scope": "team",
+          "teamName": "Carolina Panthers",
+          "alternate": true,
+          "homeAbbr": "GB",
+          "teamMarketType": "spread",
+          "commenceTime": "2026-10-30T00:16:00.000Z",
+          "key": "36215311\u00a6CAR\u00a6Alt Spread\u00a6Cover\u00a65.5\u00a6CAR +5.5 Alt Spread",
+          "confidence": 70.1,
+          "estimatedProbability": 0.701064,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Over 4.5 Receiving Yards",
+          "awayAbbr": "CAR",
+          "odds": -114,
+          "market": "Receiving Yards",
+          "eventId": "36215311",
+          "position": "RB",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 71,
+              "hits": 5,
+              "total": 7
+            },
+            "h2h": null,
+            "current": {
+              "pct": 71,
+              "hits": 5,
+              "total": 7
+            },
+            "previous": null
+          },
+          "decimalOdds": 1.87719298245614,
+          "team": "GB",
+          "line": 4.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429023.png",
+          "selection": "Over",
+          "matchup": "CAR @ GB",
+          "player": "MarShawn Lloyd",
+          "scope": "player",
+          "alternate": true,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-30T00:16:00.000Z",
+          "key": "36215311\u00a6MarShawn Lloyd\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
+          "confidence": 62.0,
+          "estimatedProbability": 0.620169,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "proposition": "Under 8.5 Rushing Yards",
+          "awayAbbr": "CAR",
+          "odds": -113,
+          "market": "Rushing Yards",
+          "eventId": "36215311",
+          "position": "RB",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": {
+              "pct": 76,
+              "hits": 13,
+              "total": 17
+            }
+          },
+          "decimalOdds": 1.884955752212389,
+          "team": "CAR",
+          "line": 8.5,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4685350.png",
+          "selection": "Under",
+          "matchup": "CAR @ GB",
+          "player": "Trevor Etienne",
+          "scope": "player",
+          "alternate": false,
+          "homeAbbr": "GB",
+          "commenceTime": "2026-10-30T00:16:00.000Z",
+          "key": "36215311\u00a6Trevor Etienne\u00a6Rushing Yards\u00a6Under\u00a68.5\u00a6Under 8.5 Rushing Yards",
+          "confidence": 76.8,
+          "estimatedProbability": 0.767846,
+          "result": {
+            "status": "pending"
           }
         }
       ]
