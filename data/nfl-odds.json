@@ -8584,19 +8584,15 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": {
-              "pct": 0,
-              "hits": 0,
-              "total": 1
-            },
+            "h2h": null,
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 5
             },
             "previous": {
-              "pct": 8,
-              "hits": 1,
+              "pct": 0,
+              "hits": 0,
               "total": 13
             }
           },
@@ -8660,15 +8656,11 @@
               "hits": 0,
               "total": 10
             },
-            "h2h": {
-              "pct": 0,
-              "hits": 0,
-              "total": 1
-            },
+            "h2h": null,
             "current": {
               "pct": 0,
               "hits": 0,
-              "total": 2
+              "total": 5
             },
             "previous": {
               "pct": 0,
