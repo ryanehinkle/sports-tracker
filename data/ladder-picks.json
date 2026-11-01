@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01T19:45:00.979883+00:00",
+  "updatedAt": "2026-11-01T20:52:39.578302+00:00",
   "picks": [
     {
       "day": 1,
@@ -7794,6 +7794,775 @@
             "status": "hit",
             "actual": 1.0,
             "gradedAt": "2026-10-30T07:09:03.518869+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 11,
+      "day": 3,
+      "provisionalDay": true,
+      "date": "2026-11-01",
+      "slot": "mid",
+      "slotLabel": "Mid-afternoon slate",
+      "slotOrder": 2,
+      "createdAt": "2026-11-01T20:52:39.578302+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -100,
+      "decimalOdds": 1.999636,
+      "estimatedProbability": 0.655387,
+      "confidence": 90.0,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "position": "TEAM",
+          "decimalOdds": 1.192307692307692,
+          "team": "LAC",
+          "odds": -520,
+          "teamName": "Los Angeles Chargers",
+          "proposition": "LAC +17.5 Alt Spread",
+          "alternate": true,
+          "selection": "Cover",
+          "player": "",
+          "homeAbbr": "LAR",
+          "teamMarketType": "spread",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 10,
+              "total": 10,
+              "pct": 100.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 6,
+              "total": 6,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "matchup": "LAC @ LAR",
+          "eventId": "36215316",
+          "scope": "team",
+          "headshot": "",
+          "commenceTime": "2026-11-01T21:06:00.000Z",
+          "market": "Alt Spread",
+          "line": 17.5,
+          "awayAbbr": "LAC",
+          "key": "36215316\u00a6LAC\u00a6Alt Spread\u00a6Cover\u00a617.5\u00a6LAC +17.5 Alt Spread",
+          "confidence": 91.4,
+          "estimatedProbability": 0.913538,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "QB",
+          "decimalOdds": 1.125,
+          "team": "KC",
+          "odds": -800,
+          "proposition": "Over 149.5 Passing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "player": "Patrick Mahomes",
+          "homeAbbr": "DEN",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 14,
+              "total": 14
+            }
+          },
+          "matchup": "KC @ DEN",
+          "eventId": "36215321",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3139477.png",
+          "commenceTime": "2026-11-01T21:26:00.000Z",
+          "market": "Passing Yards",
+          "line": 149.5,
+          "awayAbbr": "KC",
+          "key": "36215321\u00a6Patrick Mahomes\u00a6Passing Yards\u00a6Over\u00a6149.5\u00a6Over 149.5 Passing Yards",
+          "confidence": 92.1,
+          "estimatedProbability": 0.920917,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "WR",
+          "decimalOdds": 1.204081632653061,
+          "team": "LAR",
+          "odds": -490,
+          "proposition": "Over 59.5 Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "player": "Puka Nacua",
+          "homeAbbr": "LAR",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 14,
+              "total": 16
+            }
+          },
+          "matchup": "LAC @ LAR",
+          "eventId": "36215316",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4426515.png",
+          "commenceTime": "2026-11-01T21:06:00.000Z",
+          "market": "Receiving Yards",
+          "line": 59.5,
+          "awayAbbr": "LAC",
+          "key": "36215316\u00a6Puka Nacua\u00a6Receiving Yards\u00a6Over\u00a659.5\u00a6Over 59.5 Receiving Yards",
+          "confidence": 87.1,
+          "estimatedProbability": 0.870995,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "RB",
+          "decimalOdds": 1.238095238095238,
+          "team": "LAR",
+          "odds": -420,
+          "proposition": "Over 39.5 Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "player": "Kyren Williams",
+          "homeAbbr": "LAR",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "matchup": "LAC @ LAR",
+          "eventId": "36215316",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430737.png",
+          "commenceTime": "2026-11-01T21:06:00.000Z",
+          "market": "Rushing Yards",
+          "line": 39.5,
+          "awayAbbr": "LAC",
+          "key": "36215316\u00a6Kyren Williams\u00a6Rushing Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Rushing Yards",
+          "confidence": 89.4,
+          "estimatedProbability": 0.894406,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "run": 11,
+      "day": 4,
+      "provisionalDay": true,
+      "date": "2026-11-01",
+      "slot": "snf",
+      "slotLabel": "Sunday Night Football",
+      "slotOrder": 3,
+      "createdAt": "2026-11-01T20:52:39.578302+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -101,
+      "decimalOdds": 1.987871,
+      "estimatedProbability": 0.552485,
+      "confidence": 86.3,
+      "selectionTier": "Relaxed history",
+      "simulations": 60000,
+      "status": "pending",
+      "legs": [
+        {
+          "position": "WR",
+          "decimalOdds": 1.25,
+          "team": "WSH",
+          "odds": -400,
+          "proposition": "Over 2.5 Receptions",
+          "alternate": true,
+          "selection": "Over",
+          "player": "Stefon Diggs",
+          "homeAbbr": "WSH",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "matchup": "PHI @ WSH",
+          "eventId": "36215324",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/2976212.png",
+          "commenceTime": "2026-11-02T01:21:00.000Z",
+          "market": "Receptions",
+          "line": 2.5,
+          "awayAbbr": "PHI",
+          "key": "36215324\u00a6Stefon Diggs\u00a6Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Receptions",
+          "confidence": 88.6,
+          "estimatedProbability": 0.886052,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "TE",
+          "decimalOdds": 1.204081632653061,
+          "team": "PHI",
+          "odds": -490,
+          "proposition": "Over 24.5 Receiving Yards",
+          "alternate": true,
+          "selection": "Over",
+          "player": "Dallas Goedert",
+          "homeAbbr": "WSH",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "previous": {
+              "pct": 67,
+              "hits": 10,
+              "total": 15
+            }
+          },
+          "matchup": "PHI @ WSH",
+          "eventId": "36215324",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3121023.png",
+          "commenceTime": "2026-11-02T01:21:00.000Z",
+          "market": "Receiving Yards",
+          "line": 24.5,
+          "awayAbbr": "PHI",
+          "key": "36215324\u00a6Dallas Goedert\u00a6Receiving Yards\u00a6Over\u00a624.5\u00a6Over 24.5 Receiving Yards",
+          "confidence": 78.7,
+          "estimatedProbability": 0.786708,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "RB",
+          "decimalOdds": 1.111111111111111,
+          "team": "WSH",
+          "odds": -900,
+          "proposition": "Over 14.5 Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "player": "Rachaad White",
+          "homeAbbr": "WSH",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 76,
+              "hits": 13,
+              "total": 17
+            }
+          },
+          "matchup": "PHI @ WSH",
+          "eventId": "36215324",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4697815.png",
+          "commenceTime": "2026-11-02T01:21:00.000Z",
+          "market": "Rushing Yards",
+          "line": 14.5,
+          "awayAbbr": "PHI",
+          "key": "36215324\u00a6Rachaad White\u00a6Rushing Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Rushing Yards",
+          "confidence": 88.3,
+          "estimatedProbability": 0.882652,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "TEAM",
+          "decimalOdds": 1.188679245283019,
+          "team": "PHI",
+          "odds": -530,
+          "teamName": "Philadelphia Eagles",
+          "proposition": "PHI +17.5 Alt Spread",
+          "alternate": true,
+          "selection": "Cover",
+          "player": "",
+          "homeAbbr": "WSH",
+          "teamMarketType": "spread",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "h2h": {
+              "hits": 3,
+              "total": 3,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 6,
+              "total": 7,
+              "pct": 85.7
+            },
+            "previous": {
+              "hits": 17,
+              "total": 17,
+              "pct": 100.0
+            }
+          },
+          "matchup": "PHI @ WSH",
+          "eventId": "36215324",
+          "scope": "team",
+          "headshot": "",
+          "commenceTime": "2026-11-02T01:21:00.000Z",
+          "market": "Alt Spread",
+          "line": 17.5,
+          "awayAbbr": "PHI",
+          "key": "36215324\u00a6PHI\u00a6Alt Spread\u00a6Cover\u00a617.5\u00a6PHI +17.5 Alt Spread",
+          "confidence": 89.8,
+          "estimatedProbability": 0.897962,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-11-01",
+      "slot": "all-sunday",
+      "slotLabel": "Full Sunday slate",
+      "slotOrder": 99,
+      "createdAt": "2026-11-01T20:52:39.578302+00:00",
+      "target": "Sunday Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1000,
+      "decimalOdds": 11.000108,
+      "estimatedProbability": 0.260768,
+      "confidence": 80.3,
+      "selectionTier": "Best available +1000",
+      "simulations": 120000,
+      "status": "pending",
+      "legs": [
+        {
+          "position": "RB",
+          "decimalOdds": 1.111111111111111,
+          "team": "DEN",
+          "odds": -900,
+          "proposition": "Over 9.5 Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "player": "J.K. Dobbins",
+          "homeAbbr": "DEN",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            }
+          },
+          "matchup": "KC @ DEN",
+          "eventId": "36215321",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4241985.png",
+          "commenceTime": "2026-11-01T21:26:00.000Z",
+          "market": "Rushing Yards",
+          "line": 9.5,
+          "awayAbbr": "KC",
+          "key": "36215321\u00a6J.K. Dobbins\u00a6Rushing Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Rushing Yards",
+          "confidence": 92.4,
+          "estimatedProbability": 0.92419,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "QB",
+          "decimalOdds": 1.153846153846154,
+          "team": "NE",
+          "odds": -650,
+          "proposition": "Over 9.5 Rushing Yards",
+          "alternate": true,
+          "selection": "Over",
+          "player": "Drake Maye",
+          "homeAbbr": "MIA",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "matchup": "NE @ MIA",
+          "eventId": "36215322",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4431452.png",
+          "commenceTime": "2026-11-01T21:26:00.000Z",
+          "market": "Rushing Yards",
+          "line": 9.5,
+          "awayAbbr": "NE",
+          "key": "36215322\u00a6Drake Maye\u00a6Rushing Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Rushing Yards",
+          "confidence": 90.8,
+          "estimatedProbability": 0.90779,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "RB",
+          "decimalOdds": 1.632911392405063,
+          "team": "PHI",
+          "odds": -158,
+          "proposition": "Under 2.5 Total Receptions",
+          "alternate": false,
+          "selection": "Under",
+          "player": "Saquon Barkley",
+          "homeAbbr": "WSH",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "previous": {
+              "pct": 56,
+              "hits": 9,
+              "total": 16
+            }
+          },
+          "matchup": "PHI @ WSH",
+          "eventId": "36215324",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3929630.png",
+          "commenceTime": "2026-11-02T01:21:00.000Z",
+          "market": "Total Receptions",
+          "line": 2.5,
+          "awayAbbr": "PHI",
+          "key": "36215324\u00a6Saquon Barkley\u00a6Total Receptions\u00a6Under\u00a62.5\u00a6Under 2.5 Total Receptions",
+          "confidence": 76.7,
+          "estimatedProbability": 0.766973,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "RB",
+          "decimalOdds": 1.884955752212389,
+          "team": "DEN",
+          "odds": -113,
+          "proposition": "Under 20.5 Receiving Yards",
+          "alternate": false,
+          "selection": "Under",
+          "player": "Jonah Coleman",
+          "homeAbbr": "DEN",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "previous": null
+          },
+          "matchup": "KC @ DEN",
+          "eventId": "36215321",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4702555.png",
+          "commenceTime": "2026-11-01T21:26:00.000Z",
+          "market": "Receiving Yards",
+          "line": 20.5,
+          "awayAbbr": "KC",
+          "key": "36215321\u00a6Jonah Coleman\u00a6Receiving Yards\u00a6Under\u00a620.5\u00a6Under 20.5 Receiving Yards",
+          "confidence": 75.7,
+          "estimatedProbability": 0.757079,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "QB",
+          "decimalOdds": 1.531914893617021,
+          "team": "LAC",
+          "odds": -188,
+          "proposition": "Under 1.5 Passing TDs",
+          "alternate": false,
+          "selection": "Under",
+          "player": "Justin Herbert",
+          "homeAbbr": "LAR",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 50,
+              "hits": 8,
+              "total": 16
+            }
+          },
+          "matchup": "LAC @ LAR",
+          "eventId": "36215316",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4038941.png",
+          "commenceTime": "2026-11-01T21:06:00.000Z",
+          "market": "Passing TDs",
+          "line": 1.5,
+          "awayAbbr": "LAC",
+          "key": "36215316\u00a6Justin Herbert\u00a6Passing TDs\u00a6Under\u00a61.5\u00a6Under 1.5 Passing TDs",
+          "confidence": 75.1,
+          "estimatedProbability": 0.75143,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "position": "WR",
+          "decimalOdds": 1.819672131147541,
+          "team": "PHI",
+          "odds": -122,
+          "proposition": "Under 2.5 Total Receptions",
+          "alternate": false,
+          "selection": "Under",
+          "player": "Darius Cooper",
+          "homeAbbr": "WSH",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 67,
+              "hits": 2,
+              "total": 3
+            },
+            "current": {
+              "pct": 86,
+              "hits": 6,
+              "total": 7
+            },
+            "previous": {
+              "pct": 92,
+              "hits": 12,
+              "total": 13
+            }
+          },
+          "matchup": "PHI @ WSH",
+          "eventId": "36215324",
+          "scope": "player",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4715355.png",
+          "commenceTime": "2026-11-02T01:21:00.000Z",
+          "market": "Total Receptions",
+          "line": 2.5,
+          "awayAbbr": "PHI",
+          "key": "36215324\u00a6Darius Cooper\u00a6Total Receptions\u00a6Under\u00a62.5\u00a6Under 2.5 Total Receptions",
+          "confidence": 71.2,
+          "estimatedProbability": 0.712357,
+          "result": {
+            "status": "pending"
           }
         }
       ]
