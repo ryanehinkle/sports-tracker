@@ -242435,7 +242435,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-02T06:05:38.971565+00:00"
           }
         },
         {
@@ -311277,5 +311279,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-10-30T23:49:46.246366+00:00"
+  "updatedAt": "2026-11-02T06:05:38.981105+00:00"
 }
