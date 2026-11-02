@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-02T15:58:54.432322+00:00",
+  "updatedAt": "2026-11-02T23:34:21.966523+00:00",
   "picks": [
     {
       "day": 1,
@@ -8591,6 +8591,479 @@
             "status": "hit",
             "actual": 2.0,
             "gradedAt": "2026-11-02T06:05:39.433756+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 11,
+      "day": 4,
+      "date": "2026-11-02",
+      "eventId": "36215323",
+      "matchup": "CHI @ SEA",
+      "slot": "game-36215323",
+      "slotLabel": "Monday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-11-02T23:34:21.966523+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 101,
+      "decimalOdds": 2.005013,
+      "estimatedProbability": 0.628628,
+      "confidence": 89.1,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "odds": -900,
+          "homeAbbr": "SEA",
+          "position": "RB",
+          "proposition": "Over 9.5 Rushing Yards",
+          "alternate": true,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4426385.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": null,
+            "previous": {
+              "pct": 100,
+              "hits": 16,
+              "total": 16
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Over",
+          "matchup": "CHI @ SEA",
+          "player": "Zach Charbonnet",
+          "eventId": "36215323",
+          "team": "SEA",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.111111111111111,
+          "market": "Rushing Yards",
+          "scope": "player",
+          "line": 9.5,
+          "key": "36215323\u00a6Zach Charbonnet\u00a6Rushing Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Rushing Yards",
+          "confidence": 91.1,
+          "estimatedProbability": 0.910804,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "odds": -380,
+          "homeAbbr": "SEA",
+          "position": "WR",
+          "proposition": "Over 69.5 Receiving Yards",
+          "alternate": true,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Over",
+          "matchup": "CHI @ SEA",
+          "player": "Jaxon Smith-Njigba",
+          "eventId": "36215323",
+          "team": "SEA",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.263157894736842,
+          "market": "Receiving Yards",
+          "scope": "player",
+          "line": 69.5,
+          "key": "36215323\u00a6Jaxon Smith-Njigba\u00a6Receiving Yards\u00a6Over\u00a669.5\u00a6Over 69.5 Receiving Yards",
+          "confidence": 88.1,
+          "estimatedProbability": 0.880805,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "odds": -650,
+          "homeAbbr": "SEA",
+          "position": "WR",
+          "proposition": "Over 1.5 Receptions",
+          "alternate": true,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4431299.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 92,
+              "hits": 11,
+              "total": 12
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Over",
+          "matchup": "CHI @ SEA",
+          "player": "Rome Odunze",
+          "eventId": "36215323",
+          "team": "CHI",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.153846153846154,
+          "market": "Receptions",
+          "scope": "player",
+          "line": 1.5,
+          "key": "36215323\u00a6Rome Odunze\u00a6Receptions\u00a6Over\u00a61.5\u00a6Over 1.5 Receptions",
+          "confidence": 90.2,
+          "estimatedProbability": 0.901844,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "odds": -420,
+          "homeAbbr": "SEA",
+          "position": "RB",
+          "proposition": "Over 39.5 Rushing Yards",
+          "alternate": true,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4259545.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 81,
+              "hits": 13,
+              "total": 16
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Over",
+          "matchup": "CHI @ SEA",
+          "player": "D'Andre Swift",
+          "eventId": "36215323",
+          "team": "CHI",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.238095238095238,
+          "market": "Rushing Yards",
+          "scope": "player",
+          "line": 39.5,
+          "key": "36215323\u00a6D'Andre Swift\u00a6Rushing Yards\u00a6Over\u00a639.5\u00a6Over 39.5 Rushing Yards",
+          "confidence": 86.9,
+          "estimatedProbability": 0.868876,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-11-02",
+      "eventId": "36215323",
+      "matchup": "CHI @ SEA",
+      "slot": "game-36215323",
+      "slotLabel": "Monday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-11-02T23:34:21.966523+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1013,
+      "decimalOdds": 11.134552,
+      "estimatedProbability": 0.180207,
+      "confidence": 71.6,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "odds": -158,
+          "homeAbbr": "SEA",
+          "teamName": "Chicago Bears",
+          "position": "TEAM",
+          "proposition": "CHI +5.5 Alt Spread",
+          "teamMarketType": "spread",
+          "alternate": true,
+          "headshot": "",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 8,
+              "total": 10,
+              "pct": 80.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 5,
+              "total": 7,
+              "pct": 71.4
+            },
+            "previous": {
+              "hits": 14,
+              "total": 17,
+              "pct": 82.4
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Cover",
+          "matchup": "CHI @ SEA",
+          "player": "",
+          "eventId": "36215323",
+          "team": "CHI",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.632911392405063,
+          "market": "Alt Spread",
+          "scope": "team",
+          "line": 5.5,
+          "key": "36215323\u00a6CHI\u00a6Alt Spread\u00a6Cover\u00a65.5\u00a6CHI +5.5 Alt Spread",
+          "confidence": 73.9,
+          "estimatedProbability": 0.738943,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "odds": -188,
+          "homeAbbr": "SEA",
+          "position": "WR",
+          "proposition": "Over 3.5 Receptions",
+          "alternate": true,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4685278.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 86,
+              "hits": 6,
+              "total": 7
+            },
+            "previous": {
+              "pct": 33,
+              "hits": 5,
+              "total": 15
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Over",
+          "matchup": "CHI @ SEA",
+          "player": "Luther Burden III",
+          "eventId": "36215323",
+          "team": "CHI",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.531914893617021,
+          "market": "Receptions",
+          "scope": "player",
+          "line": 3.5,
+          "key": "36215323\u00a6Luther Burden III\u00a6Receptions\u00a6Over\u00a63.5\u00a6Over 3.5 Receptions",
+          "confidence": 70.0,
+          "estimatedProbability": 0.699608,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "odds": -380,
+          "homeAbbr": "SEA",
+          "position": "WR",
+          "proposition": "Over 69.5 Receiving Yards",
+          "alternate": true,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Over",
+          "matchup": "CHI @ SEA",
+          "player": "Jaxon Smith-Njigba",
+          "eventId": "36215323",
+          "team": "SEA",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.263157894736842,
+          "market": "Receiving Yards",
+          "scope": "player",
+          "line": 69.5,
+          "key": "36215323\u00a6Jaxon Smith-Njigba\u00a6Receiving Yards\u00a6Over\u00a669.5\u00a6Over 69.5 Receiving Yards",
+          "confidence": 88.1,
+          "estimatedProbability": 0.880805,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "odds": -114,
+          "homeAbbr": "SEA",
+          "position": "QB",
+          "proposition": "Over 4.5 Rushing Yards",
+          "alternate": true,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3912547.png",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 83,
+              "hits": 5,
+              "total": 6
+            },
+            "previous": {
+              "pct": 41,
+              "hits": 7,
+              "total": 17
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Over",
+          "matchup": "CHI @ SEA",
+          "player": "Sam Darnold",
+          "eventId": "36215323",
+          "team": "SEA",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.87719298245614,
+          "market": "Rushing Yards",
+          "scope": "player",
+          "line": 4.5,
+          "key": "36215323\u00a6Sam Darnold\u00a6Rushing Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Rushing Yards",
+          "confidence": 65.1,
+          "estimatedProbability": 0.650887,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "odds": -114,
+          "homeAbbr": "SEA",
+          "position": "RB",
+          "proposition": "Under 12.5 Rushing Yards",
+          "alternate": false,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4426386.png",
+          "hitRates": {
+            "l5": {
+              "pct": 40,
+              "hits": 2,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 57,
+              "hits": 4,
+              "total": 7
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            }
+          },
+          "awayAbbr": "CHI",
+          "selection": "Under",
+          "matchup": "CHI @ SEA",
+          "player": "Roschon Johnson",
+          "eventId": "36215323",
+          "team": "CHI",
+          "commenceTime": "2026-11-03T01:16:00.000Z",
+          "decimalOdds": 1.87719298245614,
+          "market": "Rushing Yards",
+          "scope": "player",
+          "line": 12.5,
+          "key": "36215323\u00a6Roschon Johnson\u00a6Rushing Yards\u00a6Under\u00a612.5\u00a6Under 12.5 Rushing Yards",
+          "confidence": 60.8,
+          "estimatedProbability": 0.608022,
+          "result": {
+            "status": "pending"
           }
         }
       ]
