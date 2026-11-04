@@ -1484,7 +1484,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.211635+00:00"
           }
         },
         {
@@ -1558,7 +1560,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.211679+00:00"
           }
         },
         {
@@ -5455,7 +5459,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.211864+00:00"
           }
         },
         {
@@ -6435,7 +6441,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212097+00:00"
           }
         },
         {
@@ -6514,7 +6522,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 18.0,
+            "gradedAt": "2026-11-04T22:42:48.212127+00:00"
           }
         },
         {
@@ -6562,7 +6572,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 18.0,
+            "gradedAt": "2026-11-04T22:42:48.212147+00:00"
           }
         },
         {
@@ -6610,7 +6622,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 18.0,
+            "gradedAt": "2026-11-04T22:42:48.212166+00:00"
           }
         },
         {
@@ -6658,7 +6672,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212185+00:00"
           }
         },
         {
@@ -6706,7 +6722,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212203+00:00"
           }
         },
         {
@@ -6754,7 +6772,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212222+00:00"
           }
         },
         {
@@ -6802,7 +6822,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212240+00:00"
           }
         },
         {
@@ -6850,7 +6872,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212257+00:00"
           }
         },
         {
@@ -6898,7 +6922,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212275+00:00"
           }
         },
         {
@@ -6946,7 +6972,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212292+00:00"
           }
         },
         {
@@ -6994,7 +7022,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212310+00:00"
           }
         },
         {
@@ -7042,7 +7072,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 34.0,
+            "gradedAt": "2026-11-04T22:42:48.212328+00:00"
           }
         },
         {
@@ -7090,7 +7122,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.212345+00:00"
           }
         },
         {
@@ -7138,7 +7172,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.212361+00:00"
           }
         },
         {
@@ -7186,7 +7222,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.212376+00:00"
           }
         },
         {
@@ -7234,7 +7272,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.212392+00:00"
           }
         },
         {
@@ -7277,7 +7317,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212410+00:00"
           }
         },
         {
@@ -7325,7 +7367,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.212428+00:00"
           }
         },
         {
@@ -7373,7 +7417,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.212446+00:00"
           }
         },
         {
@@ -7425,7 +7471,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212476+00:00"
           }
         },
         {
@@ -7508,7 +7556,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212518+00:00"
           }
         },
         {
@@ -7560,7 +7610,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212544+00:00"
           }
         },
         {
@@ -7612,7 +7664,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212568+00:00"
           }
         },
         {
@@ -7664,7 +7718,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212602+00:00"
           }
         },
         {
@@ -7711,7 +7767,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212626+00:00"
           }
         },
         {
@@ -7763,7 +7821,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212650+00:00"
           }
         },
         {
@@ -7815,7 +7875,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.212674+00:00"
           }
         },
         {
@@ -12505,7 +12567,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.213585+00:00"
           }
         },
         {
@@ -12579,7 +12643,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.213619+00:00"
           }
         },
         {
@@ -18593,7 +18659,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.214386+00:00"
           }
         },
         {
@@ -31005,7 +31073,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.216147+00:00"
           }
         },
         {
@@ -31118,7 +31188,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 17.0,
+            "gradedAt": "2026-11-04T22:42:48.216213+00:00"
           }
         },
         {
@@ -31174,7 +31246,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 17.0,
+            "gradedAt": "2026-11-04T22:42:48.216242+00:00"
           }
         },
         {
@@ -31230,7 +31304,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 17.0,
+            "gradedAt": "2026-11-04T22:42:48.216270+00:00"
           }
         },
         {
@@ -31286,7 +31362,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216297+00:00"
           }
         },
         {
@@ -31342,7 +31420,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216323+00:00"
           }
         },
         {
@@ -31398,7 +31478,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216349+00:00"
           }
         },
         {
@@ -31454,7 +31536,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216375+00:00"
           }
         },
         {
@@ -31510,7 +31594,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216401+00:00"
           }
         },
         {
@@ -31566,7 +31652,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216427+00:00"
           }
         },
         {
@@ -31622,7 +31710,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216455+00:00"
           }
         },
         {
@@ -31678,7 +31768,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216481+00:00"
           }
         },
         {
@@ -31729,7 +31821,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216506+00:00"
           }
         },
         {
@@ -31780,7 +31874,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.216532+00:00"
           }
         },
         {
@@ -31836,7 +31932,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.216556+00:00"
           }
         },
         {
@@ -31892,7 +31990,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.216603+00:00"
           }
         },
         {
@@ -31948,7 +32048,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.216630+00:00"
           }
         },
         {
@@ -32004,7 +32106,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.216656+00:00"
           }
         },
         {
@@ -32055,7 +32159,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.216681+00:00"
           }
         },
         {
@@ -32106,7 +32212,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.216706+00:00"
           }
         },
         {
@@ -32162,7 +32270,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.216733+00:00"
           }
         },
         {
@@ -32218,7 +32328,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.216759+00:00"
           }
         },
         {
@@ -32261,7 +32373,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.216778+00:00"
           }
         },
         {
@@ -32335,7 +32449,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.216801+00:00"
           }
         },
         {
@@ -36259,7 +36375,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.217238+00:00"
           }
         },
         {
@@ -36346,7 +36464,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.217289+00:00"
           }
         },
         {
@@ -36464,7 +36584,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.217354+00:00"
           }
         },
         {
@@ -36520,7 +36642,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.217381+00:00"
           }
         },
         {
@@ -36576,7 +36700,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.217410+00:00"
           }
         },
         {
@@ -36632,7 +36758,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217438+00:00"
           }
         },
         {
@@ -36688,7 +36816,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217463+00:00"
           }
         },
         {
@@ -36744,7 +36874,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217489+00:00"
           }
         },
         {
@@ -36800,7 +36932,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217514+00:00"
           }
         },
         {
@@ -36856,7 +36990,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217540+00:00"
           }
         },
         {
@@ -36912,7 +37048,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217565+00:00"
           }
         },
         {
@@ -36968,7 +37106,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217598+00:00"
           }
         },
         {
@@ -37024,7 +37164,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217623+00:00"
           }
         },
         {
@@ -37080,7 +37222,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217648+00:00"
           }
         },
         {
@@ -37136,7 +37280,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217672+00:00"
           }
         },
         {
@@ -37187,7 +37333,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.217697+00:00"
           }
         },
         {
@@ -37243,7 +37391,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.217721+00:00"
           }
         },
         {
@@ -37299,7 +37449,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.217744+00:00"
           }
         },
         {
@@ -37355,7 +37507,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.217767+00:00"
           }
         },
         {
@@ -37406,7 +37560,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.217790+00:00"
           }
         },
         {
@@ -37457,7 +37613,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.217813+00:00"
           }
         },
         {
@@ -37508,7 +37666,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.217837+00:00"
           }
         },
         {
@@ -37559,7 +37719,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.217861+00:00"
           }
         },
         {
@@ -37615,7 +37777,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.217887+00:00"
           }
         },
         {
@@ -37671,7 +37835,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.217913+00:00"
           }
         },
         {
@@ -39805,7 +39971,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218211+00:00"
           }
         },
         {
@@ -39887,7 +40055,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218254+00:00"
           }
         },
         {
@@ -41863,7 +42033,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218708+00:00"
           }
         },
         {
@@ -41976,7 +42148,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218772+00:00"
           }
         },
         {
@@ -42032,7 +42206,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218799+00:00"
           }
         },
         {
@@ -42088,7 +42264,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218825+00:00"
           }
         },
         {
@@ -42144,7 +42322,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218852+00:00"
           }
         },
         {
@@ -42200,7 +42380,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218876+00:00"
           }
         },
         {
@@ -42256,7 +42438,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218902+00:00"
           }
         },
         {
@@ -42312,7 +42496,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218928+00:00"
           }
         },
         {
@@ -42368,7 +42554,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218953+00:00"
           }
         },
         {
@@ -42424,7 +42612,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.218978+00:00"
           }
         },
         {
@@ -42480,7 +42670,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219003+00:00"
           }
         },
         {
@@ -42536,7 +42728,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219028+00:00"
           }
         },
         {
@@ -42592,7 +42786,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219053+00:00"
           }
         },
         {
@@ -42648,7 +42844,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219077+00:00"
           }
         },
         {
@@ -42704,7 +42902,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219101+00:00"
           }
         },
         {
@@ -42760,7 +42960,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219125+00:00"
           }
         },
         {
@@ -42811,7 +43013,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219149+00:00"
           }
         },
         {
@@ -42867,7 +43071,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219173+00:00"
           }
         },
         {
@@ -42918,7 +43124,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219197+00:00"
           }
         },
         {
@@ -42974,7 +43182,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219223+00:00"
           }
         },
         {
@@ -43030,7 +43240,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219250+00:00"
           }
         },
         {
@@ -47160,7 +47372,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219447+00:00"
           }
         },
         {
@@ -47238,7 +47452,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219481+00:00"
           }
         },
         {
@@ -50851,7 +51067,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219753+00:00"
           }
         },
         {
@@ -52700,7 +52918,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219839+00:00"
           }
         },
         {
@@ -52783,7 +53003,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219883+00:00"
           }
         },
         {
@@ -52866,7 +53088,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.219922+00:00"
           }
         },
         {
@@ -64720,7 +64944,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.222212+00:00"
           }
         },
         {
@@ -72367,7 +72593,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.223084+00:00"
           }
         },
         {
@@ -72516,7 +72744,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 14.0,
+            "gradedAt": "2026-11-04T22:42:48.223159+00:00"
           }
         },
         {
@@ -72572,7 +72802,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 14.0,
+            "gradedAt": "2026-11-04T22:42:48.223185+00:00"
           }
         },
         {
@@ -72628,7 +72860,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 14.0,
+            "gradedAt": "2026-11-04T22:42:48.223211+00:00"
           }
         },
         {
@@ -72684,7 +72918,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223235+00:00"
           }
         },
         {
@@ -72740,7 +72976,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223259+00:00"
           }
         },
         {
@@ -72796,7 +73034,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223283+00:00"
           }
         },
         {
@@ -72852,7 +73092,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223306+00:00"
           }
         },
         {
@@ -72903,7 +73145,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223329+00:00"
           }
         },
         {
@@ -72959,7 +73203,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223353+00:00"
           }
         },
         {
@@ -73015,7 +73261,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223376+00:00"
           }
         },
         {
@@ -73071,7 +73319,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223399+00:00"
           }
         },
         {
@@ -73122,7 +73372,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223422+00:00"
           }
         },
         {
@@ -73173,7 +73425,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 62.0,
+            "gradedAt": "2026-11-04T22:42:48.223445+00:00"
           }
         },
         {
@@ -73229,7 +73483,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.223467+00:00"
           }
         },
         {
@@ -73285,7 +73541,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.223488+00:00"
           }
         },
         {
@@ -73336,7 +73594,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.223510+00:00"
           }
         },
         {
@@ -73387,7 +73647,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.223531+00:00"
           }
         },
         {
@@ -73438,7 +73700,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.223553+00:00"
           }
         },
         {
@@ -73494,7 +73758,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 69.0,
+            "gradedAt": "2026-11-04T22:42:48.223581+00:00"
           }
         },
         {
@@ -73545,7 +73811,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 69.0,
+            "gradedAt": "2026-11-04T22:42:48.223616+00:00"
           }
         },
         {
@@ -73601,7 +73869,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.223640+00:00"
           }
         },
         {
@@ -73657,7 +73927,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.223663+00:00"
           }
         },
         {
@@ -73713,7 +73985,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.223686+00:00"
           }
         },
         {
@@ -73764,7 +74038,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.223710+00:00"
           }
         },
         {
@@ -73820,7 +74096,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.223733+00:00"
           }
         },
         {
@@ -73876,7 +74154,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.223758+00:00"
           }
         },
         {
@@ -73932,7 +74212,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.223781+00:00"
           }
         },
         {
@@ -73988,7 +74270,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.223804+00:00"
           }
         },
         {
@@ -74039,7 +74323,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.223827+00:00"
           }
         },
         {
@@ -74095,7 +74381,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.223851+00:00"
           }
         },
         {
@@ -74146,7 +74434,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.223875+00:00"
           }
         },
         {
@@ -77909,7 +78199,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224180+00:00"
           }
         },
         {
@@ -80863,7 +81155,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224499+00:00"
           }
         },
         {
@@ -80981,7 +81275,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224568+00:00"
           }
         },
         {
@@ -81037,7 +81333,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224607+00:00"
           }
         },
         {
@@ -81093,7 +81391,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224638+00:00"
           }
         },
         {
@@ -81149,7 +81449,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224668+00:00"
           }
         },
         {
@@ -81205,7 +81507,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224696+00:00"
           }
         },
         {
@@ -81261,7 +81565,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224723+00:00"
           }
         },
         {
@@ -81317,7 +81623,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224751+00:00"
           }
         },
         {
@@ -81373,7 +81681,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224778+00:00"
           }
         },
         {
@@ -81429,7 +81739,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224805+00:00"
           }
         },
         {
@@ -81485,7 +81797,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224833+00:00"
           }
         },
         {
@@ -81541,7 +81855,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224861+00:00"
           }
         },
         {
@@ -81597,7 +81913,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224889+00:00"
           }
         },
         {
@@ -81653,7 +81971,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224916+00:00"
           }
         },
         {
@@ -81709,7 +82029,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224943+00:00"
           }
         },
         {
@@ -81765,7 +82087,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224970+00:00"
           }
         },
         {
@@ -81816,7 +82140,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.224997+00:00"
           }
         },
         {
@@ -81867,7 +82193,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225024+00:00"
           }
         },
         {
@@ -81923,7 +82251,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225050+00:00"
           }
         },
         {
@@ -81979,7 +82309,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225074+00:00"
           }
         },
         {
@@ -82035,7 +82367,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225100+00:00"
           }
         },
         {
@@ -82091,7 +82425,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225124+00:00"
           }
         },
         {
@@ -82142,7 +82478,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225150+00:00"
           }
         },
         {
@@ -82193,7 +82531,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225175+00:00"
           }
         },
         {
@@ -82244,7 +82584,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225201+00:00"
           }
         },
         {
@@ -82300,7 +82642,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225229+00:00"
           }
         },
         {
@@ -82356,7 +82700,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225257+00:00"
           }
         },
         {
@@ -84384,7 +84730,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225408+00:00"
           }
         },
         {
@@ -84462,7 +84810,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.225449+00:00"
           }
         },
         {
@@ -101018,7 +101368,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.228044+00:00"
           }
         },
         {
@@ -101151,7 +101503,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.228107+00:00"
           }
         },
         {
@@ -101233,7 +101587,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.228148+00:00"
           }
         },
         {
@@ -101331,7 +101687,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.228184+00:00"
           }
         },
         {
@@ -101767,7 +102125,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.228333+00:00"
           }
         },
         {
@@ -103313,7 +103673,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.228448+00:00"
           }
         },
         {
@@ -103395,7 +103757,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.228490+00:00"
           }
         },
         {
@@ -109906,7 +110270,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.229224+00:00"
           }
         },
         {
@@ -110051,7 +110417,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.229312+00:00"
           }
         },
         {
@@ -110098,7 +110466,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.229338+00:00"
           }
         },
         {
@@ -110150,7 +110520,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.229363+00:00"
           }
         },
         {
@@ -110202,7 +110574,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.229388+00:00"
           }
         },
         {
@@ -110254,7 +110628,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229414+00:00"
           }
         },
         {
@@ -110306,7 +110682,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229438+00:00"
           }
         },
         {
@@ -110358,7 +110736,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229461+00:00"
           }
         },
         {
@@ -110410,7 +110790,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229485+00:00"
           }
         },
         {
@@ -110462,7 +110844,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229508+00:00"
           }
         },
         {
@@ -110514,7 +110898,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229532+00:00"
           }
         },
         {
@@ -110566,7 +110952,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229555+00:00"
           }
         },
         {
@@ -110613,7 +111001,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229578+00:00"
           }
         },
         {
@@ -110660,7 +111050,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 11.0,
+            "gradedAt": "2026-11-04T22:42:48.229608+00:00"
           }
         },
         {
@@ -110712,7 +111104,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.229630+00:00"
           }
         },
         {
@@ -110764,7 +111158,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.229652+00:00"
           }
         },
         {
@@ -110811,7 +111207,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.229673+00:00"
           }
         },
         {
@@ -110858,7 +111256,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.229695+00:00"
           }
         },
         {
@@ -110905,7 +111305,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.229718+00:00"
           }
         },
         {
@@ -110957,7 +111359,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.229742+00:00"
           }
         },
         {
@@ -111009,7 +111413,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.229767+00:00"
           }
         },
         {
@@ -118150,7 +118556,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.230789+00:00"
           }
         },
         {
@@ -122426,7 +122834,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.231085+00:00"
           }
         },
         {
@@ -122508,7 +122918,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.231129+00:00"
           }
         },
         {
@@ -122555,7 +122967,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.231155+00:00"
           }
         },
         {
@@ -122637,7 +123051,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.231194+00:00"
           }
         },
         {
@@ -133526,7 +133942,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.233478+00:00"
           }
         },
         {
@@ -133613,7 +134031,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.233526+00:00"
           }
         },
         {
@@ -133669,7 +134089,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 6.0,
+            "gradedAt": "2026-11-04T22:42:48.233553+00:00"
           }
         },
         {
@@ -133720,7 +134142,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.233578+00:00"
           }
         },
         {
@@ -133776,7 +134200,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.233614+00:00"
           }
         },
         {
@@ -133832,7 +134258,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.233641+00:00"
           }
         },
         {
@@ -136228,7 +136656,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.233969+00:00"
           }
         },
         {
@@ -136346,7 +136776,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234028+00:00"
           }
         },
         {
@@ -136402,7 +136834,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234052+00:00"
           }
         },
         {
@@ -136458,7 +136892,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234077+00:00"
           }
         },
         {
@@ -136514,7 +136950,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234101+00:00"
           }
         },
         {
@@ -136570,7 +137008,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234124+00:00"
           }
         },
         {
@@ -136626,7 +137066,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234147+00:00"
           }
         },
         {
@@ -136682,7 +137124,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234170+00:00"
           }
         },
         {
@@ -136738,7 +137182,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234193+00:00"
           }
         },
         {
@@ -136794,7 +137240,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234215+00:00"
           }
         },
         {
@@ -136850,7 +137298,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234237+00:00"
           }
         },
         {
@@ -136901,7 +137351,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234259+00:00"
           }
         },
         {
@@ -136957,7 +137409,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234283+00:00"
           }
         },
         {
@@ -137013,7 +137467,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234307+00:00"
           }
         },
         {
@@ -137278,7 +137734,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234406+00:00"
           }
         },
         {
@@ -137403,7 +137861,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.234455+00:00"
           }
         },
         {
@@ -137756,7 +138216,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234633+00:00"
           }
         },
         {
@@ -137799,7 +138261,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234652+00:00"
           }
         },
         {
@@ -137847,7 +138311,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234671+00:00"
           }
         },
         {
@@ -137890,7 +138356,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234689+00:00"
           }
         },
         {
@@ -137938,7 +138406,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234706+00:00"
           }
         },
         {
@@ -137986,7 +138456,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234723+00:00"
           }
         },
         {
@@ -138034,7 +138506,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234740+00:00"
           }
         },
         {
@@ -138082,7 +138556,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234757+00:00"
           }
         },
         {
@@ -138130,7 +138606,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234773+00:00"
           }
         },
         {
@@ -138178,7 +138656,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234790+00:00"
           }
         },
         {
@@ -138226,7 +138706,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234807+00:00"
           }
         },
         {
@@ -138274,7 +138756,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234824+00:00"
           }
         },
         {
@@ -138317,7 +138801,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234842+00:00"
           }
         },
         {
@@ -138360,7 +138846,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234860+00:00"
           }
         },
         {
@@ -138403,7 +138891,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234877+00:00"
           }
         },
         {
@@ -138446,7 +138936,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234894+00:00"
           }
         },
         {
@@ -138489,7 +138981,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234910+00:00"
           }
         },
         {
@@ -138532,7 +139026,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 13.0,
+            "gradedAt": "2026-11-04T22:42:48.234927+00:00"
           }
         },
         {
@@ -138580,7 +139076,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.234942+00:00"
           }
         },
         {
@@ -138628,7 +139126,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.234958+00:00"
           }
         },
         {
@@ -138676,7 +139176,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.234973+00:00"
           }
         },
         {
@@ -138719,7 +139221,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.234988+00:00"
           }
         },
         {
@@ -138762,7 +139266,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235003+00:00"
           }
         },
         {
@@ -138805,7 +139311,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235018+00:00"
           }
         },
         {
@@ -138848,7 +139356,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.235034+00:00"
           }
         },
         {
@@ -138896,7 +139406,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235051+00:00"
           }
         },
         {
@@ -138944,7 +139456,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235069+00:00"
           }
         },
         {
@@ -138995,7 +139509,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.235101+00:00"
           }
         },
         {
@@ -139077,7 +139593,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.235143+00:00"
           }
         },
         {
@@ -143776,7 +144294,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.235576+00:00"
           }
         },
         {
@@ -143886,7 +144406,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 15.0,
+            "gradedAt": "2026-11-04T22:42:48.235626+00:00"
           }
         },
         {
@@ -143934,7 +144456,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 15.0,
+            "gradedAt": "2026-11-04T22:42:48.235645+00:00"
           }
         },
         {
@@ -143982,7 +144506,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-11-04T22:42:48.235664+00:00"
           }
         },
         {
@@ -144030,7 +144556,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 15.0,
+            "gradedAt": "2026-11-04T22:42:48.235682+00:00"
           }
         },
         {
@@ -144078,7 +144606,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-11-04T22:42:48.235700+00:00"
           }
         },
         {
@@ -144126,7 +144656,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-11-04T22:42:48.235719+00:00"
           }
         },
         {
@@ -144174,7 +144706,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-11-04T22:42:48.235737+00:00"
           }
         },
         {
@@ -144222,7 +144756,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 15.0,
+            "gradedAt": "2026-11-04T22:42:48.235755+00:00"
           }
         },
         {
@@ -144270,7 +144806,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235772+00:00"
           }
         },
         {
@@ -144318,7 +144856,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235788+00:00"
           }
         },
         {
@@ -144366,7 +144906,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235804+00:00"
           }
         },
         {
@@ -144414,7 +144956,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235820+00:00"
           }
         },
         {
@@ -144462,7 +145006,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235838+00:00"
           }
         },
         {
@@ -144510,7 +145056,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.235857+00:00"
           }
         },
         {
@@ -147122,7 +147670,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.236170+00:00"
           }
         },
         {
@@ -147200,7 +147750,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.236205+00:00"
           }
         },
         {
@@ -151016,7 +151568,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.236490+00:00"
           }
         },
         {
@@ -154884,7 +155438,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.236945+00:00"
           }
         },
         {
@@ -155017,7 +155573,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.237005+00:00"
           }
         },
         {
@@ -156841,7 +157399,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.237168+00:00"
           }
         },
         {
@@ -156954,7 +157514,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 30.0,
+            "gradedAt": "2026-11-04T22:42:48.237230+00:00"
           }
         },
         {
@@ -157010,7 +157572,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 30.0,
+            "gradedAt": "2026-11-04T22:42:48.237257+00:00"
           }
         },
         {
@@ -157061,7 +157625,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 30.0,
+            "gradedAt": "2026-11-04T22:42:48.237282+00:00"
           }
         },
         {
@@ -157112,7 +157678,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 30.0,
+            "gradedAt": "2026-11-04T22:42:48.237308+00:00"
           }
         },
         {
@@ -157163,7 +157731,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 30.0,
+            "gradedAt": "2026-11-04T22:42:48.237334+00:00"
           }
         },
         {
@@ -157214,7 +157784,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 30.0,
+            "gradedAt": "2026-11-04T22:42:48.237359+00:00"
           }
         },
         {
@@ -157265,7 +157837,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 30.0,
+            "gradedAt": "2026-11-04T22:42:48.237384+00:00"
           }
         },
         {
@@ -157316,7 +157890,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.237409+00:00"
           }
         },
         {
@@ -157488,7 +158064,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.237478+00:00"
           }
         },
         {
@@ -157606,7 +158184,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237539+00:00"
           }
         },
         {
@@ -157662,7 +158242,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237564+00:00"
           }
         },
         {
@@ -157718,7 +158300,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237597+00:00"
           }
         },
         {
@@ -157774,7 +158358,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237622+00:00"
           }
         },
         {
@@ -157830,7 +158416,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237647+00:00"
           }
         },
         {
@@ -157886,7 +158474,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237671+00:00"
           }
         },
         {
@@ -157937,7 +158527,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237696+00:00"
           }
         },
         {
@@ -157988,7 +158580,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237721+00:00"
           }
         },
         {
@@ -158039,7 +158633,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237746+00:00"
           }
         },
         {
@@ -158090,7 +158686,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237771+00:00"
           }
         },
         {
@@ -158141,7 +158739,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.237796+00:00"
           }
         },
         {
@@ -158197,7 +158797,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.237819+00:00"
           }
         },
         {
@@ -158253,7 +158855,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.237842+00:00"
           }
         },
         {
@@ -158309,7 +158913,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.237864+00:00"
           }
         },
         {
@@ -158365,7 +158971,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.237887+00:00"
           }
         },
         {
@@ -158416,7 +159024,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.237909+00:00"
           }
         },
         {
@@ -158467,7 +159077,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.237932+00:00"
           }
         },
         {
@@ -158518,7 +159130,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.237956+00:00"
           }
         },
         {
@@ -158574,7 +159188,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.237981+00:00"
           }
         },
         {
@@ -158630,7 +159246,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.238006+00:00"
           }
         },
         {
@@ -173737,7 +174355,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.240069+00:00"
           }
         },
         {
@@ -177494,7 +178114,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.240457+00:00"
           }
         },
         {
@@ -177572,7 +178194,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.240497+00:00"
           }
         },
         {
@@ -177624,7 +178248,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.240527+00:00"
           }
         },
         {
@@ -177702,7 +178328,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.240571+00:00"
           }
         },
         {
@@ -177780,7 +178408,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-11-04T22:42:48.240624+00:00"
           }
         },
         {
@@ -177827,7 +178457,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-11-04T22:42:48.240651+00:00"
           }
         },
         {
@@ -177879,7 +178511,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 12.0,
+            "gradedAt": "2026-11-04T22:42:48.240677+00:00"
           }
         },
         {
@@ -177931,7 +178565,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-11-04T22:42:48.240703+00:00"
           }
         },
         {
@@ -177983,7 +178619,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240729+00:00"
           }
         },
         {
@@ -178035,7 +178673,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240754+00:00"
           }
         },
         {
@@ -178087,7 +178727,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240779+00:00"
           }
         },
         {
@@ -178139,7 +178781,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240804+00:00"
           }
         },
         {
@@ -178191,7 +178835,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240829+00:00"
           }
         },
         {
@@ -178243,7 +178889,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240853+00:00"
           }
         },
         {
@@ -178295,7 +178943,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240877+00:00"
           }
         },
         {
@@ -178342,7 +178992,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240901+00:00"
           }
         },
         {
@@ -178389,7 +179041,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240925+00:00"
           }
         },
         {
@@ -178436,7 +179090,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240949+00:00"
           }
         },
         {
@@ -178483,7 +179139,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 38.0,
+            "gradedAt": "2026-11-04T22:42:48.240973+00:00"
           }
         },
         {
@@ -178535,7 +179193,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.240996+00:00"
           }
         },
         {
@@ -178587,7 +179247,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.241019+00:00"
           }
         },
         {
@@ -178639,7 +179301,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.241043+00:00"
           }
         },
         {
@@ -178686,7 +179350,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.241065+00:00"
           }
         },
         {
@@ -178733,7 +179399,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241089+00:00"
           }
         },
         {
@@ -178785,7 +179453,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.241114+00:00"
           }
         },
         {
@@ -178837,7 +179507,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.241138+00:00"
           }
         },
         {
@@ -178884,7 +179556,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.241165+00:00"
           }
         },
         {
@@ -178962,7 +179636,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.241208+00:00"
           }
         },
         {
@@ -179041,7 +179717,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.241247+00:00"
           }
         },
         {
@@ -179120,7 +179798,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241277+00:00"
           }
         },
         {
@@ -179168,7 +179848,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241297+00:00"
           }
         },
         {
@@ -179216,7 +179898,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241317+00:00"
           }
         },
         {
@@ -179264,7 +179948,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241336+00:00"
           }
         },
         {
@@ -179312,7 +179998,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241355+00:00"
           }
         },
         {
@@ -179360,7 +180048,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241373+00:00"
           }
         },
         {
@@ -179408,7 +180098,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241391+00:00"
           }
         },
         {
@@ -179456,7 +180148,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241409+00:00"
           }
         },
         {
@@ -179504,7 +180198,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241428+00:00"
           }
         },
         {
@@ -179552,7 +180248,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241446+00:00"
           }
         },
         {
@@ -179600,7 +180298,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241464+00:00"
           }
         },
         {
@@ -179648,7 +180348,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241482+00:00"
           }
         },
         {
@@ -179696,7 +180398,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241500+00:00"
           }
         },
         {
@@ -179744,7 +180448,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241518+00:00"
           }
         },
         {
@@ -179792,7 +180498,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 22.0,
+            "gradedAt": "2026-11-04T22:42:48.241536+00:00"
           }
         },
         {
@@ -179840,7 +180548,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241553+00:00"
           }
         },
         {
@@ -179888,7 +180598,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241569+00:00"
           }
         },
         {
@@ -179936,7 +180648,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241585+00:00"
           }
         },
         {
@@ -179984,7 +180698,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241610+00:00"
           }
         },
         {
@@ -180032,7 +180748,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241626+00:00"
           }
         },
         {
@@ -180080,7 +180798,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241643+00:00"
           }
         },
         {
@@ -180128,7 +180848,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241659+00:00"
           }
         },
         {
@@ -180171,7 +180893,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.241677+00:00"
           }
         },
         {
@@ -180219,7 +180943,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241696+00:00"
           }
         },
         {
@@ -180267,7 +180993,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.241715+00:00"
           }
         },
         {
@@ -181568,7 +182296,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.241823+00:00"
           }
         },
         {
@@ -181651,7 +182381,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.241861+00:00"
           }
         },
         {
@@ -181734,7 +182466,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-11-04T22:42:48.241900+00:00"
           }
         },
         {
@@ -181786,7 +182520,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-11-04T22:42:48.241924+00:00"
           }
         },
         {
@@ -181838,7 +182574,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-11-04T22:42:48.241948+00:00"
           }
         },
         {
@@ -181890,7 +182628,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.241972+00:00"
           }
         },
         {
@@ -181942,7 +182682,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.241994+00:00"
           }
         },
         {
@@ -181994,7 +182736,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242017+00:00"
           }
         },
         {
@@ -182046,7 +182790,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242040+00:00"
           }
         },
         {
@@ -182098,7 +182844,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242063+00:00"
           }
         },
         {
@@ -182150,7 +182898,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242085+00:00"
           }
         },
         {
@@ -182202,7 +182952,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242107+00:00"
           }
         },
         {
@@ -182254,7 +183006,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242130+00:00"
           }
         },
         {
@@ -182306,7 +183060,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242153+00:00"
           }
         },
         {
@@ -182358,7 +183114,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242175+00:00"
           }
         },
         {
@@ -182410,7 +183168,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242197+00:00"
           }
         },
         {
@@ -182457,7 +183217,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 19.0,
+            "gradedAt": "2026-11-04T22:42:48.242219+00:00"
           }
         },
         {
@@ -182509,7 +183271,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.242240+00:00"
           }
         },
         {
@@ -182561,7 +183325,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.242260+00:00"
           }
         },
         {
@@ -182613,7 +183379,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.242281+00:00"
           }
         },
         {
@@ -182665,7 +183433,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.242301+00:00"
           }
         },
         {
@@ -182712,7 +183482,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.242322+00:00"
           }
         },
         {
@@ -182759,7 +183531,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.242343+00:00"
           }
         },
         {
@@ -182811,7 +183585,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.242365+00:00"
           }
         },
         {
@@ -182863,7 +183639,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.242387+00:00"
           }
         },
         {
@@ -182915,7 +183693,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.242410+00:00"
           }
         },
         {
@@ -194545,7 +195325,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.243847+00:00"
           }
         },
         {
@@ -194709,7 +195491,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.243932+00:00"
           }
         },
         {
@@ -198801,7 +199585,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.244053+00:00"
           }
         },
         {
@@ -198883,7 +199669,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-11-04T22:42:48.244099+00:00"
           }
         },
         {
@@ -198934,7 +199722,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-11-04T22:42:48.244127+00:00"
           }
         },
         {
@@ -198985,7 +199775,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 12.0,
+            "gradedAt": "2026-11-04T22:42:48.244154+00:00"
           }
         },
         {
@@ -199036,7 +199828,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 12.0,
+            "gradedAt": "2026-11-04T22:42:48.244182+00:00"
           }
         },
         {
@@ -199087,7 +199881,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.244208+00:00"
           }
         },
         {
@@ -201568,7 +202364,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244355+00:00"
           }
         },
         {
@@ -201650,7 +202448,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244396+00:00"
           }
         },
         {
@@ -204310,7 +205110,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244547+00:00"
           }
         },
         {
@@ -204389,7 +205191,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244577+00:00"
           }
         },
         {
@@ -204437,7 +205241,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244605+00:00"
           }
         },
         {
@@ -204485,7 +205291,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244625+00:00"
           }
         },
         {
@@ -204533,7 +205341,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244645+00:00"
           }
         },
         {
@@ -204576,7 +205386,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244663+00:00"
           }
         },
         {
@@ -204619,7 +205431,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244680+00:00"
           }
         },
         {
@@ -208690,7 +209504,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244799+00:00"
           }
         },
         {
@@ -208777,7 +209593,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.244850+00:00"
           }
         },
         {
@@ -208856,7 +209674,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.244891+00:00"
           }
         },
         {
@@ -208935,7 +209755,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.244921+00:00"
           }
         },
         {
@@ -208983,7 +209805,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.244940+00:00"
           }
         },
         {
@@ -209031,7 +209855,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.244959+00:00"
           }
         },
         {
@@ -209079,7 +209905,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.244977+00:00"
           }
         },
         {
@@ -209127,7 +209955,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.244996+00:00"
           }
         },
         {
@@ -209175,7 +210005,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.245013+00:00"
           }
         },
         {
@@ -209223,7 +210055,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.245032+00:00"
           }
         },
         {
@@ -209271,7 +210105,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.245049+00:00"
           }
         },
         {
@@ -209314,7 +210150,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.245067+00:00"
           }
         },
         {
@@ -209357,7 +210195,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.245085+00:00"
           }
         },
         {
@@ -209405,7 +210245,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.245102+00:00"
           }
         },
         {
@@ -209453,7 +210295,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.245118+00:00"
           }
         },
         {
@@ -209496,7 +210340,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.245134+00:00"
           }
         },
         {
@@ -209539,7 +210385,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.245152+00:00"
           }
         },
         {
@@ -209587,7 +210435,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.245171+00:00"
           }
         },
         {
@@ -209635,7 +210485,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.245190+00:00"
           }
         },
         {
@@ -211567,7 +212419,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.245289+00:00"
           }
         },
         {
@@ -212328,7 +213182,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.245355+00:00"
           }
         },
         {
@@ -212411,7 +213267,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.245390+00:00"
           }
         },
         {
@@ -212489,7 +213347,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.245423+00:00"
           }
         },
         {
@@ -215862,7 +216722,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.245546+00:00"
           }
         },
         {
@@ -222176,7 +223038,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.247269+00:00"
           }
         },
         {
@@ -226111,7 +226975,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.247784+00:00"
           }
         },
         {
@@ -259330,7 +260196,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.253672+00:00"
           }
         },
         {
@@ -259443,7 +260311,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.253754+00:00"
           }
         },
         {
@@ -277720,7 +278590,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.256536+00:00"
           }
         },
         {
@@ -277833,7 +278705,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.256617+00:00"
           }
         },
         {
@@ -278070,7 +278944,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.256761+00:00"
           }
         },
         {
@@ -278121,7 +278997,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.256788+00:00"
           }
         },
         {
@@ -278172,7 +279050,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.256816+00:00"
           }
         },
         {
@@ -278223,7 +279103,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 7.0,
+            "gradedAt": "2026-11-04T22:42:48.256843+00:00"
           }
         },
         {
@@ -278274,7 +279156,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.256870+00:00"
           }
         },
         {
@@ -278325,7 +279209,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.256895+00:00"
           }
         },
         {
@@ -278376,7 +279262,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.256922+00:00"
           }
         },
         {
@@ -278427,7 +279315,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.256947+00:00"
           }
         },
         {
@@ -278483,7 +279373,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.256972+00:00"
           }
         },
         {
@@ -278534,7 +279426,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.256997+00:00"
           }
         },
         {
@@ -278585,7 +279479,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.257022+00:00"
           }
         },
         {
@@ -278636,7 +279532,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.257047+00:00"
           }
         },
         {
@@ -278687,7 +279585,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.257072+00:00"
           }
         },
         {
@@ -278738,7 +279638,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.257098+00:00"
           }
         },
         {
@@ -278789,7 +279691,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 10.0,
+            "gradedAt": "2026-11-04T22:42:48.257124+00:00"
           }
         },
         {
@@ -278840,7 +279744,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.257149+00:00"
           }
         },
         {
@@ -278891,7 +279797,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.257173+00:00"
           }
         },
         {
@@ -278942,7 +279850,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.257196+00:00"
           }
         },
         {
@@ -278993,7 +279903,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.257220+00:00"
           }
         },
         {
@@ -279044,7 +279956,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.257244+00:00"
           }
         },
         {
@@ -279095,7 +280009,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.257270+00:00"
           }
         },
         {
@@ -279146,7 +280062,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.257298+00:00"
           }
         },
         {
@@ -279202,7 +280120,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 2.0,
+            "gradedAt": "2026-11-04T22:42:48.257324+00:00"
           }
         },
         {
@@ -279258,7 +280178,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.257354+00:00"
           }
         },
         {
@@ -287694,7 +288616,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.258944+00:00"
           }
         },
         {
@@ -287905,7 +288829,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259077+00:00"
           }
         },
         {
@@ -287956,7 +288882,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259107+00:00"
           }
         },
         {
@@ -288012,7 +288940,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259137+00:00"
           }
         },
         {
@@ -288068,7 +288998,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259166+00:00"
           }
         },
         {
@@ -288124,7 +289056,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259195+00:00"
           }
         },
         {
@@ -288180,7 +289114,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259223+00:00"
           }
         },
         {
@@ -288236,7 +289172,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259250+00:00"
           }
         },
         {
@@ -288292,7 +289230,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259278+00:00"
           }
         },
         {
@@ -288348,7 +289288,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259305+00:00"
           }
         },
         {
@@ -288404,7 +289346,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259333+00:00"
           }
         },
         {
@@ -288455,7 +289399,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259361+00:00"
           }
         },
         {
@@ -288506,7 +289452,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259388+00:00"
           }
         },
         {
@@ -288557,7 +289505,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259415+00:00"
           }
         },
         {
@@ -288608,7 +289558,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 3.0,
+            "gradedAt": "2026-11-04T22:42:48.259442+00:00"
           }
         },
         {
@@ -288664,7 +289616,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.259468+00:00"
           }
         },
         {
@@ -288720,7 +289674,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.259494+00:00"
           }
         },
         {
@@ -288771,7 +289727,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.259519+00:00"
           }
         },
         {
@@ -288822,7 +289780,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.259544+00:00"
           }
         },
         {
@@ -288873,7 +289833,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.259571+00:00"
           }
         },
         {
@@ -288929,7 +289891,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.259608+00:00"
           }
         },
         {
@@ -288985,7 +289949,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.259636+00:00"
           }
         },
         {
@@ -298966,7 +299932,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.261735+00:00"
           }
         },
         {
@@ -299102,7 +300070,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.261810+00:00"
           }
         },
         {
@@ -299305,7 +300275,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-11-04T22:42:48.261887+00:00"
           }
         },
         {
@@ -299353,7 +300325,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-11-04T22:42:48.261907+00:00"
           }
         },
         {
@@ -299401,7 +300375,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-11-04T22:42:48.261926+00:00"
           }
         },
         {
@@ -299449,7 +300425,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 9.0,
+            "gradedAt": "2026-11-04T22:42:48.261946+00:00"
           }
         },
         {
@@ -299497,7 +300475,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.261965+00:00"
           }
         },
         {
@@ -299545,7 +300525,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.261983+00:00"
           }
         },
         {
@@ -299593,7 +300575,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262002+00:00"
           }
         },
         {
@@ -299641,7 +300625,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262020+00:00"
           }
         },
         {
@@ -299689,7 +300675,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262038+00:00"
           }
         },
         {
@@ -299737,7 +300725,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262056+00:00"
           }
         },
         {
@@ -299785,7 +300775,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262074+00:00"
           }
         },
         {
@@ -299833,7 +300825,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262091+00:00"
           }
         },
         {
@@ -299881,7 +300875,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262109+00:00"
           }
         },
         {
@@ -299929,7 +300925,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262126+00:00"
           }
         },
         {
@@ -299977,7 +300975,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 31.0,
+            "gradedAt": "2026-11-04T22:42:48.262144+00:00"
           }
         },
         {
@@ -300025,7 +301025,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.262160+00:00"
           }
         },
         {
@@ -300073,7 +301075,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.262178+00:00"
           }
         },
         {
@@ -300121,7 +301125,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.262194+00:00"
           }
         },
         {
@@ -300169,7 +301175,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.262210+00:00"
           }
         },
         {
@@ -300212,7 +301220,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.262227+00:00"
           }
         },
         {
@@ -300260,7 +301270,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.262246+00:00"
           }
         },
         {
@@ -300308,7 +301320,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 4.0,
+            "gradedAt": "2026-11-04T22:42:48.262265+00:00"
           }
         },
         {
@@ -307956,7 +308970,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.263415+00:00"
           }
         },
         {
@@ -308221,7 +309237,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263520+00:00"
           }
         },
         {
@@ -308269,7 +309287,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263541+00:00"
           }
         },
         {
@@ -308317,7 +309337,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263561+00:00"
           }
         },
         {
@@ -308365,7 +309387,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263582+00:00"
           }
         },
         {
@@ -308413,7 +309437,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263622+00:00"
           }
         },
         {
@@ -308461,7 +309487,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263641+00:00"
           }
         },
         {
@@ -308509,7 +309537,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263660+00:00"
           }
         },
         {
@@ -308557,7 +309587,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263678+00:00"
           }
         },
         {
@@ -308605,7 +309637,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263696+00:00"
           }
         },
         {
@@ -308653,7 +309687,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263714+00:00"
           }
         },
         {
@@ -308701,7 +309737,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263732+00:00"
           }
         },
         {
@@ -308749,7 +309787,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263750+00:00"
           }
         },
         {
@@ -308797,7 +309837,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263768+00:00"
           }
         },
         {
@@ -308845,7 +309887,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263786+00:00"
           }
         },
         {
@@ -308888,7 +309932,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263804+00:00"
           }
         },
         {
@@ -308931,7 +309977,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263821+00:00"
           }
         },
         {
@@ -308974,7 +310022,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.263839+00:00"
           }
         },
         {
@@ -309022,7 +310072,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.263857+00:00"
           }
         },
         {
@@ -309070,7 +310122,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.263873+00:00"
           }
         },
         {
@@ -309118,7 +310172,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.263889+00:00"
           }
         },
         {
@@ -309166,7 +310222,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.263906+00:00"
           }
         },
         {
@@ -309209,7 +310267,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.263922+00:00"
           }
         },
         {
@@ -309252,7 +310312,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.263940+00:00"
           }
         },
         {
@@ -309300,7 +310362,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.263958+00:00"
           }
         },
         {
@@ -309348,7 +310412,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.263977+00:00"
           }
         },
         {
@@ -313538,7 +314604,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.264543+00:00"
           }
         },
         {
@@ -313651,7 +314719,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.264620+00:00"
           }
         },
         {
@@ -313769,7 +314839,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264678+00:00"
           }
         },
         {
@@ -313825,7 +314897,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264702+00:00"
           }
         },
         {
@@ -313876,7 +314950,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264726+00:00"
           }
         },
         {
@@ -313932,7 +315008,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264750+00:00"
           }
         },
         {
@@ -313983,7 +315061,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264773+00:00"
           }
         },
         {
@@ -314034,7 +315114,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264796+00:00"
           }
         },
         {
@@ -314085,7 +315167,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264818+00:00"
           }
         },
         {
@@ -314136,7 +315220,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264841+00:00"
           }
         },
         {
@@ -314187,7 +315273,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 5.0,
+            "gradedAt": "2026-11-04T22:42:48.264865+00:00"
           }
         },
         {
@@ -314238,7 +315326,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.264887+00:00"
           }
         },
         {
@@ -314312,7 +315402,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.264926+00:00"
           }
         },
         {
@@ -314417,7 +315509,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 1.0,
+            "gradedAt": "2026-11-04T22:42:48.264971+00:00"
           }
         },
         {
@@ -326839,7 +327933,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267388+00:00"
           }
         },
         {
@@ -326944,7 +328040,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267433+00:00"
           }
         },
         {
@@ -327049,7 +328147,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267475+00:00"
           }
         },
         {
@@ -327190,7 +328290,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267531+00:00"
           }
         },
         {
@@ -327238,7 +328340,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267552+00:00"
           }
         },
         {
@@ -327286,7 +328390,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267571+00:00"
           }
         },
         {
@@ -327334,7 +328440,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267611+00:00"
           }
         },
         {
@@ -327382,7 +328490,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267631+00:00"
           }
         },
         {
@@ -327430,7 +328540,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267649+00:00"
           }
         },
         {
@@ -327478,7 +328590,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267668+00:00"
           }
         },
         {
@@ -327521,7 +328635,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267687+00:00"
           }
         },
         {
@@ -327569,7 +328685,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267704+00:00"
           }
         },
         {
@@ -327612,7 +328730,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267720+00:00"
           }
         },
         {
@@ -327655,7 +328775,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267737+00:00"
           }
         },
         {
@@ -327703,7 +328825,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267757+00:00"
           }
         },
         {
@@ -327751,7 +328875,9 @@
             "season": 2026
           },
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.267776+00:00"
           }
         },
         {
@@ -348425,7 +349551,9 @@
           },
           "avgHitTime": null,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": 0.0,
+            "gradedAt": "2026-11-04T22:42:48.271982+00:00"
           }
         },
         {
@@ -369472,5 +370600,5 @@
       "snapshotKind": "last-pregame"
     }
   ],
-  "updatedAt": "2026-11-02T10:07:45.634337+00:00"
+  "updatedAt": "2026-11-04T22:42:48.274715+00:00"
 }
