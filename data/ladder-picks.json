@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-19T21:38:56.445599+00:00",
+  "updatedAt": "2026-11-20T00:39:08.118656+00:00",
   "picks": [
     {
       "day": 1,
@@ -9082,6 +9082,513 @@
             "status": "miss",
             "actual": 17.0,
             "gradedAt": "2026-11-03T06:52:04.602565+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 11,
+      "day": 5,
+      "date": "2026-11-19",
+      "eventId": "36305232",
+      "matchup": "IND @ HOU",
+      "slot": "game-36305232",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-11-20T00:39:08.118656+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -100,
+      "decimalOdds": 1.995347,
+      "estimatedProbability": 0.627361,
+      "confidence": 85.7,
+      "selectionTier": "Relaxed history",
+      "simulations": 60000,
+      "status": "pending",
+      "legs": [
+        {
+          "selection": "Over",
+          "matchup": "IND @ HOU",
+          "market": "Receiving Yards",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429022.png",
+          "decimalOdds": 1.333333333333333,
+          "scope": "player",
+          "awayAbbr": "IND",
+          "position": "WR",
+          "odds": -300,
+          "alternate": true,
+          "team": "HOU",
+          "proposition": "Over 14.5 Receiving Yards",
+          "line": 14.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "player": "Kayshon Boutte",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 89,
+              "hits": 8,
+              "total": 9
+            },
+            "previous": {
+              "pct": 93,
+              "hits": 13,
+              "total": 14
+            }
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "key": "36305232\u00a6Kayshon Boutte\u00a6Receiving Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Receiving Yards",
+          "confidence": 81.5,
+          "estimatedProbability": 0.814558,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Cover",
+          "matchup": "IND @ HOU",
+          "market": "Alt Spread",
+          "headshot": "",
+          "decimalOdds": 1.338983050847458,
+          "scope": "team",
+          "awayAbbr": "IND",
+          "position": "TEAM",
+          "odds": -295,
+          "alternate": true,
+          "team": "IND",
+          "proposition": "IND +19.5 Alt Spread",
+          "line": 19.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "teamMarketType": "spread",
+          "player": "",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "h2h": {
+              "hits": 3,
+              "total": 3,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "teamName": "Indianapolis Colts",
+          "key": "36305232\u00a6IND\u00a6Alt Spread\u00a6Cover\u00a619.5\u00a6IND +19.5 Alt Spread",
+          "confidence": 86.2,
+          "estimatedProbability": 0.862455,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "matchup": "IND @ HOU",
+          "market": "Receiving Yards",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3117256.png",
+          "decimalOdds": 1.117647058823529,
+          "scope": "player",
+          "awayAbbr": "IND",
+          "position": "TE",
+          "odds": -850,
+          "alternate": true,
+          "team": "HOU",
+          "proposition": "Over 9.5 Receiving Yards",
+          "line": 9.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "player": "Dalton Schultz",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "current": {
+              "pct": 89,
+              "hits": 8,
+              "total": 9
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "key": "36305232\u00a6Dalton Schultz\u00a6Receiving Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Receiving Yards",
+          "confidence": 89.3,
+          "estimatedProbability": 0.893015,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-11-19",
+      "eventId": "36305232",
+      "matchup": "IND @ HOU",
+      "slot": "game-36305232",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-11-20T00:39:08.118656+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1105,
+      "decimalOdds": 12.054745,
+      "estimatedProbability": 0.227155,
+      "confidence": 78.3,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "selection": "Over",
+          "matchup": "IND @ HOU",
+          "market": "Receiving Yards",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4366031.png",
+          "decimalOdds": 1.166666666666667,
+          "scope": "player",
+          "awayAbbr": "IND",
+          "position": "WR",
+          "odds": -600,
+          "alternate": true,
+          "team": "HOU",
+          "proposition": "Over 14.5 Receiving Yards",
+          "line": 14.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "player": "Tank Dell",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": null
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "key": "36305232\u00a6Tank Dell\u00a6Receiving Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Receiving Yards",
+          "confidence": 88.0,
+          "estimatedProbability": 0.880059,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Cover",
+          "matchup": "IND @ HOU",
+          "market": "Spread",
+          "headshot": "",
+          "decimalOdds": 1.909090909090909,
+          "scope": "team",
+          "awayAbbr": "IND",
+          "position": "TEAM",
+          "odds": -110,
+          "alternate": false,
+          "team": "IND",
+          "proposition": "IND +12.5 Spread",
+          "line": 12.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "teamMarketType": "spread",
+          "player": "",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 8,
+              "total": 10,
+              "pct": 80.0
+            },
+            "h2h": {
+              "hits": 3,
+              "total": 3,
+              "pct": 100.0
+            },
+            "current": {
+              "hits": 8,
+              "total": 10,
+              "pct": 80.0
+            },
+            "previous": {
+              "hits": 15,
+              "total": 17,
+              "pct": 88.2
+            }
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "teamName": "Indianapolis Colts",
+          "key": "36305232\u00a6IND\u00a6Spread\u00a6Cover\u00a612.5\u00a6IND +12.5 Spread",
+          "confidence": 77.6,
+          "estimatedProbability": 0.776294,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Under",
+          "matchup": "IND @ HOU",
+          "market": "Total Receptions",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4061956.png",
+          "decimalOdds": 1.602409638554217,
+          "scope": "player",
+          "awayAbbr": "IND",
+          "position": "WR",
+          "odds": -166,
+          "alternate": false,
+          "team": "IND",
+          "proposition": "Under 1.5 Total Receptions",
+          "line": 1.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "player": "Ashton Dulin",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 83,
+              "hits": 5,
+              "total": 6
+            },
+            "previous": {
+              "pct": 92,
+              "hits": 11,
+              "total": 12
+            }
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "key": "36305232\u00a6Ashton Dulin\u00a6Total Receptions\u00a6Under\u00a61.5\u00a6Under 1.5 Total Receptions",
+          "confidence": 75.6,
+          "estimatedProbability": 0.756359,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Under",
+          "matchup": "IND @ HOU",
+          "market": "Total Receptions",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429684.png",
+          "decimalOdds": 1.555555555555556,
+          "scope": "player",
+          "awayAbbr": "IND",
+          "position": "WR",
+          "odds": -180,
+          "alternate": false,
+          "team": "IND",
+          "proposition": "Under 2.5 Total Receptions",
+          "line": 2.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "player": "Anthony Gould",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 11,
+              "total": 11
+            }
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "key": "36305232\u00a6Anthony Gould\u00a6Total Receptions\u00a6Under\u00a62.5\u00a6Under 2.5 Total Receptions",
+          "confidence": 83.2,
+          "estimatedProbability": 0.832165,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Under",
+          "matchup": "IND @ HOU",
+          "market": "Total Receptions",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3051889.png",
+          "decimalOdds": 1.769230769230769,
+          "scope": "player",
+          "awayAbbr": "IND",
+          "position": "WR",
+          "odds": -130,
+          "alternate": false,
+          "team": "IND",
+          "proposition": "Under 2.5 Total Receptions",
+          "line": 2.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "player": "Laquon Treadwell",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "current": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            }
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "key": "36305232\u00a6Laquon Treadwell\u00a6Total Receptions\u00a6Under\u00a62.5\u00a6Under 2.5 Total Receptions",
+          "confidence": 70.7,
+          "estimatedProbability": 0.707449,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "selection": "Over",
+          "matchup": "IND @ HOU",
+          "market": "Passing Yards",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4432577.png",
+          "decimalOdds": 1.227272727272727,
+          "scope": "player",
+          "awayAbbr": "IND",
+          "position": "QB",
+          "odds": -440,
+          "alternate": true,
+          "team": "HOU",
+          "proposition": "Over 199.5 Passing Yards",
+          "line": 199.5,
+          "eventId": "36305232",
+          "homeAbbr": "HOU",
+          "player": "C.J. Stroud",
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 70,
+              "hits": 7,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 33,
+              "hits": 1,
+              "total": 3
+            },
+            "current": {
+              "pct": 78,
+              "hits": 7,
+              "total": 9
+            },
+            "previous": {
+              "pct": 71,
+              "hits": 10,
+              "total": 14
+            }
+          },
+          "commenceTime": "2026-11-20T01:16:00.000Z",
+          "key": "36305232\u00a6C.J. Stroud\u00a6Passing Yards\u00a6Over\u00a6199.5\u00a6Over 199.5 Passing Yards",
+          "confidence": 74.7,
+          "estimatedProbability": 0.746708,
+          "result": {
+            "status": "pending"
           }
         }
       ]
