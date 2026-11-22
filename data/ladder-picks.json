@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-22T19:45:53.582611+00:00",
+  "updatedAt": "2026-11-22T20:58:54.919949+00:00",
   "picks": [
     {
       "day": 1,
@@ -9607,6 +9607,711 @@
             "status": "miss",
             "actual": 194.0,
             "gradedAt": "2026-11-20T09:53:27.760443+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 12,
+      "day": 2,
+      "provisionalDay": true,
+      "date": "2026-11-22",
+      "slot": "mid",
+      "slotLabel": "Mid-afternoon slate",
+      "slotOrder": 2,
+      "createdAt": "2026-11-22T20:58:54.919949+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 100,
+      "decimalOdds": 2.004122,
+      "estimatedProbability": 0.644525,
+      "confidence": 89.6,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "headshot": "",
+          "eventId": "36305243",
+          "line": 18.5,
+          "decimalOdds": 1.149253731343284,
+          "scope": "team",
+          "position": "TEAM",
+          "teamMarketType": "spread",
+          "team": "NYG",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 9,
+              "total": 10,
+              "pct": 90.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 8,
+              "total": 9,
+              "pct": 88.9
+            },
+            "previous": {
+              "hits": 17,
+              "total": 17,
+              "pct": 100.0
+            }
+          },
+          "selection": "Cover",
+          "player": "",
+          "homeAbbr": "NYG",
+          "matchup": "JAX @ NYG",
+          "teamName": "New York Giants",
+          "odds": -670,
+          "awayAbbr": "JAX",
+          "market": "Alt Spread",
+          "proposition": "NYG +18.5 Alt Spread",
+          "alternate": true,
+          "commenceTime": "2026-11-22T21:26:00.000Z",
+          "key": "36305243\u00a6NYG\u00a6Alt Spread\u00a6Cover\u00a618.5\u00a6NYG +18.5 Alt Spread",
+          "confidence": 91.7,
+          "estimatedProbability": 0.916838,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4241985.png",
+          "eventId": "36305239",
+          "line": 9.5,
+          "decimalOdds": 1.212765957446809,
+          "scope": "player",
+          "position": "RB",
+          "team": "DEN",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 9,
+              "total": 9
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            }
+          },
+          "selection": "Over",
+          "player": "J.K. Dobbins",
+          "homeAbbr": "DEN",
+          "matchup": "LV @ DEN",
+          "odds": -470,
+          "awayAbbr": "LV",
+          "market": "Rushing Yards",
+          "proposition": "Over 9.5 Rushing Yards",
+          "alternate": true,
+          "commenceTime": "2026-11-22T21:26:00.000Z",
+          "key": "36305239\u00a6J.K. Dobbins\u00a6Rushing Yards\u00a6Over\u00a69.5\u00a6Over 9.5 Rushing Yards",
+          "confidence": 89.8,
+          "estimatedProbability": 0.898207,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4686472.png",
+          "eventId": "36305239",
+          "line": 0.5,
+          "decimalOdds": 1.294117647058824,
+          "scope": "player",
+          "position": "WR",
+          "team": "DEN",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 87,
+              "hits": 13,
+              "total": 15
+            }
+          },
+          "selection": "Over",
+          "player": "Marvin Mims Jr.",
+          "homeAbbr": "DEN",
+          "matchup": "LV @ DEN",
+          "odds": -340,
+          "awayAbbr": "LV",
+          "market": "Receptions",
+          "proposition": "Over 0.5 Receptions",
+          "alternate": true,
+          "commenceTime": "2026-11-22T21:26:00.000Z",
+          "key": "36305239\u00a6Marvin Mims Jr.\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 86.5,
+          "estimatedProbability": 0.865241,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429025.png",
+          "eventId": "36305240",
+          "line": 0.5,
+          "decimalOdds": 1.111111111111111,
+          "scope": "player",
+          "position": "WR",
+          "team": "LAC",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 8,
+              "total": 8
+            },
+            "previous": {
+              "pct": 86,
+              "hits": 12,
+              "total": 14
+            }
+          },
+          "selection": "Over",
+          "player": "Quentin Johnston",
+          "homeAbbr": "LAC",
+          "matchup": "NYJ @ LAC",
+          "odds": -900,
+          "awayAbbr": "NYJ",
+          "market": "Receptions",
+          "proposition": "Over 0.5 Receptions",
+          "alternate": true,
+          "commenceTime": "2026-11-22T21:06:00.000Z",
+          "key": "36305240\u00a6Quentin Johnston\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 90.5,
+          "estimatedProbability": 0.904551,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "run": 12,
+      "day": 3,
+      "provisionalDay": true,
+      "date": "2026-11-22",
+      "slot": "snf",
+      "slotLabel": "Sunday Night Football",
+      "slotOrder": 3,
+      "createdAt": "2026-11-22T20:58:54.919949+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -100,
+      "decimalOdds": 1.99723,
+      "estimatedProbability": 0.659086,
+      "confidence": 87.0,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/16737.png",
+          "eventId": "35605987",
+          "line": 29.5,
+          "decimalOdds": 1.32258064516129,
+          "scope": "player",
+          "position": "WR",
+          "team": "SF",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 7,
+              "total": 8
+            }
+          },
+          "selection": "Over",
+          "player": "Mike Evans",
+          "homeAbbr": "SF",
+          "matchup": "MIN @ SF",
+          "odds": -310,
+          "awayAbbr": "MIN",
+          "market": "Receiving Yards",
+          "proposition": "Over 29.5 Receiving Yards",
+          "alternate": true,
+          "commenceTime": "2026-11-23T01:20:00.000Z",
+          "key": "35605987\u00a6Mike Evans\u00a6Receiving Yards\u00a6Over\u00a629.5\u00a6Over 29.5 Receiving Yards",
+          "confidence": 85.9,
+          "estimatedProbability": 0.858882,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/15818.png",
+          "eventId": "35605987",
+          "line": 1.5,
+          "decimalOdds": 1.277777777777778,
+          "scope": "player",
+          "position": "WR",
+          "team": "SF",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 89,
+              "hits": 8,
+              "total": 9
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "selection": "Over",
+          "player": "Keenan Allen",
+          "homeAbbr": "SF",
+          "matchup": "MIN @ SF",
+          "odds": -360,
+          "awayAbbr": "MIN",
+          "market": "Receptions",
+          "proposition": "Over 1.5 Receptions",
+          "alternate": true,
+          "commenceTime": "2026-11-23T01:20:00.000Z",
+          "key": "35605987\u00a6Keenan Allen\u00a6Receptions\u00a6Over\u00a61.5\u00a6Over 1.5 Receptions",
+          "confidence": 85.5,
+          "estimatedProbability": 0.854941,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3117251.png",
+          "eventId": "35605987",
+          "line": 14.5,
+          "decimalOdds": 1.181818181818182,
+          "scope": "player",
+          "position": "RB",
+          "team": "SF",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 9,
+              "total": 9
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 16,
+              "total": 17
+            }
+          },
+          "selection": "Over",
+          "player": "Christian McCaffrey",
+          "homeAbbr": "SF",
+          "matchup": "MIN @ SF",
+          "odds": -550,
+          "awayAbbr": "MIN",
+          "market": "Receiving Yards",
+          "proposition": "Over 14.5 Receiving Yards",
+          "alternate": true,
+          "commenceTime": "2026-11-23T01:20:00.000Z",
+          "key": "35605987\u00a6Christian McCaffrey\u00a6Receiving Yards\u00a6Over\u00a614.5\u00a6Over 14.5 Receiving Yards",
+          "confidence": 89.8,
+          "estimatedProbability": 0.897579,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-11-22",
+      "slot": "all-sunday",
+      "slotLabel": "Full Sunday slate",
+      "slotOrder": 99,
+      "createdAt": "2026-11-22T20:58:54.919949+00:00",
+      "target": "Sunday Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1016,
+      "decimalOdds": 11.160351,
+      "estimatedProbability": 0.262947,
+      "confidence": 80.3,
+      "selectionTier": "Best available +1000",
+      "simulations": 120000,
+      "status": "pending",
+      "legs": [
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4429025.png",
+          "eventId": "36305240",
+          "line": 4.5,
+          "decimalOdds": 1.153846153846154,
+          "scope": "player",
+          "position": "WR",
+          "team": "LAC",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 8,
+              "total": 8
+            },
+            "previous": {
+              "pct": 86,
+              "hits": 12,
+              "total": 14
+            }
+          },
+          "selection": "Over",
+          "player": "Quentin Johnston",
+          "homeAbbr": "LAC",
+          "matchup": "NYJ @ LAC",
+          "odds": -650,
+          "awayAbbr": "NYJ",
+          "market": "Receiving Yards",
+          "proposition": "Over 4.5 Receiving Yards",
+          "alternate": true,
+          "commenceTime": "2026-11-22T21:06:00.000Z",
+          "key": "36305240\u00a6Quentin Johnston\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
+          "confidence": 89.4,
+          "estimatedProbability": 0.893762,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4686472.png",
+          "eventId": "36305239",
+          "line": 0.5,
+          "decimalOdds": 1.294117647058824,
+          "scope": "player",
+          "position": "WR",
+          "team": "DEN",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 6,
+              "total": 6
+            },
+            "previous": {
+              "pct": 87,
+              "hits": 13,
+              "total": 15
+            }
+          },
+          "selection": "Over",
+          "player": "Marvin Mims Jr.",
+          "homeAbbr": "DEN",
+          "matchup": "LV @ DEN",
+          "odds": -340,
+          "awayAbbr": "LV",
+          "market": "Receptions",
+          "proposition": "Over 0.5 Receptions",
+          "alternate": true,
+          "commenceTime": "2026-11-22T21:26:00.000Z",
+          "key": "36305239\u00a6Marvin Mims Jr.\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 86.5,
+          "estimatedProbability": 0.865241,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4682648.png",
+          "eventId": "36305243",
+          "line": 1.5,
+          "decimalOdds": 1.333333333333333,
+          "scope": "player",
+          "position": "WR",
+          "team": "NYG",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 9,
+              "total": 9
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 9,
+              "total": 9
+            },
+            "previous": null
+          },
+          "selection": "Over",
+          "player": "Malachi Fields",
+          "homeAbbr": "NYG",
+          "matchup": "JAX @ NYG",
+          "odds": -300,
+          "awayAbbr": "JAX",
+          "market": "Receptions",
+          "proposition": "Over 1.5 Receptions",
+          "alternate": true,
+          "commenceTime": "2026-11-22T21:26:00.000Z",
+          "key": "36305243\u00a6Malachi Fields\u00a6Receptions\u00a6Over\u00a61.5\u00a6Over 1.5 Receptions",
+          "confidence": 84.7,
+          "estimatedProbability": 0.847064,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4038941.png",
+          "eventId": "36305240",
+          "line": 1.5,
+          "decimalOdds": 1.641025641025641,
+          "scope": "player",
+          "position": "QB",
+          "team": "LAC",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 9,
+              "total": 9
+            },
+            "previous": {
+              "pct": 50,
+              "hits": 8,
+              "total": 16
+            }
+          },
+          "selection": "Under",
+          "player": "Justin Herbert",
+          "homeAbbr": "LAC",
+          "matchup": "NYJ @ LAC",
+          "odds": -156,
+          "awayAbbr": "NYJ",
+          "market": "Passing TDs",
+          "proposition": "Under 1.5 Passing TDs",
+          "alternate": false,
+          "commenceTime": "2026-11-22T21:06:00.000Z",
+          "key": "36305240\u00a6Justin Herbert\u00a6Passing TDs\u00a6Under\u00a61.5\u00a6Under 1.5 Passing TDs",
+          "confidence": 75.2,
+          "estimatedProbability": 0.751747,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "",
+          "eventId": "36305240",
+          "line": 23.5,
+          "decimalOdds": 1.819672131147541,
+          "scope": "team",
+          "position": "TEAM",
+          "teamMarketType": "teamTotal",
+          "team": "LAC",
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 10,
+              "total": 10,
+              "pct": 100.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 9,
+              "total": 9,
+              "pct": 100.0
+            },
+            "previous": {
+              "hits": 9,
+              "total": 17,
+              "pct": 52.9
+            }
+          },
+          "selection": "Under",
+          "player": "",
+          "homeAbbr": "LAC",
+          "matchup": "NYJ @ LAC",
+          "teamName": "Los Angeles Chargers",
+          "odds": -122,
+          "awayAbbr": "NYJ",
+          "market": "Team Total",
+          "proposition": "Under 23.5 LAC Team Total",
+          "alternate": false,
+          "commenceTime": "2026-11-22T21:06:00.000Z",
+          "key": "36305240\u00a6LAC\u00a6Team Total\u00a6Under\u00a623.5\u00a6Under 23.5 LAC Team Total",
+          "confidence": 72.2,
+          "estimatedProbability": 0.722249,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/15818.png",
+          "eventId": "35605987",
+          "line": 2.5,
+          "decimalOdds": 1.87719298245614,
+          "scope": "player",
+          "position": "WR",
+          "team": "SF",
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 2,
+              "total": 2
+            },
+            "current": {
+              "pct": 89,
+              "hits": 8,
+              "total": 9
+            },
+            "previous": {
+              "pct": 82,
+              "hits": 14,
+              "total": 17
+            }
+          },
+          "selection": "Over",
+          "player": "Keenan Allen",
+          "homeAbbr": "SF",
+          "matchup": "MIN @ SF",
+          "odds": -114,
+          "awayAbbr": "MIN",
+          "market": "Total Receptions",
+          "proposition": "Over 2.5 Total Receptions",
+          "alternate": false,
+          "commenceTime": "2026-11-23T01:20:00.000Z",
+          "key": "35605987\u00a6Keenan Allen\u00a6Total Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Total Receptions",
+          "confidence": 73.9,
+          "estimatedProbability": 0.739322,
+          "result": {
+            "status": "pending"
           }
         }
       ]
