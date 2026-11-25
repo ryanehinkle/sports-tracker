@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-25T13:01:22.961471+00:00",
+  "updatedAt": "2026-11-25T22:37:39.526390+00:00",
   "picks": [
     {
       "day": 1,
@@ -10338,6 +10338,399 @@
             "status": "hit",
             "actual": 3.0,
             "gradedAt": "2026-11-23T09:11:17.234635+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 14,
+      "day": 1,
+      "date": "2026-11-25",
+      "eventId": "35607031",
+      "matchup": "GB @ LAR",
+      "slot": "game-35607031",
+      "slotLabel": "Standalone game",
+      "slotOrder": 1,
+      "createdAt": "2026-11-25T22:37:39.526390+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": 445,
+      "decimalOdds": 5.445741,
+      "estimatedProbability": 0.235442,
+      "confidence": 61.9,
+      "selectionTier": "Best available",
+      "simulations": 60000,
+      "status": "pending",
+      "legs": [
+        {
+          "matchup": "GB @ LAR",
+          "proposition": "LAR Moneyline",
+          "player": "",
+          "teamMarketType": "moneyline",
+          "selection": "Win",
+          "odds": -188,
+          "awayAbbr": "GB",
+          "market": "Moneyline",
+          "position": "TEAM",
+          "decimalOdds": 1.531914893617021,
+          "line": null,
+          "team": "LAR",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 6,
+              "total": 10,
+              "pct": 60.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 6,
+              "total": 10,
+              "pct": 60.0
+            },
+            "previous": {
+              "hits": 12,
+              "total": 17,
+              "pct": 70.6
+            }
+          },
+          "commenceTime": "2026-11-26T01:00:00.000Z",
+          "eventId": "35607031",
+          "alternate": false,
+          "teamName": "Los Angeles Rams",
+          "homeAbbr": "LAR",
+          "scope": "team",
+          "headshot": "",
+          "key": "35607031\u00a6LAR\u00a6Moneyline\u00a6Win\u00a6\u00a6LAR Moneyline",
+          "confidence": 63.8,
+          "estimatedProbability": 0.638098,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "matchup": "GB @ LAR",
+          "proposition": "Under 45.5 Game Total",
+          "player": "",
+          "teamMarketType": "gameTotal",
+          "selection": "Under",
+          "odds": -116,
+          "awayAbbr": "GB",
+          "market": "Game Total",
+          "position": "GAME",
+          "decimalOdds": 1.862068965517241,
+          "line": 45.5,
+          "team": "",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "previous": {
+              "hits": 6,
+              "total": 17,
+              "pct": 35.3
+            }
+          },
+          "commenceTime": "2026-11-26T01:00:00.000Z",
+          "eventId": "35607031",
+          "alternate": false,
+          "teamName": "",
+          "homeAbbr": "LAR",
+          "scope": "game",
+          "headshot": "",
+          "key": "35607031\u00a6game\u00a6Game Total\u00a6Under\u00a645.5\u00a6Under 45.5 Game Total",
+          "confidence": 56.6,
+          "estimatedProbability": 0.566022,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "matchup": "GB @ LAR",
+          "proposition": "GB +3.5 Spread",
+          "player": "",
+          "teamMarketType": "spread",
+          "selection": "Cover",
+          "odds": -110,
+          "awayAbbr": "GB",
+          "market": "Spread",
+          "position": "TEAM",
+          "decimalOdds": 1.909090909090909,
+          "line": 3.5,
+          "team": "GB",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "previous": {
+              "hits": 13,
+              "total": 17,
+              "pct": 76.5
+            }
+          },
+          "commenceTime": "2026-11-26T01:00:00.000Z",
+          "eventId": "35607031",
+          "alternate": false,
+          "teamName": "Green Bay Packers",
+          "homeAbbr": "LAR",
+          "scope": "team",
+          "headshot": "",
+          "key": "35607031\u00a6GB\u00a6Spread\u00a6Cover\u00a63.5\u00a6GB +3.5 Spread",
+          "confidence": 65.2,
+          "estimatedProbability": 0.651874,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-11-25",
+      "eventId": "35607031",
+      "matchup": "GB @ LAR",
+      "slot": "game-35607031",
+      "slotLabel": "Standalone game",
+      "slotOrder": 91,
+      "createdAt": "2026-11-25T22:37:39.526390+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1305,
+      "decimalOdds": 14.050013,
+      "estimatedProbability": 0.118349,
+      "confidence": 59.0,
+      "selectionTier": "Emergency best board",
+      "simulations": 60000,
+      "status": "pending",
+      "legs": [
+        {
+          "matchup": "GB @ LAR",
+          "proposition": "Under 45.5 Game Total",
+          "player": "",
+          "teamMarketType": "gameTotal",
+          "selection": "Under",
+          "odds": -116,
+          "awayAbbr": "GB",
+          "market": "Game Total",
+          "position": "GAME",
+          "decimalOdds": 1.862068965517241,
+          "line": 45.5,
+          "team": "",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "previous": {
+              "hits": 6,
+              "total": 17,
+              "pct": 35.3
+            }
+          },
+          "commenceTime": "2026-11-26T01:00:00.000Z",
+          "eventId": "35607031",
+          "alternate": false,
+          "teamName": "",
+          "homeAbbr": "LAR",
+          "scope": "game",
+          "headshot": "",
+          "key": "35607031\u00a6game\u00a6Game Total\u00a6Under\u00a645.5\u00a6Under 45.5 Game Total",
+          "confidence": 56.6,
+          "estimatedProbability": 0.566022,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "matchup": "GB @ LAR",
+          "proposition": "GB Moneyline",
+          "player": "",
+          "teamMarketType": "moneyline",
+          "selection": "Win",
+          "odds": 158,
+          "awayAbbr": "GB",
+          "market": "Moneyline",
+          "position": "TEAM",
+          "decimalOdds": 2.58,
+          "line": null,
+          "team": "GB",
+          "hitRates": {
+            "l5": {
+              "hits": 3,
+              "total": 5,
+              "pct": 60.0
+            },
+            "l10": {
+              "hits": 6,
+              "total": 10,
+              "pct": 60.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 6,
+              "total": 10,
+              "pct": 60.0
+            },
+            "previous": {
+              "hits": 9,
+              "total": 16,
+              "pct": 56.2
+            }
+          },
+          "commenceTime": "2026-11-26T01:00:00.000Z",
+          "eventId": "35607031",
+          "alternate": false,
+          "teamName": "Green Bay Packers",
+          "homeAbbr": "LAR",
+          "scope": "team",
+          "headshot": "",
+          "key": "35607031\u00a6GB\u00a6Moneyline\u00a6Win\u00a6\u00a6GB Moneyline",
+          "confidence": 50.3,
+          "estimatedProbability": 0.502666,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "matchup": "GB @ LAR",
+          "proposition": "GB +3.5 Spread",
+          "player": "",
+          "teamMarketType": "spread",
+          "selection": "Cover",
+          "odds": -110,
+          "awayAbbr": "GB",
+          "market": "Spread",
+          "position": "TEAM",
+          "decimalOdds": 1.909090909090909,
+          "line": 3.5,
+          "team": "GB",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 7,
+              "total": 10,
+              "pct": 70.0
+            },
+            "previous": {
+              "hits": 13,
+              "total": 17,
+              "pct": 76.5
+            }
+          },
+          "commenceTime": "2026-11-26T01:00:00.000Z",
+          "eventId": "35607031",
+          "alternate": false,
+          "teamName": "Green Bay Packers",
+          "homeAbbr": "LAR",
+          "scope": "team",
+          "headshot": "",
+          "key": "35607031\u00a6GB\u00a6Spread\u00a6Cover\u00a63.5\u00a6GB +3.5 Spread",
+          "confidence": 65.2,
+          "estimatedProbability": 0.651874,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "matchup": "GB @ LAR",
+          "proposition": "LAR Moneyline",
+          "player": "",
+          "teamMarketType": "moneyline",
+          "selection": "Win",
+          "odds": -188,
+          "awayAbbr": "GB",
+          "market": "Moneyline",
+          "position": "TEAM",
+          "decimalOdds": 1.531914893617021,
+          "line": null,
+          "team": "LAR",
+          "hitRates": {
+            "l5": {
+              "hits": 4,
+              "total": 5,
+              "pct": 80.0
+            },
+            "l10": {
+              "hits": 6,
+              "total": 10,
+              "pct": 60.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 6,
+              "total": 10,
+              "pct": 60.0
+            },
+            "previous": {
+              "hits": 12,
+              "total": 17,
+              "pct": 70.6
+            }
+          },
+          "commenceTime": "2026-11-26T01:00:00.000Z",
+          "eventId": "35607031",
+          "alternate": false,
+          "teamName": "Los Angeles Rams",
+          "homeAbbr": "LAR",
+          "scope": "team",
+          "headshot": "",
+          "key": "35607031\u00a6LAR\u00a6Moneyline\u00a6Win\u00a6\u00a6LAR Moneyline",
+          "confidence": 63.8,
+          "estimatedProbability": 0.638098,
+          "result": {
+            "status": "pending"
           }
         }
       ]
