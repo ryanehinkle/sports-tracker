@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-25T23:47:38.992229+00:00",
+  "updatedAt": "2026-11-26T05:10:07.106895+00:00",
   "picks": [
     {
       "day": 1,
@@ -10360,7 +10360,7 @@
       "confidence": 61.9,
       "selectionTier": "Best available",
       "simulations": 60000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "matchup": "GB @ LAR",
@@ -10409,7 +10409,9 @@
           "confidence": 63.8,
           "estimatedProbability": 0.638098,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-11-26T05:07:23.839765+00:00"
           }
         },
         {
@@ -10459,7 +10461,9 @@
           "confidence": 56.6,
           "estimatedProbability": 0.566022,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 39.0,
+            "gradedAt": "2026-11-26T05:10:07.985846+00:00"
           }
         },
         {
@@ -10509,7 +10513,9 @@
           "confidence": 65.2,
           "estimatedProbability": 0.651874,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": -13.0,
+            "gradedAt": "2026-11-26T05:10:07.985883+00:00"
           }
         }
       ]
@@ -10531,7 +10537,7 @@
       "confidence": 59.0,
       "selectionTier": "Emergency best board",
       "simulations": 60000,
-      "status": "pending",
+      "status": "miss",
       "legs": [
         {
           "matchup": "GB @ LAR",
@@ -10580,7 +10586,9 @@
           "confidence": 56.6,
           "estimatedProbability": 0.566022,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 39.0,
+            "gradedAt": "2026-11-26T05:10:07.985902+00:00"
           }
         },
         {
@@ -10630,7 +10638,9 @@
           "confidence": 50.3,
           "estimatedProbability": 0.502666,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": -13.0,
+            "gradedAt": "2026-11-26T05:07:23.839296+00:00"
           }
         },
         {
@@ -10680,7 +10690,9 @@
           "confidence": 65.2,
           "estimatedProbability": 0.651874,
           "result": {
-            "status": "pending"
+            "status": "miss",
+            "actual": -13.0,
+            "gradedAt": "2026-11-26T05:10:07.985927+00:00"
           }
         },
         {
@@ -10730,7 +10742,9 @@
           "confidence": 63.8,
           "estimatedProbability": 0.638098,
           "result": {
-            "status": "pending"
+            "status": "hit",
+            "actual": 13.0,
+            "gradedAt": "2026-11-26T05:07:23.839765+00:00"
           }
         }
       ]
