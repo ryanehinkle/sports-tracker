@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-26T15:23:02.564554+00:00",
+  "updatedAt": "2026-11-27T00:39:16.527115+00:00",
   "picks": [
     {
       "day": 1,
@@ -10745,6 +10745,561 @@
             "status": "hit",
             "actual": 13.0,
             "gradedAt": "2026-11-26T05:07:23.839765+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 15,
+      "day": 1,
+      "date": "2026-11-26",
+      "eventId": "35607552",
+      "matchup": "KC @ BUF",
+      "slot": "game-35607552",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 1,
+      "createdAt": "2026-11-27T00:39:16.527115+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -100,
+      "decimalOdds": 1.996639,
+      "estimatedProbability": 0.626201,
+      "confidence": 89.0,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "alternate": true,
+          "awayAbbr": "KC",
+          "selection": "Over",
+          "line": 1.5,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 11,
+              "total": 11
+            },
+            "previous": {
+              "pct": 94,
+              "hits": 15,
+              "total": 16
+            }
+          },
+          "player": "Josh Downs",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Over 1.5 Receptions",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4688813.png",
+          "eventId": "35607552",
+          "position": "WR",
+          "decimalOdds": 1.142857142857143,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "KC",
+          "matchup": "KC @ BUF",
+          "odds": -700,
+          "market": "Receptions",
+          "key": "35607552\u00a6Josh Downs\u00a6Receptions\u00a6Over\u00a61.5\u00a6Over 1.5 Receptions",
+          "confidence": 91.0,
+          "estimatedProbability": 0.909502,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "alternate": true,
+          "awayAbbr": "KC",
+          "selection": "Over",
+          "line": 0.5,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 15,
+              "total": 17
+            }
+          },
+          "player": "Dawson Knox",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Over 0.5 Receptions",
+          "headshot": "",
+          "eventId": "35607552",
+          "position": "",
+          "decimalOdds": 1.227272727272727,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "",
+          "matchup": "KC @ BUF",
+          "odds": -440,
+          "market": "Receptions",
+          "key": "35607552\u00a6Dawson Knox\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 88.4,
+          "estimatedProbability": 0.883622,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "alternate": true,
+          "awayAbbr": "KC",
+          "selection": "Over",
+          "line": 0.5,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "previous": {
+              "pct": 92,
+              "hits": 12,
+              "total": 13
+            }
+          },
+          "player": "Keon Coleman",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Over 0.5 Receptions",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4635008.png",
+          "eventId": "35607552",
+          "position": "WR",
+          "decimalOdds": 1.1,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "BUF",
+          "matchup": "KC @ BUF",
+          "odds": -1000,
+          "market": "Receptions",
+          "key": "35607552\u00a6Keon Coleman\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 91.8,
+          "estimatedProbability": 0.918242,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "alternate": true,
+          "awayAbbr": "KC",
+          "selection": "Over",
+          "line": 174.5,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "previous": {
+              "pct": 71,
+              "hits": 12,
+              "total": 17
+            }
+          },
+          "player": "Josh Allen",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Over 174.5 Passing Yards",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
+          "eventId": "35607552",
+          "position": "QB",
+          "decimalOdds": 1.294117647058824,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "BUF",
+          "matchup": "KC @ BUF",
+          "odds": -340,
+          "market": "Passing Yards",
+          "key": "35607552\u00a6Josh Allen\u00a6Passing Yards\u00a6Over\u00a6174.5\u00a6Over 174.5 Passing Yards",
+          "confidence": 84.9,
+          "estimatedProbability": 0.848567,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-11-26",
+      "eventId": "35607552",
+      "matchup": "KC @ BUF",
+      "slot": "game-35607552",
+      "slotLabel": "Thursday Night Football",
+      "slotOrder": 91,
+      "createdAt": "2026-11-27T00:39:16.527115+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1011,
+      "decimalOdds": 11.112581,
+      "estimatedProbability": 0.187446,
+      "confidence": 76.0,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "alternate": true,
+          "awayAbbr": "KC",
+          "selection": "Over",
+          "line": 2.5,
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 82,
+              "hits": 9,
+              "total": 11
+            },
+            "previous": {
+              "pct": 62,
+              "hits": 10,
+              "total": 16
+            }
+          },
+          "player": "Josh Downs",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Over 2.5 Receptions",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4688813.png",
+          "eventId": "35607552",
+          "position": "WR",
+          "decimalOdds": 1.454545454545455,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "KC",
+          "matchup": "KC @ BUF",
+          "odds": -220,
+          "market": "Receptions",
+          "key": "35607552\u00a6Josh Downs\u00a6Receptions\u00a6Over\u00a62.5\u00a6Over 2.5 Receptions",
+          "confidence": 73.8,
+          "estimatedProbability": 0.738257,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "alternate": true,
+          "awayAbbr": "KC",
+          "selection": "Over",
+          "line": 4.5,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "previous": {
+              "pct": 50,
+              "hits": 8,
+              "total": 16
+            }
+          },
+          "player": "Noah Gray",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Over 4.5 Receiving Yards",
+          "headshot": "",
+          "eventId": "35607552",
+          "position": "",
+          "decimalOdds": 1.3125,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "",
+          "matchup": "KC @ BUF",
+          "odds": -320,
+          "market": "Receiving Yards",
+          "key": "35607552\u00a6Noah Gray\u00a6Receiving Yards\u00a6Over\u00a64.5\u00a6Over 4.5 Receiving Yards",
+          "confidence": 76.1,
+          "estimatedProbability": 0.76108,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "alternate": false,
+          "awayAbbr": "KC",
+          "selection": "Yes",
+          "line": 0.5,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 0,
+              "hits": 0,
+              "total": 1
+            },
+            "current": {
+              "pct": 90,
+              "hits": 9,
+              "total": 10
+            },
+            "previous": {
+              "pct": 53,
+              "hits": 9,
+              "total": 17
+            }
+          },
+          "player": "James Cook III",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Any Time Touchdown Scorer",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4379399.png",
+          "eventId": "35607552",
+          "position": "RB",
+          "decimalOdds": 1.952380952380952,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "BUF",
+          "matchup": "KC @ BUF",
+          "odds": -105,
+          "market": "Any Time Touchdown Scorer",
+          "key": "35607552\u00a6James Cook III\u00a6Any Time Touchdown Scorer\u00a6Yes\u00a60.5\u00a6Any Time Touchdown Scorer",
+          "confidence": 67.4,
+          "estimatedProbability": 0.673798,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "alternate": true,
+          "awayAbbr": "KC",
+          "selection": "Over",
+          "line": 29.5,
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 75,
+              "hits": 6,
+              "total": 8
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 8,
+              "total": 8
+            }
+          },
+          "player": "Rashee Rice",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Over 29.5 Receiving Yards",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4428331.png",
+          "eventId": "35607552",
+          "position": "WR",
+          "decimalOdds": 1.294117647058824,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "KC",
+          "matchup": "KC @ BUF",
+          "odds": -340,
+          "market": "Receiving Yards",
+          "key": "35607552\u00a6Rashee Rice\u00a6Receiving Yards\u00a6Over\u00a629.5\u00a6Over 29.5 Receiving Yards",
+          "confidence": 80.3,
+          "estimatedProbability": 0.803353,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "alternate": true,
+          "awayAbbr": "KC",
+          "selection": "Over",
+          "line": 0.5,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "previous": {
+              "pct": 88,
+              "hits": 15,
+              "total": 17
+            }
+          },
+          "player": "Dawson Knox",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Over 0.5 Receptions",
+          "headshot": "",
+          "eventId": "35607552",
+          "position": "",
+          "decimalOdds": 1.227272727272727,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "",
+          "matchup": "KC @ BUF",
+          "odds": -440,
+          "market": "Receptions",
+          "key": "35607552\u00a6Dawson Knox\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 88.4,
+          "estimatedProbability": 0.883622,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "alternate": false,
+          "awayAbbr": "KC",
+          "selection": "Under",
+          "line": 38.5,
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "previous": {
+              "pct": 59,
+              "hits": 10,
+              "total": 17
+            }
+          },
+          "player": "Josh Allen",
+          "commenceTime": "2026-11-27T01:15:00.000Z",
+          "proposition": "Under 38.5 Rushing Yards",
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
+          "eventId": "35607552",
+          "position": "QB",
+          "decimalOdds": 1.87719298245614,
+          "scope": "player",
+          "homeAbbr": "BUF",
+          "team": "BUF",
+          "matchup": "KC @ BUF",
+          "odds": -114,
+          "market": "Rushing Yards",
+          "key": "35607552\u00a6Josh Allen\u00a6Rushing Yards\u00a6Under\u00a638.5\u00a6Under 38.5 Rushing Yards",
+          "confidence": 69.7,
+          "estimatedProbability": 0.697485,
+          "result": {
+            "status": "pending"
           }
         }
       ]
