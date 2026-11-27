@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T10:46:06.968690+00:00",
+  "updatedAt": "2026-11-27T19:34:04.163549+00:00",
   "picks": [
     {
       "day": 1,
@@ -11320,6 +11320,441 @@
             "status": "miss",
             "actual": 43.0,
             "gradedAt": "2026-11-27T09:46:28.686878+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "run": 16,
+      "day": 1,
+      "date": "2026-11-27",
+      "eventId": "35610249",
+      "matchup": "DEN @ PIT",
+      "slot": "game-35610249",
+      "slotLabel": "Standalone game",
+      "slotOrder": 1,
+      "createdAt": "2026-11-27T19:34:04.163549+00:00",
+      "target": "Even Money Ladder",
+      "targetOdds": "+100",
+      "odds": -100,
+      "decimalOdds": 1.999362,
+      "estimatedProbability": 0.622142,
+      "confidence": 85.4,
+      "selectionTier": "Exact Even Ladder",
+      "simulations": 30000,
+      "status": "pending",
+      "legs": [
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "previous": {
+              "pct": 71,
+              "hits": 12,
+              "total": 17
+            }
+          },
+          "selection": "Over",
+          "proposition": "Over 1.5 Receptions",
+          "commenceTime": "2026-11-27T20:01:00.000Z",
+          "team": "PIT",
+          "odds": -280,
+          "awayAbbr": "DEN",
+          "scope": "player",
+          "player": "Pat Freiermuth",
+          "decimalOdds": 1.357142857142857,
+          "line": 1.5,
+          "alternate": true,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4361411.png",
+          "homeAbbr": "PIT",
+          "market": "Receptions",
+          "position": "TE",
+          "matchup": "DEN @ PIT",
+          "eventId": "35610249",
+          "key": "35610249\u00a6Pat Freiermuth\u00a6Receptions\u00a6Over\u00a61.5\u00a6Over 1.5 Receptions",
+          "confidence": 83.4,
+          "estimatedProbability": 0.833706,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "selection": "Over",
+          "proposition": "Over 0.5 Receptions",
+          "commenceTime": "2026-11-27T20:01:00.000Z",
+          "team": "",
+          "odds": -400,
+          "awayAbbr": "DEN",
+          "scope": "player",
+          "player": "Michael Pittman Jr.",
+          "decimalOdds": 1.25,
+          "line": 0.5,
+          "alternate": true,
+          "headshot": "",
+          "homeAbbr": "PIT",
+          "market": "Receptions",
+          "position": "",
+          "matchup": "DEN @ PIT",
+          "eventId": "35610249",
+          "key": "35610249\u00a6Michael Pittman Jr.\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 89.1,
+          "estimatedProbability": 0.890675,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 8,
+              "total": 10,
+              "pct": 80.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 8,
+              "total": 10,
+              "pct": 80.0
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "selection": "Cover",
+          "proposition": "DEN +6.5 Alt Spread",
+          "commenceTime": "2026-11-27T20:01:00.000Z",
+          "team": "DEN",
+          "odds": -560,
+          "awayAbbr": "DEN",
+          "teamName": "Denver Broncos",
+          "scope": "team",
+          "player": "",
+          "decimalOdds": 1.178571428571429,
+          "line": 6.5,
+          "alternate": true,
+          "headshot": "",
+          "homeAbbr": "PIT",
+          "market": "Alt Spread",
+          "teamMarketType": "spread",
+          "position": "TEAM",
+          "matchup": "DEN @ PIT",
+          "eventId": "35610249",
+          "key": "35610249\u00a6DEN\u00a6Alt Spread\u00a6Cover\u00a66.5\u00a6DEN +6.5 Alt Spread",
+          "confidence": 83.8,
+          "estimatedProbability": 0.837834,
+          "result": {
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "longshot",
+      "date": "2026-11-27",
+      "eventId": "35610249",
+      "matchup": "DEN @ PIT",
+      "slot": "game-35610249",
+      "slotLabel": "Standalone game",
+      "slotOrder": 91,
+      "createdAt": "2026-11-27T19:34:04.163549+00:00",
+      "target": "Game Long Shot",
+      "targetOdds": "+1000 minimum",
+      "odds": 1024,
+      "decimalOdds": 11.23625,
+      "estimatedProbability": 0.249229,
+      "confidence": 76.2,
+      "selectionTier": "Best available",
+      "simulations": 90000,
+      "status": "pending",
+      "legs": [
+        {
+          "hitRates": {
+            "l5": {
+              "hits": 5,
+              "total": 5,
+              "pct": 100.0
+            },
+            "l10": {
+              "hits": 8,
+              "total": 10,
+              "pct": 80.0
+            },
+            "h2h": null,
+            "current": {
+              "hits": 8,
+              "total": 10,
+              "pct": 80.0
+            },
+            "previous": {
+              "hits": 16,
+              "total": 17,
+              "pct": 94.1
+            }
+          },
+          "selection": "Cover",
+          "proposition": "DEN +5.5 Alt Spread",
+          "commenceTime": "2026-11-27T20:01:00.000Z",
+          "team": "DEN",
+          "odds": -460,
+          "awayAbbr": "DEN",
+          "teamName": "Denver Broncos",
+          "scope": "team",
+          "player": "",
+          "decimalOdds": 1.217391304347826,
+          "line": 5.5,
+          "alternate": true,
+          "headshot": "",
+          "homeAbbr": "PIT",
+          "market": "Alt Spread",
+          "teamMarketType": "spread",
+          "position": "TEAM",
+          "matchup": "DEN @ PIT",
+          "eventId": "35610249",
+          "key": "35610249\u00a6DEN\u00a6Alt Spread\u00a6Cover\u00a65.5\u00a6DEN +5.5 Alt Spread",
+          "confidence": 82.3,
+          "estimatedProbability": 0.822571,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "h2h": null,
+            "current": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "previous": null
+          },
+          "selection": "Under",
+          "proposition": "Under 75.5 Rushing Yards",
+          "commenceTime": "2026-11-27T20:01:00.000Z",
+          "team": "DEN",
+          "odds": -114,
+          "awayAbbr": "DEN",
+          "scope": "player",
+          "player": "Jonah Coleman",
+          "decimalOdds": 1.87719298245614,
+          "line": 75.5,
+          "alternate": false,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/4702555.png",
+          "homeAbbr": "PIT",
+          "market": "Rushing Yards",
+          "position": "RB",
+          "matchup": "DEN @ PIT",
+          "eventId": "35610249",
+          "key": "35610249\u00a6Jonah Coleman\u00a6Rushing Yards\u00a6Under\u00a675.5\u00a6Under 75.5 Rushing Yards",
+          "confidence": 65.9,
+          "estimatedProbability": 0.659115,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 100,
+              "hits": 7,
+              "total": 7
+            },
+            "previous": {
+              "pct": 87,
+              "hits": 13,
+              "total": 15
+            }
+          },
+          "selection": "Over",
+          "proposition": "Over 0.5 Receptions",
+          "commenceTime": "2026-11-27T20:01:00.000Z",
+          "team": "",
+          "odds": -310,
+          "awayAbbr": "DEN",
+          "scope": "player",
+          "player": "Marvin Mims Jr.",
+          "decimalOdds": 1.32258064516129,
+          "line": 0.5,
+          "alternate": true,
+          "headshot": "",
+          "homeAbbr": "PIT",
+          "market": "Receptions",
+          "position": "",
+          "matchup": "DEN @ PIT",
+          "eventId": "35610249",
+          "key": "35610249\u00a6Marvin Mims Jr.\u00a6Receptions\u00a6Over\u00a60.5\u00a6Over 0.5 Receptions",
+          "confidence": 86.0,
+          "estimatedProbability": 0.860062,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            },
+            "l10": {
+              "pct": 80,
+              "hits": 8,
+              "total": 10
+            },
+            "h2h": null,
+            "current": {
+              "pct": 83,
+              "hits": 5,
+              "total": 6
+            },
+            "previous": {
+              "pct": 80,
+              "hits": 4,
+              "total": 5
+            }
+          },
+          "selection": "Under",
+          "proposition": "Under 5.5 Rushing Yards",
+          "commenceTime": "2026-11-27T20:01:00.000Z",
+          "team": "PIT",
+          "odds": -102,
+          "awayAbbr": "DEN",
+          "scope": "player",
+          "player": "Mason Rudolph",
+          "decimalOdds": 1.980392156862745,
+          "line": 5.5,
+          "alternate": false,
+          "headshot": "https://a.espncdn.com/i/headshots/nfl/players/full/3116407.png",
+          "homeAbbr": "PIT",
+          "market": "Rushing Yards",
+          "position": "QB",
+          "matchup": "DEN @ PIT",
+          "eventId": "35610249",
+          "key": "35610249\u00a6Mason Rudolph\u00a6Rushing Yards\u00a6Under\u00a65.5\u00a6Under 5.5 Rushing Yards",
+          "confidence": 67.8,
+          "estimatedProbability": 0.677515,
+          "result": {
+            "status": "pending"
+          }
+        },
+        {
+          "hitRates": {
+            "l5": {
+              "pct": 100,
+              "hits": 5,
+              "total": 5
+            },
+            "l10": {
+              "pct": 100,
+              "hits": 10,
+              "total": 10
+            },
+            "h2h": {
+              "pct": 100,
+              "hits": 1,
+              "total": 1
+            },
+            "current": {
+              "pct": 100,
+              "hits": 3,
+              "total": 3
+            },
+            "previous": {
+              "pct": 100,
+              "hits": 17,
+              "total": 17
+            }
+          },
+          "selection": "Over",
+          "proposition": "Over 10.5 Receiving Yards",
+          "commenceTime": "2026-11-27T20:01:00.000Z",
+          "team": "",
+          "odds": -114,
+          "awayAbbr": "DEN",
+          "scope": "player",
+          "player": "Michael Pittman Jr.",
+          "decimalOdds": 1.87719298245614,
+          "line": 10.5,
+          "alternate": false,
+          "headshot": "",
+          "homeAbbr": "PIT",
+          "market": "Receiving Yards",
+          "position": "",
+          "matchup": "DEN @ PIT",
+          "eventId": "35610249",
+          "key": "35610249\u00a6Michael Pittman Jr.\u00a6Receiving Yards\u00a6Over\u00a610.5\u00a6Over 10.5 Receiving Yards",
+          "confidence": 78.9,
+          "estimatedProbability": 0.788888,
+          "result": {
+            "status": "pending"
           }
         }
       ]
