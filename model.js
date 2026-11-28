@@ -2229,16 +2229,16 @@ if(NBA_MODE){
     const out=[];
     for(const event of raw.events||[]){
       const t=Date.parse(event.commenceTime);
-      if(!Number.isFinite(t)||(!state.modelHistorical&&t<=Date.now()))continue;
+      if(!event.verifiedNBA||!event.espnEventId||!Number.isFinite(t)||(!state.modelHistorical&&t<=Date.now()))continue;
       for(const prop of event.props||[]){
         if(!["player","team","game"].includes(prop.scope)||numberOrNull(prop.odds)===null||Number(prop.odds)===0||numberOrNull(prop.line)===null)continue;
         const kind=normalizeMarket(prop);
         // Legacy odds did not distinguish periods reliably. Do not present
         // unverified totals as full-game lines.
-        if(prop.scope!=="player"&&["teamTotal","gameTotal"].includes(kind)&&prop.period!=="fullGame")continue;
+        if(prop.period!=="fullGame")continue;
         const p=state.playerByName.get(norm(prop.player));
         if(prop.scope==="player"&&!p)continue;
-        const row={...prop,teamMarketType:kind,eventId:String(event.id),homeAbbr:event.homeAbbr,awayAbbr:event.awayAbbr,homeTeam:event.homeTeam,awayTeam:event.awayTeam,matchup:event.awayAbbr+" @ "+event.homeAbbr,commenceTime:event.commenceTime,position:prop.position||p?.position||(prop.scope==="team"?"TEAM":"GAME"),teamName:prop.team===event.homeAbbr?event.homeTeam:prop.team===event.awayAbbr?event.awayTeam:""};
+        const row={...prop,teamMarketType:kind,eventId:String(event.id),espnEventId:String(event.espnEventId),homeAbbr:event.homeAbbr,awayAbbr:event.awayAbbr,homeTeam:event.homeTeam,awayTeam:event.awayTeam,matchup:event.awayAbbr+" @ "+event.homeAbbr,commenceTime:event.commenceTime,position:prop.position||p?.position||(prop.scope==="team"?"TEAM":"GAME"),teamName:prop.team===event.homeAbbr?event.homeTeam:prop.team===event.awayAbbr?event.awayTeam:""};
         row._marketLabel=row._modelMarketLabel=generalizedMarketLabel(row);out.push(row);
       }
     }
@@ -2270,7 +2270,7 @@ if(NBA_MODE){
   const resultForNba=row=>{
     const obj=teamMarket(row)?state.resultTeamByAbbr.get(row.team||row.homeAbbr):state.resultPlayerByName.get(norm(row.player));
     const date=Date.parse(row.commenceTime);
-    const matches=allLogs(obj).filter(g=>g.opponent?.abbreviation===oppFor(row)&&Math.abs(Date.parse(g.date)-date)<=12*3600000);
+    const matches=allLogs(obj).filter(g=>row.espnEventId?String(g.eventId)===String(row.espnEventId):g.opponent?.abbreviation===oppFor(row)&&Math.abs(Date.parse(g.date)-date)<=12*3600000);
     if(matches.length!==1)return{status:"pending"};
     const value=nbaValue(row,matches[0]);if(value===null)return{status:"pending"};
     const hit=nbaHit(row,matches[0]);return{status:hit===null?"push":hit?"hit":"miss",actual:value};
@@ -2278,6 +2278,7 @@ if(NBA_MODE){
   historicalPlayerResult=resultForNba;historicalTeamResult=resultForNba;
   const nbaSignals=row=>{
     const cached=state.nbaMetrics.get(modelPropKey(row));if(cached)return cached;
+    if(row.modelFeatures&&row.hitRates){const f=row.modelFeatures,rates=row.hitRates,book=marketProbability(row);const v={...f,player:state.playerByName.get(norm(row.player)),rates,book,recentSignal:avg([smoothed(rates.l5),smoothed(rates.l10)].filter(Number.isFinite))??book,seasonSignal:avg([smoothed(rates.current),smoothed(rates.previous)].filter(Number.isFinite))??book,h2hSignal:smoothed(rates.h2h)??book};state.nbaMetrics.set(modelPropKey(row),v);return v;}
     const player=state.playerByName.get(norm(row.player)),rates=ratesForNba(row),values=splitGames(row,"l10").map(g=>nbaValue(row,g)).filter(Number.isFinite);
     const average=avg(values),line=nbaThreshold(row),sign=["Under","No"].includes(row.selection)?-1:1;
     const margin=average===null?null:(average-line)*sign;
@@ -2316,14 +2317,14 @@ if(NBA_MODE){
     const w=cfg.weights,signals={recent:v.recentSignal,season:v.seasonSignal,h2h:v.h2hSignal,usage:(v.usageSignal-.5)*.2+v.book,matchup:clamp(v.book+(v.matchup-.5)*.35,.01,.99),value:v.marginSignal};
     let total=0,weighted=0;for(const k of Object.keys(signals)){total+=w[k]||0;weighted+=(w[k]||0)*signals[k];}
     const reliability=Math.min(1,(v.rates.l10?.total||0)/8),base=clamp(v.book+(weighted/Math.max(1,total)-v.book)*.65*reliability,.02,.98);
-    const modelProb=blendAdaptiveProbability(total?base:v.book,row,v.rates,v.book),raw=implied(row.odds)??v.book,edge=modelProb-raw;
+    const modelProb=blendAdaptiveProbability(total?base:v.book,row,v.rates,v.book),raw=1/(rowDecimalOdds(row)||1/v.book),edge=modelProb-raw;
     if(edge*100<cfg.edgeMin)return null;
     const score=clamp(100*(.75*modelProb+.25*clamp(.5+edge,0,1))*(.76+.24*reliability),0,100);
     return {row,player:v.player,team:row.team,opp:oppFor(row),pos:row.position,market:row.market,rates:v.rates,modelProb,bookProb:raw,edge,score,lineMargin:v.margin===null?null:{margin:v.margin,average:v.average},avgHitTime:timing,usage:{minutes:v.minutes,fga:v.fga,tpa:v.tpa},recentSignal:v.recentSignal,seasonSignal:v.seasonSignal,h2hSignal:v.h2hSignal,usageSignal:v.usageSignal,matchupSignal:v.matchup,marginSignal:v.marginSignal,valueSignal:clamp(.5+edge,0,1),dvpRow:v.samples?{samples:v.samples}:null};
   };
   loadModelHistoryIndex=async()=>{try{state.modelHistoryIndex=await fetchModelJson("data/nba-odds-history/index.json");}catch(_){state.modelHistoryIndex={days:[]};}renderModelDateOptions();};
   fetchLiveModelBundle=async()=>{
-    const [stats,odds,teams,learning,ladder]=await Promise.all(["nba-stats","nba-odds","nba-team-stats","nba-model-learning","nba-ladder-picks"].map((file,i)=>fetchModelJson("data/"+file+".json").catch(e=>{if(i<3)throw e;return null;})));
+    const [stats,odds,teams,learning,ladder]=await Promise.all(["nba-stats","nba-odds","nba-team-stats","nba-odds-history/learning","nba-odds-history/ladder-picks"].map((file,i)=>fetchModelJson("data/"+file+".json").catch(e=>{if(i<3)throw e;return null;})));
     return{stats,odds,teams,learning,ladder:ladder||{picks:[]}};
   };
   fetchHistoricalModelBundle=async manifest=>{
@@ -2338,6 +2339,18 @@ if(NBA_MODE){
       if(th)th.firstChild.textContent=seasonText(year)+" ";
     }
     $("modelSeason").textContent=seasonText(state.season)+(state.modelHistorical?" Archive":" Model")+" • "+fmt.format(state.odds.length)+" markets";
+  };
+  const nbaBaseVector=adaptiveFeatureVector;
+  adaptiveHitProbability=(row,rates,book)=>{
+    const champion=state.learning?.champion,features=champion?.features||[],coefs=champion?.coefficients||[];
+    if(!features.length||features.length!==coefs.length)return null;
+    const base=nbaBaseVector(row,rates,book),names=["book","l5","l10","current","previous","h2h","sample","alternate","spreadLine","under","team","game"];
+    const values=Object.fromEntries(names.map((k,i)=>[k,base[i]])),f=row.modelFeatures||{};
+    Object.assign(values,{margin:f.marginSignal??.5,minutes:clamp(num(f.minutes)/48,0,1),fga:clamp(num(f.fga)/40,0,1),tpa:clamp(num(f.tpa)/25,0,1),matchup:f.matchup??.5});
+    const kind=row.scope==="player"?row.metric:row.teamMarketType;
+    let score=num(champion.intercept);
+    for(let i=0;i<features.length;i++){const key=features[i],v=key.startsWith("market:")?Number(key.slice(7)===kind):values[key];if(!Number.isFinite(v))return null;score+=num(coefs[i])*(v-num(champion.means?.[i]))/(num(champion.stds?.[i])||1);}
+    return clamp(logistic(score),.02,.98);
   };
   renderFormula=()=>{$("modelFormula").innerHTML="<strong>NBA probability model</strong><br>Pregame market anchor + historical hit rates, line margin, minutes and shot volume, opponent profile, and independently learned NBA weights.<br>Minimum edge uses offered odds. Same-game prices are estimates. Missing historical data is never fabricated.<br>Adaptive influence: "+pct(adaptiveBlend()*100,0);};
 }

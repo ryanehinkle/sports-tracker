@@ -11,6 +11,7 @@ import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from update_nba_stats import get as espn_get, SCOREBOARD, abbr
 
 from update_odds import (fetch_json, discover_tabs, american_odds, decimal_odds,
                          infer_line, iso_dt, normalize_name)
@@ -73,7 +74,36 @@ def teams_for_event(event):
     if away not in TEAM_ABBR or home not in TEAM_ABBR:return None
     return (away,home)
 
+def partial_market(label):
+    text=re.sub(r"[_-]+"," ",str(label or "").lower())
+    return bool(re.search(r"\b(?:[1-4]\s*q|q\s*[1-4]|[12]\s*h|h\s*[12]|quarter|half|period|race to|first to|first \d+ minutes?|winning margin|double double|triple double|overtime|parlay|boost)\b",text))
+
+def verified_schedule(now,ahead):
+    days={}
+    start=now.astimezone(CENTRAL).date()-timedelta(days=1)
+    for delta in range(int(ahead/24)+4):
+        day=start+timedelta(days=delta)
+        payload=espn_get(SCOREBOARD,{"dates":day.strftime("%Y%m%d"),"limit":100})
+        for event in payload.get("events") or []:
+            comp=(event.get("competitions") or [{}])[0]
+            teams={c.get("homeAway"):abbr((c.get("team") or {}).get("abbreviation")) for c in comp.get("competitors") or []}
+            tip=iso_dt(event.get("date") or comp.get("date"))
+            state=(event.get("status") or {}).get("type",{}).get("state")
+            season=(event.get("season") or {}).get("type")
+            if tip and teams.get("home") and teams.get("away") and event.get("id") and season in (None,2):
+                days[str(event["id"])]={"espnEventId":str(event["id"]),"home":teams["home"],"away":teams["away"],"tip":tip,"state":state}
+    return list(days.values())
+
+def scheduled_match(event,schedule):
+    pair=teams_for_event(event)
+    tip=iso_dt(event.get("openDate"))
+    if not pair or not tip:return None
+    away,home=(TEAM_ABBR[p] for p in pair)
+    matches=[x for x in schedule if x["home"]==home and x["away"]==away and x["state"]=="pre" and abs((x["tip"]-tip).total_seconds())<=1800]
+    return matches[0] if len(matches)==1 else None
+
 def market_metric(label):
+    if partial_market(label):return None
     value=re.sub(r"\s+"," ",label.lower()).replace("–","-")
     words=set(re.findall(r"[a-z0-9]+",value))
     points=bool(words & {"points","point","pts"})
@@ -117,8 +147,9 @@ def choose_selection(text):
     return None
 
 def rate(values,threshold,selection):
+    if selection in ("Over","Under"):values=[v for v in values if v!=threshold]
     if not values:return None
-    outcomes=[(v<threshold if selection=="Under" else v>=threshold if selection=="Yes" else v>threshold) for v in values]
+    outcomes=[(v<threshold if selection in ("Under","No") else v>=threshold if selection=="Yes" else v>threshold) for v in values]
     count=sum(outcomes)
     return {"hits":count,"total":len(values),"pct":round(count*100/len(values),1)}
 
@@ -156,12 +187,13 @@ def parse_event(event,pages,roster,season,team_reference):
     away,home=pair
     result={"id":str(event.get("eventId") or event.get("id") or ""),"commenceTime":event.get("openDate"),
             "homeTeam":home,"awayTeam":away,"homeAbbr":TEAM_ABBR[home],"awayAbbr":TEAM_ABBR[away],
-            "bookmaker":"FanDuel","props":[]}
+            "bookmaker":"FanDuel","props":[],"espnEventId":event["espnEventId"],"commenceTime":event["verifiedTip"],"verifiedNBA":True}
     props={}
     for tab,page in pages.items():
         for market_id,market in ((page.get("attachments") or {}).get("markets") or {}).items():
             if str(market.get("marketStatus") or market.get("status") or "OPEN").upper() not in ("ACTIVE","OPEN"):continue
             name=str(market.get("marketName") or "").strip()
+            if partial_market(name+" "+str(market.get("marketType") or "")):continue
             metric=market_metric(name)
             for runner in market.get("runners") or []:
                 if str(runner.get("runnerStatus") or runner.get("status") or "ACTIVE").upper() not in ("ACTIVE","OPEN"):continue
@@ -171,7 +203,7 @@ def parse_event(event,pages,roster,season,team_reference):
                 player=player_for_market(name,runner_name,roster) if metric else None
                 selection=choose_selection(runner_name)
                 line=infer_line(name,runner) if metric else None
-                if player and selection in ("Over","Under","Yes","No") and line is not None:
+                if player and player.get("team") in (result["homeAbbr"],result["awayAbbr"]) and selection in ("Over","Under","Yes","No") and line is not None:
                     # Yes/no thresholds are rare, but a missing milestone must
                     # never be interpreted as 0.5 or substituted with another.
                     try:threshold=float(line)
@@ -188,7 +220,7 @@ def parse_event(event,pages,roster,season,team_reference):
                         "metric":metric,"market":LABELS[metric],"marketKey":str(market.get("marketType") or ""),
                         "selection":selection,"line":threshold,"odds":odds,"decimalOdds":decimal_odds(runner),
                         "proposition":f"{player['name']} {LABELS[metric]} {selection} {threshold:g}",
-                        "sourceTab":tab,"marketId":str(market_id),"selectionId":str(runner.get("selectionId") or ""),
+                        "sourceTab":tab,"marketId":str(market_id),"selectionId":str(runner.get("selectionId") or ""),"marketName":name,"period":"fullGame",
                         "alternate":bool("alt" in name.lower() or "+" in name),
                     }
                     obj["hitRates"]=enrich(obj,player,opp,season)
@@ -198,12 +230,12 @@ def parse_event(event,pages,roster,season,team_reference):
                 # Include only explicit, full-game lines. Do not label 1Q/1H
                 # lines as full-game totals, or blend player/team markets.
                 lower=name.lower()
-                if any(p in lower for p in ("quarter","half","player","first to","race to")):continue
+                if partial_market(lower) or any(p in lower for p in ("player","rebounds","assists","three pointer","3-pointer","steals","blocks","turnovers","field goals","team to score","both teams","correct score")):continue
                 kind="total" if ("total" in lower or "over/under" in lower) else "spread" if "spread" in lower or "handicap" in lower else "moneyline" if any(x in lower for x in ("moneyline","money line","match winner","game winner")) else ""
                 if not kind:continue
                 teams_here={full:code for full,code in TEAM_ABBR.items() if code in (result["homeAbbr"],result["awayAbbr"])}
                 name_team=next((code for full,code in teams_here.items() if full.lower() in lower or full.split(" ")[-1].lower() in lower),"")
-                runner_team=next((code for full,code in teams_here.items() if full.lower() in runner_name.lower() or full.split(" ")[-1].lower()==runner_name.lower()),"")
+                runner_team=next((code for full,code in teams_here.items() if full.lower() in runner_name.lower() or re.search(r"\b"+re.escape(full.split(" ")[-1].lower())+r"\b",runner_name.lower())),"")
                 is_team_total=kind=="total" and (bool(name_team) or "team" in lower)
                 scope="game" if kind=="total" and not is_team_total else "team"
                 team=(name_team or runner_team) if is_team_total else runner_team
@@ -211,14 +243,21 @@ def parse_event(event,pages,roster,season,team_reference):
                 side=choose_selection(runner_name) if kind=="total" else "Cover" if kind=="spread" else "Win"
                 if kind=="total" and side not in ("Over","Under"):continue
                 if kind=="moneyline":line=0
+                elif kind=="spread":
+                    signed=re.search(r"([+-]\s*\d+(?:\.\d+)?)\s*$",runner_name)
+                    try:
+                        line=float(signed.group(1).replace(" ","")) if signed else float(runner["handicap"])
+                    except (KeyError,TypeError,ValueError):
+                        if re.search(r"\b(?:pk|pick.?em)\b",runner_name,re.I):line=0
+                        else:continue
                 else:
                     line=infer_line(name,runner)
-                    if line is None:continue
-                obj={"scope":scope,"player":"","team":team,"metric":kind,"teamMarketType":"teamTotal" if is_team_total else kind,
+                    if line is None or float(line)<0:continue
+                obj={"scope":scope,"player":"","team":team,"metric":kind,"teamMarketType":"teamTotal" if is_team_total else "gameTotal" if scope=="game" else kind,
                      "market":"Game Total" if scope=="game" else "Team Total" if is_team_total else ("Spread" if kind=="spread" else "Moneyline"),
                      "selection":side,"line":line,"odds":odds,"decimalOdds":decimal_odds(runner),
                      "proposition":f"{team or 'Game'} {kind.title()} {side} {line if kind!='moneyline' else ''}".strip(),
-                     "marketId":str(market_id),"sourceTab":tab}
+                     "marketId":str(market_id),"sourceTab":tab,"marketName":name,"period":"fullGame","alternate":"alt" in lower}
                 props[(scope,team,kind,side,line)]=obj
     team_by_abbr={t.get("abbreviation"):t for t in team_reference.get("teams",[])}
     for prop in props.values():
@@ -243,9 +282,10 @@ def enrich_team(row,event,team_by_abbr,season):
         return pf+pa if row.get("scope")=="game" else pf-pa if kind in ("spread","moneyline") else pf
     def prop_rate(games):
         values=[v for g in games if (v:=numeric(g)) is not None]
-        if not values:return None
         line=float(row.get("line") or 0)
         kind=row.get("teamMarketType")
+        values=[v for v in values if v!=(0 if kind=="moneyline" else -line if kind=="spread" else line)]
+        if not values:return None
         def hit(v):
             if kind=="moneyline":return v>0
             if kind=="spread":return v+line>0
@@ -259,86 +299,6 @@ def enrich_team(row,event,team_by_abbr,season):
 def load_players(stats):
     return {normalize_name(p["name"]):p for p in stats.get("players") or [] if p.get("name")}
 
-def game_result(event,row,players,teams,season):
-    local=(iso_dt(event.get("commenceTime")) or datetime.now(timezone.utc)).astimezone(CENTRAL).date()
-    if row.get("scope")=="player":
-        player=players.get(normalize_name(row.get("player")))
-        if not player:return None
-        opponent=event["awayAbbr"] if row.get("team")==event["homeAbbr"] else event["homeAbbr"]
-        games=game_logs(player,season)
-        matches=[g for g in games if (g.get("opponent") or {}).get("abbreviation")==opponent
-                 and abs((datetime.fromisoformat(g["date"].replace("Z","+00:00")).astimezone(CENTRAL).date()-local).days)<=1]
-        if not matches:return None
-        actual=value_for_log(matches[0],row.get("metric"))
-    else:
-        teamcode=row.get("team") or event.get("homeAbbr")
-        team=next((t for t in teams.get("teams") or [] if t.get("abbreviation")==teamcode),None)
-        if not team:return None
-        candidates=[g for g in game_logs(team,season) if
-                    abs((datetime.fromisoformat(g["date"].replace("Z","+00:00")).astimezone(CENTRAL).date()-local).days)<=1]
-        if not candidates:return None
-        g=candidates[0]
-        pf=float(g["stats"].get("derived.pointsFor") or 0)
-        pa=float(g["stats"].get("derived.pointsAgainst") or 0)
-        kind=row.get("teamMarketType")
-        actual=pf-pa if kind=="spread" else pf if kind=="teamTotal" else pf+pa if kind=="total" else pf-pa
-    if actual is None:return None
-    threshold=float(row.get("line") or 0)
-    selection=row.get("selection")
-    if row.get("teamMarketType")=="moneyline":
-        win=actual>0;push=actual==0
-    elif row.get("teamMarketType")=="spread":
-        win=actual+threshold>0;push=actual+threshold==0
-    else:
-        win=(actual<threshold if selection=="Under" else
-             actual>=threshold if selection=="Yes" else
-             actual<threshold if selection=="No" else actual>threshold)
-        push=actual==threshold and selection in ("Over","Under")
-    return {"status":"push" if push else "hit" if win else "miss","actual":actual}
-
-def archive_and_grade(previous,payload,players,teams,season,now):
-    HISTORY.mkdir(parents=True,exist_ok=True)
-    archived=0
-    by_date={}
-    for event in previous.get("events") or []:
-        kickoff=iso_dt(event.get("commenceTime"))
-        if not kickoff or not (kickoff<=now and kickoff>=now-timedelta(days=5)):continue
-        local=kickoff.astimezone(CENTRAL).date().isoformat()
-        by_date.setdefault(local,[]).append(event)
-    for day,events in by_date.items():
-        path=HISTORY/f"{day}.json"
-        snapshot=load(path,{"date":day,"events":[]})
-        stored={str(x["id"]):x for x in snapshot.get("events") or []}
-        for event in events:
-            if str(event["id"]) not in stored:
-                stored[str(event["id"])]=event
-                archived+=1
-        snapshot["events"]=list(stored.values())
-        # Freeze the contemporaneous stats and team context with the first
-        # archived NBA event. Historical model views must not use future logs.
-        if "statsSnapshot" not in snapshot:
-            snapshot["statsSnapshot"]=load(STATS,{})
-            snapshot["teamSnapshot"]=teams
-        save(path,snapshot)
-    graded=0
-    for path in sorted(HISTORY.glob("20??-??-??.json")):
-        snap=load(path,{})
-        dirty=False
-        for event in snap.get("events") or []:
-            for row in event.get("props") or []:
-                if (row.get("result") or {}).get("status") in ("hit","miss","push"):continue
-                result=game_result(event,row,players,teams,season)
-                if result:
-                    row["result"]=result;graded+=1;dirty=True
-        if dirty:save(path,snap)
-    days=[]
-    for path in sorted(HISTORY.glob("20??-??-??.json"),reverse=True):
-        snap=load(path,{})
-        days.append({"date":path.stem,"file":path.name,
-                     "events":len(snap.get("events") or [])})
-    save(HISTORY/"index.json",{"days":days})
-    return archived,graded
-
 def main():
     ROOT.mkdir(parents=True,exist_ok=True)
     now=datetime.now(timezone.utc)
@@ -349,13 +309,17 @@ def main():
     season=int(stats.get("season") or 2027)
     roster=load_players(stats)
     old=load(OUT,{"events":[]})
+    schedule=verified_schedule(now,ahead)
+    if not schedule:raise RuntimeError("No verified ESPN NBA schedule; refusing unverified sportsbook events")
     lobby=fetch_json(LOBBY_URL,{"page":"CUSTOM","customPageId":"nba","_ak":WEB_KEY})
     events=(lobby.get("attachments") or {}).get("events") or {}
     selected=[]
     for id,item in events.items():
         event=dict(item);event["eventId"]=str(event.get("eventId") or id)
         date=iso_dt(event.get("openDate"))
-        if teams_for_event(event) and date and now-timedelta(hours=10)<=date<=now+timedelta(hours=ahead):
+        match=scheduled_match(event,schedule)
+        if match and date and now<match["tip"]<=now+timedelta(hours=ahead):
+            event["espnEventId"]=match["espnEventId"];event["verifiedTip"]=match["tip"].isoformat()
             selected.append(event)
     selected.sort(key=lambda e:e.get("openDate") or "")
     print(f"FanDuel NBA: found {len(selected)} games in window")
@@ -385,20 +349,23 @@ def main():
                         if (page.get("attachments") or {}).get("markets"):pages[tab]=page
                     except Exception:pass
             parsed=parse_event(event,pages,roster,season,teams)
-            if parsed:fresh.append(parsed);refreshed.add(eid)
+            if parsed and iso_dt(parsed["commenceTime"])>datetime.now(timezone.utc):fresh.append(parsed);refreshed.add(eid)
             else:print(f"  {eid}: no eligible NBA markets; keeping previous snapshot if any")
         except Exception as exc:print(f"  NBA odds failed for {eid}: {exc}")
-    preserved=[e for eid,e in oldmap.items() if eid not in refreshed
-               and (iso_dt(e.get("commenceTime")) or now)>now-timedelta(hours=10)
-               and (iso_dt(e.get("commenceTime")) or now)<now+timedelta(hours=ahead)]
-    live=preserved+fresh
-    live.sort(key=lambda e:e.get("commenceTime") or "")
-    payload={"league":"NBA","bookmaker":"FanDuel","source":"FanDuel public sportsbook web feed",
-             "updatedAt":now.isoformat(),"season":season,"events":live}
-    archived,graded=archive_and_grade(old,payload,roster,teams,season,now)
-    if live or not old.get("events"):
-        save(OUT,payload)
-    print(f"NBA odds: {len(live)} events, {sum(len(x['props']) for x in live)} actual outcomes, "
-          f"{archived} archived games, {graded} graded outcomes")
+    captured=datetime.now(timezone.utc)
+    # Never reintroduce old, started or simulated events when a tab fails.
+    active={x["espnEventId"] for x in schedule if x["state"]=="pre" and x["tip"]>captured}
+    live_by_espn={}
+    for event in fresh:
+        if event["espnEventId"] not in active or iso_dt(event["commenceTime"])<=captured:continue
+        prior=live_by_espn.get(event["espnEventId"])
+        if not prior or len(event["props"])>len(prior["props"]):live_by_espn[event["espnEventId"]]=event
+    live=sorted(live_by_espn.values(),key=lambda e:e["commenceTime"])
+    payload={"league":"NBA","bookmaker":"FanDuel","source":"FanDuel real NBA markets matched to ESPN schedule",
+             "updatedAt":captured.isoformat(),"season":season,"events":live,"schemaVersion":2}
+    from nba_pipeline import run
+    run(payload,stats,teams,schedule,captured)
+    save(OUT,payload)
+    print(f"NBA odds: {len(live)} verified games, {sum(len(x['props']) for x in live)} actual outcomes")
 
 if __name__=="__main__":main()
