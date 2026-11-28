@@ -1890,7 +1890,7 @@ async function modelLoadHitTimingData(){
     .finally(()=>{state.hitTimingDataPromise=null});
   return state.hitTimingDataPromise;
 }
-function modelQuarterTimingLabel(quarter){if(quarter==="final")return"Final";const q=Number(quarter);if(q>=1&&q<=4)return q+"Q";if(q>4)return"OT";return"—"}
+function modelQuarterTimingLabel(quarter){if(NBA_MODE&&quarter==="ot")return"OT";if(quarter==="final")return"Final";const q=Number(quarter);if(q>=1&&q<=4)return q+"Q";if(q>4)return"OT";return"—"}
 function modelHitTimingRows(game,player,metric){
   if(!state.hitTimingData)return null;
   const eventId=String(game&&game.eventId||""),playerId=String(player&&player.id||"");
@@ -1917,7 +1917,7 @@ function modelHitTimingReady(row,game,player){
   const hit=isHit(game,row,spec);if(hit!==true||["Under","No"].includes(String(row.selection||"")))return true;
   return Boolean(state.hitTimingData);
 }
-function modelHitTimingMatches(timing,filter){if(filter==="all")return true;return Boolean(timing&&timing.hit)&&String(timing.quarter)===String(filter)}
+function modelHitTimingMatches(timing,filter){if(filter==="all")return true;return Boolean(timing&&timing.hit)&&(NBA_MODE&&filter==="ot"?Number(timing.quarter)>4:String(timing.quarter)===String(filter))}
 function modelHitTimingInline(timing,hit){
   if(!hit)return'<span class="hit-timing-chip miss">No hit</span>';
   if(timing&&timing.loading)return'<span class="hit-timing-chip loading">Hit in: …</span>';
@@ -2262,6 +2262,7 @@ if(NBA_MODE){
   avgHitGameClock=elapsed=>{const q=elapsed<=2880?clamp(Math.ceil(elapsed/720),1,4):4+Math.ceil((elapsed-2880)/300);return{quarter:q,label:q<=4?q+"Q":"OT",remaining:Math.max(0,(q<=4?q*720:2880+(q-4)*300)-elapsed)};};
   modelProfileText=x=>x.row.scope==="player"?x.usage.minutes.toFixed(1)+" MIN · "+x.usage.fga.toFixed(1)+" FGA":"Team";
   const resultForNba=row=>{
+    if(["hit","miss","push"].includes(row.result?.status))return row.result;
     const obj=teamMarket(row)?state.resultTeamByAbbr.get(row.team||row.homeAbbr):state.resultPlayerByName.get(norm(row.player));
     const date=Date.parse(row.commenceTime);
     const matches=allLogs(obj).filter(g=>row.espnEventId?String(g.eventId)===String(row.espnEventId):g.opponent?.abbreviation===oppFor(row)&&Math.abs(Date.parse(g.date)-date)<=12*3600000);
