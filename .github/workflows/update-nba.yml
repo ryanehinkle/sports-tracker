@@ -28,8 +28,9 @@ on:
       - "scripts/nba_timing.py"
       - "scripts/test_nba_pipeline.py"
   schedule:
-    # Current-season NBA stats, results, prop histories and FanDuel odds.
-    - cron: "7,37 * * * *"
+    # Check every 15 minutes, including standard NBA tipoff clock boundaries.
+    # Both daily picks are eligible at the first verified tip minus two hours.
+    - cron: "0,15,30,45 * * * *"
 
 permissions:
   contents: write

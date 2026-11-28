@@ -1,6 +1,7 @@
 import unittest
 from nba_timing import build_timing, elapsed
-from nba_pipeline import outcome, grade_event, feature_vector, NBA_FEATURES
+from nba_pipeline import outcome, grade_event, feature_vector, NBA_FEATURES, daily_pick_window
+from datetime import datetime, timezone, timedelta
 class NBAParityTests(unittest.TestCase):
     def test_timing(self):
         self.assertEqual(elapsed(2,"11:00"),780)
@@ -26,6 +27,17 @@ class NBAParityTests(unittest.TestCase):
         players[norm("Test Player")]["gameLogsBySeason"]["2027"][0]["eventId"]="1"
         self.assertEqual(grade_event(event,players,{}),1)
         self.assertEqual(row["result"]["status"],"hit")
+    def test_daily_pick_window(self):
+        first=datetime(2026,11,28,22,0,tzinfo=timezone.utc)
+        now=first-timedelta(hours=2)
+        schedule=[{"tip":first+timedelta(hours=3)},{"tip":first},{"tip":first-timedelta(days=1)}]
+        tip,release=daily_pick_window(schedule,now)
+        self.assertEqual(tip,first)
+        self.assertEqual(release,datetime(2026,11,28,20,0,tzinfo=timezone.utc))
+        self.assertLess(now-timedelta(seconds=1),release)
+        self.assertEqual(daily_pick_window([],now),(None,None))
+        # After the earliest game begins, do not reset the release to the next game.
+        self.assertEqual(daily_pick_window(schedule,first+timedelta(minutes=10)),(tip,release))
     def test_feature_size(self):
         self.assertEqual(len(feature_vector({"scope":"player","metric":"points"},.5)),len(NBA_FEATURES))
 if __name__=="__main__":unittest.main()

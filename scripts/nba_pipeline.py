@@ -19,6 +19,15 @@ EVENTS=ROOT/"learning"
 LEARNING=ROOT/"learning.json"
 PICKS=ROOT/"ladder-picks.json"
 CENTRAL=ZoneInfo("America/Chicago")
+PICK_LEAD_TIME=timedelta(hours=2)
+
+def daily_pick_window(schedule,now):
+    """Use the first official scheduled game of the Central-time slate, not the first game with odds."""
+    local=now.astimezone(CENTRAL).date()
+    tips=[x["tip"] for x in schedule if x["tip"].astimezone(CENTRAL).date()==local]
+    first=min(tips) if tips else None
+    return first, first-PICK_LEAD_TIME if first else None
+
 METRICS=("points","rebounds","assists","threes","pra","pr","pa","ra","steals","blocks","turnovers","fgm","moneyline","spread","teamTotal","gameTotal")
 BASE_FEATURES=list(lm.FEATURES)
 NBA_FEATURES=BASE_FEATURES+["margin","minutes","fga","tpa","matchup"]+["market:"+k for k in METRICS]
@@ -331,9 +340,10 @@ def run(payload,stats,teams_payload,schedule,now):
         pick["status"]="miss" if "miss" in statuses else "pending" if not statuses or "pending" in statuses else "push" if "push" in statuses else "hit"
     local=now.astimezone(CENTRAL).date().isoformat()
     day_events=[e for e in events if dt(e["commenceTime"]).astimezone(CENTRAL).date().isoformat()==local and dt(e["commenceTime"])>now]
-    scheduled=[x["tip"] for x in schedule if x["tip"].astimezone(CENTRAL).date().isoformat()==local]
-    first=min(scheduled) if scheduled else None
-    if first and day_events and now>=first-timedelta(minutes=75):
+    first,publish_at=daily_pick_window(schedule,now)
+    picks["schedule"]={"date":local,"firstGameAt":first.isoformat() if first else None,"publishAt":publish_at.isoformat() if publish_at else None,"leadMinutes":120}
+    print(f"NBA daily picks: {local}, first game {first}, publish at {publish_at} (UTC)")
+    if publish_at and day_events and now>=publish_at:
         path=ROOT/(local+".json")
         snap=load(path,{})
         if not snap.get("pregameVerified"):
@@ -345,7 +355,7 @@ def run(payload,stats,teams_payload,schedule,now):
             if any(p.get("date")==local and p.get("kind")==kind for p in picks["picks"]):continue
             pick=select_pick(day_events,learning,kind)
             if pick:
-                pick.update(date=local,createdAt=now.isoformat(),slotLabel="Remaining slate" if now>=first else "Daily NBA slate",slotOrder=0)
+                pick.update(date=local,createdAt=now.isoformat(),scheduledPublishAt=publish_at.isoformat(),slotLabel="Remaining slate" if now>=first else "Daily NBA slate",slotOrder=0)
                 picks["picks"].append(pick)
         frozen=snap.setdefault("ladderSnapshot",{"picks":[]})["picks"]
         known={(p.get("date"),p.get("kind")) for p in frozen}

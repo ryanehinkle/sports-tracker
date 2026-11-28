@@ -2007,7 +2007,7 @@ function openModelHitRateChart(row){
   $("hitRateModal").showModal();
 }
 function localDateKey(){
-  const parts=new Intl.DateTimeFormat("en-CA",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+  const parts=new Intl.DateTimeFormat("en-CA",{year:"numeric",month:"2-digit",day:"2-digit",...(NBA_MODE?{timeZone:"America/Chicago"}:{})}).formatToParts(new Date());
   const get=type=>parts.find(p=>p.type===type)?.value||"";
   return get("year")+"-"+get("month")+"-"+get("day");
 }
@@ -2063,13 +2063,22 @@ function ladderLegHtml(leg){
   const actual=leg.result&&leg.result.actual!==undefined?'<small>Final: '+esc(String(leg.result.actual))+'</small>':"";
   return '<div class="ladder-leg ladder-'+esc(status)+' model-prop-trigger" data-prop-key="'+esc(key)+'" tabindex="0" role="button" aria-label="Open '+esc(entity)+' prop history chart">'+visual+'<div class="ladder-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(leg))+'</span><small>'+formatOdds(leg.odds)+' • confidence '+pct(Number(leg.confidence),1)+'</small></div><div class="ladder-leg-result"><span>'+ladderStatusIcon(status)+'</span><strong>'+esc(status==="pending"?"Pending":status.charAt(0).toUpperCase()+status.slice(1))+'</strong>'+actual+'</div></div>';
 }
+function nbaPickScheduleLabel(){
+  const schedule=state.ladderData?.schedule;
+  const target=schedule?.publishAt?new Date(schedule.publishAt):null;
+  if(!state.modelHistorical&&schedule?.date===localDateKey()&&target&&!Number.isNaN(+target)){
+    const time=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",hour:"numeric",minute:"2-digit"}).format(target);
+    return "Scheduled for "+time+" CT · 2 hours before first tipoff";
+  }
+  return "Publishes 2 hours before the first game.";
+}
 function renderLadderPick(){
   const picks=ladderChronologicalPicks();
   $("ladderPrev").disabled=state.ladderIndex<=0;
   $("ladderNext").disabled=!picks.length||state.ladderIndex>=picks.length-1;
   if(!picks.length){
     $("ladderPickTitle").textContent="Today's ladder is queued";
-    $("ladderPickMeta").textContent="Publishes near kickoff.";
+    $("ladderPickMeta").textContent=NBA_MODE?nbaPickScheduleLabel():"Publishes near kickoff.";
     $("ladderHistoryStatus").textContent="Day 1";
     $("ladderPickBody").innerHTML='<div class="ladder-awaiting"><span class="today-pick-dot"></span><div><strong>Day 1 is preparing</strong></div></div>';
     return;
@@ -2111,7 +2120,7 @@ function bind(){
     const candidates=all.filter(p=>p.kind==="longshot"&&p.date===targetDate).sort((a,b)=>String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
     const pick=candidates[candidates.length-1];
     const panel=$("ladderChallengePanel");panel.hidden=false;$("todayPickButton").setAttribute("aria-expanded","false");
-    if(!pick){$("ladderPickTitle").textContent="Long Shot Pick";$("ladderPickMeta").textContent="+1000 target • 3–6 legs";$("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPickBody").innerHTML='<div class="ladder-awaiting"><div><strong>No long shot published yet</strong></div></div>';return}
+    if(!pick){$("ladderPickTitle").textContent="Long Shot Pick";$("ladderPickMeta").textContent=NBA_MODE&&!state.modelHistorical?nbaPickScheduleLabel():"+1000 target • 3–6 legs";$("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPickBody").innerHTML='<div class="ladder-awaiting"><div><strong>No long shot published yet</strong></div></div>';return}
     $("ladderPickTitle").textContent="Long Shot Pick • "+ladderDateLabel(pick.date);
     $("ladderPickMeta").textContent=(pick.slotLabel||pick.matchup||"Current game")+" • "+(pick.targetOdds||"+1000 target")+" • best modeled hit probability";
     $("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPrev").disabled=true;$("ladderNext").disabled=true;
