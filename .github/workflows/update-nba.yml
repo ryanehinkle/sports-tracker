@@ -7,6 +7,11 @@ on:
       - "scripts/update_nba_odds.py"
       - "nba.js"
       - "nba-model.js"
+      - "model.js"
+      - "nba-model.html"
+      - "scripts/nba_pipeline.py"
+      - "scripts/nba_timing.py"
+      - "scripts/test_nba_pipeline.py"
       - ".github/workflows/update-nba.yml"
   workflow_dispatch:
   push:
@@ -17,6 +22,11 @@ on:
       - ".github/workflows/update-nba.yml"
       - "nba.js"
       - "nba-model.js"
+      - "model.js"
+      - "nba-model.html"
+      - "scripts/nba_pipeline.py"
+      - "scripts/nba_timing.py"
+      - "scripts/test_nba_pipeline.py"
   schedule:
     # Current-season NBA stats, results, prop histories and FanDuel odds.
     - cron: "7,37 * * * *"
@@ -43,7 +53,9 @@ jobs:
         run: |
           python -m py_compile scripts/update_nba_stats.py scripts/update_nba_odds.py
           node --check nba.js
-          node --check nba-model.js
+          node --check model.js
+          python -m py_compile scripts/nba_pipeline.py scripts/nba_timing.py
+          python scripts/test_nba_pipeline.py
           python - <<'PY'
           from pathlib import Path
           assert 'nba-stats.json' in Path('scripts/update_nba_stats.py').read_text()
@@ -84,7 +96,9 @@ jobs:
         run: |
           python -m py_compile scripts/update_nba_stats.py scripts/update_nba_odds.py
           node --check nba.js
-          node --check nba-model.js
+          node --check model.js
+          python -m py_compile scripts/nba_pipeline.py scripts/nba_timing.py
+          python scripts/test_nba_pipeline.py
 
       - name: Fetch verified NBA player and team game logs
         run: python scripts/update_nba_stats.py

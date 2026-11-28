@@ -128,14 +128,22 @@ function propValue(row,g){
 function propThreshold(row){return row.teamMarketType==="moneyline"?0:row.teamMarketType==="spread"?-Number(row.line):Number(row.line)}
 function propOutcome(row,v){const t=propThreshold(row);if(v===null)return null;if(row.selection==="Yes")return v>=t?"hit":"miss";if(row.selection==="No")return v<t?"hit":"miss";return v===t?"push":(row.selection==="Under"?v<t:v>t)?"hit":"miss"}
 function propRate(row,split){const values=propGames(row,split).map(g=>propOutcome(row,propValue(row,g))).filter(x=>x==="hit"||x==="miss"),hits=values.filter(x=>x==="hit").length;return values.length?{hits,total:values.length,pct:100*hits/values.length}:null}
+function timingFor(row,g){
+ if(propOutcome(row,propValue(row,g))!=="hit")return null;
+ if(["Under","No"].includes(row.selection))return {q:"final",clock:""};
+ const p=playerForProp(row),list=st.hitTimingData?.events?.[String(g.eventId)]?.[String(p?.id)]?.[row.metric]||[];
+ const first=list.find(([v])=>row.selection==="Yes"?v>=propThreshold(row):v>propThreshold(row));
+ return first?{q:String(first[1]),clock:first[2]}:null;
+}
 function openRate(row){
  st.selectedProp=row;st.hitTimingFilter="all";
  const initial=propRate(row,"l10")?"l10":propRate(row,"current")?"current":"previous";
  drawRate(initial);$("hitRateModal").showModal();
+ if(row.scope==="player"&&!st.hitTimingData&&!st.hitTimingPromise)st.hitTimingPromise=fetchData("data/nba-odds-history/hit-timing.json").catch(()=>({events:{}})).then(data=>{st.hitTimingData=data;if($("hitRateModal").open)drawRate(st.selectedSplit||initial)}).finally(()=>{st.hitTimingPromise=null});
 }
 function drawRate(split){
  const row=st.selectedProp;if(!row)return;st.selectedSplit=split;
- const games=propGames(row,split).slice().reverse(),values=games.map(g=>propValue(row,g)),ordered=values.slice().sort((a,b)=>a-b),median=ordered.length?(ordered[Math.floor((ordered.length-1)/2)]+ordered[Math.floor(ordered.length/2)])/2:null;
+ const base=propGames(row,split).slice().reverse(),filter=st.hitTimingFilter||"all",games=row.scope==="player"&&filter!=="all"?base.filter(g=>{const t=timingFor(row,g);return t&&(filter==="ot"?Number(t.q)>4:t.q===filter)}):base,values=games.map(g=>propValue(row,g)),ordered=values.slice().sort((a,b)=>a-b),median=ordered.length?(ordered[Math.floor((ordered.length-1)/2)]+ordered[Math.floor(ordered.length/2)])/2:null;
  const year=st.oddsYear||st.year,labels={l5:"Last 5",l10:"Last 10",h2h:"Head-to-Head",current:seasonLabel(year),previous:seasonLabel(year-1)};
  $("hitRateTitle").textContent=entityName(row)+" - "+row.market;
  $("hitRateSubtitle").innerHTML=escapeHTML(propLabel(row)+(row.teamMarketType==="spread"||row.teamMarketType==="moneyline"?"":" "+fmt(row.line))+" • "+row.matchup)+' <span class="hit-rate-odds">'+price(row.odds)+'</span>';
@@ -147,12 +155,13 @@ function drawRate(split){
  $("hitRateSelectedRecord").textContent=selected?" "+selected.hits+" of "+selected.total:"";
  $("hitRateAverage").textContent=values.length?fmt(values.reduce((a,b)=>a+b,0)/values.length):"—";
  $("hitRateMedian").textContent=median===null?"—":fmt(median);
- $("hitTimingTools").hidden=true;
+ $("hitTimingTools").hidden=row.scope!=="player";
+ if(row.scope==="player"){$("hitTimingStatus").textContent=st.hitTimingData?base.filter(g=>timingFor(row,g)).length+" verified timed hits": "Loading ESPN play-by-play…";$("hitTimingFilters").querySelectorAll("[data-hit-timing]").forEach(b=>b.classList.toggle("selected",b.dataset.hitTiming===filter));}
  if(!values.length){$("hitRateChart").innerHTML='<div class="hit-chart-empty">No applicable game-by-game data for this prop.</div>';return;}
  const line=propThreshold(row),max=Math.max(1,line,...values)*1.16,min=Math.min(0,line,...values),span=Math.max(1,max-min),stage=286,thresholdBottom=48+(line-min)/span*stage;
  const chart=games.map((g,index)=>{
    const v=propValue(row,g),status=propOutcome(row,v),hit=status==="hit",height=Math.max(2,(v-min)/span*100),bottom=48+height/100*stage,opp=g.opponent?.abbreviation||"";
-   const cls=hit?"hit":status==="push"?"push":"miss";
+   const cls=hit?"hit":status==="push"?"push":"miss",timing=row.scope==="player"?timingFor(row,g):null,timingLabel=timing?(timing.q==="final"?"Final":Number(timing.q)>4?"OT":timing.q+"Q")+" "+timing.clock:"";
    return '<div class="hit-bar-column" tabindex="0"><div class="hit-bar-value '+cls+'" style="bottom:'+bottom+'px">'+fmt(v)+'</div><div class="hit-bar-track"><div class="hit-bar '+cls+'" style="height:'+height+'%;--bar-delay:'+Math.min(index*35,350)+'ms"></div></div><div class="hit-bar-label"><span>'+escapeHTML(date(g.date))+'</span><span>'+escapeHTML((g.homeAway==="away"?"@ ":"vs ")+opp)+'</span></div><div class="hit-bar-tooltip"><div class="hit-tooltip-date">'+escapeHTML(date(g.date))+'</div><div class="hit-tooltip-matchup"><img src="'+escapeHTML(logo(opp))+'" alt=""><span>'+escapeHTML((g.homeAway==="away"?"@ ":"vs ")+opp)+'</span></div><div class="hit-tooltip-stat"><span>'+escapeHTML(row.market)+'</span><strong>'+fmt(v)+'</strong></div><div class="hit-tooltip-stat"><span>Result</span><strong>'+escapeHTML(status)+'</strong></div></div></div>';
  }).join("");
  $("hitRateChart").innerHTML='<div class="hit-chart-plot"><div class="hit-threshold" style="bottom:'+thresholdBottom+'px"><span>'+escapeHTML(row.teamMarketType==="spread"?(Number(row.line)>0?"+":"")+row.line:fmt(line))+'</span></div><div class="hit-bars">'+chart+'</div></div>';
@@ -209,6 +218,7 @@ function bind(){
  $("parlayLegs").onclick=e=>{let b=e.target.closest("[data-nba-remove]");if(b){st.slip=st.slip.filter(p=>key(p)!==b.dataset.nbaRemove);saveSlip();updateSlip();renderOdds()}};
  $("hitRateClose").onclick=()=>$("hitRateModal").close();
  $("hitRateBreakdown").onclick=e=>{const b=e.target.closest("[data-nba-split]");if(b)drawRate(b.dataset.nbaSplit)};
+ $("hitTimingFilters").onclick=e=>{const b=e.target.closest("[data-hit-timing]");if(b){st.hitTimingFilter=b.dataset.hitTiming;drawRate(st.selectedSplit)}};
  ["playerModal","teamStatModal","hitRateModal"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target===$(id))$(id).close()}));
  document.addEventListener("click",e=>{if(!e.target.closest(".filter-control"))document.querySelectorAll(".filter-popover").forEach(x=>x.hidden=true)});
 }
