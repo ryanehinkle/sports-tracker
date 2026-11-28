@@ -13,7 +13,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
-from nba_timing import build_timing
+from nba_timing import build_timing, coverage, TIMING_VERSION
 
 ROOT = Path("data")
 CACHE = ROOT / "nba-game-cache.json"
@@ -214,6 +214,9 @@ def normalized_game(raw):
     game={"id":eid,"date":comp.get("date") or header.get("competitions",[{}])[0].get("date"),
             "teams":teams,"players":players,"dnp":dnp}
     game["timing"]=build_timing(raw,game)
+    game["timingVersion"]=TIMING_VERSION
+    game["timingCoverage"]=coverage(game,game["timing"])
+    game["timingCheckedAt"]=datetime.now(timezone.utc).isoformat()
     return game
 
 def sumstats(logs):
@@ -413,8 +416,21 @@ def main():
     for lo,hi in ((begin,min(today, date(year,6,30))), (prev_start,prev_end)):
         if hi>=lo:events.update(completed_games(lo,hi,day_cache))
     missing=sorted((eid for eid in events if eid not in gamecache),key=lambda e:events[e].get("date",""),reverse=True)
-    refresh=sorted((eid for eid,g in gamecache.items() if "timing" not in g),key=lambda e:gamecache[e].get("date",""),reverse=True)[:40]
-    missing=missing[:120]+refresh
+    # Rebuild ALL stale current-season games first, including partially
+    # validated games. Retry incomplete records weekly without starving older games.
+    cutoff=datetime.now(timezone.utc)-timedelta(days=7)
+    def needs_timing(g):
+        if g.get("timingVersion")!=TIMING_VERSION:return True
+        found,total=g.get("timingCoverage") or (0,1)
+        if found>=total:return False
+        try:return datetime.fromisoformat(g.get("timingCheckedAt",""))<cutoff
+        except (ValueError,TypeError):return True
+    current_prefix=str(year-1)+"-"
+    refresh=sorted((eid for eid,g in gamecache.items() if needs_timing(g)),key=lambda e:gamecache[e].get("date",""),reverse=True)
+    # Current season backfill in a large batch; prior season continues gradually.
+    current_refresh=[eid for eid in refresh if gamecache[eid].get("date","")[:10]>=begin.isoformat()]
+    prior_refresh=[eid for eid in refresh if eid not in set(current_refresh)]
+    missing=list(dict.fromkeys(missing[:120]+current_refresh[:420]+prior_refresh[:100]))
     print(f"NBA: {len(events)} completed ESPN games, {len(missing)} missing cached box scores")
     if missing:
         with ThreadPoolExecutor(max_workers=12) as pool:
@@ -423,7 +439,21 @@ def main():
                 eid=tasks[future]
                 try:
                     normalized=normalized_game(future.result())
-                    if normalized:gamecache[eid]=normalized
+                    if normalized:
+                        previous=gamecache.get(eid,{})
+                        # Retain earlier validated metrics if the upstream feed is temporarily incomplete.
+                        if previous.get("timing"):
+                            merged=normalized.get("timing") or {}
+                            for pid,metrics in previous["timing"].items():
+                                if pid.startswith("_"):
+                                    merged.setdefault(pid,metrics);continue
+                                merged.setdefault(pid,{})
+                                for metric,rows in metrics.items():
+                                    expected=next((p["stats"].get(metric) for p in normalized["players"] if str(p["id"])==pid),None)
+                                    if rows and rows[-1][0]==expected:merged[pid].setdefault(metric,rows)
+                            normalized["timing"]=merged
+                            normalized["timingCoverage"]=coverage(normalized,merged)
+                        gamecache[eid]=normalized
                 except Exception as exc:print(f"Could not parse NBA game {eid}: {exc}")
     if missing and not gamecache:
         raise RuntimeError("ESPN returned completed NBA games but none parsed into valid box scores")
@@ -432,7 +462,8 @@ def main():
     timing={eid:g["timing"] for eid,g in gamecache.items() if g.get("timing")}
     history=ROOT/"nba-odds-history";history.mkdir(parents=True,exist_ok=True)
     (history/"hit-timing.json").write_text(json.dumps({"events":timing},separators=(",",":"))+"\n")
-    print(f"NBA verified play-by-play timing: {len(timing)} games")
+    counts=[coverage(g,g.get("timing")) for g in gamecache.values() if g.get("date","")[:10]>=begin.isoformat()]
+    print(f"NBA verified play-by-play timing: {len(timing)} games; current season {sum(c[0] for c in counts)}/{sum(c[1] for c in counts)} positive stat timelines")
     CACHE.write_text(json.dumps(cache,separators=(",",":"))+"\n")
     current_games=[g for g in gamecache.values() if g.get("date")]
     stats,teams=make_payload(current_games,year)

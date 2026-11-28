@@ -1,5 +1,5 @@
 import unittest
-from nba_timing import build_timing, elapsed
+from nba_timing import build_timing, elapsed, merge_components, coverage
 from nba_pipeline import outcome, grade_event, feature_vector, NBA_FEATURES, daily_pick_window
 from datetime import datetime, timezone, timedelta
 class NBAParityTests(unittest.TestCase):
@@ -13,6 +13,19 @@ class NBAParityTests(unittest.TestCase):
         self.assertEqual(data["2"]["assists"],[[1,1,"11:30"]])
         game["players"][0]["stats"]["points"]=4
         self.assertNotIn("points",build_timing(raw,game)["1"])
+    def test_combined_timing_and_aliases(self):
+        game={"players":[{"id":"1","name":"Julius Randle","stats":{"points":20,"assists":1,"pa":21,"rebounds":0,"pr":20}},{"id":"2","name":"Other Player","stats":{"points":2}}]}
+        plays=[]
+        for i in range(10):
+            plays.append({"id":str(i),"period":{"number":1+i//4},"clock":{"displayValue":str(10-i%4)+":00"},"text":"J. Randle makes 2-point shot","scoreValue":2,"scoringPlay":True})
+        plays.append({"id":"assist","period":{"number":3},"clock":{"displayValue":"5:00"},"text":"Other Player makes layup (Julius Randle assists)","scoreValue":2,"scoringPlay":True})
+        plays.append({"period":{"number":4},"clock":{"displayValue":"0.0"},"text":"End of game"})
+        data=build_timing({"plays":plays},game)
+        self.assertEqual(data["1"]["pa"][-1],[21,3,"5:00"])
+        self.assertEqual(data["1"]["pr"][-1][0],20)
+        self.assertEqual(elapsed(4,"0.0"),2880)
+        self.assertEqual(elapsed(2,"PT11M30S"),750)
+        self.assertEqual(merge_components(("points","assists"),{"points":20,"assists":1},{"points":data["1"]["points"]}),[])
     def test_outcome(self):
         self.assertEqual(outcome({"scope":"player","line":10,"selection":"Over"},10),"push")
         self.assertEqual(outcome({"scope":"player","line":10,"selection":"Yes"},10),"hit")
