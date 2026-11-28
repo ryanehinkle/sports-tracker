@@ -261,51 +261,103 @@ def make_leg(event,row,prob,score):
     leg["key"]="¦".join(str(x) for x in (leg["eventId"],row.get("player") or row.get("team") or row.get("scope"),row.get("market"),row.get("selection"),f"{num(row.get('line')):g}",row.get("proposition") or ""))
     return leg
 
+PICK_RULE_VERSION=2
+# Mirrors the NBA UI presets. Hard pricing, size and diversification limits
+# remain unchanged at every fallback tier.
+PICK_PRESETS={
+    "ladder":{"label":"Even Ladder","minLegs":3,"maxLegs":6,"legMin":-1200,"legMax":-280,"totalMin":-110,"totalMax":110,"spread":700,"edge":-20,"history":{"l5":100,"l10":75,"previous":70}},
+    "longshot":{"label":"+1000 Sharp","minLegs":3,"maxLegs":5,"legMin":-500,"legMax":250,"totalMin":850,"totalMax":1200,"spread":1000,"edge":0,"history":{"l5":70,"l10":65,"current":55,"previous":55}},
+}
+
+def american(decimal):
+    return round((decimal-1)*100 if decimal>=2 else -100/(decimal-1))
+
+def pick_tiers(kind):
+    exact=PICK_PRESETS[kind]["history"]
+    if kind=="ladder":
+        return [("Exact Even Ladder",exact,-20),("Relaxed history",{"l5":80,"l10":65,"previous":55},-20),("Relaxed history II",{"l5":80,"l10":60,"previous":45},-20),("Relaxed history III",{"l5":60,"l10":55,"previous":40},-20)]
+    return [("Exact +1000 Sharp",exact,0),("Relaxed history",{"l5":60,"l10":60,"current":50,"previous":50},0),("Relaxed edge",{"l5":60,"l10":60,"current":50,"previous":50},-5),("Relaxed history II",{"l5":60,"l10":50,"current":45,"previous":45},-10)]
+
+def meets_history(row,minimums):
+    for key,minimum in minimums.items():
+        rate=(row.get("hitRates") or {}).get(key) or {}
+        pct=number(rate.get("pct"))
+        if pct is None or pct<minimum:return False
+    return True
+
 def select_pick(events,learning,kind):
-    min_legs,max_legs,low,high=(2,4,1.9,2.35) if kind=="ladder" else (3,6,9.5,13.5)
-    grouped=[]
+    rule=PICK_PRESETS[kind]
+    low=lm.american_to_decimal(rule["totalMin"]);high=lm.american_to_decimal(rule["totalMax"])
+    scored=[]
     for event in events:
         options=[]
         for row in event.get("props") or []:
-            d=number(row.get("decimalOdds")) or lm.american_to_decimal(row.get("odds"))
-            if not d or d<=1 or d>high or row.get("period")!="fullGame":continue
+            odds=number(row.get("odds"))
+            if odds is None or not rule["legMin"]<=odds<=rule["legMax"] or abs(odds)<100 or row.get("period")!="fullGame":continue
+            d=lm.american_to_decimal(odds)
+            if not d or d<=1 or d>high:continue
             rates=row.get("hitRates") or {}
             if num((rates.get("l10") or {}).get("total"))<5:continue
             prob,score,edge=probability(row,learning)
-            if edge<-.12:continue
-            options.append((row,d,prob,score))
-        # Retain strong candidates in multiple price bands rather than crowd
-        # out possible payout ranges with many variants of one favorite.
-        bands={}
-        for item in sorted(options,key=lambda x:(-x[2],-x[3])):
-            band=int(math.log(item[1])*16)
-            bucket=bands.setdefault(band,[])
-            if len(bucket)<4:bucket.append(item)
-        grouped.append((event,[x for bucket in bands.values() for x in bucket]))
-    beam=[(1.,1.,0.,[])];best=None
-    for event,options in grouped:
-        expanded=list(beam)
-        for dec,prob,score,legs in beam:
-            if len(legs)>=max_legs:continue
-            for row,d,p,s in options:
-                if dec*d>high:continue
-                if row.get("player") and any(norm(x.get("player"))==norm(row["player"]) for x in legs):continue
-                node=(dec*d,prob*p,score+s,legs+[make_leg(event,row,p,s)])
-                expanded.append(node)
-                if min_legs<=len(node[3])<=max_legs and low<=node[0]<=high and (best is None or (node[1],node[2]/len(node[3]))>(best[1],best[2]/len(best[3]))):best=node
-        bins={}
-        for node in expanded:
-            key=(len(node[3]),int(math.log(node[0])*25))
-            bins.setdefault(key,[]).append(node)
-        beam=[n for group in bins.values() for n in sorted(group,key=lambda x:(-x[1],-x[2]))[:12]]
-    if best is None:return None
-    d,p,s,legs=best
-    return {"kind":kind,"odds":round((d-1)*100 if d>=2 else -100/(d-1)),"confidence":s/len(legs),"estimatedProbability":p,"legs":legs,"status":"pending","targetOdds":"~+100" if kind=="ladder" else "~+1000","selectionTier":"Even Ladder" if kind=="ladder" else "Long Shot"}
+            if not all(math.isfinite(x) for x in (prob,score,edge)):continue
+            options.append((row,d,prob,score,edge,odds))
+        scored.append((event,options))
+    for tier,history,min_edge in pick_tiers(kind):
+        # Keep a diverse price frontier for each game. One leg per game avoids
+        # using independent odds on correlated same-game combinations.
+        grouped=[]
+        for event,options in scored:
+            bands={}
+            for item in sorted(options,key=lambda x:(-x[2],-x[3],str(x[0].get("marketId")),str(x[0].get("selectionId")))):
+                row,d,prob,score,edge,odds=item
+                if edge*100+1e-9<min_edge or not meets_history(row,history):continue
+                bucket=bands.setdefault(odds,[])
+                if len(bucket)<3:bucket.append(item)
+            grouped.append((event,[x for bucket in bands.values() for x in bucket]))
+        if sum(bool(options) for _,options in grouped)<rule["minLegs"]:continue
+        beam=[(1.,1.,0.,[],None,None,frozenset())];best=None;best_key=None
+        for event,options in grouped:
+            expanded=list(beam)
+            for dec,prob,score,legs,omin,omax,players in beam:
+                if len(legs)>=rule["maxLegs"]:continue
+                for row,d,p,s,edge,odds in options:
+                    next_dec=dec*d
+                    if next_dec>high+1e-9:continue
+                    lo=odds if omin is None else min(omin,odds)
+                    hi=odds if omax is None else max(omax,odds)
+                    if hi-lo>rule["spread"]:continue
+                    player=norm(row.get("player"))
+                    if player and player in players:continue
+                    newlegs=legs+[(event,row,p,s)]
+                    node=(next_dec,prob*p,score+s,newlegs,lo,hi,players|{player} if player else players)
+                    expanded.append(node)
+                    if len(newlegs)>=rule["minLegs"] and low-1e-9<=next_dec<=high+1e-9:
+                        # Highest joint modeled hit rate, then average score,
+                        # with closeness to target as a tie breaker.
+                        key=(node[1],node[2]/len(newlegs),-abs(next_dec-(2 if kind=="ladder" else 11)))
+                        if best_key is None or key>best_key:best=node;best_key=key
+            bins={}
+            for node in expanded:
+                # Include odds extrema in the beam state so a seemingly strong
+                # partial slip cannot crowd out all compatible alternatives.
+                key=(len(node[3]),round(math.log(node[0])*65),None if node[4] is None else int(node[4]//100),None if node[5] is None else int(node[5]//100))
+                bucket=bins.setdefault(key,[])
+                bucket.append(node)
+            beam=[n for group in bins.values() for n in sorted(group,key=lambda x:(-x[1],-x[2]))[:2]]
+            beam=sorted(beam,key=lambda x:(-x[1],-x[2]))[:7000]
+        if best:
+            d,p,s,rows,lo,hi,_=best
+            legs=[make_leg(event,row,prob,score) for event,row,prob,score in rows]
+            # Recheck hard constraints before publishing; no emergency bypass.
+            if not (rule["minLegs"]<=len(legs)<=rule["maxLegs"] and rule["totalMin"]<=american(d)<=rule["totalMax"] and hi-lo<=rule["spread"]):continue
+            return {"kind":kind,"odds":american(d),"confidence":s/len(legs),"estimatedProbability":p,"legs":legs,"status":"pending","targetOdds":"~+100" if kind=="ladder" else "~+1000","selectionTier":tier,"ruleVersion":PICK_RULE_VERSION,"constraints":{**rule,"historyUsed":history,"edgeUsed":min_edge},"legOddsSpread":hi-lo}
+    return None
 
 def promote_prepared(picks,now):
     """Promote the exact staged selections; never reselect after their release."""
     pending=[]
     for pick in picks.get("prepared",[]):
+        if pick.get("ruleVersion")!=PICK_RULE_VERSION:continue
         target=dt(pick.get("scheduledPublishAt"))
         if not target or now<target:
             pending.append(pick);continue
@@ -323,7 +375,8 @@ def update_daily_release(payload,stats,teams_payload,learning,picks,now,first,pu
     events=[e for e in payload.get("events",[]) if e.get("verifiedNBA") and e.get("espnEventId") and dt(e.get("commenceTime")) and dt(e["commenceTime"])>now and dt(e["commenceTime"]).astimezone(CENTRAL).date().isoformat()==local]
     path=ROOT/(local+".json")
     snap=load(path,{})
-    published={p.get("kind") for p in picks["picks"] if p.get("date")==local}
+    obsolete={p.get("kind"):p for p in picks["picks"] if p.get("date")==local and p.get("ruleVersion")!=PICK_RULE_VERSION and p.get("legs") and all(dt(l.get("commenceTime")) and dt(l["commenceTime"])>now for l in p["legs"])}
+    published={p.get("kind") for p in picks["picks"] if p.get("date")==local and p.get("kind") not in obsolete}
     staged={p.get("kind"):p for p in picks.get("prepared",[]) if p.get("date")==local}
     # Stage early enough that a delayed scheduled run cannot delay website visibility.
     # Refresh the candidate until 20 minutes before release, then freeze it.
@@ -331,11 +384,22 @@ def update_daily_release(payload,stats,teams_payload,learning,picks,now,first,pu
     if events:
         for kind in ("ladder","longshot"):
             if kind in published:continue
-            if kind in staged and now>=publish_at-timedelta(minutes=20):continue
+            if kind in staged and staged[kind].get("ruleVersion")==PICK_RULE_VERSION and now>=publish_at-timedelta(minutes=20):continue
             pick=select_pick(events,learning,kind)
-            if not pick:continue
+            if not pick:
+                print(f"NBA {kind}: no slip meets bounded preset tiers")
+                if kind in obsolete:
+                    old=obsolete[kind]
+                    picks.setdefault("superseded",[]).append({**old,"supersededAt":now.isoformat(),"reason":"Invalid legacy preset constraints"})
+                    picks["picks"]=[x for x in picks["picks"] if x is not old]
+                    changed=True
+                continue
             pick.update(date=local,createdAt=now.isoformat(),scheduledPublishAt=publish_at.isoformat(),slotLabel="Remaining slate" if now>=first else "Daily NBA slate",slotOrder=0)
             if now>=publish_at:
+                if kind in obsolete:
+                    old=obsolete[kind]
+                    picks.setdefault("superseded",[]).append({**old,"supersededAt":now.isoformat(),"reason":"Corrected preset constraints before tipoff"})
+                    picks["picks"]=[x for x in picks["picks"] if x is not old]
                 picks["picks"].append(pick);published.add(kind)
             else:
                 picks["prepared"]=[p for p in picks.get("prepared",[]) if not (p.get("date")==local and p.get("kind")==kind)]+[pick]

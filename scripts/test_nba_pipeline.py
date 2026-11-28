@@ -54,7 +54,8 @@ class NBAParityTests(unittest.TestCase):
     def test_prepared_release(self):
         from nba_pipeline import promote_prepared
         target=datetime(2026,11,28,20,0,tzinfo=timezone.utc)
-        pick={"date":"2026-11-28","kind":"ladder","scheduledPublishAt":target.isoformat(),"legs":[{"key":"unchanged"}]}
+        from nba_pipeline import PICK_RULE_VERSION
+        pick={"date":"2026-11-28","kind":"ladder","ruleVersion":PICK_RULE_VERSION,"scheduledPublishAt":target.isoformat(),"legs":[{"key":"unchanged"}]}
         data={"picks":[],"prepared":[pick]}
         promote_prepared(data,target-timedelta(seconds=1))
         self.assertEqual(data["picks"],[])
@@ -63,6 +64,23 @@ class NBAParityTests(unittest.TestCase):
         self.assertEqual(data["prepared"],[])
         promote_prepared(data,target+timedelta(minutes=20))
         self.assertEqual(data["picks"],[pick])
+    def test_pick_preset_limits(self):
+        from nba_pipeline import select_pick, PICK_PRESETS
+        from unittest.mock import patch
+        def event(i,odds,history=100):
+            rate={"pct":history,"total":10,"hits":history/10}
+            return {"id":str(i),"espnEventId":str(i),"commenceTime":"2026-11-28T22:00:00Z","homeAbbr":"BOS","awayAbbr":"NY","props":[{"scope":"player","player":"P"+str(i),"team":"BOS","metric":"points","market":"Points","line":10.5,"selection":"Over","period":"fullGame","odds":o,"hitRates":{k:rate for k in ("l5","l10","current","previous")}} for o in odds]}
+        with patch("nba_pipeline.probability",return_value=(.8,80,.1)):
+            ladder=select_pick([event(i,[-380,-140,-10000]) for i in range(3)],{},"ladder")
+            self.assertIsNotNone(ladder)
+            self.assertEqual(ladder["selectionTier"],"Exact Even Ladder")
+            self.assertEqual(len(ladder["legs"]),3)
+            self.assertTrue(all(x["odds"]==-380 for x in ladder["legs"]))
+            longshot=select_pick([event(i,[120,790,-10000]) for i in range(3)],{},"longshot")
+            self.assertIsNotNone(longshot)
+            self.assertTrue(all(x["odds"]==120 for x in longshot["legs"]))
+            self.assertIsNone(select_pick([event(i,[790,-10000]) for i in range(3)],{},"longshot"))
+            self.assertIsNone(select_pick([event(i,[-380]) for i in range(2)],{},"ladder"))
     def test_feature_size(self):
         self.assertEqual(len(feature_vector({"scope":"player","metric":"points"},.5)),len(NBA_FEATURES))
 if __name__=="__main__":unittest.main()
