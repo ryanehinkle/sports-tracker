@@ -302,6 +302,83 @@ def select_pick(events,learning,kind):
     d,p,s,legs=best
     return {"kind":kind,"odds":round((d-1)*100 if d>=2 else -100/(d-1)),"confidence":s/len(legs),"estimatedProbability":p,"legs":legs,"status":"pending","targetOdds":"~+100" if kind=="ladder" else "~+1000","selectionTier":"Even Ladder" if kind=="ladder" else "Long Shot"}
 
+def promote_prepared(picks,now):
+    """Promote the exact staged selections; never reselect after their release."""
+    pending=[]
+    for pick in picks.get("prepared",[]):
+        target=dt(pick.get("scheduledPublishAt"))
+        if not target or now<target:
+            pending.append(pick);continue
+        if not any(p.get("date")==pick.get("date") and p.get("kind")==pick.get("kind") for p in picks["picks"]):
+            picks["picks"].append(pick)
+    picks["prepared"]=pending
+
+def update_daily_release(payload,stats,teams_payload,learning,picks,now,first,publish_at):
+    local=now.astimezone(CENTRAL).date().isoformat()
+    picks.setdefault("picks",[])
+    promote_prepared(picks,now)
+    picks["schedule"]={"date":local,"firstGameAt":first.isoformat() if first else None,"publishAt":publish_at.isoformat() if publish_at else None,"leadMinutes":120}
+    if not first or not publish_at:return
+    # Cached data may be used for the recovery job, but only verified, not-yet-started events.
+    events=[e for e in payload.get("events",[]) if e.get("verifiedNBA") and e.get("espnEventId") and dt(e.get("commenceTime")) and dt(e["commenceTime"])>now and dt(e["commenceTime"]).astimezone(CENTRAL).date().isoformat()==local]
+    path=ROOT/(local+".json")
+    snap=load(path,{})
+    published={p.get("kind") for p in picks["picks"] if p.get("date")==local}
+    staged={p.get("kind"):p for p in picks.get("prepared",[]) if p.get("date")==local}
+    # Stage early enough that a delayed scheduled run cannot delay website visibility.
+    # Refresh the candidate until 20 minutes before release, then freeze it.
+    changed=False
+    if events:
+        for kind in ("ladder","longshot"):
+            if kind in published:continue
+            if kind in staged and now>=publish_at-timedelta(minutes=20):continue
+            pick=select_pick(events,learning,kind)
+            if not pick:continue
+            pick.update(date=local,createdAt=now.isoformat(),scheduledPublishAt=publish_at.isoformat(),slotLabel="Remaining slate" if now>=first else "Daily NBA slate",slotOrder=0)
+            if now>=publish_at:
+                picks["picks"].append(pick);published.add(kind)
+            else:
+                picks["prepared"]=[p for p in picks.get("prepared",[]) if not (p.get("date")==local and p.get("kind")==kind)]+[pick]
+                staged[kind]=pick
+            changed=True
+    if changed or (now>=publish_at and (published or staged) and not snap.get("pregameVerified")):
+        # Match the staged model to the data used for selection. Do not replace a released snapshot.
+        if not snap.get("pregameVerified") or now<publish_at:
+            if path.exists() and not snap.get("pregameVerified"):save(ROOT/"legacy"/path.name,snap)
+            snap={"date":local,"pregameVerified":True,"capturedAt":payload.get("updatedAt") or now.isoformat(),"events":events,"statsSnapshot":stats,"teamSnapshot":teams_payload,"learningSnapshot":learning}
+        frozen=[p for p in picks["picks"] if p.get("date","")<=local]+[p for p in picks.get("prepared",[]) if p.get("date")==local]
+        snap["ladderSnapshot"]={"picks":frozen}
+        snap["scheduledPublishAt"]=publish_at.isoformat()
+        save(path,snap)
+    print(f"NBA release: {local}, first {first}, target {publish_at}, published {sorted(published)}, staged {sorted(staged)}")
+
+def fast_release(now=None):
+    """Release using the last verified board, before the expensive stats refresh."""
+    now=now or datetime.now(timezone.utc)
+    picks=load(PICKS,{"picks":[]})
+    payload=load(Path("data/nba-odds.json"),{})
+    schedule=picks.get("schedule") or {}
+    first=dt(schedule.get("firstGameAt")) if schedule.get("date")==now.astimezone(CENTRAL).date().isoformat() else None
+    if not first:
+        verified=[dt(e.get("commenceTime")) for e in payload.get("events",[]) if e.get("verifiedNBA") and e.get("espnEventId")]
+        first=min((tip for tip in verified if tip and tip.astimezone(CENTRAL).date()==now.astimezone(CENTRAL).date()),default=None)
+    if not first:
+        promote_prepared(picks,now);save(PICKS,picks);return
+    # Do not generate using the cached board if the regular refresh has time to
+    # replace it; stage or recover only when the data is from the current slate.
+    update_daily_release(payload,load(Path("data/nba-stats.json"),{}),load(Path("data/nba-team-stats.json"),{}),load(LEARNING,{}),picks,now,first,first-PICK_LEAD_TIME)
+    save(PICKS,picks)
+    update_archive_index(now)
+
+def update_archive_index(now):
+    days=[]
+    for path in sorted(ROOT.glob("20??-??-??.json"),reverse=True):
+        snap=load(path,{})
+        target=dt(snap.get("scheduledPublishAt"))
+        if not snap.get("pregameVerified") or (target and target>now):continue
+        days.append({"date":path.stem,"file":path.name,"events":len(snap.get("events") or [])})
+    save(ROOT/"index.json",{"days":days})
+
 def run(payload,stats,teams_payload,schedule,now):
     ROOT.mkdir(parents=True,exist_ok=True);EVENTS.mkdir(parents=True,exist_ok=True)
     players={norm(p.get("name")):p for p in stats.get("players") or []}
@@ -331,6 +408,7 @@ def run(payload,stats,teams_payload,schedule,now):
         lm.main()
         learning=load(LEARNING,{})
     picks=load(PICKS,{"picks":[]})
+    promote_prepared(picks,now)
     for pick in picks["picks"]:
         for leg in pick.get("legs") or []:
             if (leg.get("result") or {}).get("status") in ("hit","miss","push"):continue
@@ -338,38 +416,19 @@ def run(payload,stats,teams_payload,schedule,now):
             grade_event(event,players,teams,dnp)
         statuses=[(r.get("result") or {}).get("status","pending") for r in pick.get("legs") or []]
         pick["status"]="miss" if "miss" in statuses else "pending" if not statuses or "pending" in statuses else "push" if "push" in statuses else "hit"
-    local=now.astimezone(CENTRAL).date().isoformat()
-    day_events=[e for e in events if dt(e["commenceTime"]).astimezone(CENTRAL).date().isoformat()==local and dt(e["commenceTime"])>now]
     first,publish_at=daily_pick_window(schedule,now)
-    picks["schedule"]={"date":local,"firstGameAt":first.isoformat() if first else None,"publishAt":publish_at.isoformat() if publish_at else None,"leadMinutes":120}
-    print(f"NBA daily picks: {local}, first game {first}, publish at {publish_at} (UTC)")
-    if publish_at and day_events and now>=publish_at:
-        path=ROOT/(local+".json")
-        snap=load(path,{})
-        if not snap.get("pregameVerified"):
-            snap={"date":local,"pregameVerified":True,"capturedAt":now.isoformat(),"events":day_events,"statsSnapshot":stats,"teamSnapshot":teams_payload,"learningSnapshot":learning}
-            if path.exists():save(ROOT/"legacy"/path.name,load(path,{}))
-            save(path,snap)
-        # Publish once per date and kind, never reconstruct already-started legs.
-        for kind in ("ladder","longshot"):
-            if any(p.get("date")==local and p.get("kind")==kind for p in picks["picks"]):continue
-            pick=select_pick(day_events,learning,kind)
-            if pick:
-                pick.update(date=local,createdAt=now.isoformat(),scheduledPublishAt=publish_at.isoformat(),slotLabel="Remaining slate" if now>=first else "Daily NBA slate",slotOrder=0)
-                picks["picks"].append(pick)
-        frozen=snap.setdefault("ladderSnapshot",{"picks":[]})["picks"]
-        known={(p.get("date"),p.get("kind")) for p in frozen}
-        additions=[p for p in picks["picks"] if p.get("date","")<=local and (p.get("date"),p.get("kind")) not in known]
-        if additions:
-            frozen.extend(additions);save(path,snap)
+    update_daily_release(payload,stats,teams_payload,learning,picks,now,first,publish_at)
     save(PICKS,picks)
     days=[]
     for path in sorted(ROOT.glob("20??-??-??.json"),reverse=True):
         snap=load(path,{})
-        if not snap.get("pregameVerified"):continue
+        target=dt(snap.get("scheduledPublishAt"))
+        if not snap.get("pregameVerified") or (target and target>now):continue
         dirty=False
         for event in snap.get("events") or []:dirty=bool(grade_event(event,players,teams,dnp)) or dirty
         if dirty:save(path,snap)
         days.append({"date":path.stem,"file":path.name,"events":len(snap.get("events") or [])})
     save(ROOT/"index.json",{"days":days})
     print(f"NBA pipeline: {graded} newly graded frozen legs, {learning.get('completedGames',0)} learned games, {len(picks['picks'])} published picks")
+
+if __name__=="__main__":fast_release()

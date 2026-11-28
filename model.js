@@ -2019,8 +2019,15 @@ function ladderDateLabel(value){
   return Number.isNaN(d.getTime())?String(value||""):new Intl.DateTimeFormat("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"}).format(d);
 }
 function ladderStatusIcon(status){return status==="hit"?"✓":status==="miss"?"×":status==="push"?"↔":"•"}
+function visibleLadderPicks(data){
+  const published=[...(data?.picks||[])];
+  if(!NBA_MODE||state.modelHistorical)return published;
+  const keys=new Set(published.map(p=>p.date+"|"+p.kind));
+  for(const p of data?.prepared||[]){const target=Date.parse(p.scheduledPublishAt);if(Number.isFinite(target)&&Date.now()>=target&&!keys.has(p.date+"|"+p.kind)){published.push(p);keys.add(p.date+"|"+p.kind);}}
+  return published;
+}
 function ladderChronologicalPicks(){
-  const picks=[...(state.ladderData&&state.ladderData.picks||[])].filter(p=>p.kind!=="longshot").sort((a,b)=>{
+  const picks=visibleLadderPicks(state.ladderData).filter(p=>p.kind!=="longshot").sort((a,b)=>{
     const ad=String(a.date||""),bd=String(b.date||"");if(ad!==bd)return ad.localeCompare(bd);
     const ao=Number(a.slotOrder||0),bo=Number(b.slotOrder||0);if(ao!==bo)return ao-bo;
     return String(a.createdAt||"").localeCompare(String(b.createdAt||""));
@@ -2066,12 +2073,31 @@ function ladderLegHtml(leg){
   const actual=leg.result&&leg.result.actual!==undefined?'<small>Final: '+esc(String(leg.result.actual))+'</small>':"";
   return '<div class="ladder-leg ladder-'+esc(status)+' model-prop-trigger" data-prop-key="'+esc(key)+'" tabindex="0" role="button" aria-label="Open '+esc(entity)+' prop history chart">'+visual+'<div class="ladder-leg-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(leg))+'</span><small>'+formatOdds(leg.odds)+' • confidence '+pct(Number(leg.confidence),1)+'</small></div><div class="ladder-leg-result"><span>'+ladderStatusIcon(status)+'</span><strong>'+esc(status==="pending"?"Pending":status.charAt(0).toUpperCase()+status.slice(1))+'</strong>'+actual+'</div></div>';
 }
+function startNbaPickRefresh(){
+  let previous="",busy=false;
+  const refreshUI=()=>{
+    if(state.modelHistorical||state.loadingDate)return;
+    const key=JSON.stringify([visibleLadderPicks(state.ladderData),state.ladderData?.schedule]);
+    if(key===previous)return;
+    previous=key;renderLadderLaunch();
+    if(!$("ladderChallengePanel").hidden){
+      if(state.nbaPickPanel==="longshot")$("longShotButton").click();else renderLadderPick();
+    }
+  };
+  const poll=async()=>{
+    if(busy||state.modelHistorical||state.loadingDate)return;
+    busy=true;
+    try{const data=await fetchModelJson("data/nba-odds-history/ladder-picks.json?v="+Date.now());if(!state.modelHistorical&&!state.loadingDate){state.ladderData=data;state.liveLadderData=data;refreshUI();}}catch(e){console.warn("NBA pick refresh",e);}finally{busy=false;}
+  };
+  refreshUI();setInterval(refreshUI,1000);setInterval(poll,30000);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden){refreshUI();poll();}});
+}
 function nbaPickScheduleLabel(){
   const schedule=state.ladderData?.schedule;
   const target=schedule?.publishAt?new Date(schedule.publishAt):null;
   if(!state.modelHistorical&&schedule?.date===localDateKey()&&target&&!Number.isNaN(+target)){
     const time=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",hour:"numeric",minute:"2-digit"}).format(target);
-    return "Scheduled for "+time+" CT · 2 hours before first tipoff";
+    return (Date.now()>=+target?"Release due at ":"Scheduled for ")+time+" CT · 2 hours before first tipoff";
   }
   return "Publishes 2 hours before the first game.";
 }
@@ -2098,6 +2124,7 @@ function renderLadderPick(){
   '</article>';
 }
 function toggleLadderPanel(){
+  state.nbaPickPanel="ladder";
   const panel=$("ladderChallengePanel"),opening=panel.hidden;
   panel.hidden=!opening;$("todayPickButton").setAttribute("aria-expanded",opening?"true":"false");
   $("todayPickButton").classList.toggle("active",opening);
@@ -2119,7 +2146,8 @@ function bind(){
   });
   $("todayPickButton").addEventListener("click",toggleLadderPanel);
   $("longShotButton").addEventListener("click",()=>{
-    const all=[...(state.ladderData&&state.ladderData.picks||[])],targetDate=state.modelHistorical?state.modelDate:localDateKey();
+    state.nbaPickPanel="longshot";
+    const all=visibleLadderPicks(state.ladderData),targetDate=state.modelHistorical?state.modelDate:localDateKey();
     const candidates=all.filter(p=>p.kind==="longshot"&&p.date===targetDate).sort((a,b)=>String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
     const pick=candidates[candidates.length-1];
     const panel=$("ladderChallengePanel");panel.hidden=false;$("todayPickButton").setAttribute("aria-expanded","false");
@@ -2182,6 +2210,7 @@ async function init(){
     const bundle=await fetchLiveModelBundle();
     setResultSources(bundle.stats,bundle.teams,bundle.ladder);
     applyModelBundle(bundle,{historical:false,date:"live"});
+    if(NBA_MODE)startNbaPickRefresh();
   }catch(err){
     console.error(err);
     $("recommendedSlips").innerHTML='<div class="model-empty">The model could not load the current stats/odds datasets. Refresh after the next data update.</div>';

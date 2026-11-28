@@ -31,6 +31,8 @@ on:
     # Check every 15 minutes, including standard NBA tipoff clock boundaries.
     # Both daily picks are eligible at the first verified tip minus two hours.
     - cron: "0,15,30,45 * * * *"
+    # Offset backup checks avoid relying solely on quarter-hour cron dispatch.
+    - cron: "7,22,37,52 * * * *"
 
 permissions:
   contents: write
@@ -100,6 +102,21 @@ jobs:
           node --check model.js
           python -m py_compile scripts/nba_pipeline.py scripts/nba_timing.py
           python scripts/test_nba_pipeline.py
+
+      - name: Prepare or release daily picks from last verified board
+        run: |
+          python scripts/nba_pipeline.py
+          git add data/nba-odds-history
+          if ! git diff --cached --quiet; then
+            git config user.name "sports-tracker-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git commit -m "Prepare or publish NBA daily picks"
+            for attempt in 1 2 3; do
+              if git push; then break; fi
+              git pull --rebase origin main
+              if [ "$attempt" = 3 ]; then git push; fi
+            done
+          fi
 
       - name: Fetch verified NBA player and team game logs
         run: python scripts/update_nba_stats.py

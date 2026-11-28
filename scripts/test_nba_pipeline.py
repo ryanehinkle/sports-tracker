@@ -51,6 +51,18 @@ class NBAParityTests(unittest.TestCase):
         self.assertEqual(daily_pick_window([],now),(None,None))
         # After the earliest game begins, do not reset the release to the next game.
         self.assertEqual(daily_pick_window(schedule,first+timedelta(minutes=10)),(tip,release))
+    def test_prepared_release(self):
+        from nba_pipeline import promote_prepared
+        target=datetime(2026,11,28,20,0,tzinfo=timezone.utc)
+        pick={"date":"2026-11-28","kind":"ladder","scheduledPublishAt":target.isoformat(),"legs":[{"key":"unchanged"}]}
+        data={"picks":[],"prepared":[pick]}
+        promote_prepared(data,target-timedelta(seconds=1))
+        self.assertEqual(data["picks"],[])
+        promote_prepared(data,target)
+        self.assertEqual(data["picks"],[pick])
+        self.assertEqual(data["prepared"],[])
+        promote_prepared(data,target+timedelta(minutes=20))
+        self.assertEqual(data["picks"],[pick])
     def test_feature_size(self):
         self.assertEqual(len(feature_vector({"scope":"player","metric":"points"},.5)),len(NBA_FEATURES))
 if __name__=="__main__":unittest.main()
