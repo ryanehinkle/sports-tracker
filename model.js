@@ -1,6 +1,7 @@
 (()=>{
 "use strict";
 const $=id=>document.getElementById(id);
+const NBA_MODE=document.documentElement.dataset.sport==="nba";
 const fmt=new Intl.NumberFormat("en-US");
 const DEFAULTS={l5:60,l10:55,h2h:0,current:50,previous:0,avgHitQuarter:0,avgHitTime:900,targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:2,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,edgeMin:-20,oddsSpread:600,legOddsMin:-500,legOddsMax:500,parlayOddsMin:100,parlayOddsMax:350,legsMin:2,legsMax:4,weights:{recent:30,season:22,h2h:12,usage:14,matchup:14,value:8}};
 const PRESETS={
@@ -9,12 +10,12 @@ const PRESETS={
   "high-confidence":{label:"High Confidence",l5:80,l10:70,h2h:0,current:60,previous:60,legOddsMin:-900,legOddsMax:-150,parlayOddsMin:-130,parlayOddsMax:180,legsMin:2,legsMax:4,oddsSpread:650,edgeMin:-2,teamMatchupMin:50,uniquePlayers:true,avoidSameGame:false},
   "balanced-value":{label:"Balanced Value",l5:65,l10:60,h2h:0,current:55,previous:55,legOddsMin:-450,legOddsMax:150,parlayOddsMin:250,parlayOddsMax:550,legsMin:2,legsMax:4,oddsSpread:800,edgeMin:1,teamMatchupMin:40,uniquePlayers:true,avoidSameGame:false}
 };
-const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current","2026"],["previous","2025"]];
+const HIT_LABELS=[["l5","L5"],["l10","L10"],["h2h","H2H"],["current",NBA_MODE?"Current season":"2026"],["previous",NBA_MODE?"Prior season":"2025"]];
 const WEIGHT_LABELS=[["recent","Recent form"],["season","Season"],["h2h","H2H"],["usage","Usage"],["matchup","Opponent"],["value","Price edge"]];
 const state={season:null,players:[],odds:[],teams:[],teamRaw:null,teamProfiles:new Map(),teamStatMeta:new Map(),playerByName:new Map(),usage:new Map(),dvp:new Map(),eligible:[],slips:[],slipPage:0,weights:Object.assign({},DEFAULTS.weights),timer:0,chartRows:new Map(),hitRateActiveRow:null,hitRateActiveSplit:null,hitTimingFilter:"all",hitTimingRequestToken:0,hitTimingData:null,hitTimingDataPromise:null,opponentRankCache:new Map(),calibration:null,learning:null,pricePairs:new Map(),historyCache:new Map(),forecastCache:new Map(),usageStabilityCache:new Map(),teamDefenseCache:new Map(),selectedPositions:new Set(),selectedMarkets:new Set(),selectedSides:new Set(),selectedGames:new Set(),modelScope:"",entityRules:new Map(),ladderData:{picks:[]},ladderIndex:0,modelDate:"live",modelHistorical:false,modelHistoryIndex:{days:[]},modelHistoryManifest:null,resultPlayers:[],resultTeams:[],resultPlayerByName:new Map(),resultTeamByAbbr:new Map(),resultSeason:null,liveLadderData:{picks:[]},resultCache:new Map(),slipMembership:new Map(),loadingDate:false,signalSortKey:"score",signalSortDir:"desc"};
 const SLIPS_PER_PAGE=6;
 const MODEL_RAW_BASE="https://raw.githubusercontent.com/ryanehinkle/sports-tracker/";
-const ENTITY_RULE_STORAGE_KEY="nflModelEntityRulesV1";
+const ENTITY_RULE_STORAGE_KEY=NBA_MODE?"nbaModelEntityRulesV1":"nflModelEntityRulesV1";
 
 function modelArchiveUrl(commit,path){
   return MODEL_RAW_BASE+encodeURIComponent(String(commit||""))+"/"+String(path||"").replace(/^\/+/, "");
@@ -169,7 +170,7 @@ function buildSlipMembership(){
   });
 }
 function resetModelCaches(){
-  state.pricePairs=new Map();state.usage=new Map();state.dvp=new Map();state.teamProfiles=new Map();state.teamStatMeta=new Map();
+  state.nbaMetrics=new Map();state.pricePairs=new Map();state.usage=new Map();state.dvp=new Map();state.teamProfiles=new Map();state.teamStatMeta=new Map();
   state.historyCache.clear();state.forecastCache.clear();state.usageStabilityCache.clear();state.teamDefenseCache.clear();state.opponentRankCache.clear();state.resultCache.clear();
 }
 function renderModelDateOptions(){
@@ -257,7 +258,7 @@ async function loadModelDate(date,file){
       applyModelBundle(bundle,{historical:false,date:"live"});
     }else{
       const historyFile=file||date+".json";
-      const manifest=await fetchModelJson("data/model-history/"+encodeURIComponent(historyFile)+"?v="+Date.now());
+      const manifest=await fetchModelJson((NBA_MODE?"data/nba-odds-history/":"data/model-history/")+encodeURIComponent(historyFile)+"?v="+Date.now());
       const bundle=await fetchHistoricalModelBundle(manifest);
       // Current completed-game data is used only for grading; the model itself
       // continues to run entirely on the frozen bundle above.
@@ -1006,7 +1007,7 @@ function removeModelEntityRule(key){
 
 function controls(){
   const hit={};for(const [k] of HIT_LABELS)hit[k]=Number($(k+"Min").value)||0;
-  const avgHitQuarter=Number($("avgHitQuarter").value)||0,avgHitTime=clamp(Number($("avgHitTime").value)||0,0,900);
+  const avgHitQuarter=Number($("avgHitQuarter").value)||0,avgHitTime=clamp(Number($("avgHitTime").value)||0,0,NBA_MODE?720:900);
   const rawLegMin=Number($("legOddsMin").value),rawLegMax=Number($("legOddsMax").value);
   const legOddsMin=Math.min(rawLegMin,rawLegMax),legOddsMax=Math.max(rawLegMin,rawLegMax);
   const rawParlayMin=Number($("parlayOddsMin").value),rawParlayMax=Number($("parlayOddsMax").value);
@@ -1193,6 +1194,7 @@ function modelSlipPropFamilyKey(x){
 
   // Canonicalize correlated alternate lines. A slip can contain at most one
   // spread from a game, regardless of side/threshold or Spread vs Alt Spread.
+  if(NBA_MODE&&teamMarketType==="moneyline")return[eventId,"game","moneyline"].join("|");
   if(teamMarketType==="spread"||market.includes("spread"))return[eventId,"game","spread"].join("|");
   if(teamMarketType==="gameTotal"||market==="game total"||market==="alt game total")return[eventId,"game","total"].join("|");
   if(teamMarketType==="teamTotal"||market==="team total"||market==="alt team total")return[eventId,"team",norm(row.team),"total"].join("|");
@@ -1456,7 +1458,7 @@ function renderSignals(){
     const result=historicalResultForRow(r),memberships=slipMembershipFor(r);
     const resultCell=state.modelHistorical?'<td class="model-result-cell">'+modelResultBadge(result,true)+(memberships.length?'<small class="slip-membership">Slip '+memberships.join(" • ")+'</small>':"")+'</td>':"";
     return '<tr class="model-board-row model-prop-trigger '+(state.modelHistorical?'historical-row result-'+esc(result.status):"")+'"'+rowAttrs+'><td><div class="signal-player">'+
-      modelEntityVisual(r,x.player)+'<div class="signal-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(r.scope==="game"?r.matchup:(x.team||"NFL")+" vs "+(x.opp||"—"))+' • '+esc(x.pos||"—")+'</small></div></div></td>'+
+      modelEntityVisual(r,x.player)+'<div class="signal-copy"><strong>'+esc(entity)+'</strong><span>'+esc(cleanDisplayProposition(r)||x.market)+'</span><small>'+esc(r.scope==="game"?r.matchup:(x.team||(NBA_MODE?"NBA":"NFL"))+" vs "+(x.opp||"—"))+' • '+esc(x.pos||"—")+'</small></div></div></td>'+
       '<td><span class="score-pill">'+x.score.toFixed(1)+'</span></td><td class="signal-odds"><strong>'+formatOdds(r.odds)+'</strong></td><td class="signal-margin">'+(x.lineMargin?'<strong class="'+(x.lineMargin.margin>=0?'margin-good':'margin-bad')+'">'+(x.lineMargin.margin>=0?'+':'')+x.lineMargin.margin.toFixed(1)+'</strong><small>'+x.lineMargin.average.toFixed(1)+' avg</small>':'—')+'</td>'+
       '<td class="signal-avg-hit">'+(x.avgHitTime?'<strong>'+esc(avgHitDisplay(x.avgHitTime))+'</strong><small>'+x.avgHitTime.sample+' hit'+(x.avgHitTime.sample===1?'':'s')+'</small>':'—')+'</td>'+resultCell+
       rateTd(x.rates.l5)+rateTd(x.rates.l10)+rateTd(x.rates.h2h)+rateTd(x.rates.current)+rateTd(x.rates.previous)+
@@ -1609,7 +1611,7 @@ function togglePresetPopover(){
   let top=rect.bottom+8;if(top+pop.offsetHeight>window.innerHeight-10)top=Math.max(10,rect.top-pop.offsetHeight-8);
   pop.style.top=top+"px";btn.setAttribute("aria-expanded","true");btn.classList.add("open");
 }
-function syncLabels(){for(const [k] of HIT_LABELS)$(k+"Value").textContent=$(k+"Min").value+"%";const avgQuarter=Number($("avgHitQuarter").value)||0,avgTime=clamp(Number($("avgHitTime").value)||0,0,900);$("avgHitTime").disabled=!avgQuarter;$("avgHitTimeValue").textContent=avgHitClockText(900-avgTime);$("avgHitTime").closest(".avg-hit-time-row").classList.toggle("is-disabled",!avgQuarter);$("targetShareValue").textContent=$("targetShare").value+"%";$("carryShareValue").textContent=$("carryShare").value+"%";$("opportunityShareValue").textContent=$("opportunityShare").value+"%";$("dvpValue").textContent=$("dvpMin").value+"th+";$("dvpSampleValue").textContent=$("dvpSample").value+"+";$("teamMatchupValue").textContent=$("teamMatchupMin").value+"th+";$("edgeValue").textContent=$("edgeMin").value+"%+";$("oddsSpreadValue").textContent=$("oddsSpread").value}
+function syncLabels(){for(const [k] of HIT_LABELS)$(k+"Value").textContent=$(k+"Min").value+"%";const avgQuarter=Number($("avgHitQuarter").value)||0,avgTime=clamp(Number($("avgHitTime").value)||0,0,NBA_MODE?720:900);$("avgHitTime").disabled=!avgQuarter;$("avgHitTimeValue").textContent=avgHitClockText((NBA_MODE?720:900)-avgTime);$("avgHitTime").closest(".avg-hit-time-row").classList.toggle("is-disabled",!avgQuarter);$("targetShareValue").textContent=$("targetShare").value+(NBA_MODE?"":"%");$("carryShareValue").textContent=$("carryShare").value+(NBA_MODE?"":"%");$("opportunityShareValue").textContent=$("opportunityShare").value+(NBA_MODE?"":"%");$("dvpValue").textContent=$("dvpMin").value+"th+";$("dvpSampleValue").textContent=$("dvpSample").value+"+";$("teamMatchupValue").textContent=$("teamMatchupMin").value+"th+";$("edgeValue").textContent=$("edgeMin").value+"%+";$("oddsSpreadValue").textContent=$("oddsSpread").value}
 function modelFilterCountLabel(set,singular,allLabel){
   return set.size?set.size+" "+singular+(set.size===1?"":"s"):allLabel;
 }
@@ -1631,7 +1633,7 @@ function renderModelFilters(){
   $("modelAllPositionsMark").textContent=state.selectedPositions.size?"":"✓";
   $("modelPositionLabel").textContent=modelFilterCountLabel(state.selectedPositions,"Position","All positions");
 
-  const requiredMarkets=["Moneyline","Spread","Alt Spread","Game Total","Alt Game Total","Team Total","Alt Team Total","Passing + Rushing Yards","Kicking Points","Field Goals"];
+  const requiredMarkets=NBA_MODE?[]:["Moneyline","Spread","Alt Spread","Game Total","Alt Game Total","Team Total","Alt Team Total","Passing + Rushing Yards","Kicking Points","Field Goals"];
   const markets=[...new Set([
     ...requiredMarkets,
     ...state.odds.map(x=>x._modelMarketLabel||modelSupportedMarketLabel(x)).filter(Boolean)
@@ -1640,8 +1642,8 @@ function renderModelFilters(){
   $("modelAllMarketsMark").textContent=state.selectedMarkets.size?"":"✓";
   $("modelMarketLabel").textContent=modelFilterCountLabel(state.selectedMarkets,"Prop","All props");
 
-  const sides=["Over","Under","Win","Cover"];
-  const sideLabels={Over:"Over",Under:"Under",Win:"Moneyline",Cover:"Spread"};
+  const sides=NBA_MODE?["Over","Under","Yes","No","Win","Cover"]:["Over","Under","Win","Cover"];
+  const sideLabels={Over:"Over",Under:"Under",Yes:"Yes",No:"No",Win:"Moneyline",Cover:"Spread"};
   $("modelSideOptions").innerHTML=sides.map(x=>modelRenderOption(x,sideLabels[x],state.selectedSides,"sides")).join("");
   $("modelAllSidesMark").textContent=state.selectedSides.size?"":"✓";
   $("modelSideLabel").textContent=state.selectedSides.size?modelFilterCountLabel(state.selectedSides,"Side","All sides"):"All sides";
@@ -1811,7 +1813,7 @@ function modelChartDateLabel(game){
 }
 function modelChartOpponentLabel(game){
   const abbr=game&&game.opponent&&game.opponent.abbreviation||"";if(!abbr)return"";
-  return(game.isAway?"@ ":"vs ")+abbr;
+  return(game.isAway||game.homeAway==="away"?"@ ":"vs ")+abbr;
 }
 function modelMetricBreakdown(game,spec){
   if(!spec)return[];
@@ -1946,11 +1948,11 @@ function modelScheduleHitTimingHydration(row,baseGames,player,split){
 
 function modelHitBarTooltip(game,row,value,rankInfo,teamScope=false,timing=null,hit=null){
   const opp=game&&game.opponent||{},abbr=opp.abbreviation||opp.name||"OPP";
-  const logo=opp.logo||(abbr?"https://a.espncdn.com/i/teamlogos/nfl/500/"+String(abbr).toLowerCase()+".png":"");
+  const logo=opp.logo||(abbr?modelTeamLogo(abbr):"");
   const season=game&&game._season||state.season||"";
   const rank=rankInfo?"#"+rankInfo.rank:"—",allowed=rankInfo?(Math.round(rankInfo.value*10)/10).toLocaleString():"—";
   const rankBlock=teamScope?"":'<div class="hit-tooltip-rank"><span>Opp Rank</span><strong>'+rank+'</strong><small>'+allowed+' allowed / game'+(rankInfo&&rankInfo.priorSeason?" • prior season":"")+'</small></div>';
-  return'<div class="hit-bar-tooltip"><div class="hit-tooltip-date">'+esc(modelChartDateLabel(game))+' • '+esc(season)+'</div><div class="hit-tooltip-matchup">'+(logo?'<img src="'+esc(logo)+'" alt="">':"")+'<span>'+esc(game&&game.isAway?"@ ":"vs ")+esc(abbr)+'</span><b>'+esc(game&&game.score||"")+'</b></div><div class="hit-tooltip-stat"><span>'+esc(generalizedMarketLabel(row))+'</span><strong>'+fmt.format(value)+'</strong></div>'+rankBlock+modelHitTimingTooltip(timing,hit)+'</div>';
+  return'<div class="hit-bar-tooltip"><div class="hit-tooltip-date">'+esc(modelChartDateLabel(game))+' • '+esc(season)+'</div><div class="hit-tooltip-matchup">'+(logo?'<img src="'+esc(logo)+'" alt="">':"")+'<span>'+esc(game&&(game.isAway||game.homeAway==="away")?"@ ":"vs ")+esc(abbr)+'</span><b>'+esc(game&&game.score||"")+'</b></div><div class="hit-tooltip-stat"><span>'+esc(generalizedMarketLabel(row))+'</span><strong>'+fmt.format(value)+'</strong></div>'+rankBlock+modelHitTimingTooltip(timing,hit)+'</div>';
 }
 function renderModelHitRateChart(row,split){
   state.hitRateActiveRow=row;state.hitRateActiveSplit=split;
@@ -2175,5 +2177,170 @@ async function init(){
     $("modelUpdated").textContent="Data load failed";
   }
 }
+
+/* NBA uses the same controls, renderer, beam search, historical UI and learning
+   presentation as NFL. Only sport-specific data and feature functions differ. */
+if(NBA_MODE){
+  DEFAULTS.avgHitTime=720;
+  for(const preset of Object.values(PRESETS)){preset.avoidSameGame=true;preset.teamMatchupMin=0;}
+  const numberOrNull=v=>v===null||v===undefined||v===""?null:Number.isFinite(Number(v))?Number(v):null;
+  const teamsByAbbr=()=>new Map(state.teams.map(t=>[String(t.abbreviation),t]));
+  const nbaTeam=abbr=>state.nbaTeams?.get(String(abbr||""));
+  const allLogs=obj=>Object.entries(obj?.gameLogsBySeason||{}).flatMap(([year,games])=>(games||[]).map(g=>({...g,_season:Number(year),played:true,isAway:g.homeAway==="away"}))).filter(g=>Number.isFinite(Date.parse(g.date||""))).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date));
+  const validBefore=(g,row)=>Date.parse(g.date)<Date.parse(row.commenceTime);
+  const oppFor=row=>(row.team||row.homeAbbr)===row.homeAbbr?row.awayAbbr:row.homeAbbr;
+  const teamMarket=row=>row.scope!=="player";
+  const normalizeMarket=row=>row.scope==="game"&&row.teamMarketType==="total"?"gameTotal":row.teamMarketType;
+  const rate=(games,row)=>{let hits=0,total=0;for(const g of games){const h=nbaHit(row,g);if(h===null)continue;total++;if(h)hits++;}return total?{hits,total,pct:100*hits/total}:null};
+  const nbaValue=(row,g)=>{
+    const s=g?.stats||{};
+    if(!teamMarket(row))return numberOrNull(s[row.metric]);
+    const pf=numberOrNull(s["derived.pointsFor"]),pa=numberOrNull(s["derived.pointsAgainst"]);
+    if(pf===null||pa===null)return null;
+    if(["spread","moneyline"].includes(row.teamMarketType))return pf-pa;
+    return row.scope==="game"?pf+pa:pf;
+  };
+  const nbaThreshold=row=>row.teamMarketType==="moneyline"?0:row.teamMarketType==="spread"?-Number(row.line):Number(row.line);
+  const nbaHit=(row,g)=>{
+    const v=nbaValue(row,g),line=nbaThreshold(row);
+    if(v===null||!Number.isFinite(line))return null;
+    if(row.selection==="Yes")return v>=line;
+    if(row.selection==="No")return v<line;
+    if(v===line)return null;
+    return row.selection==="Under"?v<line:v>line;
+  };
+  const splitGames=(row,split)=>{
+    const obj=teamMarket(row)?nbaTeam(row.team||row.homeAbbr):state.playerByName.get(norm(row.player));
+    const all=allLogs(obj).filter(g=>validBefore(g,row));
+    const cur=all.filter(g=>g._season===Number(state.season)),prev=all.filter(g=>g._season===Number(state.season)-1);
+    return split==="l5"?cur.slice(0,5):split==="l10"?cur.slice(0,10):split==="h2h"?all.filter(g=>g.opponent?.abbreviation===oppFor(row)):split==="previous"?prev:cur;
+  };
+  const ratesForNba=row=>Object.fromEntries(["l5","l10","h2h","current","previous"].map(k=>[k,rate(splitGames(row,k),row)]));
+  const seasonText=y=>String(y-1)+"–"+String(y).slice(-2);
+  fallbackHeadshot=()=> "https://a.espncdn.com/i/headshots/nba/players/full/0.png";
+  modelTeamLogo=abbr=>abbr?"https://a.espncdn.com/i/teamlogos/nba/500/"+String(abbr).toLowerCase()+".png":fallbackHeadshot();
+  buildUsage=()=>{state.nbaTeams=teamsByAbbr();};
+  buildDvp=()=>{};
+  buildTeamProfiles=()=>{};
+  generalizedMarketLabel=row=>row.market||row.metric||"Prop";
+  modelSupportedMarketLabel=generalizedMarketLabel;
+  cleanDisplayProposition=row=>row.teamMarketType==="moneyline"?"Moneyline":row.teamMarketType==="spread"?row.market+" "+formatSpreadLine(row.line):row.market+" · "+row.selection+" "+modelFormatLine(row.line);
+  flattenOdds=raw=>{
+    const out=[];
+    for(const event of raw.events||[]){
+      const t=Date.parse(event.commenceTime);
+      if(!Number.isFinite(t)||(!state.modelHistorical&&t<=Date.now()))continue;
+      for(const prop of event.props||[]){
+        if(!["player","team","game"].includes(prop.scope)||numberOrNull(prop.odds)===null||Number(prop.odds)===0||numberOrNull(prop.line)===null)continue;
+        const kind=normalizeMarket(prop);
+        // Legacy odds did not distinguish periods reliably. Do not present
+        // unverified totals as full-game lines.
+        if(prop.scope!=="player"&&["teamTotal","gameTotal"].includes(kind)&&prop.period!=="fullGame")continue;
+        const p=state.playerByName.get(norm(prop.player));
+        if(prop.scope==="player"&&!p)continue;
+        const row={...prop,teamMarketType:kind,eventId:String(event.id),homeAbbr:event.homeAbbr,awayAbbr:event.awayAbbr,homeTeam:event.homeTeam,awayTeam:event.awayTeam,matchup:event.awayAbbr+" @ "+event.homeAbbr,commenceTime:event.commenceTime,position:prop.position||p?.position||(prop.scope==="team"?"TEAM":"GAME"),teamName:prop.team===event.homeAbbr?event.homeTeam:prop.team===event.awayAbbr?event.awayTeam:""};
+        row._marketLabel=row._modelMarketLabel=generalizedMarketLabel(row);out.push(row);
+      }
+    }
+    return out;
+  };
+  nextOpponent=oppFor;
+  metricSpec=row=>row?.scope==="player"&&row.metric?{metric:row.metric,comparison:row.selection==="Yes"||row.selection==="No"?"gte":"gt",threshold:Number(row.line)}:null;
+  metricValue=(game,metric)=>numberOrNull(game?.stats?.[metric]);
+  isHit=(game,row)=>nbaHit(row,game);
+  ratesFor=(row)=>ratesForNba(row);
+  teamRates=ratesForNba;
+  modelTeamPropValue=nbaValue;
+  modelTeamPropHit=nbaHit;
+  modelSplitGames=(row,split)=>splitGames(row,split).filter(g=>nbaValue(row,g)!==null).reverse();
+  modelLineForRow=nbaThreshold;
+  modelSplitLabel=split=>({l5:"Last 5",l10:"Last 10",h2h:"Head-to-Head",current:seasonText(state.season),previous:seasonText(state.season-1)})[split]||split;
+  modelMetricBreakdown=(game,spec)=>({pra:["points","rebounds","assists"],pr:["points","rebounds"],pa:["points","assists"],ra:["rebounds","assists"]}[spec?.metric]||[]).map(k=>[k.toUpperCase(),num(game.stats?.[k])]);
+  modelOpponentRankForGame=()=>null; // historical DvP rank unavailable without a frozen per-game defensive snapshot
+  modelLoadHitTimingData=async()=>{state.hitTimingData={events:{}};return state.hitTimingData;};
+  modelScheduleHitTimingHydration=()=>{};
+  modelRenderHitTimingTools=()=>{$("hitTimingTools").hidden=true;};
+  modelHitTimingForGame=()=>null;
+  modelHitTimingReady=()=>true;
+  modelHitTimingInline=()=> "";
+  modelHitTimingTooltip=()=> "";
+  avgHitThresholdSeconds=cfg=>cfg.avgHitQuarter?(cfg.avgHitQuarter-1)*720+cfg.avgHitTime:null;
+  avgHitGameClock=elapsed=>{const q=elapsed<=2880?clamp(Math.ceil(elapsed/720),1,4):4+Math.ceil((elapsed-2880)/300);return{quarter:q,label:q<=4?q+"Q":"OT",remaining:Math.max(0,(q<=4?q*720:2880+(q-4)*300)-elapsed)};};
+  modelProfileText=x=>x.row.scope==="player"?x.usage.minutes.toFixed(1)+" MIN · "+x.usage.fga.toFixed(1)+" FGA":"Team";
+  const resultForNba=row=>{
+    const obj=teamMarket(row)?state.resultTeamByAbbr.get(row.team||row.homeAbbr):state.resultPlayerByName.get(norm(row.player));
+    const date=Date.parse(row.commenceTime);
+    const matches=allLogs(obj).filter(g=>g.opponent?.abbreviation===oppFor(row)&&Math.abs(Date.parse(g.date)-date)<=12*3600000);
+    if(matches.length!==1)return{status:"pending"};
+    const value=nbaValue(row,matches[0]);if(value===null)return{status:"pending"};
+    const hit=nbaHit(row,matches[0]);return{status:hit===null?"push":hit?"hit":"miss",actual:value};
+  };
+  historicalPlayerResult=resultForNba;historicalTeamResult=resultForNba;
+  const nbaSignals=row=>{
+    const cached=state.nbaMetrics.get(modelPropKey(row));if(cached)return cached;
+    const player=state.playerByName.get(norm(row.player)),rates=ratesForNba(row),values=splitGames(row,"l10").map(g=>nbaValue(row,g)).filter(Number.isFinite);
+    const average=avg(values),line=nbaThreshold(row),sign=["Under","No"].includes(row.selection)?-1:1;
+    const margin=average===null?null:(average-line)*sign;
+    const sd=values.length>1?Math.sqrt(values.reduce((s,v)=>s+(v-average)**2,0)/(values.length-1)):null;
+    const marginSignal=margin===null?.5:clamp(logistic(margin/Math.max(1.5,sd||Math.abs(average)*.3||1)),.05,.95);
+    const book=marketProbability(row),minutes=num(player?.minutesPerGame??(num(player?.minutes)/Math.max(1,num(player?.games)))),fga=num(player?.fga)/Math.max(1,num(player?.games)),tpa=num(player?.tpa)/Math.max(1,num(player?.games));
+    const peers=state.teams.map(t=>t.allowedByPosition?.[row.position]).filter(x=>num(x?.sampleGames)>=2&&numberOrNull(x?.[row.metric])!==null).map(x=>Number(x[row.metric]));
+    const opp=nbaTeam(oppFor(row)),allowed=opp?.allowedByPosition?.[row.position],val=numberOrNull(allowed?.[row.metric]);
+    let matchup=.5,samples=0;
+    if(row.scope==="player"&&val!==null&&peers.length>=4&&num(allowed?.sampleGames)>=2){matchup=(percentile(val,peers)??50)/100;if(sign<0)matchup=1-matchup;samples=num(allowed.sampleGames);}
+    if(row.scope!=="player"){
+      const t=nbaTeam(row.team||row.homeAbbr),o=nbaTeam(oppFor(row));
+      const diffs=state.teams.map(x=>numberOrNull(x.stats?.pointDiffPerGame)).filter(Number.isFinite);
+      const points=state.teams.map(x=>numberOrNull(x.stats?.pointsAllowedPerGame)).filter(Number.isFinite);
+      if(["moneyline","spread"].includes(row.teamMarketType)&&diffs.length>=4&&t&&o){matchup=clamp(.5+((percentile(num(t.stats?.pointDiffPerGame),diffs)??50)-(percentile(num(o.stats?.pointDiffPerGame),diffs)??50))/200,.05,.95);samples=num(o.stats?.games);}
+      else if(points.length>=4&&o){matchup=(percentile(num(o.stats?.pointsAllowedPerGame),points)??50)/100;if(sign<0)matchup=1-matchup;samples=num(o.stats?.games);}
+    }
+    const recentSignal=avg([smoothed(rates.l5),smoothed(rates.l10)].filter(Number.isFinite))??book;
+    const seasonSignal=avg([smoothed(rates.current),smoothed(rates.previous)].filter(Number.isFinite))??book;
+    const h2hSignal=smoothed(rates.h2h)??book;
+    const usageSignal=row.scope==="player"?clamp(minutes/36,0,1):.5;
+    const v={player,rates,average,margin,marginSignal,book,minutes,fga,tpa,matchup,samples,recentSignal,seasonSignal,h2hSignal,usageSignal};
+    state.nbaMetrics.set(modelPropKey(row),v);return v;
+  };
+  analyze=(row,cfg)=>{
+    if(modelRowIsBanned(row)||cfg.scope&&row.scope!==cfg.scope||cfg.positions.size&&!cfg.positions.has(String(row.position).toUpperCase())||cfg.markets.size&&!cfg.markets.has(row._modelMarketLabel)||cfg.sides.size&&!cfg.sides.has(row.selection)||cfg.games.size&&!cfg.games.has(row.eventId)||Number(row.odds)<cfg.legOddsMin||Number(row.odds)>cfg.legOddsMax)return null;
+    if(cfg.lineMin!==null&&Number(row.line)<cfg.lineMin||cfg.lineMax!==null&&Number(row.line)>cfg.lineMax)return null;
+    const v=nbaSignals(row);
+    for(const k of Object.keys(cfg.hit))if(cfg.hit[k]>0&&(!v.rates[k]||v.rates[k].pct<cfg.hit[k]))return null;
+    const timing=avgHitInfo(row),limit=avgHitThresholdSeconds(cfg);
+    if(limit!==null&&(!timing||timing.elapsedSeconds>limit))return null;
+    if(v.minutes<cfg.targetShare||v.fga<cfg.carryShare||v.tpa<cfg.opportunityShare)return null;
+    if(row.scope==="player"&&(v.minutes<cfg.targetsPerGameMin||v.fga<cfg.carriesPerGameMin||cfg.dvpMin>0&&(!v.samples||v.matchup*100<cfg.dvpMin)))return null;
+    if(row.scope!=="player"&&cfg.teamMatchupMin>0&&(!v.samples||v.matchup*100<cfg.teamMatchupMin))return null;
+    if(cfg.requireOpponentData&&v.samples<cfg.dvpSample)return null;
+    const w=cfg.weights,signals={recent:v.recentSignal,season:v.seasonSignal,h2h:v.h2hSignal,usage:(v.usageSignal-.5)*.2+v.book,matchup:clamp(v.book+(v.matchup-.5)*.35,.01,.99),value:v.marginSignal};
+    let total=0,weighted=0;for(const k of Object.keys(signals)){total+=w[k]||0;weighted+=(w[k]||0)*signals[k];}
+    const reliability=Math.min(1,(v.rates.l10?.total||0)/8),base=clamp(v.book+(weighted/Math.max(1,total)-v.book)*.65*reliability,.02,.98);
+    const modelProb=blendAdaptiveProbability(total?base:v.book,row,v.rates,v.book),raw=implied(row.odds)??v.book,edge=modelProb-raw;
+    if(edge*100<cfg.edgeMin)return null;
+    const score=clamp(100*(.75*modelProb+.25*clamp(.5+edge,0,1))*(.76+.24*reliability),0,100);
+    return {row,player:v.player,team:row.team,opp:oppFor(row),pos:row.position,market:row.market,rates:v.rates,modelProb,bookProb:raw,edge,score,lineMargin:v.margin===null?null:{margin:v.margin,average:v.average},avgHitTime:timing,usage:{minutes:v.minutes,fga:v.fga,tpa:v.tpa},recentSignal:v.recentSignal,seasonSignal:v.seasonSignal,h2hSignal:v.h2hSignal,usageSignal:v.usageSignal,matchupSignal:v.matchup,marginSignal:v.marginSignal,valueSignal:clamp(.5+edge,0,1),dvpRow:v.samples?{samples:v.samples}:null};
+  };
+  loadModelHistoryIndex=async()=>{try{state.modelHistoryIndex=await fetchModelJson("data/nba-odds-history/index.json");}catch(_){state.modelHistoryIndex={days:[]};}renderModelDateOptions();};
+  fetchLiveModelBundle=async()=>{
+    const [stats,odds,teams,learning,ladder]=await Promise.all(["nba-stats","nba-odds","nba-team-stats","nba-model-learning","nba-ladder-picks"].map((file,i)=>fetchModelJson("data/"+file+".json").catch(e=>{if(i<3)throw e;return null;})));
+    return{stats,odds,teams,learning,ladder:ladder||{picks:[]}};
+  };
+  fetchHistoricalModelBundle=async manifest=>{
+    if(!manifest.pregameVerified||!manifest.statsSnapshot||!manifest.teamSnapshot)throw Error("No verified pregame NBA model snapshot");
+    return{stats:manifest.statsSnapshot,teams:manifest.teamSnapshot,odds:{events:manifest.events,updatedAt:manifest.capturedAt},learning:manifest.learningSnapshot||null,ladder:manifest.ladderSnapshot||{picks:[]}};
+  };
+  const originalApply=applyModelBundle;
+  applyModelBundle=(bundle,options)=>{
+    originalApply(bundle,options);
+    for(const [key,year] of [["current",state.season],["previous",state.season-1]]){
+      const th=document.querySelector('[data-signal-sort="'+key+'"] button');
+      if(th)th.firstChild.textContent=seasonText(year)+" ";
+    }
+    $("modelSeason").textContent=seasonText(state.season)+(state.modelHistorical?" Archive":" Model")+" • "+fmt.format(state.odds.length)+" markets";
+  };
+  renderFormula=()=>{$("modelFormula").innerHTML="<strong>NBA probability model</strong><br>Pregame market anchor + historical hit rates, line margin, minutes and shot volume, opponent profile, and independently learned NBA weights.<br>Minimum edge uses offered odds. Same-game prices are estimates. Missing historical data is never fabricated.<br>Adaptive influence: "+pct(adaptiveBlend()*100,0);};
+}
+
 init();
 })();

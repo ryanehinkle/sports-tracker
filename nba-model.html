@@ -1,67 +1,184 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-sport="nba">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#151922">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="theme-color" content="#151922">
 <title>NBA Model • NBA Tracker</title>
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=nba-1"><link rel="stylesheet" href="model.css?v=nba-1">
+<link rel="stylesheet" href="styles.css?v=nba-2"><link rel="stylesheet" href="model.css?v=avg-hit-1">
 </head>
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
 <main class="shell model-shell">
-<header class="hero model-hero"><div><div class="eyebrow">NBA • TRACKER</div><h1>NBA Tracker</h1></div><div class="hero-meta"><div class="status-pill"><span class="status-dot"></span><span id="modelSeason">Loading NBA model…</span></div><div class="updated" id="modelUpdated">Loading verified NBA data…</div></div></header>
+<header class="hero model-hero"><div><div class="eyebrow">NBA • TRACKER</div><h1>NBA Tracker</h1></div><div class="hero-meta"><div class="status-pill"><span class="status-dot"></span><span id="modelSeason">Loading model…</span></div><div class="updated" id="modelUpdated">Building analytical index…</div></div></header>
 <nav class="main-tabs model-nav" aria-label="NBA tracker sections"><a class="main-tab" href="nba.html#stats">Player Stats</a><a class="main-tab" href="nba.html#teams">Team Stats</a><a class="main-tab" href="nba.html#odds">Odds</a><a class="main-tab active" href="nba-model.html" aria-current="page">Model</a></nav>
 <section class="model-layout">
-<aside class="model-controls nba-model-criteria">
-<div class="model-control-header"><div><span class="model-kicker">LIVE CRITERIA</span><h2>Build constraints</h2></div><div class="model-control-actions"><button id="resetNbaModel" class="model-reset" type="button">Reset</button></div></div>
-<section class="control-section">
-<div class="control-heading"><div><strong>Odds & slip shape</strong></div></div>
-<div class="nba-model-controls">
-<label>Min leg odds<input id="minLegOdds" type="number" value="-500"></label>
-<label>Max leg odds<input id="maxLegOdds" type="number" value="500"></label>
-<label>Min parlay odds<input id="minParlayOdds" type="number" value="100"></label>
-<label>Max parlay odds<input id="maxParlayOdds" type="number" value="350"></label>
-<label>Minimum legs<input id="minLegs" type="number" min="1" max="8" value="2"></label>
-<label>Maximum legs<input id="maxLegs" type="number" min="1" max="8" value="4"></label>
+<aside class="model-controls">
+<div class="model-control-header"><div><span class="model-kicker">LIVE CRITERIA</span><h2>Build constraints</h2></div><div class="model-control-actions"><div class="preset-control"><button id="modelPresetButton" class="model-preset-button" type="button" aria-expanded="false"><span>Presets</span><span class="filter-caret">⌄</span></button><div id="modelPresetPopover" class="model-preset-popover" hidden><div class="preset-popover-title">Model presets</div><button type="button" class="preset-option" data-preset="even-ladder"><strong>Even Ladder</strong><span>~+100</span></button><button type="button" class="preset-option" data-preset="ten-x"><strong>+1000 Sharp</strong><span>3–5 legs</span></button><button type="button" class="preset-option" data-preset="high-confidence"><strong>High Confidence</strong><span>Conservative</span></button><button type="button" class="preset-option" data-preset="balanced-value"><strong>Balanced Value</strong><span>Value focused</span></button></div></div><button id="resetModel" class="model-reset" type="button">Reset</button></div></div>
+<section class="control-section odds-range-section">
+<div class="control-heading"><div><strong>Odds range</strong></div></div>
+<div class="number-pair"><label class="field"><span>Per-leg odds min</span><input id="legOddsMin" type="number" value="-500"></label><label class="field"><span>Per-leg odds max</span><input id="legOddsMax" type="number" value="500"></label></div>
+<div class="number-pair"><label class="field"><span>Total odds min</span><input id="parlayOddsMin" type="number" value="100"></label><label class="field"><span>Total odds max</span><input id="parlayOddsMax" type="number" value="350"></label></div>
+<div class="number-pair"><label class="field"><span>Minimum legs</span><input id="legsMin" type="number" min="1" max="10" value="2"></label><label class="field"><span>Maximum legs</span><input id="legsMax" type="number" min="1" max="10" value="4"></label></div>
+
+</section>
+<section class="control-section"><div class="control-heading"><div><strong>Historical hit rate</strong></div></div><div id="hitRateControls" class="slider-stack"></div>
+<div class="avg-hit-threshold">
+  <div class="avg-hit-threshold-head">
+    <div><strong>Average hit by</strong><small>Unavailable until verified NBA play-by-play timing is collected</small></div>
+    <select id="avgHitQuarter" aria-label="Average hit time quarter">
+      <option value="0">Off</option><option value="1">1Q</option><option value="2">2Q</option><option value="3">3Q</option><option value="4">4Q</option>
+    </select>
+  </div>
+  <label class="range-row avg-hit-time-row"><span><b>Time left</b></span><output id="avgHitTimeValue">0:00</output><input id="avgHitTime" type="range" min="0" max="720" step="15" value="720" disabled></label>
+</div></section>
+<section class="control-section"><div class="control-heading"><div><strong>Usage & opportunity</strong></div></div>
+<label class="range-row"><span><b>Minutes / game</b></span><output id="targetShareValue">0%</output><input id="targetShare" type="range" min="0" max="45" step="1" value="0"></label>
+<label class="range-row"><span><b>FGA / game</b></span><output id="carryShareValue">0%</output><input id="carryShare" type="range" min="0" max="35" step="1" value="0"></label>
+<label class="range-row"><span><b>3PA / game</b></span><output id="opportunityShareValue">0%</output><input id="opportunityShare" type="range" min="0" max="20" step="1" value="0"></label><div class="number-pair"><label class="field"><span>Min minutes / game</span><input id="targetsPerGameMin" type="number" min="0" step=".5" value="0"></label><label class="field"><span>Min FGA / game</span><input id="carriesPerGameMin" type="number" min="0" step=".5" value="0"></label></div></section>
+<section class="control-section"><div class="control-heading"><div><strong>Opponent matchup</strong></div></div>
+<label class="range-row"><span><b>Matchup percentile</b></span><output id="dvpValue">0th+</output><input id="dvpMin" type="range" min="0" max="95" step="5" value="0"></label>
+<label class="check-row"><input id="requireOpponentData" type="checkbox"><span><b>Require opponent sample</b></span></label>
+<label class="range-row"><span><b>Opponent sample</b></span><output id="dvpSampleValue">2+</output><input id="dvpSample" type="range" min="1" max="16" step="1" value="2"></label><label class="range-row"><span><b>Team defense percentile</b></span><output id="teamMatchupValue">0th+</output><input id="teamMatchupMin" type="range" min="0" max="95" step="5" value="0"></label></section>
+<section class="control-section model-filter-section">
+<div class="model-filter-grid">
+  <div class="model-filter-control">
+    <span class="model-filter-label">Prop Type</span>
+    <button id="modelScopeButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">◎</span><span id="modelScopeLabel">All props</span><span class="filter-caret">⌄</span></button>
+    <div id="modelScopePopover" class="filter-popover model-filter-popover model-scope-popover" hidden>
+      <div class="filter-popover-title">Market Type</div>
+      <div class="filter-options">
+        <button type="button" class="filter-option model-scope-option selected" data-model-scope=""><span class="filter-option-label">All Props</span><span class="option-checkbox">✓</span></button>
+        <button type="button" class="filter-option model-scope-option" data-model-scope="player"><span class="filter-option-label">Player Props</span><span class="option-checkbox"></span></button>
+        <button type="button" class="filter-option model-scope-option" data-model-scope="team"><span class="filter-option-label">Team Props</span><span class="option-checkbox"></span></button>
+        <button type="button" class="filter-option model-scope-option" data-model-scope="game"><span class="filter-option-label">Game Props</span><span class="option-checkbox"></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="model-filter-control">
+    <span class="model-filter-label">Position / Type</span>
+    <button id="modelPositionButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">↕</span><span id="modelPositionLabel">All positions</span><span class="filter-caret">⌄</span></button>
+    <div id="modelPositionPopover" class="filter-popover model-filter-popover" hidden><div class="filter-popover-title">Positions</div><button class="filter-all-row" type="button" data-model-clear="positions"><span>All Positions</span><span class="selection-mark" id="modelAllPositionsMark">✓</span></button><div id="modelPositionOptions" class="filter-options"></div></div>
+  </div>
+  <div class="model-filter-control">
+    <span class="model-filter-label">Proposition</span>
+    <button id="modelMarketButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">✦</span><span id="modelMarketLabel">All props</span><span class="filter-caret">⌄</span></button>
+    <div id="modelMarketPopover" class="filter-popover model-filter-popover" hidden><div class="filter-popover-title">Propositions</div><button class="filter-all-row" type="button" data-model-clear="markets"><span>All Propositions</span><span class="selection-mark" id="modelAllMarketsMark">✓</span></button><div id="modelMarketOptions" class="filter-options"></div></div>
+  </div>
+  <div class="model-filter-control">
+    <span class="model-filter-label">Side / Selection</span>
+    <button id="modelSideButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">⇅</span><span id="modelSideLabel">All sides</span><span class="filter-caret">⌄</span></button>
+    <div id="modelSidePopover" class="filter-popover model-filter-popover" hidden><div class="filter-popover-title">Side / Selection</div><button class="filter-all-row" type="button" data-model-clear="sides"><span>All Sides</span><span class="selection-mark" id="modelAllSidesMark">✓</span></button><div id="modelSideOptions" class="filter-options"></div></div>
+  </div>
+  <div class="model-filter-control model-game-filter-control">
+    <span class="model-filter-label">Games</span>
+    <button id="modelGameButton" class="filter-button model-filter-button" type="button" aria-expanded="false"><span class="filter-icon">◫</span><span id="modelGameLabel">All games</span><span class="filter-caret">⌄</span></button>
+    <div id="modelGamePopover" class="filter-popover model-filter-popover model-game-popover" hidden><div class="filter-popover-title">Games</div><button class="filter-all-row" type="button" data-model-clear="games"><span>All Games</span><span class="selection-mark" id="modelAllGamesMark">✓</span></button><div id="modelGameOptions" class="filter-options"></div></div>
+  </div>
+</div>
+<div class="model-entity-picker">
+  <span class="model-filter-label">Player / Team Rules</span>
+  <div class="model-entity-search-wrap">
+    <input id="modelEntitySearch" type="search" autocomplete="off" placeholder="Search any player or team…">
+    <div id="modelEntitySearchResults" class="model-entity-search-results" hidden></div>
+  </div>
+  <details id="modelEntityRuleDetails" class="model-entity-rule-details">
+    <summary><span>Locks & bans <b id="modelEntityRuleCount">0</b></span><small>Lock = must appear • Ban = excluded</small><i>⌄</i></summary>
+    <div id="modelEntityRuleList" class="model-entity-rule-list"><div class="model-entity-rule-empty">Search above to add a player or team.</div></div>
+  </details>
 </div>
 </section>
-<section class="control-section"><div class="control-heading"><div><strong>Historical hit rates</strong></div></div>
-<label class="range-row"><span><b>Last 5</b></span><output id="l5Val">0%</output><input type="range" id="l5" min="0" max="100" value="0"></label>
-<label class="range-row"><span><b>Last 10</b></span><output id="l10Val">0%</output><input type="range" id="l10" min="0" max="100" value="0"></label>
-<label class="range-row"><span><b>Head to head</b></span><output id="h2hVal">0%</output><input type="range" id="h2h" min="0" max="100" value="0"></label>
-<label class="range-row"><span><b>Current season</b></span><output id="currentVal">0%</output><input type="range" id="current" min="0" max="100" value="0"></label>
-<label class="range-row"><span><b>Previous season</b></span><output id="previousVal">0%</output><input type="range" id="previous" min="0" max="100" value="0"></label>
-</section>
-<section class="control-section"><div class="control-heading"><div><strong>NBA usage & matchup</strong></div></div>
-<label class="range-row"><span><b>Minutes / game</b></span><output id="minutesVal">0</output><input type="range" id="minutes" min="0" max="45" value="0"></label>
-<label class="range-row"><span><b>FGA / game</b></span><output id="fgaVal">0</output><input type="range" id="fga" min="0" max="35" value="0"></label>
-<label class="range-row"><span><b>3PA / game</b></span><output id="tpaVal">0</output><input type="range" id="tpa" min="0" max="20" value="0"></label>
-<label class="range-row"><span><b>Opponent DvP percentile</b></span><output id="defenseVal">0%</output><input type="range" id="defense" min="0" max="100" value="0"></label>
-<label class="range-row"><span><b>Min model edge</b></span><output id="edgeVal">-20%</output><input type="range" id="edge" min="-20" max="30" value="-20"></label>
-</section>
-<section class="control-section"><div class="control-heading"><div><strong>NBA filters</strong></div></div>
-<div class="nba-model-controls">
-<label>Scope<select id="scope"><option value="">All markets</option><option value="player">Player props</option><option value="team">Team props</option><option value="game">Game props</option></select></label>
-<label>Side<select id="side"><option value="">All sides</option><option>Over</option><option>Under</option><option>Yes</option><option>No</option><option>Win</option><option>Cover</option></select></label>
-<label>Market<select id="market"><option value="">All props</option></select></label>
-<label>Game<select id="game"><option value="">All games</option></select></label>
-<label>Position<select id="position"><option value="">All positions</option><option>PG</option><option>SG</option><option>SF</option><option>PF</option><option>C</option></select></label>
-<label>Search<input type="search" id="modelSearch" placeholder="Player or team…"></label>
-</div>
-<label class="check-row"><input type="checkbox" id="uniquePlayers" checked><span><b>Unique players per slip</b></span></label>
-<label class="check-row"><input type="checkbox" id="separateGames" checked><span><b>Different games only</b></span></label>
-</section>
+<section class="control-section"><div class="control-heading"><div><strong>Line & parlay shape</strong></div></div>
+<div class="number-pair"><label class="field"><span>Stat line min</span><input id="lineMin" type="number" step=".5" placeholder="Any"></label><label class="field"><span>Stat line max</span><input id="lineMax" type="number" step=".5" placeholder="Any"></label></div><label class="range-row"><span><b>Minimum model edge</b><small>Model − implied</small></span><output id="edgeValue">-20%+</output><input id="edgeMin" type="range" min="-20" max="30" step="1" value="-20"></label>
+<label class="range-row odds-spread-row"><span><b>Max leg odds spread</b></span><output id="oddsSpreadValue">600</output><input id="oddsSpread" type="range" min="100" max="2500" step="100" value="600"></label>
+
+<label class="check-row"><input id="uniquePlayers" type="checkbox" checked><span><b>Unique players</b></span></label>
+<label class="check-row"><input id="avoidSameGame" type="checkbox" checked><span><b>Different games only</b></span></label></section>
+<details class="control-disclosure"><summary><span><strong>Advanced model weights</strong></span><b>+</b></summary><section class="control-section compact-advanced"><div id="weightControls" class="weight-grid"></div></section></details>
 </aside>
 <section class="model-results">
-<div class="model-top-toolbar"><div class="model-date-control"><button id="nbaModelDateButton" type="button" class="filter-button model-date-button" aria-expanded="false"><span class="filter-icon">◷</span><span id="nbaModelDateLabel">Live Model</span><span class="filter-caret">⌄</span></button><div id="nbaModelDatePopover" class="filter-popover model-date-popover" hidden><div class="filter-popover-title">NBA Model Date</div><div id="nbaModelDateOptions" class="filter-options"></div></div></div><span class="model-card-meta" id="nbaModelCount">— legs evaluated</span></div>
-<section class="model-card recommended-card"><div class="model-card-header recommended-header"><div><span class="model-kicker">NBA AUTO-GENERATED</span><h2>Recommended slips</h2></div><span class="model-card-meta" id="slipsSummary">Waiting for NBA odds</span></div><div id="nbaSlips" class="nba-slips"></div></section>
-<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">NBA LIVE ANALYTICS</span><h2>Top-pick signal profile</h2></div></div><div class="chart-grid"><div class="model-card-meta" id="modelProfile">Recent form, season, price, usage & opponent</div></div></section>
-<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">MODEL BOARD</span><h2>Ranked NBA props</h2></div><span id="boardCount" class="model-card-meta">— props</span></div><div class="odds-table-scroll"><table class="nba-model-table"><thead><tr><th data-sort="player">Player / Proposition</th><th data-sort="line">Line</th><th data-sort="odds">Odds</th><th data-sort="l10">L10</th><th data-sort="current">Season</th><th data-sort="probability">Model %</th><th data-sort="edge">Edge</th><th data-sort="score">Score</th></tr></thead><tbody id="nbaBoard"><tr><td colspan="8" class="loading-cell">Loading NBA model…</td></tr></tbody></table></div></section>
-<details class="control-disclosure"><summary><strong>NBA model methodology</strong><b>+</b></summary><section class="control-section"><p>NBA-only scoring blends game-log hit rates, recent per-game averages versus the offered line, minutes and shot opportunities, opponent defensive environment, and sportsbook implied probabilities. Models are separate from NFL. Recommendations are estimates, not guaranteed outcomes.</p><p>No pregame history is backfilled using later stats. Dates without a pregame NBA snapshot are marked unavailable.</p></section></details>
+<div class="model-top-toolbar">
+  <div class="model-date-control">
+    <button id="modelDateButton" class="filter-button model-date-button" type="button" aria-expanded="false"><span class="filter-icon">◷</span><span id="modelDateLabel">Live Model</span><span class="filter-caret">⌄</span></button>
+    <div id="modelDatePopover" class="filter-popover model-date-popover" hidden><div class="filter-popover-title">Model Date</div><div id="modelDateOptions" class="filter-options"></div></div>
+  </div>
+  <div class="ladder-launch-row"><button id="todayPickButton" class="today-pick-button" type="button" aria-expanded="false"><span class="today-pick-dot"></span><span id="todayPickButtonLabel">See today's pick (Day #)</span><span class="today-pick-arrow">→</span></button><button id="longShotButton" class="today-pick-button long-shot-button" type="button" aria-expanded="false"><span class="long-shot-dot"></span><span>Long Shot Pick</span><span class="today-pick-arrow">→</span></button></div>
+</div>
+<section id="ladderChallengePanel" class="ladder-challenge-panel" hidden>
+  <div class="ladder-challenge-header"><div><span class="model-kicker">DAILY LADDER CHALLENGE</span><h2 id="ladderPickTitle">Today's Pick</h2><div id="ladderPickMeta" class="ladder-pick-meta"></div></div><div class="ladder-history-nav"><button id="ladderPrev" type="button" aria-label="Previous ladder day">‹</button><span id="ladderHistoryStatus">Day —</span><button id="ladderNext" type="button" aria-label="Next ladder day">›</button></div></div>
+  <div id="ladderPickBody" class="ladder-pick-body"><div class="model-loading"><span class="spinner"></span>Loading ladder challenge…</div></div>
 </section>
-</section></main>
-<dialog id="nbaPropModal" class="hit-rate-modal" aria-labelledby="nbaPropTitle"><div class="hit-rate-panel"><div class="hit-rate-header"><div><div class="hit-rate-eyebrow">NBA PROP HISTORY</div><h2 id="nbaPropTitle"></h2><div id="nbaPropMeta" class="hit-rate-subtitle"></div></div><button class="modal-close" id="nbaPropClose" aria-label="Close chart" type="button">×</button></div><div class="hit-rate-summary"><div class="hit-rate-primary"><span>Last 10</span><div><strong id="nbaPropHitPct">—</strong><span id="nbaPropHitCount"></span></div></div><div id="nbaPropBreakdown" class="hit-rate-breakdown"></div></div><div id="nbaPropChart" class="hit-rate-chart"></div></div></dialog>
-<script src="theme.js?v=nba-1"></script><script src="nba-model.js?v=1"></script>
+<div class="model-summary-grid"><article class="summary-card"><span>Eligible props</span><strong id="eligibleCount">—</strong><small id="eligibleSub"></small></article><article class="summary-card"><span>Best leg score</span><strong id="bestScore">—</strong></article><article class="summary-card"><span>Generated slips</span><strong id="slipCount">—</strong><small id="slipSub"></small></article><article class="summary-card"><span>Median edge</span><strong id="medianEdge">—</strong></article></div>
+<section class="model-card recommended-card"><div class="model-card-header recommended-header"><div><span class="model-kicker">AUTO-GENERATED</span><h2>Recommended slips</h2></div><div class="slip-pager-wrap"><div class="model-card-meta"><span id="slipPageStatus">Showing top slips</span></div><div id="slipPager" class="slip-pager" hidden><button id="slipPrev" type="button" aria-label="Previous recommended slips">‹</button><button id="slipNext" type="button" aria-label="Next recommended slips">›</button></div></div></div><div id="recommendedSlips" class="recommended-slips"><div class="model-loading"><span class="spinner"></span>Loading model data…</div></div></section>
+<section class="model-card"><div class="model-card-header"><div><span class="model-kicker">LIVE ANALYTICS</span><h2>Top-pick signal profile</h2></div></div><div class="chart-grid"><div><div id="signalStrengthTitle" class="chart-title">Signal strength</div><div id="signalProfileChart" class="bar-chart"></div></div><div><div id="candidateScoresTitle" class="chart-title">Top candidate scores</div><div id="scoreChart" class="bar-chart score-chart"></div></div></div></section><section class="model-card"><div class="model-card-header"><div><span class="model-kicker">SIGNAL BOARD</span><h2>Best individual legs</h2></div><div class="model-card-meta"><span id="legBoardCount">—</span> shown</div></div><div class="signal-table-wrap"><table class="signal-table"><thead id="signalTableHead"><tr>
+<th data-signal-sort="pick"><button type="button" class="signal-sort-button">Pick / Market <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="score"><button type="button" class="signal-sort-button">Score <span class="signal-sort-indicator">↓</span></button></th>
+<th data-signal-sort="odds"><button type="button" class="signal-sort-button">Odds <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="margin"><button type="button" class="signal-sort-button">Avg vs Line <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="avgHit"><button type="button" class="signal-sort-button">Avg Hit <span class="signal-sort-indicator"></span></button></th>
+<th id="modelResultHead" class="model-result-head" data-signal-sort="result" hidden><button type="button" class="signal-sort-button">Result <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="l5"><button type="button" class="signal-sort-button">L5 <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="l10"><button type="button" class="signal-sort-button">L10 <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="h2h"><button type="button" class="signal-sort-button">H2H <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="current"><button type="button" class="signal-sort-button">Current <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="previous"><button type="button" class="signal-sort-button">Prior <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="profile"><button type="button" class="signal-sort-button">Profile <span class="signal-sort-indicator"></span></button></th>
+<th data-signal-sort="matchup"><button type="button" class="signal-sort-button">Matchup <span class="signal-sort-indicator"></span></button></th>
+</tr></thead><tbody id="signalBody"><tr><td colspan="10" class="model-loading">Analyzing props…</td></tr></tbody></table></div></section>
+<details class="model-card analysis-card model-explainer"><summary class="model-card-header"><div><span class="model-kicker">MODEL EXPLAINER</span><h2>How each leg is scored</h2></div><span class="model-card-meta">View details</span></summary><div class="analysis-grid"><div class="analysis-copy"><p><strong>NBA-only scoring</strong> uses verified player and team game logs, scoring margin, shot volume, minutes, and opponent production allowed. The postgame learner is isolated from NFL.</p><p>Only frozen pregame records are eligible for learning. Missing timing or results stay unavailable rather than being inferred.</p></div><div id="modelFormula" class="formula-box"></div></div>
+<section class="learning-lab" aria-labelledby="learningLabTitle">
+  <div class="learning-header"><div><span class="model-kicker">POSTGAME SELF-LEARNING</span><h3 id="learningLabTitle">What the model learned from finished games</h3><p>Grades finished legs, retrains weights, and validates challengers on held-out games.</p></div><span id="learningStatus" class="learning-status status-waiting">AWAITING RESULTS</span></div>
+  <div id="learningSummary" class="learning-summary"></div>
+  <div class="learning-grid">
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Adaptive score → actual hit rate</strong><span>Holdout after 4 games</span></div><div id="learningBucketChart" class="learning-bars"></div></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Learned feature influence</strong></div><div id="learningWeightChart" class="learning-bars"></div></article>
+  </div>
+  <div class="learning-grid secondary">
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Learning progress</strong></div><div id="learningRunChart" class="learning-run-chart"></div><p id="learningReason" class="learning-reason"></p></article>
+    <article class="learning-panel"><div class="learning-panel-title"><strong>Market performance</strong></div><div id="learningMarketTable" class="learning-market-table"></div></article>
+  </div>
+  <div class="learning-method"><strong>Promotion gate</strong><span>Whole-game holdout validation prevents same-game leakage. Before 4 games, updates stay provisional.</span></div>
+</section>
+</details>
+</section></section>
+
+</main><dialog id="hitRateModal" class="hit-rate-modal" aria-labelledby="hitRateTitle">
+  <div class="hit-rate-panel">
+    <div class="hit-rate-header">
+      <div>
+        <div class="hit-rate-eyebrow">PROP HISTORY</div>
+        <h2 id="hitRateTitle">Player Prop</h2>
+        <div id="hitRateSubtitle" class="hit-rate-subtitle"></div><div id="hitRateResultBadge" class="modal-result-wrap" hidden></div>
+      </div>
+      <button id="hitRateClose" class="modal-close" type="button" aria-label="Close hit-rate chart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="hit-rate-summary">
+      <div class="hit-rate-primary">
+        <span id="hitRateSplitLabel" class="hit-rate-split-label">Last 10</span>
+        <div><strong id="hitRateSelectedPct">—</strong><span id="hitRateSelectedRecord"></span></div>
+      </div>
+      <div id="hitRateBreakdown" class="hit-rate-breakdown"></div>
+    </div>
+    <div class="hit-rate-stats">
+      <span>Average: <strong id="hitRateAverage">—</strong></span>
+      <span>Median: <strong id="hitRateMedian">—</strong></span>
+    </div>
+    <div id="hitTimingTools" class="hit-timing-tools" hidden>
+      <span class="hit-timing-label">Hit in</span>
+      <div id="hitTimingFilters" class="hit-timing-filters" role="group" aria-label="Filter games by when the line was first hit">
+        <button type="button" class="selected" data-hit-timing="all">All</button>
+        <button type="button" data-hit-timing="1">1Q</button>
+        <button type="button" data-hit-timing="2">2Q</button>
+        <button type="button" data-hit-timing="3">3Q</button>
+        <button type="button" data-hit-timing="4">4Q</button>
+        <button type="button" data-hit-timing="final">Final</button>
+      </div>
+      <small id="hitTimingStatus"></small>
+    </div>
+    <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
+  </div>
+</dialog><script src="theme.js?v=nba-2"></script><script src="model.js?v=shared-nba-1"></script>
 </body></html>
