@@ -248,6 +248,7 @@ function applyModelBundle(bundle,{historical=false,date="live",manifest=null}={}
 }
 async function loadModelDate(date,file){
   if(state.loadingDate||date===state.modelDate)return;
+  if(NBA_MODE){endDaily();$("ladderChallengePanel").hidden=true;}
   state.loadingDate=true;closeModelDatePopover();
   $("modelUpdated").textContent=date==="live"?"Refreshing live model…":"Loading frozen model…";
   $("recommendedSlips").innerHTML='<div class="model-loading"><span class="spinner"></span>Loading '+(date==="live"?"live":"archived")+' model data…</div>';
@@ -918,6 +919,7 @@ function modelEntityRuleKey(type,value){
   return type+":"+(type==="team"?String(value||"").toUpperCase():norm(value));
 }
 function saveModelEntityRules(){
+  if(NBA_MODE&&dailyEdit)return;
   try{localStorage.setItem(ENTITY_RULE_STORAGE_KEY,JSON.stringify([...state.entityRules.values()]))}catch(_){}
 }
 function loadModelEntityRules(){
@@ -1572,7 +1574,7 @@ function renderCharts(){
 function recalc(){
   const cfg=controls();if(cfg.legsMin>cfg.legsMax){$("legsMax").value=cfg.legsMin;cfg.legsMax=cfg.legsMin}
   const previousSlips=state.slips||[];
-  const out=[];for(const row of state.odds){const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(state.odds.map(row=>[modelPropKey(row),row]));for(const pick of state.ladderData&&state.ladderData.picks||[])for(const leg of pick.legs||[])state.chartRows.set(String(leg.key||modelPropKey(leg)),leg);state.slips=generateSlips(out,cfg,previousSlips);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();
+  const out=[];for(const row of state.odds){if(NBA_MODE&&!dailyRowAllowed(row))continue;const x=analyze(row,cfg);if(x)out.push(x)}out.sort((a,b)=>b.score-a.score||b.edge-a.edge);state.eligible=out;state.chartRows=new Map(state.odds.map(row=>[modelPropKey(row),row]));for(const pick of state.ladderData&&state.ladderData.picks||[])for(const leg of pick.legs||[])state.chartRows.set(String(leg.key||modelPropKey(leg)),leg);state.slips=generateSlips(out,cfg,previousSlips);buildSlipMembership();state.slipPage=0;renderSummary();renderSlips();renderSignals();renderCharts();renderFormula();renderLearning();if(NBA_MODE)updateDailyDraft();
 }
 function schedule(){clearTimeout(state.timer);state.timer=setTimeout(recalc,35)}
 function buildControls(){
@@ -2019,9 +2021,58 @@ function ladderDateLabel(value){
   return Number.isNaN(d.getTime())?String(value||""):new Intl.DateTimeFormat("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"}).format(d);
 }
 function ladderStatusIcon(status){return status==="hit"?"✓":status==="miss"?"×":status==="push"?"↔":"•"}
+
+let dailyEdit=null,dailyNormal=null,sharedLocks=new Map(),locking=false;
+const lockDir="data/manual-nba-picks",lockRepo="ryanehinkle/sports-tracker",setNames=["selectedPositions","selectedMarkets","selectedSides","selectedGames"];
+const lockKey=(date,kind)=>date+"|"+kind;
+function dateCT(v){const d=new Date(v);if(!Number.isFinite(+d))return "";const f=new Intl.DateTimeFormat("en-CA",{timeZone:"America/Chicago",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(d);return ["year","month","day"].map(k=>f.find(x=>x.type===k)?.value).join("-")}
+function dailyToday(kind){return visibleLadderPicks(state.ladderData).find(p=>p.kind===kind&&p.date===localDateKey())}
+function dailyDeadline(p){const s=state.ladderData?.schedule;return s?.date===p.date&&Number.isFinite(Date.parse(s.firstGameAt))?Date.parse(s.firstGameAt):Math.min(...state.odds.filter(r=>dateCT(r.commenceTime)===p.date).map(r=>Date.parse(r.commenceTime)),...p.legs.map(l=>Date.parse(l.commenceTime)))}
+function captureDailyControls(){return{inputs:Object.fromEntries([...document.querySelectorAll(".model-controls input[id],.model-controls select[id]")].map(x=>[x.id,x.type==="checkbox"?x.checked:x.value])),sets:Object.fromEntries(setNames.map(k=>[k,[...state[k]]])),scope:state.modelScope,rules:JSON.parse(JSON.stringify([...state.entityRules.values()])),weights:{...state.weights},preset:$("modelPresetButton").querySelector("span").textContent}}
+function restoreDailyControls(c){if(!c)return;for(const [id,v] of Object.entries(c.inputs||{})){const e=$(id);if(e){if(e.type==="checkbox")e.checked=Boolean(v);else e.value=v}}for(const k of setNames)state[k]=new Set(c.sets?.[k]||[]);state.modelScope=c.scope||"";state.entityRules=new Map((c.rules||[]).map(r=>[r.key,r]));state.weights={...DEFAULTS.weights,...c.weights};$("modelPresetButton").querySelector("span").textContent=c.preset||"Presets";document.querySelectorAll("[data-weight]").forEach(b=>{b.querySelector("strong").textContent=state.weights[b.dataset.weight];b.classList.toggle("active",state.weights[b.dataset.weight]>0)});renderModelEntityRules();renderModelFilters();syncLabels()}
+function endDaily(){if(!NBA_MODE)return;const saved=dailyNormal;dailyEdit=null;dailyNormal=null;if(saved){clearTimeout(state.timer);restoreDailyControls(saved);recalc()}dailyHeader(null)}
+function beginDaily(kind){
+ if(!NBA_MODE||state.modelHistorical)return;
+ const p=dailyToday(kind);if(!p||p.manualLocked||p.status!=="pending"||Date.now()>=dailyDeadline(p))return;
+ clearTimeout(state.timer);dailyNormal=captureDailyControls();dailyEdit={kind,base:p,draft:p,bans:new Set(),starting:true,dirty:false};
+ const preset=PRESETS[kind==="ladder"?"even-ladder":"ten-x"],c=p.constraints||{},hist=c.historyUsed||c.history||{},v=captureDailyControls();
+ for(const [k] of HIT_LABELS)v.inputs[k+"Min"]=c.historyUsed?(hist[k]??0):(hist[k]??preset[k]??0);
+ Object.assign(v.inputs,{targetShare:0,carryShare:0,opportunityShare:0,dvpMin:0,dvpSample:DEFAULTS.dvpSample,teamMatchupMin:0,targetsPerGameMin:0,carriesPerGameMin:0,avgHitQuarter:0,avgHitTime:720,requireOpponentData:false,edgeMin:c.edgeUsed??c.edge??preset.edgeMin,oddsSpread:c.spread??preset.oddsSpread,legOddsMin:c.legMin??preset.legOddsMin,legOddsMax:c.legMax??preset.legOddsMax,parlayOddsMin:c.totalMin??preset.parlayOddsMin,parlayOddsMax:c.totalMax??preset.parlayOddsMax,legsMin:c.minLegs??preset.legsMin,legsMax:c.maxLegs??preset.legsMax,lineMin:"",lineMax:"",uniquePlayers:true,avoidSameGame:true,modelEntitySearch:""});
+ v.sets={};v.scope="";v.rules=[];v.weights={...DEFAULTS.weights};v.preset=preset.label;restoreDailyControls(v);state.slips=[];recalc();dailyEdit.starting=false;renderDailyDraft()
+}
+function dailyRowAllowed(r){return !dailyEdit||(dateCT(r.commenceTime)===dailyEdit.base.date&&Date.parse(r.commenceTime)>Date.now()&&!dailyEdit.bans.has(modelPropKey(r)))}
+function updateDailyDraft(){if(!dailyEdit||dailyEdit.starting||$("ladderChallengePanel").hidden)return;dailyEdit.dirty=true;const b=state.slips[0];dailyEdit.draft=b?{...dailyEdit.base,odds:b.odds,confidence:b.score,estimatedProbability:b.modelProb,legs:b.legs.map(x=>({...x.row,key:modelPropKey(x.row),confidence:x.score,estimatedProbability:x.modelProb,result:{status:"pending"}})),selectionTier:"Custom criteria",status:"pending"}:null;renderDailyDraft()}
+function dailyHeader(p){const b=$("dailyLockButton"),n=$("dailyEditStatus");if(!b||!n)return;b.hidden=!p||state.modelHistorical;n.hidden=b.hidden;if(!p)return;b.textContent=p.manualLocked?"Locked":"Lock";b.disabled=!!p.manualLocked||locking||!dailyEdit?.draft||Date.now()>=dailyDeadline(p);n.textContent=p.manualLocked?"Shared lock":Date.now()>=dailyDeadline(p)?"Editing closed":dailyEdit?"Adjust criteria · then lock":"Read only"}
+function renderDailyDraft(){
+ if(!dailyEdit)return;const {base,draft:p,bans,dirty}=dailyEdit;
+ $("ladderPickMeta").textContent=(p?.selectionTier||base.selectionTier||"Custom criteria")+" · "+(dirty?"Edited draft":"Editable draft");
+ $("ladderPrev").disabled=true;$("ladderNext").disabled=true;
+ const body=$("ladderPickBody");body.innerHTML=p?'<article class="ladder-slip"><div class="ladder-slip-summary"><div><span>PARLAY ODDS</span><strong>'+formatOdds(p.odds)+'</strong></div><div><span>MODEL CONFIDENCE</span><strong>'+pct(Number(p.confidence),1)+'</strong></div><div><span>EST. HIT PROB.</span><strong>'+pct(Number(p.estimatedProbability)*100,1)+'</strong></div><div><span>STATUS</span><strong>DRAFT</strong></div></div><div class="ladder-legs">'+p.legs.map(ladderLegHtml).join("")+'</div></article>':'<div class="ladder-awaiting"><strong>No slip fits these criteria.</strong></div>';
+ if(p)body.querySelectorAll(".ladder-leg").forEach((el,i)=>{const b=document.createElement("button");b.type="button";b.className="daily-ban-leg";b.textContent="Ban leg";b.dataset.dailyBan=modelPropKey(p.legs[i]);el.querySelector(".ladder-leg-result").appendChild(b)});
+ if(bans.size){const line=document.createElement("div");line.className="daily-ban-list";line.textContent=bans.size+" excluded leg(s) ";const b=document.createElement("button");b.type="button";b.dataset.dailyClear="1";b.textContent="Clear bans";line.appendChild(b);body.appendChild(line)}
+ dailyHeader(p||base)
+}
+function overlayDaily(data){if(!NBA_MODE)return data;const out={...(data||{}),picks:[...(data?.picks||[])]};for(const p of sharedLocks.values()){const i=out.picks.findIndex(x=>x.date===p.date&&x.kind===p.kind);if(i>=0&&out.picks[i].manualLocked)continue;if(i>=0)out.picks[i]=p;else out.picks.push(p)}return out}
+async function readSharedLock(date,kind){if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return null;try{const res=await fetch("https://raw.githubusercontent.com/"+lockRepo+"/main/"+lockDir+"/"+date+"-"+kind+".json?v="+Date.now(),{cache:"no-store"});if(!res.ok)return null;const p=(await res.json()).pick;if(p?.manualLocked&&p.date===date&&p.kind===kind&&p.legs?.length){sharedLocks.set(lockKey(date,kind),p);return p}}catch(e){console.warn("Shared lock lookup",e)}return null}
+async function readSharedDate(date){await Promise.all(["ladder","longshot"].map(k=>readSharedLock(date,k)))}
+function applySharedLocks(){state.ladderData=overlayDaily(state.ladderData);state.liveLadderData=overlayDaily(state.liveLadderData);if(dailyEdit&&dailyToday(dailyEdit.kind)?.manualLocked){endDaily();renderLadderLaunch();if(state.nbaPickPanel==="longshot")renderLongShot();else renderLadderPick()}}
+async function requestDailyLock(){if(locking||!dailyEdit?.draft)return;clearTimeout(state.timer);if(dailyEdit.dirty)recalc();const p=dailyEdit?.draft;if(!p||Date.now()>=dailyDeadline(p))return;if(await readSharedLock(p.date,p.kind)){applySharedLocks();return}$("dailyLockToken").value="";$("dailyLockError").textContent="";$("dailyLockDialog").showModal()}
+async function submitDailyLock(){
+ const e=dailyEdit,p=e?.draft,input=$("dailyLockToken"),err=$("dailyLockError"),btn=$("dailyLockSubmit");if(!p||locking)return;
+ const token=input.value.trim();if(!token){err.textContent="Enter a GitHub token.";return}
+ if(Date.now()>=dailyDeadline(p)||p.legs.some(l=>!(Date.parse(l.commenceTime)>Date.now()))){err.textContent="The slate has started.";return}
+ locking=true;btn.disabled=true;err.textContent="Saving shared lock…";
+ try{const locked={...p,manualLocked:true,lockedAt:new Date().toISOString(),manualControls:captureDailyControls(),bannedLegs:[...e.bans],selectionTier:e.dirty?"Manual lock":p.selectionTier};const content=btoa(Array.from(new TextEncoder().encode(JSON.stringify({schemaVersion:1,pick:locked})+"\n"),x=>String.fromCharCode(x)).join(""));
+ const res=await fetch("https://api.github.com/repos/"+lockRepo+"/contents/"+lockDir+"/"+p.date+"-"+p.kind+".json",{method:"PUT",headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json","Content-Type":"application/json","X-GitHub-Api-Version":"2022-11-28"},body:JSON.stringify({message:"Lock NBA "+p.kind+" "+p.date,content,branch:"main"})});
+ if(!res.ok){if([409,422].includes(res.status)&&await readSharedLock(p.date,p.kind)){input.value="";$("dailyLockDialog").close();applySharedLocks();return}throw Error("GitHub save failed (HTTP "+res.status+"). Check repository Contents read/write access.")}
+ sharedLocks.set(lockKey(p.date,p.kind),locked);input.value="";$("dailyLockDialog").close();applySharedLocks();renderLadderLaunch();if(state.nbaPickPanel==="longshot")renderLongShot();else renderLadderPick()
+ }catch(x){err.textContent=x.message}finally{locking=false;btn.disabled=false;dailyHeader(dailyEdit?.draft||dailyToday(state.nbaPickPanel||"ladder"))}
+}
+
 function visibleLadderPicks(data){
+  data=NBA_MODE?overlayDaily(data):data;
   const published=[...(data?.picks||[])];
-  if(!NBA_MODE||state.modelHistorical)return published;
+  if(!NBA_MODE||state.modelHistorical)return NBA_MODE&&state.modelHistorical?published.filter(p=>p.date<=state.modelDate):published;
   const keys=new Set(published.map(p=>p.date+"|"+p.kind));
   for(const p of data?.prepared||[]){const target=Date.parse(p.scheduledPublishAt);if(Number.isFinite(target)&&Date.now()>=target&&!keys.has(p.date+"|"+p.kind)){published.push(p);keys.add(p.date+"|"+p.kind);}}
   return published;
@@ -2081,13 +2132,13 @@ function startNbaPickRefresh(){
     if(key===previous)return;
     previous=key;renderLadderLaunch();
     if(!$("ladderChallengePanel").hidden){
-      if(state.nbaPickPanel==="longshot")$("longShotButton").click();else renderLadderPick();
+      if(dailyEdit){applySharedLocks();if(dailyEdit)return;}if(state.nbaPickPanel==="longshot")renderLongShot();else renderLadderPick();
     }
   };
   const poll=async()=>{
     if(busy||state.modelHistorical||state.loadingDate)return;
     busy=true;
-    try{const data=await fetchModelJson("data/nba-odds-history/ladder-picks.json?v="+Date.now());if(!state.modelHistorical&&!state.loadingDate){state.ladderData=data;state.liveLadderData=data;refreshUI();}}catch(e){console.warn("NBA pick refresh",e);}finally{busy=false;}
+    try{const data=await fetchModelJson("data/nba-odds-history/ladder-picks.json?v="+Date.now());await readSharedDate(localDateKey());if(!state.modelHistorical&&!state.loadingDate){state.ladderData=overlayDaily(data);state.liveLadderData=state.ladderData;applySharedLocks();refreshUI();}}catch(e){console.warn("NBA pick refresh",e);}finally{busy=false;}
   };
   refreshUI();setInterval(refreshUI,1000);setInterval(poll,30000);
   document.addEventListener("visibilitychange",()=>{if(!document.hidden){refreshUI();poll();}});
@@ -2102,6 +2153,7 @@ function nbaPickScheduleLabel(){
   return "Publishes 2 hours before the first game.";
 }
 function renderLadderPick(){
+  if(NBA_MODE&&dailyEdit?.kind==="ladder"){renderDailyDraft();return;}if(NBA_MODE)dailyHeader(null);
   const picks=ladderChronologicalPicks();
   $("ladderPrev").disabled=state.ladderIndex<=0;
   $("ladderNext").disabled=!picks.length||state.ladderIndex>=picks.length-1;
@@ -2113,7 +2165,7 @@ function renderLadderPick(){
     return;
   }
   state.ladderIndex=clamp(state.ladderIndex,0,picks.length-1);
-  const pick=picks[state.ladderIndex],status=String(pick.status||"pending"),runMax=ladderRunMaxDay(picks,pick);
+  const pick=picks[state.ladderIndex];if(NBA_MODE)dailyHeader(pick);const status=String(pick.status||"pending"),runMax=ladderRunMaxDay(picks,pick);
   $("ladderPickTitle").textContent="Day "+pick._ladderDay+(pick._provisional?"*":"")+" • "+ladderDateLabel(pick.date)+(pick.slotLabel?" • "+pick.slotLabel:"");
   $("ladderPickMeta").textContent=pick.selectionTier||"Even Ladder";
   $("ladderHistoryStatus").textContent="Day "+pick._ladderDay+(pick._provisional?"*":"")+" of "+runMax;
@@ -2124,15 +2176,30 @@ function renderLadderPick(){
   '</article>';
 }
 function toggleLadderPanel(){
-  state.nbaPickPanel="ladder";
-  const panel=$("ladderChallengePanel"),opening=panel.hidden;
+  const panel=$("ladderChallengePanel"),opening=panel.hidden||(NBA_MODE&&state.nbaPickPanel==="longshot");
+  if(NBA_MODE)endDaily();state.nbaPickPanel="ladder";
   panel.hidden=!opening;$("todayPickButton").setAttribute("aria-expanded",opening?"true":"false");
   $("todayPickButton").classList.toggle("active",opening);
-  if(opening)renderLadderPick();
+  if(opening){renderLadderLaunch();renderLadderPick();if(NBA_MODE)beginDaily("ladder");}
 }
+
+function renderLongShot(){
+    if(NBA_MODE&&dailyEdit?.kind==="longshot"){renderDailyDraft();return;}if(NBA_MODE)dailyHeader(null);
+    const all=visibleLadderPicks(state.ladderData),targetDate=state.modelHistorical?state.modelDate:localDateKey();
+    const candidates=all.filter(p=>p.kind==="longshot"&&p.date===targetDate).sort((a,b)=>String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+    const pick=candidates[candidates.length-1];if(NBA_MODE)dailyHeader(pick);
+    const panel=$("ladderChallengePanel");panel.hidden=false;$("todayPickButton").setAttribute("aria-expanded","false");
+    if(!pick){$("ladderPickTitle").textContent="Long Shot Pick";$("ladderPickMeta").textContent=NBA_MODE&&!state.modelHistorical?nbaPickScheduleLabel():"+1000 target • 3–6 legs";$("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPickBody").innerHTML='<div class="ladder-awaiting"><div><strong>No long shot published yet</strong></div></div>';return}
+    $("ladderPickTitle").textContent="Long Shot Pick • "+ladderDateLabel(pick.date);
+    $("ladderPickMeta").textContent=(pick.slotLabel||pick.matchup||"Current game")+" • "+(pick.targetOdds||"+1000 target")+(NBA_MODE?" • "+(pick.selectionTier||"+1000 Sharp"):" • best modeled hit probability");
+    $("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPrev").disabled=true;$("ladderNext").disabled=true;
+    const status=String(pick.status||"pending"),statusLabel=status==="hit"?"WIN":status==="miss"?"LOSS":status==="push"?"PUSH":"LIVE / PENDING";
+    $("ladderPickBody").innerHTML='<article class="ladder-slip ladder-slip-'+esc(status)+'"><div class="ladder-slip-summary"><div><span>PARLAY ODDS</span><strong>'+formatOdds(pick.odds)+'</strong></div><div><span>MODEL CONFIDENCE</span><strong>'+pct(Number(pick.confidence),1)+'</strong></div><div><span>EST. HIT PROB.</span><strong>'+pct(Number(pick.estimatedProbability)*100,1)+'</strong></div><div class="ladder-overall-status"><span>'+ladderStatusIcon(status)+'</span><strong>'+statusLabel+'</strong></div></div><div class="ladder-legs">'+(pick.legs||[]).map(ladderLegHtml).join("")+'</div></article>';
+  }
 
 function bind(){
   bindModelFilters();
+  if(NBA_MODE){$("dailyLockButton").onclick=requestDailyLock;$("dailyLockSubmit").onclick=submitDailyLock;$("dailyLockCancel").onclick=()=>{$("dailyLockDialog").close()};$("dailyLockDialog").addEventListener("close",()=>{$("dailyLockToken").value=""});$("ladderPickBody").addEventListener("click",e=>{const b=e.target.closest("[data-daily-ban]"),c=e.target.closest("[data-daily-clear]");if(!dailyEdit||(!b&&!c))return;e.preventDefault();e.stopPropagation();if(b)dailyEdit.bans.add(b.dataset.dailyBan);else dailyEdit.bans.clear();recalc()});}
   $("signalTableHead").addEventListener("click",e=>{
     const th=e.target.closest("[data-signal-sort]");if(!th||th.hidden)return;
     setSignalSort(th.dataset.signalSort);
@@ -2145,19 +2212,7 @@ function bind(){
     await loadModelDate(date,file);
   });
   $("todayPickButton").addEventListener("click",toggleLadderPanel);
-  $("longShotButton").addEventListener("click",()=>{
-    state.nbaPickPanel="longshot";
-    const all=visibleLadderPicks(state.ladderData),targetDate=state.modelHistorical?state.modelDate:localDateKey();
-    const candidates=all.filter(p=>p.kind==="longshot"&&p.date===targetDate).sort((a,b)=>String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
-    const pick=candidates[candidates.length-1];
-    const panel=$("ladderChallengePanel");panel.hidden=false;$("todayPickButton").setAttribute("aria-expanded","false");
-    if(!pick){$("ladderPickTitle").textContent="Long Shot Pick";$("ladderPickMeta").textContent=NBA_MODE&&!state.modelHistorical?nbaPickScheduleLabel():"+1000 target • 3–6 legs";$("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPickBody").innerHTML='<div class="ladder-awaiting"><div><strong>No long shot published yet</strong></div></div>';return}
-    $("ladderPickTitle").textContent="Long Shot Pick • "+ladderDateLabel(pick.date);
-    $("ladderPickMeta").textContent=(pick.slotLabel||pick.matchup||"Current game")+" • "+(pick.targetOdds||"+1000 target")+(NBA_MODE?" • "+(pick.selectionTier||"+1000 Sharp"):" • best modeled hit probability");
-    $("ladderHistoryStatus").textContent="LONG SHOT";$("ladderPrev").disabled=true;$("ladderNext").disabled=true;
-    const status=String(pick.status||"pending"),statusLabel=status==="hit"?"WIN":status==="miss"?"LOSS":status==="push"?"PUSH":"LIVE / PENDING";
-    $("ladderPickBody").innerHTML='<article class="ladder-slip ladder-slip-'+esc(status)+'"><div class="ladder-slip-summary"><div><span>PARLAY ODDS</span><strong>'+formatOdds(pick.odds)+'</strong></div><div><span>MODEL CONFIDENCE</span><strong>'+pct(Number(pick.confidence),1)+'</strong></div><div><span>EST. HIT PROB.</span><strong>'+pct(Number(pick.estimatedProbability)*100,1)+'</strong></div><div class="ladder-overall-status"><span>'+ladderStatusIcon(status)+'</span><strong>'+statusLabel+'</strong></div></div><div class="ladder-legs">'+(pick.legs||[]).map(ladderLegHtml).join("")+'</div></article>';
-  });
+  $("longShotButton").addEventListener("click",()=>{if(NBA_MODE){const close=!$("ladderChallengePanel").hidden&&state.nbaPickPanel==="longshot";endDaily();if(close){$("ladderChallengePanel").hidden=true;return;}}state.nbaPickPanel="longshot";renderLongShot();if(NBA_MODE)beginDaily("longshot");});
   $("ladderPrev").addEventListener("click",()=>{if(state.ladderIndex<=0)return;state.ladderIndex--;renderLadderPick()});
   $("ladderNext").addEventListener("click",()=>{const n=ladderChronologicalPicks().length;if(state.ladderIndex>=n-1)return;state.ladderIndex++;renderLadderPick()});
   $("modelPresetButton").addEventListener("click",e=>{e.stopPropagation();togglePresetPopover()});
@@ -2170,7 +2225,7 @@ function bind(){
     if(!e.target.closest("#modelDatePopover")&&!e.target.closest("#modelDateButton"))closeModelDatePopover();
   });
   document.addEventListener("click",e=>{const trigger=e.target.closest(".model-prop-trigger");if(!trigger)return;const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
-  document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key))return;const trigger=e.target.closest(".model-prop-trigger");if(!trigger)return;e.preventDefault();const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
+  document.addEventListener("keydown",e=>{if(!["Enter"," "].includes(e.key)||e.target.closest("button"))return;const trigger=e.target.closest(".model-prop-trigger");if(!trigger)return;e.preventDefault();const row=state.chartRows.get(trigger.dataset.propKey);if(row)openModelHitRateChart(row)});
   $("hitRateClose").addEventListener("click",()=>$("hitRateModal").close());
   $("hitRateModal").addEventListener("click",e=>{if(e.target===$("hitRateModal"))$("hitRateModal").close()});
   $("hitRateBreakdown").addEventListener("click",e=>{const button=e.target.closest("[data-chart-split]");if(!button||button.disabled||!state.hitRateActiveRow)return;state.hitTimingRequestToken++;renderModelHitRateChart(state.hitRateActiveRow,button.dataset.chartSplit)});
@@ -2361,11 +2416,11 @@ if(NBA_MODE){
   loadModelHistoryIndex=async()=>{try{state.modelHistoryIndex=await fetchModelJson("data/nba-odds-history/index.json");}catch(_){state.modelHistoryIndex={days:[]};}renderModelDateOptions();};
   fetchLiveModelBundle=async()=>{
     const [stats,odds,teams,learning,ladder]=await Promise.all(["nba-stats","nba-odds","nba-team-stats","nba-odds-history/learning","nba-odds-history/ladder-picks"].map((file,i)=>fetchModelJson("data/"+file+".json").catch(e=>{if(i<3)throw e;return null;})));
-    return{stats,odds,teams,learning,ladder:ladder||{picks:[]}};
+    await readSharedDate(localDateKey());return{stats,odds,teams,learning,ladder:overlayDaily(ladder||{picks:[]})};
   };
   fetchHistoricalModelBundle=async manifest=>{
     if(!manifest.pregameVerified||!manifest.statsSnapshot||!manifest.teamSnapshot)throw Error("No verified pregame NBA model snapshot");
-    return{stats:manifest.statsSnapshot,teams:manifest.teamSnapshot,odds:{events:manifest.events,updatedAt:manifest.capturedAt},learning:manifest.learningSnapshot||null,ladder:manifest.ladderSnapshot||{picks:[]}};
+    await readSharedDate(manifest.date);return{stats:manifest.statsSnapshot,teams:manifest.teamSnapshot,odds:{events:manifest.events,updatedAt:manifest.capturedAt},learning:manifest.learningSnapshot||null,ladder:overlayDaily(manifest.ladderSnapshot||{picks:[]})};
   };
   const originalApply=applyModelBundle;
   applyModelBundle=(bundle,options)=>{

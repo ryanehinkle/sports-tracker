@@ -6,7 +6,7 @@
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("nflTrackerTheme")||"night"}catch(_){document.documentElement.dataset.theme="night"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=nba-2"><link rel="stylesheet" href="model.css?v=avg-hit-1">
+<link rel="stylesheet" href="styles.css?v=nba-2"><link rel="stylesheet" href="model.css?v=daily-lock-1">
 </head>
 <body>
 <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -106,7 +106,7 @@
   <div class="ladder-launch-row"><button id="todayPickButton" class="today-pick-button" type="button" aria-expanded="false"><span class="today-pick-dot"></span><span id="todayPickButtonLabel">See today's pick (Day #)</span><span class="today-pick-arrow">→</span></button><button id="longShotButton" class="today-pick-button long-shot-button" type="button" aria-expanded="false"><span class="long-shot-dot"></span><span>Long Shot Pick</span><span class="today-pick-arrow">→</span></button></div>
 </div>
 <section id="ladderChallengePanel" class="ladder-challenge-panel" hidden>
-  <div class="ladder-challenge-header"><div><span class="model-kicker">DAILY LADDER CHALLENGE</span><h2 id="ladderPickTitle">Today's Pick</h2><div id="ladderPickMeta" class="ladder-pick-meta"></div></div><div class="ladder-history-nav"><button id="ladderPrev" type="button" aria-label="Previous ladder day">‹</button><span id="ladderHistoryStatus">Day —</span><button id="ladderNext" type="button" aria-label="Next ladder day">›</button></div></div>
+  <div class="ladder-challenge-header"><div><span class="model-kicker">DAILY LADDER CHALLENGE</span><h2 id="ladderPickTitle">Today's Pick</h2><div id="ladderPickMeta" class="ladder-pick-meta"></div></div><div class="ladder-history-nav"><span id="dailyEditStatus" hidden></span><button id="dailyLockButton" type="button" hidden>Lock</button><button id="ladderPrev" type="button" aria-label="Previous ladder day">‹</button><span id="ladderHistoryStatus">Day —</span><button id="ladderNext" type="button" aria-label="Next ladder day">›</button></div></div>
   <div id="ladderPickBody" class="ladder-pick-body"><div class="model-loading"><span class="spinner"></span>Loading ladder challenge…</div></div>
 </section>
 <div class="model-summary-grid"><article class="summary-card"><span>Eligible props</span><strong id="eligibleCount">—</strong><small id="eligibleSub"></small></article><article class="summary-card"><span>Best leg score</span><strong id="bestScore">—</strong></article><article class="summary-card"><span>Generated slips</span><strong id="slipCount">—</strong><small id="slipSub"></small></article><article class="summary-card"><span>Median edge</span><strong id="medianEdge">—</strong></article></div>
@@ -181,6 +181,6 @@
     </div>
     <div class="hit-rate-chart-scroll"><div id="hitRateChart" class="hit-rate-chart"></div></div>
   </div>
-</dialog><script src="theme.js?v=nba-2"></script><script src="nba-hit-timing.js?v=1"></script>
-  <script src="model.js?v=shared-nba-8"></script>
+</dialog><dialog id="dailyLockDialog" class="daily-lock-dialog"><h2>Lock daily pick</h2><p>Save the final pick for every device. This cannot be undone.</p><label for="dailyLockToken">GitHub access token</label><input id="dailyLockToken" type="password" autocomplete="off" spellcheck="false"><small>Contents read/write for sports-tracker only. Not stored. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Create token</a></small><div id="dailyLockError" role="status"></div><div class="daily-lock-actions"><button id="dailyLockCancel" type="button">Cancel</button><button id="dailyLockSubmit" type="button">Lock pick</button></div></dialog><script src="theme.js?v=nba-2"></script><script src="nba-hit-timing.js?v=1"></script>
+  <script src="model.js?v=shared-nba-9"></script>
 </body></html>
