@@ -13,6 +13,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
+from nba_timing import build_timing
 
 ROOT = Path("data")
 CACHE = ROOT / "nba-game-cache.json"
@@ -109,7 +110,8 @@ def month_ranges(first,last):
         m+=1
         if m>12:y,m=y+1,1
 
-def completed_games(start,end):
+def completed_games(start,end,day_cache=None):
+    day_cache=day_cache if day_cache is not None else {}
     # ESPN no longer accepts YYYYMMDD-YYYYMMDD ranges (returns HTTP 400).
     # Request each date explicitly and deduplicate returned event IDs.
     dates=[]
@@ -118,19 +120,26 @@ def completed_games(start,end):
         dates.append(day.strftime("%Y%m%d"))
         day+=timedelta(days=1)
     events={}
+    for day in dates:
+        for e in day_cache.get(day,[]):events[str(e["id"])]=e
     with ThreadPoolExecutor(max_workers=12) as pool:
-        tasks={pool.submit(get,SCOREBOARD,{"dates":day,"limit":100}):day for day in dates}
+        tasks={pool.submit(get,SCOREBOARD,{"dates":day,"limit":100}):day for day in dates if day not in day_cache}
         for future in as_completed(tasks):
             try:payload=future.result()
             except Exception as exc:
                 print(f"Scoreboard date {tasks[future]} failed: {exc}")
                 continue
+            daily=[]
             for event in payload.get("events") or []:
                 if not (event.get("status") or {}).get("type",{}).get("completed"):continue
                 season=event.get("season") or {}
                 if int(season.get("type") or 2)!=2:continue
                 eid=str(event.get("id") or "")
-                if eid:events[eid]=event
+                if eid:
+                    item={"id":eid,"date":event.get("date") or ""}
+                    events[eid]=item;daily.append(item)
+            if "events" in payload and tasks[future]<(date.today()-timedelta(days=2)).strftime("%Y%m%d"):
+                day_cache[tasks[future]]=daily
     return events
 
 _NBA_SCHEMA_REPORTED=False
@@ -161,7 +170,7 @@ def normalized_game(raw):
                   "competitor team samples=",[(x.get("team") or {}).get("abbreviation") for x in competitors],
                   "boxscore keys=",list((raw.get("boxscore") or {}).keys()))
         return None
-    players=[]
+    players=[];dnp=[]
     for entry in (raw.get("boxscore") or {}).get("players") or []:
         team=entry.get("team") or {}
         code=abbr(team.get("abbreviation"))
@@ -172,8 +181,10 @@ def normalized_game(raw):
             for item in section.get("athletes") or []:
                 athlete=item.get("athlete") or {}
                 pid=str(athlete.get("id") or "")
-                if not pid or not item.get("stats"):continue
-                if item.get("didNotPlay"):continue
+                if not pid:continue
+                if item.get("didNotPlay"):
+                    dnp.append({"id":pid,"name":athlete.get("displayName") or athlete.get("fullName") or ""});continue
+                if not item.get("stats"):continue
                 name=athlete.get("displayName") or athlete.get("fullName")
                 if not name:continue
                 pos=athlete.get("position") or {}
@@ -200,8 +211,10 @@ def normalized_game(raw):
                      a.get("reason"),a.get("active"))
                     for a in (((box.get("players") or [{}])[0].get("statistics") or [{}])[0].get("athletes") or [])[:5]])
         return None
-    return {"id":eid,"date":comp.get("date") or header.get("competitions",[{}])[0].get("date"),
-            "teams":teams,"players":players}
+    game={"id":eid,"date":comp.get("date") or header.get("competitions",[{}])[0].get("date"),
+            "teams":teams,"players":players,"dnp":dnp}
+    game["timing"]=build_timing(raw,game)
+    return game
 
 def sumstats(logs):
     result={k:round(sum(num(g["stats"].get(k)) for g in logs),2) for k in METRICS}
@@ -261,7 +274,6 @@ def make_payload(games, current_season):
     for entry in player_map.values():
         for logs in entry["gameLogsBySeason"].values():logs.sort(key=lambda g:g["date"],reverse=True)
         current=entry["gameLogsBySeason"].get(str(current_season),[])
-        if not current:continue
         entry.update(sumstats(current))
         entry["gameLog"]=current
         players.append(entry)
@@ -369,15 +381,20 @@ def roster_players(season):
     return cached.get("players") or []
 
 def supplement_roster(stats, roster):
-    existing={str(p["id"]) for p in stats["players"]}
+    existing={str(p["id"]):p for p in stats["players"]}
     for athlete in roster:
-        if not athlete.get("name") or str(athlete["id"]) in existing:continue
+        if not athlete.get("name"):continue
+        if str(athlete["id"]) in existing:
+            p=existing[str(athlete["id"])]
+            for key in ("team","position","headshot","name"):
+                if athlete.get(key):p[key]=athlete[key]
+            continue
         p=dict(athlete)
         p["gameLogsBySeason"]={}
         p["gameLog"]=[]
         p.update(sumstats([]))
         stats["players"].append(p)
-        existing.add(str(p["id"]))
+        existing[str(p["id"])]=p
     stats["players"].sort(key=lambda p:(-p["points"],p["name"]))
 
 def main():
@@ -387,14 +404,17 @@ def main():
     # Current season regular season starts in October; season 2027 is 2026-27.
     begin=date(year-1,10,1)
     if today<begin:begin=date(year-2,10,1)
-    prev_start=date(year-1,3,1)
-    prev_end=date(year-1,4,20)
+    prev_start=date(year-2,10,1)
+    prev_end=date(year-1,6,30)
     cache=load(CACHE,{"games":{}})
     gamecache=cache.get("games") or {}
+    day_cache=cache.setdefault("scoreboardDays",{})
     events={}
     for lo,hi in ((begin,min(today, date(year,6,30))), (prev_start,prev_end)):
-        if hi>=lo:events.update(completed_games(lo,hi))
-    missing=[eid for eid in events if eid not in gamecache]
+        if hi>=lo:events.update(completed_games(lo,hi,day_cache))
+    missing=sorted((eid for eid in events if eid not in gamecache),key=lambda e:events[e].get("date",""),reverse=True)
+    refresh=sorted((eid for eid,g in gamecache.items() if "timing" not in g),key=lambda e:gamecache[e].get("date",""),reverse=True)[:40]
+    missing=missing[:120]+refresh
     print(f"NBA: {len(events)} completed ESPN games, {len(missing)} missing cached box scores")
     if missing:
         with ThreadPoolExecutor(max_workers=12) as pool:
@@ -409,6 +429,10 @@ def main():
         raise RuntimeError("ESPN returned completed NBA games but none parsed into valid box scores")
     # Keep only NBA season data. Cache persists across game updates and does not overwrite past records.
     cache["games"]=gamecache
+    timing={eid:g["timing"] for eid,g in gamecache.items() if g.get("timing")}
+    history=ROOT/"nba-odds-history";history.mkdir(parents=True,exist_ok=True)
+    (history/"hit-timing.json").write_text(json.dumps({"events":timing},separators=(",",":"))+"\n")
+    print(f"NBA verified play-by-play timing: {len(timing)} games")
     CACHE.write_text(json.dumps(cache,separators=(",",":"))+"\n")
     current_games=[g for g in gamecache.values() if g.get("date")]
     stats,teams=make_payload(current_games,year)

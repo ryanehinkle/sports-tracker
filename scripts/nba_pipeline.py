@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 
 import learn_model as lm
 import numpy as np
+from nba_timing import average_hit
 
 ROOT=Path("data/nba-odds-history")
 EVENTS=ROOT/"learning"
@@ -115,7 +116,7 @@ def pair_probabilities(event):
         result[index]=own/(own+implied(other)) if other else own
     return result
 
-def enrich_event(event,players,teams,season):
+def enrich_event(event,players,teams,season,timing=None):
     cutoff=dt(event.get("commenceTime"))
     if not cutoff:return
     pairs=pair_probabilities(event)
@@ -133,6 +134,8 @@ def enrich_event(event,players,teams,season):
         h2h=[g for g in cur+prev if (g.get("opponent") or {}).get("abbreviation")==opp]
         rates={"l5":rate(row,cur[:5]),"l10":rate(row,cur[:10]),"h2h":rate(row,h2h),"current":rate(row,cur),"previous":rate(row,prev)}
         row["hitRates"]=rates
+        if is_player:
+            row["avgHitTime"]=average_hit(row,obj,cur,timing or {},season,value,outcome,threshold)
         values=[v for g in cur[:10] if (v:=value(row,g)) is not None]
         average=avg(values);sign=-1 if row.get("selection") in ("Under","No") else 1
         margin=(average-threshold(row))*sign if average is not None else None
@@ -225,7 +228,7 @@ def probability(row,learning):
     score=lm.clamp(100*(.75*base+.25*lm.clamp(.5+edge,0,1))*(.76+.24*reliability),0,100)
     return base,score,edge
 
-def grade_event(event,players,teams):
+def grade_event(event,players,teams,dnp=None):
     eid=str(event.get("espnEventId") or "")
     if not eid:return 0
     graded=0
@@ -233,7 +236,10 @@ def grade_event(event,players,teams):
         if (row.get("result") or {}).get("status") in ("hit","miss","push"):continue
         obj=players.get(norm(row.get("player"))) if row.get("scope")=="player" else teams.get(row.get("team") or event.get("homeAbbr"))
         matches=[g for games in ((obj or {}).get("gameLogsBySeason") or {}).values() for g in games if str(g.get("eventId"))==eid]
-        if len(matches)!=1:continue
+        if len(matches)!=1:
+            if row.get("scope")=="player" and norm(row.get("player")) in (dnp or {}).get(eid,set()):
+                row["result"]={"status":"push","reason":"Official DNP"};graded+=1
+            continue
         actual=value(row,matches[0]);status=outcome(row,actual)
         if status:
             row["result"]={"status":status,"actual":actual};graded+=1
@@ -293,7 +299,10 @@ def run(payload,stats,teams_payload,schedule,now):
     teams={t.get("abbreviation"):t for t in teams_payload.get("teams") or []}
     season=int(stats.get("season") or 2027)
     events=payload.get("events") or []
-    for event in events:enrich_event(event,players,teams,season)
+    timing=load(ROOT/"hit-timing.json",{}).get("events",{})
+    gamecache=load(Path("data/nba-game-cache.json"),{}).get("games",{})
+    dnp={eid:{norm(p.get("name")) for p in g.get("dnp",[]) if p.get("name")} for eid,g in gamecache.items()}
+    for event in events:enrich_event(event,players,teams,season,timing)
     # Each actual event has one rolling pregame observation. Once the tip
     # passes it is never replaced; only its result fields may be updated.
     for event in events:
@@ -305,7 +314,7 @@ def run(payload,stats,teams_payload,schedule,now):
         snap=load(path,{});event=snap.get("event") or {}
         tip=dt(event.get("commenceTime"))
         if not tip or tip>=now:continue
-        count=grade_event(event,players,teams)
+        count=grade_event(event,players,teams,dnp)
         if count:save(path,snap);graded+=count
     configure_learner()
     learning=load(LEARNING,{})
@@ -317,7 +326,7 @@ def run(payload,stats,teams_payload,schedule,now):
         for leg in pick.get("legs") or []:
             if (leg.get("result") or {}).get("status") in ("hit","miss","push"):continue
             event={"espnEventId":leg.get("espnEventId"),"homeAbbr":leg.get("homeAbbr"),"props":[leg]}
-            grade_event(event,players,teams)
+            grade_event(event,players,teams,dnp)
         statuses=[(r.get("result") or {}).get("status","pending") for r in pick.get("legs") or []]
         pick["status"]="miss" if "miss" in statuses else "pending" if not statuses or "pending" in statuses else "push" if "push" in statuses else "hit"
     local=now.astimezone(CENTRAL).date().isoformat()
@@ -338,16 +347,18 @@ def run(payload,stats,teams_payload,schedule,now):
             if pick:
                 pick.update(date=local,createdAt=now.isoformat(),slotLabel="Remaining slate" if now>=first else "Daily NBA slate",slotOrder=0)
                 picks["picks"].append(pick)
-        if "ladderSnapshot" not in snap:
-            snap["ladderSnapshot"]={"picks":[p for p in picks["picks"] if p.get("date","")<=local]}
-            save(path,snap)
+        frozen=snap.setdefault("ladderSnapshot",{"picks":[]})["picks"]
+        known={(p.get("date"),p.get("kind")) for p in frozen}
+        additions=[p for p in picks["picks"] if p.get("date","")<=local and (p.get("date"),p.get("kind")) not in known]
+        if additions:
+            frozen.extend(additions);save(path,snap)
     save(PICKS,picks)
     days=[]
     for path in sorted(ROOT.glob("20??-??-??.json"),reverse=True):
         snap=load(path,{})
         if not snap.get("pregameVerified"):continue
         dirty=False
-        for event in snap.get("events") or []:dirty=bool(grade_event(event,players,teams)) or dirty
+        for event in snap.get("events") or []:dirty=bool(grade_event(event,players,teams,dnp)) or dirty
         if dirty:save(path,snap)
         days.append({"date":path.stem,"file":path.name,"events":len(snap.get("events") or [])})
     save(ROOT/"index.json",{"days":days})

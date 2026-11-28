@@ -1883,7 +1883,7 @@ const MODEL_HIT_TIMING_METRICS=new Set([
 async function modelLoadHitTimingData(){
   if(state.hitTimingData)return state.hitTimingData;
   if(state.hitTimingDataPromise)return state.hitTimingDataPromise;
-  state.hitTimingDataPromise=fetch("data/nfl-hit-timing.json",{cache:"no-cache"})
+  state.hitTimingDataPromise=fetch(NBA_MODE?"data/nba-odds-history/hit-timing.json":"data/nfl-hit-timing.json",{cache:"no-cache"})
     .then(response=>{if(!response.ok)throw new Error("Hit timing data "+response.status);return response.json()})
     .then(data=>{state.hitTimingData=data||{events:{}};return state.hitTimingData})
     .catch(error=>{console.warn("Hit timing database unavailable",error);state.hitTimingData={events:{}};return state.hitTimingData})
@@ -1936,7 +1936,7 @@ function modelRenderHitTimingTools(row,baseGames,player,spec,teamScope){
   if(!available){state.hitTimingFilter="all";return}
   filters.querySelectorAll("[data-hit-timing]").forEach(button=>button.classList.toggle("selected",button.dataset.hitTiming===state.hitTimingFilter));
   const ready=baseGames.every(game=>modelHitTimingReady(row,game,player));
-  if(state.hitTimingFilter==="all")status.textContent=ready?"Saved ESPN play-by-play timing":"Loading saved hit timing…";
+  if(state.hitTimingFilter==="all")status.textContent=ready?(NBA_MODE?"Verified ESPN play-by-play · "+baseGames.filter(g=>{const t=modelHitTimingForGame(row,g,player);return t?.hit&&!t.unavailable;}).length+" timed hits":"Saved ESPN play-by-play timing"):"Loading saved hit timing…";
   else if(!ready)status.textContent="Loading hit timing…";
   else{const matching=baseGames.filter(game=>modelHitTimingMatches(modelHitTimingForGame(row,game,player),state.hitTimingFilter)).length;status.textContent=matching+" game"+(matching===1?"":"s")+" first hit in "+modelQuarterTimingLabel(state.hitTimingFilter)}
 }
@@ -2257,13 +2257,7 @@ if(NBA_MODE){
   modelSplitLabel=split=>({l5:"Last 5",l10:"Last 10",h2h:"Head-to-Head",current:seasonText(state.season),previous:seasonText(state.season-1)})[split]||split;
   modelMetricBreakdown=(game,spec)=>({pra:["points","rebounds","assists"],pr:["points","rebounds"],pa:["points","assists"],ra:["rebounds","assists"]}[spec?.metric]||[]).map(k=>[k.toUpperCase(),num(game.stats?.[k])]);
   modelOpponentRankForGame=()=>null; // historical DvP rank unavailable without a frozen per-game defensive snapshot
-  modelLoadHitTimingData=async()=>{state.hitTimingData={events:{}};return state.hitTimingData;};
-  modelScheduleHitTimingHydration=()=>{};
-  modelRenderHitTimingTools=()=>{$("hitTimingTools").hidden=true;};
-  modelHitTimingForGame=()=>null;
-  modelHitTimingReady=()=>true;
-  modelHitTimingInline=()=> "";
-  modelHitTimingTooltip=()=> "";
+  for(const metric of ["points","rebounds","assists","threes","steals","blocks","turnovers","fgm","pra","pr","pa","ra"])MODEL_HIT_TIMING_METRICS.add(metric);
   avgHitThresholdSeconds=cfg=>cfg.avgHitQuarter?(cfg.avgHitQuarter-1)*720+cfg.avgHitTime:null;
   avgHitGameClock=elapsed=>{const q=elapsed<=2880?clamp(Math.ceil(elapsed/720),1,4):4+Math.ceil((elapsed-2880)/300);return{quarter:q,label:q<=4?q+"Q":"OT",remaining:Math.max(0,(q<=4?q*720:2880+(q-4)*300)-elapsed)};};
   modelProfileText=x=>x.row.scope==="player"?x.usage.minutes.toFixed(1)+" MIN · "+x.usage.fga.toFixed(1)+" FGA":"Team";
