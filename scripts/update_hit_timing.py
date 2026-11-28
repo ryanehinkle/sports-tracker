@@ -3,7 +3,7 @@ import re
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import requests
@@ -494,6 +494,9 @@ def main():
     existing_events = (existing.get("events") or {}) if existing.get("schemaVersion") == schema_version else {}
     events = {}
     pending = {}
+    retries = existing.get('metricRetryAt') or {}
+    retry_cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+    partial = []
 
     for event_id, player_games in wanted.items():
         prior = existing_events.get(event_id) or {}
@@ -506,6 +509,19 @@ def main():
         missing = [pid for pid in player_games if pid not in retained]
         if missing:
             pending[event_id] = missing
+        incomplete = [pid for pid, game in player_games.items() if pid in retained and any(
+            abs(expected_value(game, metric)) > 1e-9 and not (retained[pid] or {}).get(metric)
+            for metric in ALL_METRICS)]
+        try:
+            last = datetime.fromisoformat(retries.get(event_id, ""))
+            due = last < retry_cutoff
+        except (ValueError, TypeError):
+            due = True
+        if incomplete and due:
+            partial.append((event_id, incomplete))
+    # Repair missing metrics without overwriting already verified timelines.
+    for event_id, incomplete in sorted(partial, key=lambda item: item[0], reverse=True)[:40]:
+        pending[event_id] = list(dict.fromkeys(pending.get(event_id, []) + incomplete))
 
     print(f"Hit timing coverage: {len(wanted) - len(pending)}/{len(wanted)} events complete; {len(pending)} to fetch.")
 
@@ -530,8 +546,12 @@ def main():
         player_games = wanted[event_id]
         for pid, raw_timelines in by_player.items():
             valid = validate_player_timelines(raw_timelines, player_games[pid])
-            events.setdefault(event_id, {})[pid] = valid
+            previous = events.setdefault(event_id, {}).get(pid) or {}
+            merged = dict(previous)
+            merged.update(valid)
+            events[event_id][pid] = merged
             changed = True
+        retries[event_id] = datetime.now(timezone.utc).isoformat()
 
     # Keep only current/prior-season games so the file stays bounded.
     if set(existing_events) != set(events):
@@ -548,6 +568,7 @@ def main():
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "source": "ESPN play-by-play",
         "events": events,
+        "metricRetryAt": {eid: ts for eid, ts in retries.items() if eid in events},
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, separators=(",", ":")) + "\n", encoding="utf-8")

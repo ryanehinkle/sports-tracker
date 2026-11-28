@@ -1895,7 +1895,10 @@ function modelHitTimingRows(game,player,metric){
   if(!state.hitTimingData)return null;
   const eventId=String(game&&game.eventId||""),playerId=String(player&&player.id||"");
   if(!eventId||!playerId)return[];
-  return state.hitTimingData&&state.hitTimingData.events&&state.hitTimingData.events[eventId]&&state.hitTimingData.events[eventId][playerId]&&state.hitTimingData.events[eventId][playerId][metric]||[];
+  const data=state.hitTimingData?.events?.[eventId]?.[playerId]||{};
+  if(data[metric]?.length)return data[metric];
+  if(NBA_MODE&&window.nbaCombinedTiming)return window.nbaCombinedTiming(data,game.stats||{},metric);
+  return [];
 }
 function modelHitTimingForGame(row,game,player){
   const spec=metricSpec(row);if(!player||!spec||!MODEL_HIT_TIMING_METRICS.has(spec.metric))return null;

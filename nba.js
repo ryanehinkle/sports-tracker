@@ -131,7 +131,7 @@ function propRate(row,split){const values=propGames(row,split).map(g=>propOutcom
 function timingFor(row,g){
  if(propOutcome(row,propValue(row,g))!=="hit")return null;
  if(["Under","No"].includes(row.selection))return {q:"final",clock:""};
- const p=playerForProp(row),list=st.hitTimingData?.events?.[String(g.eventId)]?.[String(p?.id)]?.[row.metric]||[];
+ const p=playerForProp(row),data=st.hitTimingData?.events?.[String(g.eventId)]?.[String(p?.id)]||{},list=data[row.metric]?.length?data[row.metric]:(window.nbaCombinedTiming?.(data,g.stats||{},row.metric)||[]);
  const first=list.find(([v])=>row.selection==="Yes"?v>=propThreshold(row):v>propThreshold(row));
  return first?{q:String(first[1]),clock:first[2]}:null;
 }
